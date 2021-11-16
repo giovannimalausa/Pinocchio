@@ -6,7 +6,6 @@
  * This source requires Phaser 2.6.2
  */
 
-// Modifica 1
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
@@ -18,13 +17,15 @@ function preload() {
     game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
     game.load.image('pallinoRosso', 'assets/sprites/Pallino_rosso_vettoriale.svg')
 
-    // Sfondi
-    game.load.image('sfondoLivello1', 'assets/backgrounds/Livello1.png'); 
+    // Assets sfondi
+    game.load.image('sfondoLivello1', 'assets/backgrounds/Livello1.png'); // Livello 1
     game.load.image('sfondoLivello2', 'assets/backgrounds/Livello2.png'); // Livello 2
     game.load.image('sfondoLivello3', 'assets/backgrounds/Livello3.png'); // Livello 3
     game.load.image('sfondoLivello4', 'assets/backgrounds/Livello4.png'); // Livello 4
 
 }
+
+// Variabili
 
 var player;
 var platforms;
