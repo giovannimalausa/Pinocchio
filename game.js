@@ -6,7 +6,7 @@
  * This source requires Phaser 2.6.2
  */
 
-// Prova a modificare questo commento.
+// Prova a modificare questo commento. Se leggi questa cosa, funziona!
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
@@ -46,16 +46,16 @@ function create() {
 
         // Livello 4
         sfondoLivello4 = game.add.tileSprite(0, 400, 800, 600, 'sfondoLivello4');
-        
+
         // Livello 3
-        sfondoLivello3 = game.add.tileSprite(0, 400, 800, 600, 'sfondoLivello3');    
-    
+        sfondoLivello3 = game.add.tileSprite(0, 400, 800, 600, 'sfondoLivello3');
+
         // Livello 2
         sfondoLivello2 = game.add.tileSprite(0, 500, 800, 600, 'sfondoLivello2');
 
         // Livello 1
         sfondoLivello1 = game.add.tileSprite(0, 450, 800, 600, 'sfondoLivello1');
-    
+
     // Fine-sfondi
 
 
