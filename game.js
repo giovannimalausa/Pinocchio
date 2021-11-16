@@ -6,6 +6,7 @@
  * This source requires Phaser 2.6.2
  */
 
+// Prova a modificare questo commento.
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
