@@ -6,7 +6,6 @@
  * This source requires Phaser 2.6.2
  */
 
-// Prova a modificare questo commento. Se leggi questa cosa, funziona!
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
@@ -15,8 +14,8 @@ function preload() {
     game.load.crossOrigin = 'anonymous';
 
     game.load.image('player', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
+    game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
     game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
-    game.load.image('pallinoRosso', 'assets/sprites/Pallino_rosso_vettoriale.svg')
 
     // Assets sfondi
     game.load.image('sfondoLivello1', 'assets/backgrounds/Livello1.png'); // Livello 1
@@ -29,10 +28,10 @@ function preload() {
 // Variabili
 
 var player;
+var shadow; // per camera tracking con offset
 var platforms;
 var cursors;
 var jumpButton;
-var pallinoRosso;
 var sfondoLivello1;
 var sfondoLivello2;
 var sfondoLivello3;
@@ -65,33 +64,35 @@ function create() {
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 500;
 
-    // Pallino rosso
-    pallinoRosso = game.add.sprite(600, 100, 'pallinoRosso');
-    game.physics.arcade.enable(pallinoRosso);
-    pallinoRosso.body.collideWorldBounds = true;
-    pallinoRosso.body.gravity.y = 500;
+    // Player shadow (per camera tracking con offset)
+    shadow = game.add.sprite(100+200, 200, 'player');
+    shadow.alpha = 0;
 
+    // Platforms
     platforms = game.add.physicsGroup();
-
     platforms.create(500, 450, 'platform');
     platforms.create(-200, 700, 'platform');
     platforms.create(400, 850, 'platform');
-
     platforms.setAll('body.immovable', true);
 
+    // Cursors
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     // Camera Follow
-    game.camera.follow(player, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
+    game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
 
 }
 
 function update () {
 
+
     game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(pallinoRosso, platforms);
+
+    // Player shadow offset
+    shadow.x = player.x+200
+    shadow.y = player.y
 
     player.body.velocity.x = 0;
 
