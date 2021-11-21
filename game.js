@@ -14,7 +14,7 @@
 
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(1024, 768, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
 // ++++++++++ PRELOAD ++++++++++
 
@@ -54,7 +54,7 @@ var jumpButton;
 
 function create() {
 
-    game.world.setBounds(0, 0, 1600, 1000);
+    game.world.setBounds(0, 0, 2000, 1000);
 
     // Sfondi di gioco
 
@@ -63,9 +63,9 @@ function create() {
         // Livello 2
 
         // Livello 3 (circo)
-        level3_layer3 = game.add.sprite(800, 600, 'level3_layer3');
-        level3_layer2 = game.add.sprite(800, 600, 'level3_layer2');
-        level3_layer1 = game.add.sprite(800, 600, 'level3_layer1');
+        level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
+        level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
+        level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
 
     // Fine-sfondi
 
@@ -74,10 +74,10 @@ function create() {
     player = game.add.sprite(100, 200, 'pinocchio');
     player.animations.add('walkR', [0, 1, 2, 3, 4, 5]); // Animazione camminata verso dx
     player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
-    player.body.setSize(80, 100, 20, 0); // Dimensione hitbox
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    player.body.gravity.y = 500;
+    player.body.gravity.y = 1500;
+    player.body.setSize(80, 100, 20, 0); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
     
 
     // Player shadow (per camera tracking con offset)
@@ -119,11 +119,6 @@ function update () {
         {  
             facing = "left";
         }
-
-        sfondoLivello1.tilePosition.x += 0.75;
-        sfondoLivello2.tilePosition.x += 0.3;
-        sfondoLivello3.tilePosition.x += 0.15;
-
     }
 
     else if (cursors.right.isDown) // Camminata verso destra
@@ -134,27 +129,21 @@ function update () {
         {
           facing = "right";
         }
-
-
-        sfondoLivello1.tilePosition.x -= 0.75;
-        sfondoLivello2.tilePosition.x -= 0.3;
-        sfondoLivello3.tilePosition.x -= 0.15;
     }
 
-    else if (facing === "left")
+    else if (facing === "left") //Frame = 13 SE player rivolto a sinistra
     {
-        player.frame = 13;  //Frame = 13 SE player rivolto a sinistra
+        player.frame = 13;
     }
 
-    else
+    else // Frame = 12 SE player rivolto a destra
     {
-        player.frame = 12; // Frame = 12 SE player rivolto a destra
+        player.frame = 12;
     }
 
     if (jumpButton.isDown && (player.body.onFloor() || player.body.touching.down))
     {
-        player.body.velocity.y = -300;
-        
+        player.body.velocity.y = -800;
     }
 
     // Scivolamento
