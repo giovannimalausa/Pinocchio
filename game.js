@@ -32,6 +32,14 @@ function preload() {
     game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
     game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
 
+    // Assets menu (placeholders)
+    game.load.image('option1_selected', 'assets/menu/Property 1=Option1, Property 2=selected.png');
+    game.load.image('option1_unselected', 'assets/menu/Property 1=Option1, Property 2=unselected.png');
+    game.load.image('option2_selected', 'assets/menu/Property 1=Option2, Property 2=selected.png');
+    game.load.image('option2_unselected', 'assets/menu/Property 1=Option2, Property 2=unselected.png');
+    game.load.image('option3_selected', 'assets/menu/Property 1=Option3, Property 2=selected.png');
+    game.load.image('option3_unselected', 'assets/menu/Property 1=Option3, Property 2=unselected.png');
+
 }
 
 // Variabili sprite interattivi
@@ -44,10 +52,17 @@ var level3_layer1;
 var level3_layer2;
 var level3_layer3;
 
+// Variabili elementi menu
+var menuOption1;
+var menuOption2;
+var menuOption3;
+
 // Altre variabili
 var facing = "right";
 var cursors;
 var jumpButton;
+var menuButton;
+var menuOpen = false;
 
 
 // ++++++++++ CREATE ++++++++++
@@ -91,9 +106,11 @@ function create() {
     platforms.create(400, 850, 'platform');
     platforms.setAll('body.immovable', true);
 
-    // Cursors
+    // Input (cursors and keys)
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    menuButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
+
 
     // Camera Follow
     game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
@@ -153,6 +170,31 @@ function update () {
       else {
         player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
     }
+
+    // Menu (bozza di come potrebbe funzionare il menu di selezione delle armi)
+    // Il menu dovrebbe comparire alla pressione del tasto C (Choose).
+    // button.OnDown non funziona come previsto (Phaser si comporta come se il tasto fosse premuto e rilasciato anche quando non lo è).
+    // button.isDown è "vero" decine di volte al secondo, mentre si preme il tasto, quindi non si può usare.
+    // Un workaround potrebbe essere collegare un "timer" all'if per evitare che l'argomento dell'if venga eseguito più di una volta di seguito.
+
+
+    if (menuButton.onDown && menuOpen == false) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'false' -> apri il menu (= mostra gli sprite)
+    {
+        menuOpen = true;
+        console.log('C pressed')
+        menuOption1 = game.add.sprite(180, 170, 'option1_selected');
+        menuOption2 = game.add.sprite(438, 170, 'option2_unselected');
+        menuOption3 = game.add.sprite(696, 170, 'option3_unselected');
+    }
+    else if (menuButton.onDown && menuOpen == true) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'true' -> chiudi il menu (= killa gli sprite)
+    {
+        menuOpen = false;
+        console.log('C pressed_')
+        menuOption1.kill();
+        menuOption2.kill();
+        menuOption3.kill();
+    }
+
 
 }
 
