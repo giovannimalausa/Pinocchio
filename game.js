@@ -22,7 +22,7 @@ function preload() {
 
     game.load.crossOrigin = 'anonymous';
 
-    game.load.spritesheet('pinocchio', 'images/sprite-tutte-pinocchio.png', 128, 100, 14);
+    game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
     game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
     game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
 
