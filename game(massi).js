@@ -121,34 +121,34 @@ else {
 
 
 
-    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
-    {
-        player.body.velocity.x = -300;
-        player.animations.play('walkL', 10, true);
-        if (facing !== "left"){  //il player guarda a sinistra
-          facing = "left";
-        }
-    }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
-    {
-        player.body.velocity.x = 300;
+if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
+  {
+    player.body.velocity.x = -300;
+    player.animations.play('walkL', 10, true);
+    if (facing !== "left"){  //il player guarda a sinistra
+    facing = "left";
+  }
+}
+else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+{
+  player.body.velocity.x = 300;
 
-        player.animations.play('walkR', 10, true);
-        if (facing !== "right"){  //il player guarda a destra
-          facing = "right";
-        }
-        player.animations.play('walkR', 10, true);
-    }
-    else
-    {
-      if (facing === "left") {  //assegno frame 13 se player guarda a sinistra
-        player.frame = 13;
-      }
-      else {   //assegno frame 12+ se player guarda a sinistra
-        player.frame = 12;
-      }
-      player.animations.stop('walkR');
-      player.animations.stop('walkL');
+  player.animations.play('walkR', 10, true);
+  if (facing !== "right"){  //il player guarda a destra
+    facing = "right";
+  }
+  player.animations.play('walkR', 10, true);
+}
+else
+{
+if (facing === "left") {  //assegno frame 13 se player guarda a sinistra
+  player.frame = 13;
+}
+else {   //assegno frame 12+ se player guarda a sinistra
+  player.frame = 12;
+}
+player.animations.stop('walkR');
+player.animations.stop('walkL');
 }
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && (player.body.onFloor() || player.body.touching.down))

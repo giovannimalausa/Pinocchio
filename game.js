@@ -22,7 +22,7 @@ function preload() {
 
     game.load.crossOrigin = 'anonymous';
 
-    game.load.image('player', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
+    game.load.spritesheet('pinocchio', 'images/sprite-tutte-pinocchio.png', 128, 100, 14);
     game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
     game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
 
@@ -45,6 +45,7 @@ var level3_layer2;
 var level3_layer3;
 
 // Altre variabili
+var facing = "right";
 var cursors;
 var jumpButton;
 
@@ -62,18 +63,22 @@ function create() {
         // Livello 2
 
         // Livello 3 (circo)
-        level3_layer3 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer3');
-        level3_layer2 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer2');
-        level3_layer1 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer1');
+        level3_layer3 = game.add.sprite(800, 600, 'level3_layer3');
+        level3_layer2 = game.add.sprite(800, 600, 'level3_layer2');
+        level3_layer1 = game.add.sprite(800, 600, 'level3_layer1');
 
     // Fine-sfondi
 
 
     // Player
-    player = game.add.sprite(100, 200, 'player');
+    player = game.add.sprite(100, 200, 'pinocchio');
+    player.animations.add('walkR', [0, 1, 2, 3, 4, 5]); // Animazione camminata verso dx
+    player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
+    player.body.setSize(80, 100, 20, 0); // Dimensione hitbox
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 500;
+    
 
     // Player shadow (per camera tracking con offset)
     shadow = game.add.sprite(100+200, 200, 'player');
@@ -98,7 +103,6 @@ function create() {
 
 function update () {
 
-
     game.physics.arcade.collide(player, platforms);
 
     // Player shadow offset
@@ -107,26 +111,60 @@ function update () {
 
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
+    if (cursors.left.isDown) // Camminata verso sinistra
     {
-        player.body.velocity.x = -250;
+        player.body.velocity.x = -300;
+        player.animations.play('walkL', 10, true);
+        if (facing !== "left") // Se il player è rivolto a sinistra
+        {  
+            facing = "left";
+        }
+
         sfondoLivello1.tilePosition.x += 0.75;
         sfondoLivello2.tilePosition.x += 0.3;
         sfondoLivello3.tilePosition.x += 0.15;
 
     }
-    else if (cursors.right.isDown)
+
+    else if (cursors.right.isDown) // Camminata verso destra
     {
-        player.body.velocity.x = 250;
+        player.body.velocity.x = 300;
+        player.animations.play('walkR', 10, true);
+        if (facing !== "right") // Se il player è rivolto a destra
+        {
+          facing = "right";
+        }
+
+
         sfondoLivello1.tilePosition.x -= 0.75;
         sfondoLivello2.tilePosition.x -= 0.3;
         sfondoLivello3.tilePosition.x -= 0.15;
     }
 
+    else if (facing === "left")
+    {
+        player.frame = 13;  //Frame = 13 SE player rivolto a sinistra
+    }
+
+    else
+    {
+        player.frame = 12; // Frame = 12 SE player rivolto a destra
+    }
+
     if (jumpButton.isDown && (player.body.onFloor() || player.body.touching.down))
     {
-        player.body.velocity.y = -400;
+        player.body.velocity.y = -300;
+        
     }
+
+    // Scivolamento
+    if (player.body.touching.down) {
+        player.body.velocity.x = (0.8 *  player.body.velocity.x) ;
+      }
+      else {
+        player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
+    }
+
 }
 
 function render () {
