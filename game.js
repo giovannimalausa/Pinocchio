@@ -157,5 +157,4 @@ function update () {
 }
 
 function render () {
-
 }
