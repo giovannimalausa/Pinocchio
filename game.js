@@ -6,8 +6,17 @@
  * This source requires Phaser 2.6.2
  */
 
+/* READ ME
+   Level = Livello di Gioco
+   Layer = Singolo livello di sfondo del Level
+   Percorso tipo: assets/background/level0/layer0.png
+*/
+
+
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+
+// ++++++++++ PRELOAD ++++++++++
 
 function preload() {
 
@@ -17,43 +26,45 @@ function preload() {
     game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
     game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
 
-    // Assets sfondi
-    game.load.image('sfondoLivello1', 'assets/backgrounds/Livello1.png'); // Livello 1
-    game.load.image('sfondoLivello2', 'assets/backgrounds/Livello2.png'); // Livello 2
-    game.load.image('sfondoLivello3', 'assets/backgrounds/Livello3.png'); // Livello 3
-    game.load.image('sfondoLivello4', 'assets/backgrounds/Livello4.png'); // Livello 4
+    
+    // Assets sfondi Level 3
+    game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
+    game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
+    game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
 
 }
 
-// Variabili
-
+// Variabili sprite interattivi
 var player;
 var shadow; // per camera tracking con offset
 var platforms;
+
+// Variabili sfondi
+var level3_layer1;
+var level3_layer2;
+var level3_layer3;
+
+// Altre variabili
 var cursors;
 var jumpButton;
-var sfondoLivello1;
-var sfondoLivello2;
-var sfondoLivello3;
-var sfondoLivello4;
+
+
+// ++++++++++ CREATE ++++++++++
 
 function create() {
 
     game.world.setBounds(0, 0, 1600, 1000);
 
-    // Sfondi
-
-        // Livello 4
-        sfondoLivello4 = game.add.tileSprite(0, 400, 800, 600, 'sfondoLivello4');
-
-        // Livello 3
-        sfondoLivello3 = game.add.tileSprite(0, 400, 800, 600, 'sfondoLivello3');
-
-        // Livello 2
-        sfondoLivello2 = game.add.tileSprite(0, 500, 800, 600, 'sfondoLivello2');
+    // Sfondi di gioco
 
         // Livello 1
-        sfondoLivello1 = game.add.tileSprite(0, 450, 800, 600, 'sfondoLivello1');
+
+        // Livello 2
+
+        // Livello 3 (circo)
+        level3_layer3 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer3');
+        level3_layer2 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer2');
+        level3_layer1 = game.add.tileSprite(0, 400, 800, 600, 'level3_layer1');
 
     // Fine-sfondi
 
