@@ -33,6 +33,10 @@ function preload() {
     game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
 
     // Assets menu (placeholders)
+    game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
+    game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
+    game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
+
     game.load.image('option1_selected', 'assets/menu/Property 1=Option1, Property 2=selected.png');
     game.load.image('option1_unselected', 'assets/menu/Property 1=Option1, Property 2=unselected.png');
     game.load.image('option2_selected', 'assets/menu/Property 1=Option2, Property 2=selected.png');
@@ -56,13 +60,28 @@ var level3_layer3;
 var menuOption1;
 var menuOption2;
 var menuOption3;
+var menuOpen = false;
+var optionSelected = 1;
+var optionHovered = 1; 
 
-// Altre variabili
-var facing = "right";
+// Tempo
+var timeWhenLoaded;
+var gameStopWatch;
+var menuButtonTimer;
+var total = 0;
+
+// Keys & input
 var cursors;
 var jumpButton;
 var menuButton;
-var menuOpen = false;
+var escapeKey;
+var oneKey;
+var twoKey;
+var threeKey;
+
+
+// Altre variabili
+var facing = "right";
 
 
 // ++++++++++ CREATE ++++++++++
@@ -110,25 +129,46 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     menuButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
+    escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+    twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+    threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 
 
     // Camera Follow
     game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
+    // Time
+    timeWhenLoaded = game.time.time;
+    
+    //  MenuButtonTimer
+    menuButtonTimer = game.time.create(false);
 
+    //  Set a TimerEvent to occur after 2 seconds
+    menuButtonTimer.loop(2000, updateCounter, this);
+}
+
+function updateCounter() {
+    total++;
 }
 
 function update () {
 
+    // TIME
+    gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
+
+    // Collide
     game.physics.arcade.collide(player, platforms);
 
     // Player shadow offset
     shadow.x = player.x+200
     shadow.y = player.y
 
+    // Player
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown) // Camminata verso sinistra
+    // Controls
+    if (cursors.left.isDown && menuOpen == false) // Camminata verso sinistra
     {
         player.body.velocity.x = -300;
         player.animations.play('walkL', 10, true);
@@ -138,7 +178,7 @@ function update () {
         }
     }
 
-    else if (cursors.right.isDown) // Camminata verso destra
+    else if (cursors.right.isDown && menuOpen == false) // Camminata verso destra
     {
         player.body.velocity.x = 300;
         player.animations.play('walkR', 10, true);
@@ -158,7 +198,7 @@ function update () {
         player.frame = 12;
     }
 
-    if (jumpButton.isDown && (player.body.onFloor() || player.body.touching.down))
+    if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down))
     {
         player.body.velocity.y = -800;
     }
@@ -178,18 +218,99 @@ function update () {
     // Un workaround potrebbe essere collegare un "timer" all'if per evitare che l'argomento dell'if venga eseguito più di una volta di seguito.
 
 
-    if (menuButton.onDown && menuOpen == false) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'false' -> apri il menu (= mostra gli sprite)
+    if (menuButton.isDown && menuOpen == false) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'false' -> apri il menu (= mostra gli sprite)
     {
+        // menuButtonTimer.start();
         menuOpen = true;
-        console.log('C pressed')
-        menuOption1 = game.add.sprite(180, 170, 'option1_selected');
-        menuOption2 = game.add.sprite(438, 170, 'option2_unselected');
-        menuOption3 = game.add.sprite(696, 170, 'option3_unselected');
+        console.log('menuOpen = ' + menuOpen)
+
+        // Crea gli sprite che mostrano le opzioni (la grafica) del menu
+        menuOption1 = game.add.sprite(180, 170, 'option1');
+        menuOption1.fixedToCamera = true;
+        menuOption1.cameraOffset.setTo(180, 170);
+        menuOption2 = game.add.sprite(438, 170, 'option2');
+        menuOption2.fixedToCamera = true;
+        menuOption2.cameraOffset.setTo(438, 170);
+        menuOption3 = game.add.sprite(696, 170, 'option3');
+        menuOption3.fixedToCamera = true;
+        menuOption3.cameraOffset.setTo(696, 170);
+
+        // Al caricamente del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
+        if (optionSelected == 1)
+        {
+            menuOption1.frame = 2;
+            menuOption2.frame = 1;
+            menuOption3.frame = 1;
+        }
+        else if (optionSelected == 2)
+        {
+            menuOption1.frame = 1;
+            menuOption2.frame = 2;
+            menuOption3.frame = 1;
+        }
+        else if (optionSelected == 3)
+        {
+            menuOption1.frame = 1;
+            menuOption2.frame = 1;
+            menuOption3.frame = 2;
+        }
+    
     }
-    else if (menuButton.onDown && menuOpen == true) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'true' -> chiudi il menu (= killa gli sprite)
+
+    // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
+    function changeOptionHovered() {
+        if (optionHovered == 1)
+        {
+            menuOption1.frame = 2;
+            menuOption2.frame = 1;
+            menuOption3.frame = 1;
+        }
+        else if (optionHovered == 2)
+        {
+            menuOption1.frame = 1;
+            menuOption2.frame = 2;
+            menuOption3.frame = 1;
+        }
+        else if (optionHovered == 3)
+        {
+            menuOption1.frame = 1;
+            menuOption2.frame = 1;
+            menuOption3.frame = 2;
+        }
+    }
+
+    // Esegue la funzione quando vengono premuti i tasti 1, 2, 3 per la selezione delle opzioni.
+    if (oneKey.isDown && menuOpen == true)
+    {
+        optionHovered = 1;
+        console.log('Hovering option ' + optionHovered);
+        changeOptionHovered();
+    }
+    if (twoKey.isDown && menuOpen == true)
+    {
+        optionHovered = 2;
+        console.log('Hovering option ' + optionHovered);
+        changeOptionHovered();
+    }
+    if (threeKey.isDown && menuOpen == true)
+    {
+        optionHovered = 3;
+        console.log('Hovering option ' + optionHovered);
+        changeOptionHovered();
+    }
+
+    // Imposta l'opzione selezionata.
+    if (jumpButton.isDown && menuOpen == true)
+    {
+        optionSelected = optionHovered;
+        console.log('Option selected: '+optionSelected);
+    }
+    
+    // Esce dal menu con tasto ESC.
+    else if (escapeKey.isDown && menuOpen == true) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'true' -> chiudi il menu (= killa gli sprite)
     {
         menuOpen = false;
-        console.log('C pressed_')
+        console.log('Menu was closed with ESC');
         menuOption1.kill();
         menuOption2.kill();
         menuOption3.kill();
