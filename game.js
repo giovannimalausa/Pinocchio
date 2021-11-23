@@ -24,9 +24,11 @@ function preload() {
 
     game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
     game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
-    game.load.image('platform', 'http://examples.phaser.io/assets/sprites/platform.png');
-
     
+    // Piattaforme e pavimento del livello 3
+    game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
+    game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
+
     // Assets sfondi Level 3
     game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
     game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
@@ -36,14 +38,7 @@ function preload() {
     game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
     game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
     game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
-
-    game.load.image('option1_selected', 'assets/menu/Property 1=Option1, Property 2=selected.png');
-    game.load.image('option1_unselected', 'assets/menu/Property 1=Option1, Property 2=unselected.png');
-    game.load.image('option2_selected', 'assets/menu/Property 1=Option2, Property 2=selected.png');
-    game.load.image('option2_unselected', 'assets/menu/Property 1=Option2, Property 2=unselected.png');
-    game.load.image('option3_selected', 'assets/menu/Property 1=Option3, Property 2=selected.png');
-    game.load.image('option3_unselected', 'assets/menu/Property 1=Option3, Property 2=unselected.png');
-
+    game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
 }
 
 // Variabili sprite interattivi
@@ -74,6 +69,7 @@ var total = 0;
 var cursors;
 var jumpButton;
 var menuButton;
+var menuButtonIsPressed = false;
 var escapeKey;
 var oneKey;
 var twoKey;
@@ -88,7 +84,7 @@ var facing = "right";
 
 function create() {
 
-    game.world.setBounds(0, 0, 2000, 1000);
+    game.world.setBounds(0, 0, 2048, 768);
 
     // Sfondi di gioco
 
@@ -102,6 +98,25 @@ function create() {
         level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
 
     // Fine-sfondi
+
+
+    // Selection interface icons
+    selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
+    selectionIcon.fixedToCamera = true;
+    selectionIcon.cameraOffset.setTo(0, 0);
+    if (optionSelected == 1)
+    {
+        selectionIcon.frame = 0;
+    }
+    else if (optionSelected == 2)
+    {
+        selectionIcon.frame = 1;
+    }
+    else if (optionSelected == 3)
+    {
+        selectionIcon.frame = 3;
+    }
+
 
 
     // Player
@@ -118,12 +133,17 @@ function create() {
     shadow = game.add.sprite(100+200, 200, 'player');
     shadow.alpha = 0;
 
+    // Floor
+    floor = game.add.physicsGroup();
+    floor.create(0, 687, 'floorLevel3');
+    floor.setAll('body.immovable', true);
+    floor.alpha = 0;
+    
     // Platforms
     platforms = game.add.physicsGroup();
-    platforms.create(500, 450, 'platform');
-    platforms.create(-200, 700, 'platform');
-    platforms.create(400, 850, 'platform');
+    platforms.create(501, 576, 'platform');
     platforms.setAll('body.immovable', true);
+    platforms.alpha = 0;
 
     // Input (cursors and keys)
     cursors = game.input.keyboard.createCursorKeys();
@@ -159,10 +179,15 @@ function update () {
 
     // Collide
     game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(player, floor);
 
     // Player shadow offset
     shadow.x = player.x+200
     shadow.y = player.y
+
+    // Parallasse sfondi
+    level3_layer1.x = game.camera.x*(-0.25);
+    level3_layer3.x = game.camera.x*(-0.05);
 
     // Player
     player.body.velocity.x = 0;
@@ -205,77 +230,89 @@ function update () {
 
     // Scivolamento
     if (player.body.touching.down) {
-        player.body.velocity.x = (0.8 *  player.body.velocity.x) ;
+        player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
       }
-      else {
+    else {
         player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
     }
 
-    // Menu (bozza di come potrebbe funzionare il menu di selezione delle armi)
-    // Il menu dovrebbe comparire alla pressione del tasto C (Choose).
-    // button.OnDown non funziona come previsto (Phaser si comporta come se il tasto fosse premuto e rilasciato anche quando non lo è).
-    // button.isDown è "vero" decine di volte al secondo, mentre si preme il tasto, quindi non si può usare.
-    // Un workaround potrebbe essere collegare un "timer" all'if per evitare che l'argomento dell'if venga eseguito più di una volta di seguito.
+    // MENU
 
-
-    if (menuButton.isDown && menuOpen == false) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'false' -> apri il menu (= mostra gli sprite)
+    if (menuButton.isDown) // SE il tasto menuButton è premuto
     {
-        // menuButtonTimer.start();
-        menuOpen = true;
-        console.log('menuOpen = ' + menuOpen)
 
-        // Crea gli sprite che mostrano le opzioni (la grafica) del menu
-        menuOption1 = game.add.sprite(180, 170, 'option1');
-        menuOption1.fixedToCamera = true;
-        menuOption1.cameraOffset.setTo(180, 170);
-        menuOption2 = game.add.sprite(438, 170, 'option2');
-        menuOption2.fixedToCamera = true;
-        menuOption2.cameraOffset.setTo(438, 170);
-        menuOption3 = game.add.sprite(696, 170, 'option3');
-        menuOption3.fixedToCamera = true;
-        menuOption3.cameraOffset.setTo(696, 170);
-
-        // Al caricamente del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
-        if (optionSelected == 1)
+        if(menuButtonIsPressed === false) // SE il tasto non era GIÀ (!) premuto.
         {
-            menuOption1.frame = 2;
-            menuOption2.frame = 1;
-            menuOption3.frame = 1;
-        }
-        else if (optionSelected == 2)
-        {
-            menuOption1.frame = 1;
-            menuOption2.frame = 2;
-            menuOption3.frame = 1;
-        }
-        else if (optionSelected == 3)
-        {
-            menuOption1.frame = 1;
-            menuOption2.frame = 1;
-            menuOption3.frame = 2;
-        }
+            menuButtonIsPressed = true; // Cambia lo stato della variabile.
+            if(menuOpen === false) // SE il menu NON è GIÀ aperto.
+            {
+                menuOpen = true; // Cambia lo stato della variabile.
+                console.log('Menu was opened');
     
-    }
+                // Crea gli sprite che mostrano le opzioni (la grafica) del menu
+                menuOption1 = game.add.sprite(180, 170, 'option1');
+                menuOption1.fixedToCamera = true;
+                menuOption1.cameraOffset.setTo(180, 170);
+                menuOption2 = game.add.sprite(438, 170, 'option2');
+                menuOption2.fixedToCamera = true;
+                menuOption2.cameraOffset.setTo(438, 170);
+                menuOption3 = game.add.sprite(696, 170, 'option3');
+                menuOption3.fixedToCamera = true;
+                menuOption3.cameraOffset.setTo(696, 170);
+    
+                // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
+                if (optionSelected == 1)
+                {
+                    menuOption1.frame = 0;
+                    menuOption2.frame = 1;
+                    menuOption3.frame = 1;
+                }
+                else if (optionSelected == 2)
+                {
+                    menuOption1.frame = 1;
+                    menuOption2.frame = 0;
+                    menuOption3.frame = 1;
+                }
+                else if (optionSelected == 3)
+                {
+                    menuOption1.frame = 1;
+                    menuOption2.frame = 1;
+                    menuOption3.frame = 0;
+                }
+            }
+            else if(menuOpen === true) // SE il menu è GIÀ aperto.
+            {
+                menuOpen = false; // Cambia lo stato della variabile.
+                console.log('Menu was closed');
+                menuOption1.kill(); // Kill della grafica.
+                menuOption2.kill(); // Kill della grafica.
+                menuOption3.kill(); // Kill della grafica.
+            }
+            
+        }
+        
+    } else
+    menuButtonIsPressed = false;
 
     // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
     function changeOptionHovered() {
         if (optionHovered == 1)
         {
-            menuOption1.frame = 2;
+            menuOption1.frame = 0;
             menuOption2.frame = 1;
             menuOption3.frame = 1;
         }
         else if (optionHovered == 2)
         {
             menuOption1.frame = 1;
-            menuOption2.frame = 2;
+            menuOption2.frame = 0;
             menuOption3.frame = 1;
         }
         else if (optionHovered == 3)
         {
             menuOption1.frame = 1;
             menuOption2.frame = 1;
-            menuOption3.frame = 2;
+            menuOption3.frame = 0;
         }
     }
 
@@ -304,16 +341,18 @@ function update () {
     {
         optionSelected = optionHovered;
         console.log('Option selected: '+optionSelected);
-    }
-    
-    // Esce dal menu con tasto ESC.
-    else if (escapeKey.isDown && menuOpen == true) // SE il tasto menuButton è premuto & SE la variabile menoOpen è 'true' -> chiudi il menu (= killa gli sprite)
-    {
-        menuOpen = false;
-        console.log('Menu was closed with ESC');
-        menuOption1.kill();
-        menuOption2.kill();
-        menuOption3.kill();
+        if (optionSelected == 1)
+        {
+            selectionIcon.frame = 0;
+        }
+        else if (optionSelected == 2)
+        {
+            selectionIcon.frame = 1;
+        }
+        else if (optionSelected == 3)
+        {
+            selectionIcon.frame = 3;
+        }
     }
 }
 
