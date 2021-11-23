@@ -315,8 +315,6 @@ function update () {
         menuOption2.kill();
         menuOption3.kill();
     }
-
-
 }
 
 function render () {
