@@ -24,6 +24,30 @@ function preload() {
 
     game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
     game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
+
+    // Globali
+    game.load.image('globalFloor', 'assets/global/Floor16k.png');
+    game.load.image('sfondoAzzurro', 'assets/global/Lightblue background.png');
+
+    game.load.image('modulo2x2', 'assets/global/Modulo 2x2.png');
+
+    game.load.image('platform2x1', 'assets/global/Size=2x1.png');
+    game.load.image('platform3x1', 'assets/global/Size=3x1.png');
+    game.load.image('platform4x1', 'assets/global/Size=4x1.png');
+    game.load.image('platform5x1', 'assets/global/Size=5x1.png');
+    game.load.image('platform6x1', 'assets/global/Size=6x1.png');
+
+    game.load.image('death-gap-2x', 'assets/global/Size=2xdeath-gap.png')
+    game.load.image('death-gap-3x', 'assets/global/Size=3xdeath-gap.png')
+    game.load.image('death-gap-4x', 'assets/global/Size=4xdeath-gap.png')
+    game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
+    game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
+    game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
+    
+    // Livello 1
+    game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
+    game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
+
     
     // Piattaforme e pavimento del livello 3
     game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
@@ -46,7 +70,32 @@ var player;
 var shadow; // per camera tracking con offset
 var platforms;
 
-// Variabili sfondi
+// Variabili scelta livello
+var levelToLoad = 1;
+
+// Variabili globali
+var sfondoAzzurro;
+var deathGap2x;
+var deathGap3x;
+var deathGap4x;
+var deathGap5x;
+var deathGap6x;
+var deathGap7x;
+
+// Variabili livello 1
+var level1_floor;
+var level1_platform2x1;
+var level1_platform3x1;
+var level1_platform4x1;
+var level1_platform5x1;
+var level1_platform6x1;
+var level1_modulo2x2;
+var placeholder_CasaGeppetto;
+var level1_casa1;
+
+
+// Variabili livello 3
+var floor;
 var level3_layer1;
 var level3_layer2;
 var level3_layer3;
@@ -84,18 +133,51 @@ var facing = "right";
 
 function create() {
 
-    game.world.setBounds(0, 0, 2048, 768);
+    game.world.setBounds(0, 0, 16000, 2304);
 
     // Sfondi di gioco
 
         // Livello 1
+        if(levelToLoad == 1)
+        {
+            sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
+
+            level1_floor = game.add.physicsGroup();
+            level1_floor.create(0, 2200, 'globalFloor');
+            level1_floor.setAll('body.immovable', true);
+
+            placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
+
+            level1_modulo2x2 = game.add.physicsGroup();
+            level1_modulo2x2.create(550, 2100, 'modulo2x2');
+            level1_modulo2x2.setAll('body.immovable', true);
+
+            level1_platform6x1 = game.add.physicsGroup();
+            level1_platform6x1.create(800, 1950, 'platform6x1');
+            level1_platform6x1.create(1250, 1800, 'platform6x1');
+            level1_platform6x1.setAll('body.immovable', true);
+
+            deathGap4x = game.add.physicsGroup();
+            deathGap4x.create(1550, 2200,'death-gap-4x');
+            deathGap4x.setAll('body.immovable', true);
+
+            level1_casa1 = game.add.physicsGroup();
+            level1_casa1.create(1725, 1650, 'level1_casa1');
+            level1_casa1.setAll('body.immovable', true);
+
+        }
 
         // Livello 2
 
         // Livello 3 (circo)
-        level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
-        level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
-        level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
+        if(levelToLoad == 3)
+        {
+            level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
+            level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
+            level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
+
+        }
+        
 
     // Fine-sfondi
 
@@ -120,7 +202,7 @@ function create() {
 
 
     // Player
-    player = game.add.sprite(100, 200, 'pinocchio');
+    player = game.add.sprite(450, 200, 'pinocchio');
     player.animations.add('walkR', [0, 1, 2, 3, 4, 5]); // Animazione camminata verso dx
     player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
     game.physics.arcade.enable(player);
@@ -134,17 +216,23 @@ function create() {
     shadow.alpha = 0;
 
     // Floor
-    floor = game.add.physicsGroup();
-    floor.create(0, 687, 'floorLevel3');
-    floor.setAll('body.immovable', true);
-    floor.alpha = 0;
+    if(levelToLoad == 3)
+    {
+        floor = game.add.physicsGroup();
+        floor.create(0, 687, 'floorLevel3');
+        floor.setAll('body.immovable', true);
+        floor.alpha = 0;
+    }
     
     // Platforms
-    platforms = game.add.physicsGroup();
-    platforms.create(501, 576, 'platform');
-    platforms.setAll('body.immovable', true);
-    platforms.alpha = 0;
-
+    if(levelToLoad == 3)
+    {
+        platforms = game.add.physicsGroup();
+        platforms.create(501, 576, 'platform');
+        platforms.setAll('body.immovable', true);
+        platforms.alpha = 0;
+    }
+    
     // Input (cursors and keys)
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -178,16 +266,26 @@ function update () {
     gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
     // Collide
+
+
+    game.physics.arcade.collide(player, level1_floor);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(player, floor);
+    game.physics.arcade.collide(player, level1_modulo2x2);
+    game.physics.arcade.collide(player, level1_platform6x1);
+    game.physics.arcade.collide(player, level1_casa1);
+    
 
     // Player shadow offset
-    shadow.x = player.x+200
+    shadow.x = player.x+350
     shadow.y = player.y
 
     // Parallasse sfondi
-    level3_layer1.x = game.camera.x*(-0.25);
-    level3_layer3.x = game.camera.x*(-0.05);
+    if(levelToLoad==3)
+    {
+        level3_layer1.x = game.camera.x*(-0.25);
+        level3_layer3.x = game.camera.x*(-0.05);
+    }
 
     // Player
     player.body.velocity.x = 0;
@@ -351,7 +449,7 @@ function update () {
         }
         else if (optionSelected == 3)
         {
-            selectionIcon.frame = 3;
+            selectionIcon.frame = 2;
         }
     }
 }
