@@ -29,6 +29,8 @@ function preload() {
     game.load.image('globalFloor', 'assets/global/Floor16k.png');
     game.load.image('sfondoAzzurro', 'assets/global/Lightblue background.png');
 
+    game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
+
     game.load.image('modulo2x2', 'assets/global/Modulo 2x2.png');
 
     game.load.image('platform2x1', 'assets/global/Size=2x1.png');
@@ -47,6 +49,13 @@ function preload() {
     // Livello 1
     game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
     game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
+    game.load.image('level1_casa2', 'assets/levelOne/casa2.png');
+    game.load.image('level1_casa3', 'assets/levelOne/casa3_senzaplatform.png');
+    game.load.image('level1_casa3_platform', 'assets/levelOne/casa3_platform.png');
+    game.load.image('level1_casa4', 'assets/levelOne/casa4_SenzaTettoia.png');
+    game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
+    game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
+
 
     
     // Piattaforme e pavimento del livello 3
@@ -65,15 +74,21 @@ function preload() {
     game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
 }
 
-// Variabili sprite interattivi
+// Variabili sprite
 var player;
 var shadow; // per camera tracking con offset
-var platforms;
+var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
+
+// Variabili di gioco
+var showingControlsTutorial = true;
+var facing = "right";
+var jumpPower = 0;
 
 // Variabili scelta livello
-var levelToLoad = 1;
+var levelPlaying = 1;
 
 // Variabili globali
+var controlsTutorialUI;
 var sfondoAzzurro;
 var deathGap2x;
 var deathGap3x;
@@ -92,6 +107,12 @@ var level1_platform6x1;
 var level1_modulo2x2;
 var placeholder_CasaGeppetto;
 var level1_casa1;
+var level1_casa2;
+var level1_casa3;
+var level1_casa3_platform;
+var level1_casa4;
+var level1_casa4_supportoTettoia;
+var level1_casa4_tettoia;
 
 
 // Variabili livello 3
@@ -100,7 +121,7 @@ var level3_layer1;
 var level3_layer2;
 var level3_layer3;
 
-// Variabili elementi menu
+// Variabili menu
 var menuOption1;
 var menuOption2;
 var menuOption3;
@@ -125,64 +146,117 @@ var twoKey;
 var threeKey;
 
 
-// Altre variabili
-var facing = "right";
-
-
 // ++++++++++ CREATE ++++++++++
 
 function create() {
 
-    game.world.setBounds(0, 0, 16000, 2304);
+    game.world.setBounds(0, 0, 20000, 2304);
 
-    // Sfondi di gioco
+    // Elementi livelli
 
         // Livello 1
-        if(levelToLoad == 1)
+        if(levelPlaying == 1)
         {
             sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
             level1_floor = game.add.physicsGroup();
             level1_floor.create(0, 2200, 'globalFloor');
+            level1_floor.create(16000, 2200, 'globalFloor');
             level1_floor.setAll('body.immovable', true);
 
             placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
 
             level1_modulo2x2 = game.add.physicsGroup();
             level1_modulo2x2.create(550, 2100, 'modulo2x2');
+            level1_modulo2x2.create(3750, 2100, 'modulo2x2');
+            level1_modulo2x2.create(4450, 2100, 'modulo2x2');
+            level1_modulo2x2.create(4650, 2100, 'modulo2x2');
+            level1_modulo2x2.create(4650, 2000, 'modulo2x2');
+            level1_modulo2x2.create(4900, 2100, 'modulo2x2');
+            level1_modulo2x2.create(16000, 2100, 'modulo2x2');
             level1_modulo2x2.setAll('body.immovable', true);
+
+            level1_platform2x1 = game.add.physicsGroup();
+            level1_platform2x1.create(3900, 1900, 'platform2x1');
+            level1_platform2x1.setAll('body.immovable', true);
+
+            level1_platform5x1 = game.add.physicsGroup();
+            level1_platform5x1.create(4100, 1700, 'platform5x1');
+            level1_platform5x1.setAll('body.immovable', true);
 
             level1_platform6x1 = game.add.physicsGroup();
             level1_platform6x1.create(800, 1950, 'platform6x1');
             level1_platform6x1.create(1250, 1800, 'platform6x1');
+            level1_platform6x1.create(3600, 1600, 'platform6x1');
             level1_platform6x1.setAll('body.immovable', true);
+
+            deathGap3x = game.add.physicsGroup();
+            deathGap3x.create(2200, 2200, 'death-gap-3x');
+            deathGap3x.setAll('body.immovable', true);
 
             deathGap4x = game.add.physicsGroup();
             deathGap4x.create(1550, 2200,'death-gap-4x');
             deathGap4x.setAll('body.immovable', true);
 
+            deathGap5x = game.add.physicsGroup();
+            deathGap5x.create(2750, 2200,'death-gap-5x');
+            deathGap5x.setAll('body.immovable', true);
+
             level1_casa1 = game.add.physicsGroup();
             level1_casa1.create(1725, 1650, 'level1_casa1');
             level1_casa1.setAll('body.immovable', true);
 
+            level1_casa2 = game.add.physicsGroup();
+            level1_casa2.create(2300, 1800, 'level1_casa2');
+            level1_casa2.setAll('body.immovable', true);
+
+            level1_casa3 = game.add.physicsGroup();
+            level1_casa3.create(3000, 1450, 'level1_casa3');
+            level1_casa3.setAll('body.immovable', true);
+           
+            level1_casa3_platform = game.add.physicsGroup();
+            level1_casa3_platform.create(2850, 1650, 'level1_casa3_platform');
+            level1_casa3_platform.create(3200, 1900, 'level1_casa3_platform');
+            level1_casa3_platform.setAll('body.immovable', true);
+
+            level1_casa4 = game.add.physicsGroup();
+            level1_casa4.create(5400, 1700, 'level1_casa4');
+            level1_casa4.setAll('body.immovable', true);
+            
+            level1_casa4_supportoTettoia = game.add.physicsGroup();
+            level1_casa4_supportoTettoia.create(5167, 2000, 'level1_casa4_supportoTettoia');
+            level1_casa4_supportoTettoia.setAll('body.immovable', true);
+
+            level1_casa4_tettoia = game.add.physicsGroup();
+            level1_casa4_tettoia.create(5150, 1950, 'level1_casa4_tettoia');
+            level1_casa4_tettoia.setAll('body.immovable', true);
         }
 
         // Livello 2
 
         // Livello 3 (circo)
-        if(levelToLoad == 3)
+        if(levelPlaying == 3)
         {
             level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
             level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
             level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
 
+            // Floor
+            floor = game.add.physicsGroup();
+            floor.create(0, 687, 'floorLevel3');
+            floor.setAll('body.immovable', true);
+            floor.alpha = 0;
+            
+            // Platforms
+            platforms = game.add.physicsGroup();
+            platforms.create(501, 576, 'platform');
+            platforms.setAll('body.immovable', true);
+            platforms.alpha = 0;
+
         }
-        
-
-    // Fine-sfondi
 
 
-    // Selection interface icons
+    // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
     selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
     selectionIcon.fixedToCamera = true;
     selectionIcon.cameraOffset.setTo(0, 0);
@@ -199,39 +273,26 @@ function create() {
         selectionIcon.frame = 3;
     }
 
-
-
     // Player
-    player = game.add.sprite(450, 200, 'pinocchio');
+    player = game.add.sprite(450, 1800, 'pinocchio');
     player.animations.add('walkR', [0, 1, 2, 3, 4, 5]); // Animazione camminata verso dx
     player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 1500;
     player.body.setSize(80, 100, 20, 0); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
-    
 
-    // Player shadow (per camera tracking con offset)
+    // Tutorial
+    if(showingControlsTutorial == true)
+    {
+        controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
+        controlsTutorialUI.fixedToCamera = true;
+        controlsTutorialUI.cameraOffset.setTo(0, 0);
+    }
+
+    // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
     shadow = game.add.sprite(100+200, 200, 'player');
     shadow.alpha = 0;
-
-    // Floor
-    if(levelToLoad == 3)
-    {
-        floor = game.add.physicsGroup();
-        floor.create(0, 687, 'floorLevel3');
-        floor.setAll('body.immovable', true);
-        floor.alpha = 0;
-    }
-    
-    // Platforms
-    if(levelToLoad == 3)
-    {
-        platforms = game.add.physicsGroup();
-        platforms.create(501, 576, 'platform');
-        platforms.setAll('body.immovable', true);
-        platforms.alpha = 0;
-    }
     
     // Input (cursors and keys)
     cursors = game.input.keyboard.createCursorKeys();
@@ -242,21 +303,20 @@ function create() {
     twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
     threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
 
-
     // Camera Follow
     game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
     // Time
     timeWhenLoaded = game.time.time;
     
-    //  MenuButtonTimer
-    menuButtonTimer = game.time.create(false);
+    //  MenuButtonTimer – [non in uso]
+    // menuButtonTimer = game.time.create(false);
 
-    //  Set a TimerEvent to occur after 2 seconds
-    menuButtonTimer.loop(2000, updateCounter, this);
+    //  Set a TimerEvent to occur after 2 seconds – [non in uso]
+    // menuButtonTimer.loop(2000, updateCounter, this);
 }
 
-function updateCounter() {
+function updateCounter() { // [non in uso]
     total++;
 }
 
@@ -266,22 +326,25 @@ function update () {
     gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
     // Collide
-
-
     game.physics.arcade.collide(player, level1_floor);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(player, floor);
     game.physics.arcade.collide(player, level1_modulo2x2);
+    game.physics.arcade.collide(player, level1_platform2x1);
+    game.physics.arcade.collide(player, level1_platform5x1);
     game.physics.arcade.collide(player, level1_platform6x1);
     game.physics.arcade.collide(player, level1_casa1);
+    game.physics.arcade.collide(player, level1_casa2);
+    game.physics.arcade.collide(player, level1_casa3_platform);
+    game.physics.arcade.collide(player, level1_casa4_tettoia);
     
 
     // Player shadow offset
-    shadow.x = player.x+350
-    shadow.y = player.y
+    shadow.x = player.x+350;
+    shadow.y = player.y+200;
 
     // Parallasse sfondi
-    if(levelToLoad==3)
+    if(levelPlaying == 3)
     {
         level3_layer1.x = game.camera.x*(-0.25);
         level3_layer3.x = game.camera.x*(-0.05);
@@ -291,7 +354,7 @@ function update () {
     player.body.velocity.x = 0;
 
     // Controls
-    if (cursors.left.isDown && menuOpen == false) // Camminata verso sinistra
+    if (cursors.left.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
     {
         player.body.velocity.x = -300;
         player.animations.play('walkL', 10, true);
@@ -301,7 +364,7 @@ function update () {
         }
     }
 
-    else if (cursors.right.isDown && menuOpen == false) // Camminata verso destra
+    else if (cursors.right.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
     {
         player.body.velocity.x = 300;
         player.animations.play('walkR', 10, true);
@@ -321,10 +384,22 @@ function update () {
         player.frame = 12;
     }
 
-    if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down))
+    // Salto con funzione di potenza variabile
+    if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
     {
-        player.body.velocity.y = -800;
+        if(showingControlsTutorial == true)
+        {
+            showingControlsTutorial = false;
+            controlsTutorialUI.kill();
+        }
+        player.body.velocity.y = -500;
+        jumpPower = jumpPower + .2;
     }
+    else
+    {
+        jumpPower = 0;
+    }
+        
 
     // Scivolamento
     if (player.body.touching.down) {
