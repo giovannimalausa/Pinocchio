@@ -48,10 +48,13 @@ function preload() {
     
     // Livello 1
     game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
+    game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
+    game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
     game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
     game.load.image('level1_casa2', 'assets/levelOne/casa2.png');
-    game.load.image('level1_casa3', 'assets/levelOne/casa3_senzaplatform.png');
-    game.load.image('level1_casa3_platform', 'assets/levelOne/casa3_platform.png');
+    game.load.image('level1_casa3', 'assets/levelOne/casa3_balconies.png');
+    game.load.image('level1_casa3_balcone', 'assets/levelOne/casa3_balcone3x2.png');
+    game.load.image('level1_casa3_hitbox', 'assets/levelOne/casa3_hitbox.png');
     game.load.image('level1_casa4', 'assets/levelOne/casa4_SenzaTettoia.png');
     game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
     game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
@@ -83,6 +86,9 @@ var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Liv
 var showingControlsTutorial = true;
 var facing = "right";
 var jumpPower = 0;
+var onInteraction = false;
+var interactionEnabled = false;
+var interactionPointLabelShown = false;
 
 // Variabili scelta livello
 var levelPlaying = 1;
@@ -106,10 +112,13 @@ var level1_platform5x1;
 var level1_platform6x1;
 var level1_modulo2x2;
 var placeholder_CasaGeppetto;
+var interactionPoint;
+var interactionPointLabel;
 var level1_casa1;
 var level1_casa2;
 var level1_casa3;
-var level1_casa3_platform;
+var level1_casa3_balcone;
+var level1_casa3_hitbox;
 var level1_casa4;
 var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
@@ -166,6 +175,10 @@ function create() {
 
             placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
 
+            interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
+            game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
+
+
             level1_modulo2x2 = game.add.physicsGroup();
             level1_modulo2x2.create(550, 2100, 'modulo2x2');
             level1_modulo2x2.create(3750, 2100, 'modulo2x2');
@@ -211,13 +224,19 @@ function create() {
             level1_casa2.setAll('body.immovable', true);
 
             level1_casa3 = game.add.physicsGroup();
-            level1_casa3.create(3000, 1450, 'level1_casa3');
+            level1_casa3.create(2850, 1450, 'level1_casa3');
             level1_casa3.setAll('body.immovable', true);
-           
-            level1_casa3_platform = game.add.physicsGroup();
-            level1_casa3_platform.create(2850, 1650, 'level1_casa3_platform');
-            level1_casa3_platform.create(3200, 1900, 'level1_casa3_platform');
-            level1_casa3_platform.setAll('body.immovable', true);
+            
+            level1_casa3_hitbox = game.add.physicsGroup();
+            level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
+            level1_casa3_hitbox.setAll('body.immovable', true);
+            level1_casa3_hitbox.alpha = 0;
+            
+            
+            level1_casa3_balcone = game.add.physicsGroup();
+            level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
+            level1_casa3_balcone.create(3400, 1900, 'level1_casa3_balcone');
+            level1_casa3_balcone.setAll('body.immovable', true);
 
             level1_casa4 = game.add.physicsGroup();
             level1_casa4.create(5400, 1700, 'level1_casa4');
@@ -335,9 +354,9 @@ function update () {
     game.physics.arcade.collide(player, level1_platform6x1);
     game.physics.arcade.collide(player, level1_casa1);
     game.physics.arcade.collide(player, level1_casa2);
-    game.physics.arcade.collide(player, level1_casa3_platform);
+    game.physics.arcade.collide(player, level1_casa3_hitbox);
+    game.physics.arcade.collide(player, level1_casa3_balcone);
     game.physics.arcade.collide(player, level1_casa4_tettoia);
-    
 
     // Player shadow offset
     shadow.x = player.x+350;
@@ -350,8 +369,9 @@ function update () {
         level3_layer3.x = game.camera.x*(-0.05);
     }
 
-    // Player
-    player.body.velocity.x = 0;
+
+    // Interaction point
+    game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
     // Controls
     if (cursors.left.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
@@ -414,7 +434,7 @@ function update () {
     if (menuButton.isDown) // SE il tasto menuButton è premuto
     {
 
-        if(menuButtonIsPressed === false) // SE il tasto non era GIÀ (!) premuto.
+        if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
         {
             menuButtonIsPressed = true; // Cambia lo stato della variabile.
             if(menuOpen === false) // SE il menu NON è GIÀ aperto.
@@ -527,6 +547,30 @@ function update () {
             selectionIcon.frame = 2;
         }
     }
+}
+
+
+function enableInteraction() {
+    if(onInteraction === false)
+    {
+        onInteraction = true;
+        interactionEnabled = true;
+        console.log("Interazione possibile");
+        if (interactionPointLabelShown == false)
+        {
+            interactionPointLabelShown = true;
+            interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+        }
+
+    }
+    else
+    {
+        onInteraction = false;
+        interactionEnabled = false;
+        interactionPointLabelShown = false;
+        interactionPointLabel.kill();
+    }
+    
 }
 
 function render () {
