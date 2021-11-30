@@ -23,7 +23,9 @@ function preload() {
     game.load.crossOrigin = 'anonymous';
 
     game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
-    game.load.image('shadow', 'http://examples.phaser.io/assets/sprites/phaser-dude.png');
+    game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+
+    game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png')
 
     // Globali
     game.load.image('globalFloor', 'assets/global/Floor16k.png');
@@ -80,6 +82,7 @@ function preload() {
 var player;
 var shadow; // per camera tracking con offset
 var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
+var enemy;
 
 // Variabili di gioco
 var showingControlsTutorial = true;
@@ -300,6 +303,13 @@ function create() {
     player.body.gravity.y = 2000;
     player.body.setSize(80, 100, 20, 0); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
 
+    // Enemy
+    enemy = game.add.sprite(650, 1800, 'marionettaBomba');
+    enemy = game.add.sprite(850, 1800, 'marionettaBomba');
+    game.physics.arcade.enable(enemy);
+    enemy.body.collideWorldBounds = true;
+    enemy.body.gravity.y = 2000;
+
     // Tutorial
     if(showingControlsTutorial == true)
     {
@@ -347,6 +357,7 @@ function update () {
     game.physics.arcade.collide(player, level1_floor);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(player, floor);
+    game.physics.arcade.collide(enemy, level1_floor );
     game.physics.arcade.collide(player, level1_modulo2x2);
     game.physics.arcade.collide(player, level1_platform2x1);
     game.physics.arcade.collide(player, level1_platform5x1);
@@ -368,6 +379,9 @@ function update () {
         level3_layer3.x = game.camera.x*(-0.05);
     }
 
+
+    // Overlap tra player e enemy
+    game.physics.arcade.overlap(player, enemy, killEnemy);
 
     // Interaction point
     game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -587,6 +601,10 @@ function enableInteraction() {
         interactionPointLabel.kill();
     }
 
+}
+
+function killEnemy(p, e) {
+    e.kill();
 }
 
 function render () {
