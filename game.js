@@ -25,7 +25,9 @@ function preload() {
     game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
     game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
-    game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png')
+    game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
+
+    game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
 
     // Globali
     game.load.image('globalFloor', 'assets/global/Floor16k.png');
@@ -146,6 +148,11 @@ var gameStopWatch;
 var menuButtonTimer;
 var total = 0;
 
+//Armi
+var bullets;
+var bulletTime = 0;
+var gun1
+
 // Keys & input
 var cursors;
 var jumpButton;
@@ -155,6 +162,7 @@ var escapeKey;
 var oneKey;
 var twoKey;
 var threeKey;
+var fireButton;
 
 
 // ++++++++++ CREATE ++++++++++
@@ -310,9 +318,26 @@ function create() {
     enemy.body.collideWorldBounds = true;
     enemy.body.gravity.y = 2000;
 
+                // Armi
+      // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
+  //  bullets = game.add.group();
+  //  bullets.enableBody = true;
+  //  bullets.physicsBodyType = Phaser.Physics.ARCADE;
+  //  bullets.createMultiple(50, 'bullet');
+  //  bullets.setAll('anchor.x', 0.5);
+  //  bullets.setAll('anchor.y', 0.5);
+  //  bullets.setAll('outOfBoundKill', true);
+  //  bullets.setAll('checkWorldBounds', true);
+
+     // FUNZIONE DI SPARO CON PHASER.WEAPON
+  gun1 = game.add.weapon(50, 'bullet')
+  gun1.trackSprite(player);
+  gun1.fireRate = 50;
+  gun1.fireAngle = 0;
+  gun1.bulletSpeed = 700;
+
     // Tutorial
-    if(showingControlsTutorial == true)
-    {
+     if(showingControlsTutorial == true)  {
         controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
         controlsTutorialUI.fixedToCamera = true;
         controlsTutorialUI.cameraOffset.setTo(0, 0);
@@ -330,6 +355,7 @@ function create() {
     oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
     twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
     threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
 
     // Camera Follow
     game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
@@ -337,11 +363,16 @@ function create() {
     // Time
     timeWhenLoaded = game.time.time;
 
+    // Scritta menù Geppetto
+    interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+
+
     //  MenuButtonTimer – [non in uso]
     // menuButtonTimer = game.time.create(false);
 
     //  Set a TimerEvent to occur after 2 seconds – [non in uso]
     // menuButtonTimer.loop(2000, updateCounter, this);
+
 }
 
 function updateCounter() { // [non in uso]
@@ -413,6 +444,11 @@ function update () {
     else // Frame = 12 SE player rivolto a destra
     {
         player.frame = 12;
+    }
+
+    if(fireButton.isDown) {
+      //fireBullet();
+      gun1.fire()
     }
 
 //Animazioni
@@ -589,7 +625,7 @@ function enableInteraction() {
         if (interactionPointLabelShown == false)
         {
             interactionPointLabelShown = true;
-            interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+          //  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
         }
 
     }
@@ -598,7 +634,7 @@ function enableInteraction() {
         onInteraction = false;
         interactionEnabled = false;
         interactionPointLabelShown = false;
-        interactionPointLabel.kill();
+      //  interactionPointLabel.kill();
     }
 
 }
@@ -606,6 +642,18 @@ function enableInteraction() {
 function killEnemy(p, e) {
     e.kill();
 }
+   //FUNZIONE DI SPARO CON BULLET GROUP MANUALE
+//function fireBullet() {
+//  if(game.time.now > bulletTime){
+//    bullet = bullets.getFirstExists(false);
+
+//    if(bullet) {
+//      bullet.reset(player.x + 130, player.y + 50);
+//      bullet.body.velocity.x = 100;
+//      bulletTime = game.time.now + 50;
+//    }
+//  }
+//}
 
 function render () {
 }
