@@ -45,7 +45,6 @@ function preload() {
     game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
     game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
     game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
-    
     // Livello 1
     game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
     game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
@@ -60,7 +59,7 @@ function preload() {
     game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
 
 
-    
+
     // Piattaforme e pavimento del livello 3
     game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
     game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
@@ -136,7 +135,7 @@ var menuOption2;
 var menuOption3;
 var menuOpen = false;
 var optionSelected = 1;
-var optionHovered = 1; 
+var optionHovered = 1;
 
 // Tempo
 var timeWhenLoaded;
@@ -226,13 +225,13 @@ function create() {
             level1_casa3 = game.add.physicsGroup();
             level1_casa3.create(2850, 1450, 'level1_casa3');
             level1_casa3.setAll('body.immovable', true);
-            
+
             level1_casa3_hitbox = game.add.physicsGroup();
             level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
             level1_casa3_hitbox.setAll('body.immovable', true);
             level1_casa3_hitbox.alpha = 0;
-            
-            
+
+
             level1_casa3_balcone = game.add.physicsGroup();
             level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
             level1_casa3_balcone.create(3400, 1900, 'level1_casa3_balcone');
@@ -241,7 +240,7 @@ function create() {
             level1_casa4 = game.add.physicsGroup();
             level1_casa4.create(5400, 1700, 'level1_casa4');
             level1_casa4.setAll('body.immovable', true);
-            
+
             level1_casa4_supportoTettoia = game.add.physicsGroup();
             level1_casa4_supportoTettoia.create(5167, 2000, 'level1_casa4_supportoTettoia');
             level1_casa4_supportoTettoia.setAll('body.immovable', true);
@@ -265,7 +264,7 @@ function create() {
             floor.create(0, 687, 'floorLevel3');
             floor.setAll('body.immovable', true);
             floor.alpha = 0;
-            
+
             // Platforms
             platforms = game.add.physicsGroup();
             platforms.create(501, 576, 'platform');
@@ -298,7 +297,7 @@ function create() {
     player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    player.body.gravity.y = 1500;
+    player.body.gravity.y = 2000;
     player.body.setSize(80, 100, 20, 0); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
 
     // Tutorial
@@ -312,7 +311,7 @@ function create() {
     // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
     shadow = game.add.sprite(100+200, 200, 'player');
     shadow.alpha = 0;
-    
+
     // Input (cursors and keys)
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -327,7 +326,7 @@ function create() {
 
     // Time
     timeWhenLoaded = game.time.time;
-    
+
     //  MenuButtonTimer – [non in uso]
     // menuButtonTimer = game.time.create(false);
 
@@ -377,9 +376,8 @@ function update () {
     if (cursors.left.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
     {
         player.body.velocity.x = -300;
-        player.animations.play('walkL', 10, true);
         if (facing !== "left") // Se il player è rivolto a sinistra
-        {  
+        {
             facing = "left";
         }
     }
@@ -387,7 +385,6 @@ function update () {
     else if (cursors.right.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
     {
         player.body.velocity.x = 300;
-        player.animations.play('walkR', 10, true);
         if (facing !== "right") // Se il player è rivolto a destra
         {
           facing = "right";
@@ -404,6 +401,25 @@ function update () {
         player.frame = 12;
     }
 
+//Animazioni
+if (player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
+  player.animations.play('walkR', 10, true);
+}
+
+if (player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
+  player.animations.play('walkL', 10, true);
+}
+
+if (player.body.velocity.y < -10 && facing === "right") {  //salto dx
+  player.frame = 3;
+}
+if (player.body.velocity.y < -10 && facing === "left") {  //Salto sx
+  player.frame = 8;
+}
+
+
+
+
     // Salto con funzione di potenza variabile
     if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
     {
@@ -412,14 +428,14 @@ function update () {
             showingControlsTutorial = false;
             controlsTutorialUI.kill();
         }
-        player.body.velocity.y = -500;
-        jumpPower = jumpPower + .2;
+        player.body.velocity.y = -650;
+        jumpPower = jumpPower + .3;
     }
     else
     {
         jumpPower = 0;
     }
-        
+
 
     // Scivolamento
     if (player.body.touching.down) {
@@ -441,7 +457,7 @@ function update () {
             {
                 menuOpen = true; // Cambia lo stato della variabile.
                 console.log('Menu was opened');
-    
+
                 // Crea gli sprite che mostrano le opzioni (la grafica) del menu
                 menuOption1 = game.add.sprite(180, 170, 'option1');
                 menuOption1.fixedToCamera = true;
@@ -452,7 +468,7 @@ function update () {
                 menuOption3 = game.add.sprite(696, 170, 'option3');
                 menuOption3.fixedToCamera = true;
                 menuOption3.cameraOffset.setTo(696, 170);
-    
+
                 // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
                 if (optionSelected == 1)
                 {
@@ -481,9 +497,9 @@ function update () {
                 menuOption2.kill(); // Kill della grafica.
                 menuOption3.kill(); // Kill della grafica.
             }
-            
+
         }
-        
+
     } else
     menuButtonIsPressed = false;
 
@@ -570,7 +586,7 @@ function enableInteraction() {
         interactionPointLabelShown = false;
         interactionPointLabel.kill();
     }
-    
+
 }
 
 function render () {
