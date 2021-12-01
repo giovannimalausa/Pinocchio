@@ -22,7 +22,7 @@ function preload() {
 
     game.load.crossOrigin = 'anonymous';
 
-    game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_v1.png', 128, 100, 14);
+    game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet2.png', 200, 150, 74);
     game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
     game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
@@ -304,12 +304,21 @@ function create() {
 
     // Player
     player = game.add.sprite(450, 1800, 'pinocchio');
-    player.animations.add('walkR', [0, 1, 2, 3, 4, 5]); // Animazione camminata verso dx
-    player.animations.add('walkL', [6, 7, 8, 9, 10, 11]); // Animazione camminata verso sx
+    player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7]); // Animazione camminata verso dx
+    player.animations.add('walkL', [8, 9, 10, 11, 12, 13, 14, 15]); // Animazione camminata verso sx
+    player.animations.add('jumpR', [54, 55, 56, 57, 58], false);
+    player.animations.add('jumpL', [64, 65, 66, 67, 68], false);
+    player.animations.add('dropR', [59, 59, 60, 61, 62, 63]);
+    player.animations.add('dropL', [69, 69, 70, 71, 72, 73]);
+    player.animations.add('skidR', [32, 33]);
+    player.animations.add('skidL', [34, 35]);
+    player.animations.add('walkFireR', [16, 17, 18, 19, 20, 21, 22, 23]);
+    player.animations.add('walkfireL', [24, 25, 26, 27, 28, 29, 30, 31]);
+
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 2000;
-    player.body.setSize(80, 100, 20, 0); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
+    player.body.setSize(100, 120, 50, 15); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
 
     // Enemy
     enemy = game.add.sprite(650, 1800, 'marionettaBomba');
@@ -333,7 +342,7 @@ function create() {
   gun1 = game.add.weapon(50, 'bullet')
   gun1.trackSprite(player);
   gun1.fireRate = 50;
-  gun1.fireAngle = 0;
+  //gun1.fireAngle = 0;
   gun1.bulletSpeed = 700;
 
     // Tutorial
@@ -436,14 +445,16 @@ function update () {
         }
     }
 
-    else if (facing === "left") //Frame = 13 SE player rivolto a sinistra
+  if (facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100) //Frame = 13 SE player rivolto a sinistra
     {
-        player.frame = 13;
+        player.frame = 37;
+        //gun1.fireAngle = 180;
     }
 
-    else // Frame = 12 SE player rivolto a destra
+  if (facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100) // Frame = 12 SE player rivolto a destra
     {
-        player.frame = 12;
+        player.frame = 36;
+        //gun1.fireAngle = 0;
     }
 
     if(fireButton.isDown) {
@@ -460,12 +471,35 @@ if (player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touch
   player.animations.play('walkL', 10, true);
 }
 
-if (player.body.velocity.y < -10 && facing === "right") {  //salto dx
-  player.frame = 3;
+if (player.body.velocity.y < -100 && facing === "right") {  //salto dx
+  player.animations.play('jumpR', 10, false);
 }
-if (player.body.velocity.y < -10 && facing === "left") {  //Salto sx
-  player.frame = 8;
+if (player.body.velocity.y < -100 && facing === "left") {  //Salto sx
+  player.animations.play('jumpL', 10, false);
 }
+
+if (player.body.velocity.y > 100 && facing === "right") {  //salto dx
+  player.animations.play('dropR', 10, false);
+}
+if (player.body.velocity.y > 100 && facing === "left") {  //Salto sx
+  player.animations.play('dropL', 10, false);
+}
+
+if (player.body.velocity.x < 100 && player.body.velocity.x > 0.1 && (player.body.onFloor() || player.body.touching.down)) {
+  player.animations.play('skidR', 10, false);
+}
+if (player.body.velocity.x > -100 && player.body.velocity.x < -0.1 && (player.body.onFloor() || player.body.touching.down)) {
+  player.animations.play('skidL', 10, false);
+}
+
+if (player.body.velocity.x > 100 && fireButton.isDown) {  //Camminata dx
+  player.animations.play('walkFireR', 10, true);
+}
+if (player.body.velocity.x < -100 && fireButton.isDown) {  //Camminata sx
+  player.animations.play('walkfireL', 10, true);
+}
+
+
 
 
 
@@ -494,6 +528,7 @@ if (player.body.velocity.y < -10 && facing === "left") {  //Salto sx
     else {
         player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
     }
+    console.log(facing)
 
     // MENU
 
