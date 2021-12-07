@@ -318,7 +318,8 @@ function create() {
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 2000;
-    player.body.setSize(100, 120, 50, 15); // Dimensione hitbox (questa linea funziona solo se inserita dopo 'game.physics.arcade.enable')
+    player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
+
 
     // Enemy
     enemy = game.add.sprite(650, 1800, 'marionettaBomba');
