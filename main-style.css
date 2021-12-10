@@ -167,10 +167,22 @@ a {
     display: inline-block;
 }
 
-.navigation {
+.credits-frame {
     position: relative;
-    left: 0;
-    bottom: 0;
+}
+
+.navigation {
+    position: absolute;
+}
+
+.credits-frame .navigation {
+    left: 100px;
+    bottom: 25px;
+}
+
+.game-frame .navigation {
+    left: 100px;
+    bottom: 25px;
 }
 
 .icon {
@@ -179,6 +191,4 @@ a {
     background-color: var(--main-color);
     border-radius: 50%;
     display: inline-block;
-    margin-left: 100px;
-    margin-top: 35px;
 }
