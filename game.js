@@ -35,7 +35,8 @@ function preload() {
 
     game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
 
-    game.load.image('modulo2x2', 'assets/global/Modulo 2x2.png');
+    game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
+    game.load.image('modulo1x1', 'assets/global/Modulo1x1.png');
 
     game.load.image('platform2x1', 'assets/global/Size=2x1.png');
     game.load.image('platform3x1', 'assets/global/Size=3x1.png');
@@ -49,6 +50,7 @@ function preload() {
     game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
     game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
     game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
+
     // Level 1
     game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
     game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
@@ -67,6 +69,13 @@ function preload() {
     game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
     game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
     game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
+    game.load.image('level2_pavimento1', 'assets/levelTwo/pavimento1.png');
+    game.load.image('level2_pavimento2', 'assets/levelTwo/pavimento2.png');
+    game.load.image('level2_pavimento3', 'assets/levelTwo/pavimento3.png');
+    game.load.image('level2_pavimento4', 'assets/levelTwo/pavimento4.png');
+    game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera@72x.png');
+
+
 
     // Level 3
     // Piattaforme e pavimento del livello 3
@@ -96,6 +105,7 @@ var showingControlsTutorial = true;
 var facing = "right";
 var jumpPower = 0;
 var onInteraction = false;
+var enablePlayerMovement = true;
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
 
@@ -111,6 +121,8 @@ var deathGap4x;
 var deathGap5x;
 var deathGap6x;
 var deathGap7x;
+var modulo1x1;
+var modulo2x2;
 
 // Variabili livello 1
 var level1_floor;
@@ -119,7 +131,6 @@ var level1_platform3x1;
 var level1_platform4x1;
 var level1_platform5x1;
 var level1_platform6x1;
-var level1_modulo2x2;
 var placeholder_CasaGeppetto;
 var interactionPoint;
 var interactionPointLabel;
@@ -133,12 +144,18 @@ var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
 
 // Variabili livello 2
+var i = 0;
+var mongolfieraUsed = false;
 var level2_calpestabile;
 var level2_cielo;
 var level2_collineRosse;
 var level2_collineGialle;
-
-
+var level2_pavimento1;
+var level2_pavimento2;
+var level2_pavimento3;
+var level2_pavimento4;
+var level2_mongolfiera;
+var onMongolfiera = false;
 
 // Variabili livello 3
 var floor;
@@ -199,6 +216,9 @@ function create() {
 
     // Elementi livelli
 
+    modulo2x2 = game.add.physicsGroup();
+    modulo1x1 = game.add.physicsGroup();
+
         // Livello 1
         if(levelPlaying == 1)
         {
@@ -214,16 +234,14 @@ function create() {
             interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
             game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
 
-
-            level1_modulo2x2 = game.add.physicsGroup();
-            level1_modulo2x2.create(550, 2100, 'modulo2x2');
-            level1_modulo2x2.create(3750, 2100, 'modulo2x2');
-            level1_modulo2x2.create(4450, 2100, 'modulo2x2');
-            level1_modulo2x2.create(4650, 2100, 'modulo2x2');
-            level1_modulo2x2.create(4650, 2000, 'modulo2x2');
-            level1_modulo2x2.create(4900, 2100, 'modulo2x2');
-            level1_modulo2x2.create(16000, 2100, 'modulo2x2');
-            level1_modulo2x2.setAll('body.immovable', true);
+            modulo2x2.create(550, 2100, 'modulo2x2');
+            modulo2x2.create(3750, 2100, 'modulo2x2');
+            modulo2x2.create(4450, 2100, 'modulo2x2');
+            modulo2x2.create(4650, 2100, 'modulo2x2');
+            modulo2x2.create(4650, 2000, 'modulo2x2');
+            modulo2x2.create(4900, 2100, 'modulo2x2');
+            modulo2x2.create(16000, 2100, 'modulo2x2');
+            modulo2x2.setAll('body.immovable', true);
 
             level1_platform2x1 = game.add.physicsGroup();
             level1_platform2x1.create(3900, 1900, 'platform2x1');
@@ -291,9 +309,79 @@ function create() {
         if(levelPlaying == 2)
         {
             level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
-            level2_collineGialle = game.add.sprite(-690.1809, 1652.8803, 'level2_collineGialle');
-            level2_collineRosse = game.add.sprite(-1800.8767, 1557.7629, 'level2_collineRosse');
+            level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
+            level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
             level2_calpestabile = game.add.sprite(0, 0, 'level2_calpestabile');
+
+            level2_pavimento1 = game.add.physicsGroup();
+            level2_pavimento1.create(0, 2200, 'level2_pavimento1');
+            level2_pavimento1.alpha = 0;
+            level2_pavimento1.setAll('body.immovable', true);
+
+            level2_pavimento2 = game.add.physicsGroup();
+            level2_pavimento2.create(1709, 2200, 'level2_pavimento2');
+            level2_pavimento2.alpha = 0;
+            level2_pavimento2.setAll('body.immovable', true);
+
+            level2_pavimento3 = game.add.physicsGroup();
+            level2_pavimento3.create(3321, 2200, 'level2_pavimento3');
+            level2_pavimento3.alpha = 0;
+            level2_pavimento3.setAll('body.immovable', true);
+
+            level2_pavimento4 = game.add.physicsGroup();
+            level2_pavimento4.create(4426, 2200, 'level2_pavimento3');
+            level2_pavimento4.alpha = 0;
+            level2_pavimento4.setAll('body.immovable', true);
+
+            // Moduli 1x1
+            // modulo1x1 = game.add.physicsGroup();
+            modulo1x1.create(1080, 1900, 'modulo1x1');
+            modulo1x1.create(1130, 1900, 'modulo1x1');
+            modulo1x1.create(1180, 1900, 'modulo1x1');
+            modulo1x1.create(1230, 1900, 'modulo1x1');
+            modulo1x1.create(1280, 1900, 'modulo1x1');
+            modulo1x1.create(1612, 1989, 'modulo1x1');
+            modulo1x1.create(1662, 1989, 'modulo1x1');
+            modulo1x1.create(1712, 1989, 'modulo1x1');
+            modulo1x1.create(1762, 1989, 'modulo1x1');
+            modulo1x1.create(1812, 1989, 'modulo1x1');
+            modulo1x1.create(1862, 1989, 'modulo1x1');
+            modulo1x1.create(3126, 1679, 'modulo1x1');
+            modulo1x1.create(3176, 1679, 'modulo1x1');
+            modulo1x1.create(3325, 1826, 'modulo1x1');
+            modulo1x1.create(3375, 1826, 'modulo1x1');
+            modulo1x1.create(3425, 1826, 'modulo1x1');
+            modulo1x1.create(3651, 1950, 'modulo1x1');
+            modulo1x1.create(3701, 1950, 'modulo1x1');
+            modulo1x1.create(3751, 1950, 'modulo1x1');
+            modulo1x1.create(3972, 2000, 'modulo1x1');
+            modulo1x1.create(4022, 2000, 'modulo1x1');
+            modulo1x1.create(4072, 2000, 'modulo1x1');
+            modulo1x1.create(4122, 2000, 'modulo1x1');
+            modulo1x1.create(4172, 2000, 'modulo1x1');
+            modulo1x1.create(4222, 2000, 'modulo1x1');
+            modulo1x1.create(4945, 1588, 'modulo1x1');
+            modulo1x1.create(4995, 1588, 'modulo1x1');
+            modulo1x1.create(5045, 1588, 'modulo1x1');
+            modulo1x1.create(5095, 1588, 'modulo1x1');
+            modulo1x1.create(5145, 1588, 'modulo1x1');
+            modulo1x1.create(5195, 1588, 'modulo1x1');
+            modulo1x1.setAll('body.immovable', true);
+
+            // Moduli 2x2
+            // modulo2x2 = game.add.physicsGroup();
+            modulo2x2.create(550, 2100, 'modulo2x2');
+            modulo2x2.create(750, 2100, 'modulo2x2');
+            modulo2x2.create(750, 2000, 'modulo2x2');
+            modulo2x2.create(2979, 2100, 'modulo2x2');
+            modulo2x2.create(3321, 2100, 'modulo2x2');
+            modulo2x2.setAll('body.immovable', true);
+
+            // Interattivi
+            level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
+            game.physics.arcade.enable(level2_mongolfiera);
+            level2_mongolfiera.body.setSize(105, 100, 277, 883);
+
         }
 
 
@@ -337,7 +425,7 @@ function create() {
     }
 
     // Player
-    player = game.add.sprite(450, 1800, 'pinocchio');
+    player = game.add.sprite(4000  , 1800, 'pinocchio');
     animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
     animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
     animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -375,16 +463,16 @@ function create() {
 
 
 
-                // Armi
-      // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
-  //  bullets = game.add.group();
-  //  bullets.enableBody = true;
-  //  bullets.physicsBodyType = Phaser.Physics.ARCADE;
-  //  bullets.createMultiple(50, 'bullet');
-  //  bullets.setAll('anchor.x', 0.5);
-  //  bullets.setAll('anchor.y', 0.5);
-  //  bullets.setAll('outOfBoundKill', true);
-  //  bullets.setAll('checkWorldBounds', true);
+                    // Armi
+        // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
+    //  bullets = game.add.group();
+    //  bullets.enableBody = true;
+    //  bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    //  bullets.createMultiple(50, 'bullet');
+    //  bullets.setAll('anchor.x', 0.5);
+    //  bullets.setAll('anchor.y', 0.5);
+    //  bullets.setAll('outOfBoundKill', true);
+    //  bullets.setAll('checkWorldBounds', true);
 
      // FUNZIONE DI SPARO CON PHASER.WEAPON
   gun1 = game.add.weapon(50, 'bullet')
@@ -396,7 +484,7 @@ function create() {
 
 
     // Tutorial
-     if(showingControlsTutorial == true)  {
+    if(showingControlsTutorial == true)  {
         controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
         controlsTutorialUI.fixedToCamera = true;
         controlsTutorialUI.cameraOffset.setTo(0, 0);
@@ -447,21 +535,82 @@ function update () {
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(player, floor);
     game.physics.arcade.collide(enemy, level1_floor );
-    game.physics.arcade.collide(player, level1_modulo2x2);
-    game.physics.arcade.collide(player, level1_platform2x1);
-    game.physics.arcade.collide(player, level1_platform5x1);
-    game.physics.arcade.collide(player, level1_platform6x1);
-    game.physics.arcade.collide(player, level1_casa1);
-    game.physics.arcade.collide(player, level1_casa2);
-    game.physics.arcade.collide(player, level1_casa3_hitbox);
-    game.physics.arcade.collide(player, level1_casa3_balcone);
-    game.physics.arcade.collide(player, level1_casa4_tettoia);
+    game.physics.arcade.collide(player, modulo1x1);
+    game.physics.arcade.collide(player, modulo2x2);
+
+    if (levelPlaying == 1) {
+        game.physics.arcade.collide(player, level1_platform2x1);
+        game.physics.arcade.collide(player, level1_platform5x1);
+        game.physics.arcade.collide(player, level1_platform6x1);
+        game.physics.arcade.collide(player, level1_casa1);
+        game.physics.arcade.collide(player, level1_casa2);
+        game.physics.arcade.collide(player, level1_casa3_hitbox);
+        game.physics.arcade.collide(player, level1_casa3_balcone);
+        game.physics.arcade.collide(player, level1_casa4_tettoia);
+    }
+
+    if (levelPlaying == 2) {
+        game.physics.arcade.collide(player, level2_pavimento1);
+        game.physics.arcade.collide(player, level2_pavimento2);
+        game.physics.arcade.collide(player, level2_pavimento3);
+        game.physics.arcade.collide(player, level2_pavimento4);
+    }
+
+    // Overlap e interazioni con oggetti interattivi
+    if (levelPlaying == 2) {
+
+        // Mongolfiera automatizzata
+        function mongolfiera() {
+            if (onMongolfiera == false && mongolfieraUsed == false) {
+                onMongolfiera = true;
+            }
+
+            while (onMongolfiera == true && i == 0) {
+                i = i + 1;
+                enablePlayerMovement = false;
+                player.body.velocity.x = 0;
+                player.body.velocity.y = 0;
+                player.body.gravity.y = 0;
+                player.x = 4420;
+                player.y = 1960;
+                level2_mongolfiera.body.velocity.y = -100;
+                player.body.velocity.y = -100;
+            }
+
+        }
+
+        if (onMongolfiera == true && jumpButton.isDown) { // La barra spaziatrice "slega" il Player dalla Mongolfiera. Salta verso destra.
+            onMongolfiera = false;
+            mongolfieraUsed = true;
+            enablePlayerMovement = true;
+            player.body.gravity.y = 2000;
+            player.body.velocity.x = 450;
+            player.body.velocity.y = -850;
+        }
+
+        game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera); // Interazione tra Player e Mongolfiera
+
+    }
+
+    console.log('enablePlayerMovement: ' + enablePlayerMovement);
+    console.log('onMongolfiera: ' + onMongolfiera);
+
+
 
     // Player shadow offset
     shadow.x = player.x+350;
     shadow.y = player.y+200;
 
     // Parallasse sfondi
+
+
+    if(levelPlaying == 2)
+    {
+        level2_cielo.x = game.camera.x*(-0.005);
+        level2_collineGialle.x = game.camera.x*(-0.025);
+        level2_collineRosse.x = game.camera.x*(-0.04);
+    }
+
     if(levelPlaying == 3)
     {
         level3_layer1.x = game.camera.x*(-0.25);
@@ -476,7 +625,7 @@ function update () {
     game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
     // Controls
-    if (cursors.left.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
+    if (cursors.left.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
     {
         player.body.velocity.x = -300;
         if (facing !== "left") // Se il player è rivolto a sinistra
@@ -485,7 +634,7 @@ function update () {
         }
     }
 
-    else if (cursors.right.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
+    else if (cursors.right.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
     {
         player.body.velocity.x = 300;
         if (facing !== "right") // Se il player è rivolto a destra
@@ -497,13 +646,13 @@ function update () {
     //Animazioni
   if (facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) //SE player rivolto a sinistra
     {
-      //  player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
+        player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
         if (fireButton.isDown) {
           player.animations.play('fireL', 15)
         }
     } else if (player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) // player rivolto a destra
     {
-      //  player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
+        player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
         if (fireButton.isDown) {
           player.animations.play('fireR', 15)
         }
@@ -557,6 +706,12 @@ if (facing === 'right') {
 }
 //console.log(player.animations.frame);
 
+    if (player.body.velocity.x > 100 && fireButton.isDown) {  //Camminata dx
+    player.animations.play('walkFireR', 10, true);
+    }
+    if (player.body.velocity.x < -100 && fireButton.isDown) {  //Camminata sx
+    player.animations.play('walkfireL', 10, true);
+    }
 
 
     // Salto con funzione di potenza variabile
@@ -581,7 +736,7 @@ if (facing === 'right') {
         player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
       }
     else {
-        player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
+        player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
     //console.log(facing)
 
