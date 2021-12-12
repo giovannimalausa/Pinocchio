@@ -322,6 +322,7 @@ function create() {
 
 
     // Enemy
+    //enemy = game.add.physicsgroup()
     enemy = game.add.sprite(650, 1800, 'marionettaBomba');
     enemy = game.add.sprite(850, 1800, 'marionettaBomba');
     game.physics.arcade.enable(enemy);
@@ -343,7 +344,7 @@ function create() {
   gun1 = game.add.weapon(50, 'bullet')
   gun1.trackSprite(player);
   gun1.fireRate = 50;
-  //gun1.fireAngle = 0;
+  gun1.fireAngle = 0;
   gun1.bulletSpeed = 700;
 
     // Tutorial
@@ -449,13 +450,13 @@ function update () {
   if (facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100) //Frame = 13 SE player rivolto a sinistra
     {
         player.frame = 37;
-        //gun1.fireAngle = 180;
+        gun1.fireAngle = 180;
     }
 
   if (facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100) // Frame = 12 SE player rivolto a destra
     {
         player.frame = 36;
-        //gun1.fireAngle = 0;
+        gun1.fireAngle = 0;
     }
 
     if(fireButton.isDown) {
