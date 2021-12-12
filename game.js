@@ -551,7 +551,7 @@ function update () {
 
         }
 
-        if (onMongolfiera == true && jumpButton.isDown) {
+        if (onMongolfiera == true && jumpButton.isDown) { // La barra spaziatrice "slega" il Player dalla Mongolfiera. Salta verso destra.
             onMongolfiera = false;
             mongolfieraUsed = true;
             enablePlayerMovement = true;
@@ -560,8 +560,7 @@ function update () {
             player.body.velocity.y = -850;
         }
 
-        game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera);
-        
+        game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera); // Interazione tra Player e Mongolfiera
 
     }
 
