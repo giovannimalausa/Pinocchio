@@ -105,6 +105,7 @@ var showingControlsTutorial = true;
 var facing = "right";
 var jumpPower = 0;
 var onInteraction = false;
+var enablePlayerMovement = true;
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
 
@@ -143,6 +144,8 @@ var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
 
 // Variabili livello 2
+var i = 0;
+var mongolfieraUsed = false;
 var level2_calpestabile;
 var level2_cielo;
 var level2_collineRosse;
@@ -152,6 +155,7 @@ var level2_pavimento2;
 var level2_pavimento3;
 var level2_pavimento4;
 var level2_mongolfiera;
+var onMongolfiera = false;
 
 // Variabili livello 3
 var floor;
@@ -407,7 +411,7 @@ function create() {
     }
 
     // Player
-    player = game.add.sprite(200  , 1800, 'pinocchio');
+    player = game.add.sprite(4000  , 1800, 'pinocchio');
     player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7]); // Animazione camminata verso dx
     player.animations.add('walkL', [8, 9, 10, 11, 12, 13, 14, 15]); // Animazione camminata verso sx
     player.animations.add('jumpR', [54, 55, 56, 57, 58], false);
@@ -529,25 +533,40 @@ function update () {
         
         // Mongolfiera automatizzata
         function mongolfiera() {
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            player.body.gravity.y = 0;
-            player.x = 4420;
-            player.y = 1960;
-            level2_mongolfiera.body.velocity.y = -100;
-            player.body.velocity.y = -100;
-
-            if (jumpButton.isDown) {
-                player.body.gravity.y = 2000;
-                player.body.velocity.x = 300;
-                player.body.velocity.y = -650;
+            if (onMongolfiera == false && mongolfieraUsed == false) { 
+                onMongolfiera = true;
             }
+
+            while (onMongolfiera == true && i == 0) {
+                i = i + 1;
+                enablePlayerMovement = false;
+                player.body.velocity.x = 0;
+                player.body.velocity.y = 0;
+                player.body.gravity.y = 0;
+                player.x = 4420;
+                player.y = 1960;
+                level2_mongolfiera.body.velocity.y = -100;
+                player.body.velocity.y = -100;
+            }
+
         }
+
+        if (onMongolfiera == true && jumpButton.isDown) {
+            onMongolfiera = false;
+            mongolfieraUsed = true;
+            enablePlayerMovement = true;
+            player.body.gravity.y = 2000;
+            player.body.velocity.x = 450;
+            player.body.velocity.y = -850;
+        }
+
         game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera);
         
 
     }
 
+    console.log('enablePlayerMovement: ' + enablePlayerMovement);
+    console.log('onMongolfiera: ' + onMongolfiera);
 
     
 
@@ -579,7 +598,7 @@ function update () {
     game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
     // Controls
-    if (cursors.left.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
+    if (cursors.left.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
     {
         player.body.velocity.x = -300;
         if (facing !== "left") // Se il player è rivolto a sinistra
@@ -588,7 +607,7 @@ function update () {
         }
     }
 
-    else if (cursors.right.isDown && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
+    else if (cursors.right.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
     {
         player.body.velocity.x = 300;
         if (facing !== "right") // Se il player è rivolto a destra
@@ -597,13 +616,13 @@ function update () {
         }
     }
 
-  if (facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100) //Frame = 13 SE player rivolto a sinistra
+    if (facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100) //Frame = 13 SE player rivolto a sinistra
     {
         player.frame = 37;
         //gun1.fireAngle = 180;
     }
 
-  if (facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100) // Frame = 12 SE player rivolto a destra
+    if (facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100) // Frame = 12 SE player rivolto a destra
     {
         player.frame = 36;
         //gun1.fireAngle = 0;
@@ -614,46 +633,42 @@ function update () {
       gun1.fire()
     }
 
-//Animazioni
-if (player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
-  player.animations.play('walkR', 10, true);
-}
+    //Animazioni
+    if (player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
+    player.animations.play('walkR', 10, true);
+    }
 
-if (player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
-  player.animations.play('walkL', 10, true);
-}
+    if (player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
+    player.animations.play('walkL', 10, true);
+    }
 
-if (player.body.velocity.y < -100 && facing === "right") {  //salto dx
-  player.animations.play('jumpR', 10, false);
-}
-if (player.body.velocity.y < -100 && facing === "left") {  //Salto sx
-  player.animations.play('jumpL', 10, false);
-}
+    if (player.body.velocity.y < -100 && facing === "right") {  //salto dx
+    player.animations.play('jumpR', 10, false);
+    }
+    if (player.body.velocity.y < -100 && facing === "left") {  //Salto sx
+    player.animations.play('jumpL', 10, false);
+    }
 
-if (player.body.velocity.y > 100 && facing === "right") {  //salto dx
-  player.animations.play('dropR', 10, false);
-}
-if (player.body.velocity.y > 100 && facing === "left") {  //Salto sx
-  player.animations.play('dropL', 10, false);
-}
+    if (player.body.velocity.y > 100 && facing === "right") {  //salto dx
+    player.animations.play('dropR', 10, false);
+    }
+    if (player.body.velocity.y > 100 && facing === "left") {  //Salto sx
+    player.animations.play('dropL', 10, false);
+    }
 
-if (player.body.velocity.x < 100 && player.body.velocity.x > 0.1 && (player.body.onFloor() || player.body.touching.down)) {
-  player.animations.play('skidR', 10, false);
-}
-if (player.body.velocity.x > -100 && player.body.velocity.x < -0.1 && (player.body.onFloor() || player.body.touching.down)) {
-  player.animations.play('skidL', 10, false);
-}
+    if (player.body.velocity.x < 100 && player.body.velocity.x > 0.1 && (player.body.onFloor() || player.body.touching.down)) {
+    player.animations.play('skidR', 10, false);
+    }
+    if (player.body.velocity.x > -100 && player.body.velocity.x < -0.1 && (player.body.onFloor() || player.body.touching.down)) {
+    player.animations.play('skidL', 10, false);
+    }
 
-if (player.body.velocity.x > 100 && fireButton.isDown) {  //Camminata dx
-  player.animations.play('walkFireR', 10, true);
-}
-if (player.body.velocity.x < -100 && fireButton.isDown) {  //Camminata sx
-  player.animations.play('walkfireL', 10, true);
-}
-
-
-
-
+    if (player.body.velocity.x > 100 && fireButton.isDown) {  //Camminata dx
+    player.animations.play('walkFireR', 10, true);
+    }
+    if (player.body.velocity.x < -100 && fireButton.isDown) {  //Camminata sx
+    player.animations.play('walkfireL', 10, true);
+    }
 
 
     // Salto con funzione di potenza variabile
@@ -675,12 +690,12 @@ if (player.body.velocity.x < -100 && fireButton.isDown) {  //Camminata sx
 
     // Scivolamento
     if (player.body.touching.down) {
-        player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
+        player.body.velocity.x = (0.85 *  player.body.velocity.x);
       }
     else {
-        player.body.velocity.x = (0.97 *  player.body.velocity.x) ;
+        player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
-    console.log(facing)
+    // console.log(facing);
 
     // MENU
 
