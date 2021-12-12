@@ -291,8 +291,8 @@ function create() {
         if(levelPlaying == 2)
         {
             level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
-            level2_collineGialle = game.add.sprite(-690.1809, 1652.8803, 'level2_collineGialle');
-            level2_collineRosse = game.add.sprite(-1800.8767, 1557.7629, 'level2_collineRosse');
+            level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
+            level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
             level2_calpestabile = game.add.sprite(0, 0, 'level2_calpestabile');
 
             level2_pavimento1 = game.add.physicsGroup();
@@ -556,6 +556,15 @@ function update () {
     shadow.y = player.y+200;
 
     // Parallasse sfondi
+    
+
+    if(levelPlaying == 2)
+    {
+        level2_cielo.x = game.camera.x*(-0.005);
+        level2_collineGialle.x = game.camera.x*(-0.025);
+        level2_collineRosse.x = game.camera.x*(-0.04);
+    }
+
     if(levelPlaying == 3)
     {
         level3_layer1.x = game.camera.x*(-0.25);
