@@ -14,7 +14,7 @@
 
 
 
-var game = new Phaser.Game(1024, 768, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'main-frame', { preload: preload, create: create, update: update, render: render });
 
 // ++++++++++ PRELOAD ++++++++++
 
@@ -49,7 +49,7 @@ function preload() {
     game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
     game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
     game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
-    // Livello 1
+    // Level 1
     game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
     game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
     game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
@@ -62,8 +62,13 @@ function preload() {
     game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
     game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
 
+    // Level 2
+    game.load.image('level2_calpestabile', 'assets/levelTwo/calpestabile_fisso@72x.png');
+    game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
+    game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
+    game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
 
-
+    // Level 3
     // Piattaforme e pavimento del livello 3
     game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
     game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
@@ -95,7 +100,7 @@ var interactionEnabled = false;
 var interactionPointLabelShown = false;
 
 // Variabili scelta livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 
 // Variabili globali
 var controlsTutorialUI;
@@ -126,6 +131,13 @@ var level1_casa3_hitbox;
 var level1_casa4;
 var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
+
+// Variabili livello 2
+var level2_calpestabile;
+var level2_cielo;
+var level2_collineRosse;
+var level2_collineGialle;
+
 
 
 // Variabili livello 3
@@ -262,6 +274,14 @@ function create() {
         }
 
         // Livello 2
+        if(levelPlaying == 2)
+        {
+            level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
+            level2_collineGialle = game.add.sprite(-690.1809, 1652.8803, 'level2_collineGialle');
+            level2_collineRosse = game.add.sprite(-1800.8767, 1557.7629, 'level2_collineRosse');
+            level2_calpestabile = game.add.sprite(0, 0, 'level2_calpestabile');
+        }
+
 
         // Livello 3 (circo)
         if(levelPlaying == 3)
