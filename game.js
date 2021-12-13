@@ -144,8 +144,6 @@ var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
 
 // Variabili livello 2
-var i = 0;
-var mongolfieraUsed = false;
 var level2_calpestabile;
 var level2_cielo;
 var level2_collineRosse;
@@ -156,6 +154,10 @@ var level2_pavimento3;
 var level2_pavimento4;
 var level2_mongolfiera;
 var onMongolfiera = false;
+var i = 0;
+var mongolfieraUsed = false;
+var movimentoMongolfiera1;
+
 
 // Variabili livello 3
 var floor;
@@ -368,6 +370,14 @@ function create() {
             game.physics.arcade.enable(level2_mongolfiera);
             level2_mongolfiera.body.setSize(105, 100, 277, 883);
 
+            movimentoMongolfiera1 = game.add.tween(level2_mongolfiera).to({ y: 600}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true);
+
+            level2_piattaformaMongolfiera = game.add.physicsGroup();
+            level2_piattaformaMongolfiera.create(4449, 2100, 'modulo2x2');
+            movimentoPiattaformaMongolfiera = game.add.tween(level2_piattaformaMongolfiera).to({ y: -617}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true) // y: 1483
+            level2_piattaformaMongolfiera.setAll('body.immovable', true);
+
+
         }
 
 
@@ -499,6 +509,9 @@ function updateCounter() { // [non in uso]
 
 function update () {
 
+    console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
+    // console.log(level2_mongolfiera.body.x + ' ' + level2_mongolfiera.body.y);
+
     // TIME
     gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
@@ -526,6 +539,7 @@ function update () {
         game.physics.arcade.collide(player, level2_pavimento2);
         game.physics.arcade.collide(player, level2_pavimento3);
         game.physics.arcade.collide(player, level2_pavimento4);
+        game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
     }
 
     // Overlap e interazioni con oggetti interattivi
@@ -542,11 +556,8 @@ function update () {
                 enablePlayerMovement = false;
                 player.body.velocity.x = 0;
                 player.body.velocity.y = 0;
-                player.body.gravity.y = 0;
                 player.x = 4420;
                 player.y = 1960;
-                level2_mongolfiera.body.velocity.y = -100;
-                player.body.velocity.y = -100;
             }
 
         }
@@ -560,12 +571,12 @@ function update () {
             player.body.velocity.y = -850;
         }
 
-        game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera); // Interazione tra Player e Mongolfiera
+        // game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera); // Interazione tra Player e Mongolfiera
 
     }
 
-    console.log('enablePlayerMovement: ' + enablePlayerMovement);
-    console.log('onMongolfiera: ' + onMongolfiera);
+    // console.log('enablePlayerMovement: ' + enablePlayerMovement);
+    // console.log('onMongolfiera: ' + onMongolfiera);
 
     
 
@@ -857,4 +868,5 @@ function killEnemy(p, e) {
 //}
 
 function render () {
+    // game.debug.body(level2_mongolfiera);
 }
