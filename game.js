@@ -596,12 +596,12 @@ function update () {
     if (levelPlaying == 2) {
         game.physics.arcade.collide(player, level2_pavimento1, landingCallback, landingProcessCallback, this);
         game.physics.arcade.collide(player, level2_pavimento1);
-
         game.physics.arcade.collide(player, level2_pavimento2);
         game.physics.arcade.collide(player, level2_pavimento3);
         game.physics.arcade.collide(player, level2_pavimento4);
 
         game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
+        game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
 
         game.physics.arcade.collide(enemy, level2_pavimento1);
         game.physics.arcade.collide(enemy, level2_pavimento2);
@@ -651,8 +651,6 @@ function update () {
     shadow.y = player.y+200;
 
     // Parallasse sfondi
-
-
     if(levelPlaying == 2)
     {
         level2_cielo.x = game.camera.x*(-0.005);
