@@ -220,6 +220,8 @@ var animFireL;
 var isFiring = false;
 var isJumping = false;
 var dustJump = false;
+var enemyIndex;
+var child1;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
@@ -444,7 +446,7 @@ function create() {
     }
 
     // Player
-    player = game.add.sprite(200  , 1800, 'pinocchio');
+    player = game.add.sprite(2000  , 1800, 'pinocchio');
     animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
     animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
     animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -472,19 +474,22 @@ function create() {
     player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
     player.health = 10;
 
-    //dust.animations.play('dustJumpR', 10, false)
 
 
 
     // Enemy
     enemy = game.add.physicsGroup();
-    enemy.create(2200, 1800, 'marionettaBomba');
-    enemy.create(2400, 1800, 'marionettaBomba');
+  //  enemy.create(2200, 1800, 'marionettaBomba');
+  //  enemy.create(2400, 1800, 'marionettaBomba');
+  //  enemy.create(2600, 1800, 'marionettaBomba');
+  child1 = enemy.create(2800, 1800, 'marionettaBomba');
+  child1 = enemy.create(3000, 1800, 'marionettaBomba');
+
     game.physics.arcade.enable(enemy);
-    enemy.setAll('body.gravity.y', 2000);
-    enemy.setAll('body.collideWorldBounds', true);
-    enemy.health = 3;
-    //enemy.set([1], 'body.velocity.x', 200); //Dovrebbe... ma non funziona
+    enemy.setAll('health', 3);
+  //  enemy.getChildAt(0).body.velocity.x = 100;
+
+
 
 
 
@@ -563,8 +568,9 @@ function updateCounter() { // [non in uso]
 
 function update () {
     //  console.log(isJumping);
-    console.log(player.health);
-    console.log(enemy.health);
+  //  console.log(player.health);
+  //  console.log(enemy.getChildAt(0).health);
+
 
 //  console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
     // console.log(level2_mongolfiera.body.x + ' ' + level2_mongolfiera.body.y);
@@ -743,12 +749,9 @@ if (player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing ===
   player.animations.play('skidL', 10, false);
 }
 
-//manca animazione dell'atterraggio
-
 if (player.body.velocity.y < -100) {
   isJumping = true;
 }
-
 
 
 
@@ -782,7 +785,6 @@ if (facing === 'right') {
         jumpPower = 0;
     }
 
-
     // Scivolamento
     if (player.body.touching.down || player.body.onFloor()) {
         player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
@@ -791,6 +793,30 @@ if (facing === 'right') {
         player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
     //console.log(facing)
+    enemyIndex = enemy.getChildIndex(child1);
+    console.log(enemy.getChildIndex(child1));
+
+//console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
+
+//ENEMY ENEMIES
+    if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x > player.x) {
+      enemy.getChildAt(0).body.velocity.x = -100;
+    }
+     else if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x < player.x) {
+      enemy.getChildAt(0).body.velocity.x = 100;
+    }
+
+    if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(1)) < 600 && enemy.getChildAt(1).x > player.x) {
+      enemy.getChildAt(1).body.velocity.x = -100;
+    }
+    else if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(1)) < 600 && enemy.getChildAt(1).x < player.x) {
+      enemy.getChildAt(1).body.velocity.x = 100;
+    }
+
+
+    enemy.setAll('body.gravity.y', 2000);
+    enemy.setAll('body.collideWorldBounds', true);
+
 
     // MENU
 
@@ -942,7 +968,10 @@ function touchEnemy(player, enemy) {
 
 function shootEnemy(bullets, enemy) {
     bullets.kill();
-    //enemy.kill();
+    enemy.health = enemy.health - 1;
+    if (enemy.health <= 0) {
+      enemy.kill();
+    }
 }
 
 function isFiringTrue() {
