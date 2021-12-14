@@ -215,11 +215,11 @@ var animWalkFireL;
 var animFireR;
 var animFireL;
 
-var dustJumpR;
 
 
 var isFiring = false;
 var isJumping = false;
+var dustJump = false;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
@@ -401,7 +401,6 @@ function create() {
             movimentoPiattaformaMongolfiera = game.add.tween(level2_piattaformaMongolfiera).to({ y: -617}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true) // y: 1483
             level2_piattaformaMongolfiera.setAll('body.immovable', true);
 
-
         }
 
 
@@ -471,7 +470,7 @@ function create() {
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 2000;
     player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-
+    player.health = 10;
 
     //dust.animations.play('dustJumpR', 10, false)
 
@@ -484,8 +483,8 @@ function create() {
     game.physics.arcade.enable(enemy);
     enemy.setAll('body.gravity.y', 2000);
     enemy.setAll('body.collideWorldBounds', true);
-    enemy.setAll('setHealth', 5)
-    enemy.set([1], 'body.velocity.x', 200); //Dovrebbe... ma non funziona
+    enemy.health = 3;
+    //enemy.set([1], 'body.velocity.x', 200); //Dovrebbe... ma non funziona
 
 
 
@@ -536,6 +535,10 @@ function create() {
     fireButton.onDown.add(isFiringTrue);
     fireButton.onUp.add(isFiringFalse);
 
+    jumpButton.onDown.add(dustJumpTrue);
+    jumpButton.onUp.add(dustJumpFalse);
+
+
     // Camera Follow
     game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
@@ -559,8 +562,11 @@ function updateCounter() { // [non in uso]
 }
 
 function update () {
+    //  console.log(isJumping);
+    console.log(player.health);
+    console.log(enemy.health);
 
-    console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
+//  console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
     // console.log(level2_mongolfiera.body.x + ' ' + level2_mongolfiera.body.y);
 
     // TIME
@@ -575,8 +581,6 @@ function update () {
     game.physics.arcade.collide(player, modulo2x2);
 
 
-
-    game
 
     if (levelPlaying == 1) {
         game.physics.arcade.collide(player, level1_platform2x1);
@@ -596,15 +600,13 @@ function update () {
         game.physics.arcade.collide(player, level2_pavimento2);
         game.physics.arcade.collide(player, level2_pavimento3);
         game.physics.arcade.collide(player, level2_pavimento4);
-<<<<<<< Updated upstream
-        game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
-=======
+
+        game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
 
         game.physics.arcade.collide(enemy, level2_pavimento1);
         game.physics.arcade.collide(enemy, level2_pavimento2);
         game.physics.arcade.collide(enemy, level2_pavimento3);
         game.physics.arcade.collide(enemy, level2_pavimento4);
->>>>>>> Stashed changes
     }
 
     // Overlap e interazioni con oggetti interattivi
@@ -640,14 +642,8 @@ function update () {
 
     }
 
-<<<<<<< Updated upstream
     // console.log('enablePlayerMovement: ' + enablePlayerMovement);
     // console.log('onMongolfiera: ' + onMongolfiera);
-
-=======
-    //console.log('enablePlayerMovement: ' + enablePlayerMovement);
-    //console.log('onMongolfiera: ' + onMongolfiera);
->>>>>>> Stashed changes
 
 
     // Player shadow offset
@@ -672,8 +668,8 @@ function update () {
 
 
     // Overlap tra player e enemy
-    //game.physics.arcade.overlap(player, enemy, killEnemy);
-    game.physics.arcade.overlap(gun1.bullets, enemy, killEnemy);
+    game.physics.arcade.overlap(player, enemy, touchEnemy);
+    game.physics.arcade.overlap(gun1.bullets, enemy, shootEnemy);
 
     // Interaction point
     game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -728,7 +724,7 @@ if (facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor()
   }
   }
 
-if (player.body.velocity.y < -100 && facing === "right") {  //salto dx
+if (player.body.velocity.y < -300 && facing === "right") {  //salto dx
   player.animations.play('jumpR', 10, false);
 }
 if (player.body.velocity.y < -100 && facing === "left") {  //Salto sx
@@ -751,9 +747,10 @@ if (player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing ===
 
 //manca animazione dell'atterraggio
 
-if (player.body.velocity.y > 100) {
+if (player.body.velocity.y < -100) {
   isJumping = true;
 }
+
 
 
 
@@ -940,8 +937,12 @@ function enableInteraction() {
     }
 
 }
+function touchEnemy(player, enemy) {
+    enemy.kill();
+  //  player.health.damage = 1;
+}
 
-function killEnemy(bullets, enemy) {
+function shootEnemy(bullets, enemy) {
     bullets.kill();
     //enemy.kill();
 }
@@ -954,6 +955,32 @@ function isFiringFalse() {
   isFiring = false;
   console.log(isFiring);
 }
+
+
+function dustJumpTrue() {
+  dustJump = true;
+  if (player.body.onFloor() || player.body.touching.down) {
+    if (facing === 'right') {
+    dust = game.add.sprite(player.x, player.y + 5, 'dust');
+    dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
+    dustJumpR.play(10, false);
+    dustJumpR.killOnComplete = true;
+    } else {
+    dust = game.add.sprite(player.x, player.y + 5, 'dust');
+    dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
+    dustJumpL.play(10, false);
+    dustJumpL.killOnComplete = true;
+    }
+  }
+  console.log(dustJump)
+}
+
+function dustJumpFalse() {
+  dustJump = false;
+console.log(dustJump);
+
+}
+
 
 function landingCallback(player, obj) {
   isJumping = false;
@@ -968,7 +995,7 @@ function landingCallback(player, obj) {
     dustLandL.play(10, false);
     dustLandL.killOnComplete = true;
 }
-  console.log(dust.animations.frame);
+
 }
 function landingProcessCallback(player, obj) {
 if (isJumping === true) {
@@ -976,6 +1003,7 @@ if (isJumping === true) {
 } else {
   return false;
 }
+
 
 }
 
