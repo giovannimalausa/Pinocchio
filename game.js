@@ -72,6 +72,9 @@ function preload() {
     game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
     game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
     game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
+    game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
+    game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
+    game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
 
     // Level 2 /Floor
     game.load.image('level2_floor1', 'assets/levelTwo/floor/1.png');
@@ -173,12 +176,16 @@ var level2_collineGialle;
 
 var level2_floor;
 
+var level2_ruota_supporto;
+var level2_ruota_centrale;
+var level2_ruota_cabina;
+var angleCounter = 135;
+
 var level2_mongolfiera;
 var onMongolfiera = false;
 var i = 0;
 var mongolfieraUsed = false;
 var movimentoMongolfiera1;
-
 
 // Variabili livello 3
 var floor;
@@ -232,8 +239,6 @@ var animWalkFireL;
 var animFireR;
 var animFireL;
 
-
-
 var isFiring = false;
 var isJumping = false;
 var dustJump = false;
@@ -246,7 +251,6 @@ function create() {
   game.world.setBounds(0, 0, 20000, 2304);
 
   // Elementi livelli
-
   modulo2x2 = game.add.physicsGroup();
   modulo1x1 = game.add.physicsGroup();
 
@@ -573,6 +577,18 @@ function create() {
     modulo2x2.setAll('body.immovable', true);
 
     // Interattivi
+    level2_ruota_supporto = game.add.sprite(2250, 1553, 'level2_ruota_supporto');
+    level2_ruota_centrale = game.add.sprite(2451, 1574, 'level2_ruota_centrale');
+    level2_ruota_centrale.anchor.setTo(0.5, 0.5);
+    game.physics.arcade.enable(level2_ruota_centrale);
+
+    level2_ruota_cabina = game.add.sprite(1969, 1574, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabina);
+    level2_ruota_cabina.body.immovable = true;
+    level2_ruota_cabina.anchor.setTo(0.5, 0.5);
+
+
+
     level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
     game.physics.arcade.enable(level2_mongolfiera);
     level2_mongolfiera.body.setSize(105, 100, 277, 883);
@@ -624,7 +640,7 @@ function create() {
   }
 
   // Player
-  player = game.add.sprite(16500, 1800, 'pinocchio');
+  player = game.add.sprite(1670, 1800, 'pinocchio');
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -644,15 +660,11 @@ function create() {
   //Assegnando una variabile loop = false funziona!
   //Comunque da eliminare se possibile
 
-
-
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   player.body.gravity.y = 2000;
   player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   player.health = 10;
-
-
 
 
   // Enemy
@@ -749,7 +761,7 @@ function update () {
   //  console.log(enemy.getChildAt(0).health);
 
 
-//  console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
+  //  console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
     // console.log(level2_mongolfiera.body.x + ' ' + level2_mongolfiera.body.y);
 
     // TIME
@@ -765,7 +777,8 @@ function update () {
 
 
 
-    if (levelPlaying == 1) {
+    if (levelPlaying == 1)
+    {
       game.physics.arcade.collide(player, level1_platform2x1);
       game.physics.arcade.collide(player, level1_platform5x1);
       game.physics.arcade.collide(player, level1_platform6x1);
@@ -776,9 +789,13 @@ function update () {
       game.physics.arcade.collide(player, level1_casa4_tettoia);
     }
 
-    if (levelPlaying == 2) {
+    if (levelPlaying == 2)
+    {
       game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
       game.physics.arcade.collide(player, level2_floor);
+
+      game.physics.arcade.collide(player, level2_ruota_cabina);
+
 
       game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
       game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
@@ -789,33 +806,51 @@ function update () {
     // Overlap e interazioni con oggetti interattivi
     if (levelPlaying == 2) {
 
-        // Mongolfiera automatizzata
-        function mongolfiera() {
-            if (onMongolfiera == false && mongolfieraUsed == false) {
-                onMongolfiera = true;
-            }
+      // Ruota panoramica
+      level2_ruota_centrale.angle -= 0.4;
 
-            while (onMongolfiera == true && i == 0) {
-                i = i + 1;
-                enablePlayerMovement = false;
-                player.body.velocity.x = 0;
-                player.body.velocity.y = 0;
-                player.x = 4420;
-                player.y = 1960;
-            }
+      angleCounter += 0.2;
+      if (angleCounter == 180) {
+        angleCounter = 0;
+      }
+    
+      //player.x = 200+Math.sin(Math.PI*2*contatore/100)*100;
+      //player.y = 200+Math.cos(Math.PI*2*contatore/100)*100;
+    
+      sin = Math.sin(Math.PI*2*angleCounter/180);
+      cos = Math.cos(Math.PI*2*angleCounter/180);
+    
+      console.log(sin + ' ' + cos);
+    
+      // velocità = 
+      level2_ruota_cabina.body.velocity.x = (200)*cos;
+      level2_ruota_cabina.body.velocity.y = -(200)*sin;
 
+
+      // Mongolfiera automatizzata
+      function mongolfiera() {
+        if (onMongolfiera == false && mongolfieraUsed == false) {
+          onMongolfiera = true;
         }
 
-        if (onMongolfiera == true && jumpButton.isDown) { // La barra spaziatrice "slega" il Player dalla Mongolfiera. Salta verso destra.
-            onMongolfiera = false;
-            mongolfieraUsed = true;
-            enablePlayerMovement = true;
-            player.body.gravity.y = 2000;
-            player.body.velocity.x = 450;
-            player.body.velocity.y = -850;
+        while (onMongolfiera == true && i == 0) {
+          i = i + 1;
+          enablePlayerMovement = false;
+          player.body.velocity.x = 0;
+          player.body.velocity.y = 0;
+          player.x = 4420;
+          player.y = 1960;
         }
+      }
 
-        // game.physics.arcade.overlap(player, level2_mongolfiera, mongolfiera); // Interazione tra Player e Mongolfiera
+      if (onMongolfiera == true && jumpButton.isDown) { // La barra spaziatrice "slega" il Player dalla Mongolfiera. Salta verso destra.
+        onMongolfiera = false;
+        mongolfieraUsed = true;
+        enablePlayerMovement = true;
+        player.body.gravity.y = 2000;
+        player.body.velocity.x = 450;
+        player.body.velocity.y = -850;
+      }
 
     }
 
@@ -1221,4 +1256,5 @@ if (isJumping === true) {
 */
 function render () {
     // game.debug.body(level2_mongolfiera);
+    game.debug.text(level2_ruota_centrale.angle, 100, 100);
 }
