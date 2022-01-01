@@ -72,13 +72,29 @@ function preload() {
     game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
     game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
     game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
-    game.load.image('level2_pavimento1', 'assets/levelTwo/pavimento1.png');
-    game.load.image('level2_pavimento2', 'assets/levelTwo/pavimento2.png');
-    game.load.image('level2_pavimento3', 'assets/levelTwo/pavimento3.png');
-    game.load.image('level2_pavimento4', 'assets/levelTwo/pavimento4.png');
-    game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera@72x.png');
 
-
+    // Level 2 /Floor
+    game.load.image('level2_floor1', 'assets/levelTwo/floor/1.png');
+    game.load.image('level2_floor2', 'assets/levelTwo/floor/2.png');
+    game.load.image('level2_floor3', 'assets/levelTwo/floor/3.png');
+    game.load.image('level2_floor4', 'assets/levelTwo/floor/4.png');
+    game.load.image('level2_floor5', 'assets/levelTwo/floor/5.png');
+    game.load.image('level2_floor6', 'assets/levelTwo/floor/6.png');
+    game.load.image('level2_floor7', 'assets/levelTwo/floor/7.png');
+    game.load.image('level2_floor8', 'assets/levelTwo/floor/8.png');
+    game.load.image('level2_floor9', 'assets/levelTwo/floor/9.png');
+    game.load.image('level2_floor10', 'assets/levelTwo/floor/10.png');
+    game.load.image('level2_floor11', 'assets/levelTwo/floor/11.png');
+    game.load.image('level2_floor12', 'assets/levelTwo/floor/12.png');
+    game.load.image('level2_floor13', 'assets/levelTwo/floor/13.png');
+    game.load.image('level2_floor14', 'assets/levelTwo/floor/14.png');
+    game.load.image('level2_floor15', 'assets/levelTwo/floor/15.png');
+    game.load.image('level2_floor16', 'assets/levelTwo/floor/16.png');
+    game.load.image('level2_floor17', 'assets/levelTwo/floor/17.png');
+    game.load.image('level2_floor18', 'assets/levelTwo/floor/18.png');
+    game.load.image('level2_floor19', 'assets/levelTwo/floor/19.png');
+    game.load.image('level2_floor20', 'assets/levelTwo/floor/20.png');
+    game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
 
     // Level 3
     // Piattaforme e pavimento del livello 3
@@ -154,10 +170,9 @@ var level2_calpestabile_parte2;
 var level2_cielo;
 var level2_collineRosse;
 var level2_collineGialle;
-var level2_pavimento1;
-var level2_pavimento2;
-var level2_pavimento3;
-var level2_pavimento4;
+
+var level2_floor;
+
 var level2_mongolfiera;
 var onMongolfiera = false;
 var i = 0;
@@ -330,59 +345,202 @@ function create() {
     level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
     level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
 
-    level2_pavimento1 = game.add.physicsGroup();
-    level2_pavimento1.create(0, 2200, 'level2_pavimento1');
-    level2_pavimento1.alpha = 0;
-    level2_pavimento1.setAll('body.immovable', true);
-
-    level2_pavimento2 = game.add.physicsGroup();
-    level2_pavimento2.create(1709, 2200, 'level2_pavimento2');
-    level2_pavimento2.alpha = 0;
-    level2_pavimento2.setAll('body.immovable', true);
-
-    level2_pavimento3 = game.add.physicsGroup();
-    level2_pavimento3.create(3321, 2200, 'level2_pavimento3');
-    level2_pavimento3.alpha = 0;
-    level2_pavimento3.setAll('body.immovable', true);
-
-    level2_pavimento4 = game.add.physicsGroup();
-    level2_pavimento4.create(4426, 2200, 'level2_pavimento3');
-    level2_pavimento4.alpha = 0;
-    level2_pavimento4.setAll('body.immovable', true);
+    level2_floor = game.add.physicsGroup();
+    level2_floor.create(0, 2200, 'level2_floor1');
+    level2_floor.create(1100, 2200, 'level2_floor2');
+    level2_floor.create(1750, 2200, 'level2_floor3');
+    level2_floor.create(3300, 2200, 'level2_floor4');
+    level2_floor.create(4400, 2200, 'level2_floor5');
+    level2_floor.create(5350, 2200, 'level2_floor6');
+    level2_floor.create(5700, 2200, 'level2_floor7');
+    level2_floor.create(6300, 2200, 'level2_floor8');
+    level2_floor.create(6750, 2200, 'level2_floor9');
+    level2_floor.create(7400, 2200, 'level2_floor10');
+    level2_floor.create(7750, 2200, 'level2_floor11');
+    level2_floor.create(8500, 2200, 'level2_floor12');
+    level2_floor.create(10000, 2200, 'level2_floor13')
+    level2_floor.create(11650, 2200, 'level2_floor14')
+    level2_floor.create(12300, 2200, 'level2_floor15')
+    level2_floor.create(12650, 2200, 'level2_floor16')
+    level2_floor.create(13150, 2200, 'level2_floor17')
+    level2_floor.create(14400, 2200, 'level2_floor19')
+    level2_floor.create(13800, 2200, 'level2_floor18')
+    level2_floor.create(14800, 2200, 'level2_floor20')
+    level2_floor.create(17850, 2200, 'level2_floor21')
+    level2_floor.alpha = 1;
+    level2_floor.setAll('body.immovable', true);
 
     // Moduli 1x1
     // modulo1x1 = game.add.physicsGroup();
-    modulo1x1.create(1080, 1900, 'modulo1x1');
-    modulo1x1.create(1130, 1900, 'modulo1x1');
-    modulo1x1.create(1180, 1900, 'modulo1x1');
-    modulo1x1.create(1230, 1900, 'modulo1x1');
-    modulo1x1.create(1280, 1900, 'modulo1x1');
-    modulo1x1.create(1612, 1989, 'modulo1x1');
-    modulo1x1.create(1662, 1989, 'modulo1x1');
-    modulo1x1.create(1712, 1989, 'modulo1x1');
-    modulo1x1.create(1762, 1989, 'modulo1x1');
-    modulo1x1.create(1812, 1989, 'modulo1x1');
-    modulo1x1.create(1862, 1989, 'modulo1x1');
-    modulo1x1.create(3126, 1679, 'modulo1x1');
-    modulo1x1.create(3176, 1679, 'modulo1x1');
-    modulo1x1.create(3325, 1826, 'modulo1x1');
-    modulo1x1.create(3375, 1826, 'modulo1x1');
-    modulo1x1.create(3425, 1826, 'modulo1x1');
-    modulo1x1.create(3651, 1950, 'modulo1x1');
-    modulo1x1.create(3701, 1950, 'modulo1x1');
-    modulo1x1.create(3751, 1950, 'modulo1x1');
-    modulo1x1.create(3972, 2000, 'modulo1x1');
-    modulo1x1.create(4022, 2000, 'modulo1x1');
-    modulo1x1.create(4072, 2000, 'modulo1x1');
-    modulo1x1.create(4122, 2000, 'modulo1x1');
-    modulo1x1.create(4172, 2000, 'modulo1x1');
-    modulo1x1.create(4222, 2000, 'modulo1x1');
-    modulo1x1.create(4945, 1588, 'modulo1x1');
-    modulo1x1.create(4995, 1588, 'modulo1x1');
-    modulo1x1.create(5045, 1588, 'modulo1x1');
-    modulo1x1.create(5095, 1588, 'modulo1x1');
-    modulo1x1.create(5145, 1588, 'modulo1x1');
-    modulo1x1.create(5195, 1588, 'modulo1x1');
+    modulo1x1.create(1125, 1900, 'modulo1x1');
+    modulo1x1.create(1175, 1900, 'modulo1x1');
+    modulo1x1.create(1225, 1900, 'modulo1x1');
+    modulo1x1.create(1275, 1900, 'modulo1x1');
+    modulo1x1.create(1325, 1900, 'modulo1x1');
+
+    modulo1x1.create(1650, 2000, 'modulo1x1');
+    modulo1x1.create(1700, 2000, 'modulo1x1');
+    modulo1x1.create(1750, 2000, 'modulo1x1');
+    modulo1x1.create(1800, 2000, 'modulo1x1');
+    modulo1x1.create(1850, 2000, 'modulo1x1');
+    modulo1x1.create(1900, 2000, 'modulo1x1');
+
+    modulo1x1.create(3100, 1650, 'modulo1x1');
+    modulo1x1.create(3150, 1650, 'modulo1x1');
+
+    modulo1x1.create(3300, 1800, 'modulo1x1');
+    modulo1x1.create(3350, 1800, 'modulo1x1');
+    modulo1x1.create(3400, 1800, 'modulo1x1');
+    
+    modulo1x1.create(3600, 1950, 'modulo1x1');
+    modulo1x1.create(3650, 1950, 'modulo1x1');
+    modulo1x1.create(3700, 1950, 'modulo1x1');
+    modulo1x1.create(3750, 1950, 'modulo1x1');
+
+    modulo1x1.create(3950, 1950, 'modulo1x1');
+    modulo1x1.create(4000, 1950, 'modulo1x1');
+    modulo1x1.create(4050, 1950, 'modulo1x1');
+    modulo1x1.create(4100, 1950, 'modulo1x1');
+    modulo1x1.create(4150, 1950, 'modulo1x1');
+    modulo1x1.create(4200, 1950, 'modulo1x1');
+
+    modulo1x1.create(4550, 2000, 'modulo1x1');
+    modulo1x1.create(4600, 2000, 'modulo1x1');
+    modulo1x1.create(4650, 2000, 'modulo1x1');
+
+    modulo1x1.create(4800, 1850, 'modulo1x1');
+    modulo1x1.create(4850, 1850, 'modulo1x1');
+    modulo1x1.create(4900, 1850, 'modulo1x1');
+    modulo1x1.create(4950, 1850, 'modulo1x1');
+    modulo1x1.create(5000, 1850, 'modulo1x1');
+    modulo1x1.create(5050, 1850, 'modulo1x1');
+    modulo1x1.create(5100, 1850, 'modulo1x1');
+    modulo1x1.create(5150, 1850, 'modulo1x1');
+    
+    modulo1x1.create(5350, 2000, 'modulo1x1');
+    modulo1x1.create(5400, 2000, 'modulo1x1');
+    modulo1x1.create(5450, 2000, 'modulo1x1');
+
+    modulo1x1.create(6550, 2000, 'modulo1x1');
+    modulo1x1.create(6600, 2000, 'modulo1x1');
+    modulo1x1.create(6650, 2000, 'modulo1x1');
+    modulo1x1.create(6700, 2000, 'modulo1x1');
+
+    modulo1x1.create(7300, 1600, 'modulo1x1');
+    modulo1x1.create(7350, 1600, 'modulo1x1');
+    modulo1x1.create(7400, 1600, 'modulo1x1');
+    modulo1x1.create(7450, 1600, 'modulo1x1');
+    modulo1x1.create(7500, 1600, 'modulo1x1');
+    modulo1x1.create(7550, 1600, 'modulo1x1');
+
+    modulo1x1.create(7750, 1750, 'modulo1x1');
+    modulo1x1.create(7800, 1750, 'modulo1x1');
+    modulo1x1.create(7850, 1750, 'modulo1x1');
+
+    modulo1x1.create(8025, 1900, 'modulo1x1');
+    modulo1x1.create(8075, 1900, 'modulo1x1');
+    modulo1x1.create(8125, 1900, 'modulo1x1');
+    modulo1x1.create(8175, 1900, 'modulo1x1');
+    modulo1x1.create(8225, 1900, 'modulo1x1');
+
+    modulo1x1.create(8500, 1950, 'modulo1x1');
+    modulo1x1.create(8550, 1950, 'modulo1x1');
+    modulo1x1.create(8600, 1950, 'modulo1x1');
+    modulo1x1.create(8650, 1950, 'modulo1x1');
+
+    modulo1x1.create(9500, 1950, 'modulo1x1');
+    modulo1x1.create(9550, 1950, 'modulo1x1');
+    modulo1x1.create(9600, 1950, 'modulo1x1');
+    modulo1x1.create(9650, 1950, 'modulo1x1');
+    modulo1x1.create(9700, 1950, 'modulo1x1');
+    modulo1x1.create(9750, 1950, 'modulo1x1');
+
+    modulo1x1.create(9900, 1800, 'modulo1x1');
+    modulo1x1.create(9950, 1800, 'modulo1x1');
+
+    modulo1x1.create(10000, 2000, 'modulo1x1');
+    modulo1x1.create(10050, 2000, 'modulo1x1');
+    modulo1x1.create(10100, 2000, 'modulo1x1');
+
+    modulo1x1.create(11100, 1850, 'modulo1x1');
+    modulo1x1.create(11200, 1850, 'modulo1x1');
+    modulo1x1.create(11250, 1850, 'modulo1x1');
+    modulo1x1.create(11300, 1850, 'modulo1x1');
+    modulo1x1.create(11350, 1850, 'modulo1x1');
+    modulo1x1.create(11400, 1850, 'modulo1x1');
+
+    modulo1x1.create(11650, 1750, 'modulo1x1');
+    modulo1x1.create(11700, 1750, 'modulo1x1');
+    modulo1x1.create(11750, 1750, 'modulo1x1');
+
+    modulo1x1.create(11850, 1600, 'modulo1x1');
+    modulo1x1.create(11900, 1600, 'modulo1x1');
+    modulo1x1.create(11950, 1600, 'modulo1x1');
+    modulo1x1.create(12000, 1600, 'modulo1x1');
+    modulo1x1.create(12050, 1600, 'modulo1x1');
+
+    modulo1x1.create(12850, 2000, 'modulo1x1');
+    modulo1x1.create(12900, 2000, 'modulo1x1');
+    modulo1x1.create(12950, 2000, 'modulo1x1');
+
+    modulo1x1.create(13150, 1850, 'modulo1x1');
+    modulo1x1.create(13200, 1850, 'modulo1x1');
+    modulo1x1.create(13250, 1850, 'modulo1x1');
+    modulo1x1.create(13300, 1850, 'modulo1x1');
+    modulo1x1.create(13350, 1850, 'modulo1x1');
+    modulo1x1.create(13400, 1850, 'modulo1x1');
+    modulo1x1.create(13450, 1850, 'modulo1x1');
+    modulo1x1.create(13500, 1850, 'modulo1x1');
+
+    modulo1x1.create(13800, 2000, 'modulo1x1');
+    modulo1x1.create(13850, 2000, 'modulo1x1');
+
+    modulo1x1.create(14400, 1950, 'modulo1x1');
+    modulo1x1.create(14450, 1950, 'modulo1x1');
+    modulo1x1.create(14500, 1950, 'modulo1x1');
+    modulo1x1.create(14550, 1950, 'modulo1x1');
+
+    modulo1x1.create(14800, 2000, 'modulo1x1');
+    modulo1x1.create(14850, 2000, 'modulo1x1');
+
+    modulo1x1.create(17250, 1850, 'modulo1x1');
+    modulo1x1.create(17300, 1850, 'modulo1x1');
+    modulo1x1.create(17350, 1850, 'modulo1x1');
+    modulo1x1.create(17400, 1850, 'modulo1x1');
+    modulo1x1.create(17450, 1850, 'modulo1x1');
+    modulo1x1.create(17500, 1850, 'modulo1x1');
+    modulo1x1.create(17550, 1850, 'modulo1x1');
+
+    modulo1x1.create(17750, 2000, 'modulo1x1');
+    modulo1x1.create(17800, 2000, 'modulo1x1');
+
+    modulo1x1.create(17800, 1700, 'modulo1x1');
+    modulo1x1.create(17850, 1700, 'modulo1x1');
+    modulo1x1.create(17900, 1700, 'modulo1x1');
+    modulo1x1.create(17950, 1700, 'modulo1x1');
+    modulo1x1.create(18000, 1700, 'modulo1x1');
+    modulo1x1.create(18050, 1700, 'modulo1x1');
+
+    modulo1x1.create(18800, 1850, 'modulo1x1');
+    modulo1x1.create(18850, 1850, 'modulo1x1');
+    modulo1x1.create(18900, 1850, 'modulo1x1');
+    modulo1x1.create(18950, 1850, 'modulo1x1');
+    modulo1x1.create(19000, 1850, 'modulo1x1');
+    modulo1x1.create(19050, 1850, 'modulo1x1');
+    modulo1x1.create(19100, 1850, 'modulo1x1');
+    modulo1x1.create(19150, 1850, 'modulo1x1');
+
+    modulo1x1.create(19350, 1750, 'modulo1x1');
+    modulo1x1.create(19400, 1750, 'modulo1x1');
+    modulo1x1.create(19450, 1750, 'modulo1x1');
+    modulo1x1.create(19500, 1750, 'modulo1x1');
+    modulo1x1.create(19550, 1750, 'modulo1x1');
+    modulo1x1.create(19600, 1750, 'modulo1x1');
+
+    modulo1x1.create(19350, 2000, 'modulo1x1');
+    modulo1x1.create(19400, 2000, 'modulo1x1');
+    modulo1x1.create(19450, 2000, 'modulo1x1');
+
     modulo1x1.setAll('body.immovable', true);
 
     // Moduli 2x2
@@ -448,65 +606,65 @@ function create() {
   }
 
 
-    // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
-    selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
-    selectionIcon.fixedToCamera = true;
-    selectionIcon.cameraOffset.setTo(0, 0);
-    if (optionSelected == 1)
-    {
-        selectionIcon.frame = 0;
-    }
-    else if (optionSelected == 2)
-    {
-        selectionIcon.frame = 1;
-    }
-    else if (optionSelected == 3)
-    {
-        selectionIcon.frame = 3;
-    }
+  // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
+  selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
+  selectionIcon.fixedToCamera = true;
+  selectionIcon.cameraOffset.setTo(0, 0);
+  if (optionSelected == 1)
+  {
+    selectionIcon.frame = 0;
+  }
+  else if (optionSelected == 2)
+  {
+    selectionIcon.frame = 1;
+  }
+  else if (optionSelected == 3)
+  {
+    selectionIcon.frame = 3;
+  }
 
-    // Player
-    player = game.add.sprite(2000  , 1800, 'pinocchio');
-    animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
-    animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
-    animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
-    animWalkL = player.animations.add('walkL', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]); // Animazione camminata verso sx
-    animJumpR = player.animations.add('jumpR', [100, 101, 102, 103, 104]);
-    animJumpL = player.animations.add('jumpL', [110, 111, 112, 113, 114]);
-    animDropR = player.animations.add('dropR', [105, 106]);
-    animDropL = player.animations.add('dropL', [115, 116]);
-    animSkidR = player.animations.add('skidR', [24, 25, 26]);
-    animSkidL = player.animations.add('skidL', [27, 28, 29]);
-    animWalkFireR = player.animations.add('walkFireR', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]);
-    animWalkFireL = player.animations.add('walkFireL', [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]);
-    animFireR = player.animations.add('fireR', [60, 64, 62, 63, 64, 65, 66, 67]);
-    animFireL = player.animations.add('fireL', [68 ,69, 70, 71, 72, 73, 74, 75]);
-    player.animations.add('landR', [107, 108, 109]);
-    player.animations.add('landL', [117, 118, 119]);
-//Assegnando una variabile loop = false funziona!
-//Comunque da eliminare se possibile
-
-
-
-    game.physics.arcade.enable(player);
-    player.body.collideWorldBounds = true;
-    player.body.gravity.y = 2000;
-    player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-    player.health = 10;
+  // Player
+  player = game.add.sprite(16500, 1800, 'pinocchio');
+  animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
+  animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
+  animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
+  animWalkL = player.animations.add('walkL', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]); // Animazione camminata verso sx
+  animJumpR = player.animations.add('jumpR', [100, 101, 102, 103, 104]);
+  animJumpL = player.animations.add('jumpL', [110, 111, 112, 113, 114]);
+  animDropR = player.animations.add('dropR', [105, 106]);
+  animDropL = player.animations.add('dropL', [115, 116]);
+  animSkidR = player.animations.add('skidR', [24, 25, 26]);
+  animSkidL = player.animations.add('skidL', [27, 28, 29]);
+  animWalkFireR = player.animations.add('walkFireR', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]);
+  animWalkFireL = player.animations.add('walkFireL', [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]);
+  animFireR = player.animations.add('fireR', [60, 64, 62, 63, 64, 65, 66, 67]);
+  animFireL = player.animations.add('fireL', [68 ,69, 70, 71, 72, 73, 74, 75]);
+  player.animations.add('landR', [107, 108, 109]);
+  player.animations.add('landL', [117, 118, 119]);
+  //Assegnando una variabile loop = false funziona!
+  //Comunque da eliminare se possibile
 
 
 
+  game.physics.arcade.enable(player);
+  player.body.collideWorldBounds = true;
+  player.body.gravity.y = 2000;
+  player.body.setSize(100, 120, 50, 23); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
+  player.health = 10;
 
-    // Enemy
-    enemy = game.add.physicsGroup();
+
+
+
+  // Enemy
+  enemy = game.add.physicsGroup();
   //  enemy.create(2200, 1800, 'marionettaBomba');
   //  enemy.create(2400, 1800, 'marionettaBomba');
   //  enemy.create(2600, 1800, 'marionettaBomba');
   child1 = enemy.create(2800, 1800, 'marionettaBomba');
   child1 = enemy.create(3000, 1800, 'marionettaBomba');
 
-    game.physics.arcade.enable(enemy);
-    enemy.setAll('health', 3);
+  game.physics.arcade.enable(enemy);
+  enemy.setAll('health', 3);
   //  enemy.getChildAt(0).body.velocity.x = 100;
 
 
@@ -514,18 +672,19 @@ function create() {
 
 
 
-                    // Armi
-        // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
+  // Armi
+  // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
   /*  bullets = game.add.group();
-    bullets.enableBody = true;
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    bullets.createMultiple(50, 'bullet');
-    bullets.setAll('anchor.x', 0.5);
-    bullets.setAll('anchor.y', 0.5);
-    bullets.setAll('outOfBoundKill', true);
-    bullets.setAll('checkWorldBounds', true);
-*/
-     // FUNZIONE DI SPARO CON PHASER.WEAPON
+  bullets.enableBody = true;
+  bullets.physicsBodyType = Phaser.Physics.ARCADE;
+  bullets.createMultiple(50, 'bullet');
+  bullets.setAll('anchor.x', 0.5);
+  bullets.setAll('anchor.y', 0.5);
+  bullets.setAll('outOfBoundKill', true);
+  bullets.setAll('checkWorldBounds', true);
+  */
+  
+  // FUNZIONE DI SPARO CON PHASER.WEAPON
   gun1 = game.add.weapon(50, 'bullet');
   gun1.trackSprite(player);
   gun1.fireRate = 200;
@@ -533,52 +692,50 @@ function create() {
   gun1.bulletSpeed = 700;
   gun1.trackOffset.y = 80;
 
+  // Tutorial
+  if(showingControlsTutorial == true)  {
+  controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
+  controlsTutorialUI.fixedToCamera = true;
+  controlsTutorialUI.cameraOffset.setTo(0, 0);
+  }
+
+  // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
+  shadow = game.add.sprite(100+200, 200, 'player');
+  shadow.alpha = 0;
+
+  // Input (cursors and keys)
+  cursors = game.input.keyboard.createCursorKeys();
+  jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  menuButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
+  escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+  oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+  twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+  threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+  fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
+
+  // Phaser Signal
+  fireButton.onDown.add(isFiringTrue);
+  fireButton.onUp.add(isFiringFalse);
+
+  jumpButton.onDown.add(dustJumpTrue);
+  jumpButton.onUp.add(dustJumpFalse);
 
 
-    // Tutorial
-    if(showingControlsTutorial == true)  {
-        controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
-        controlsTutorialUI.fixedToCamera = true;
-        controlsTutorialUI.cameraOffset.setTo(0, 0);
-    }
+  // Camera Follow
+  game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
-    // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
-    shadow = game.add.sprite(100+200, 200, 'player');
-    shadow.alpha = 0;
+  // Time
+  timeWhenLoaded = game.time.time;
 
-    // Input (cursors and keys)
-    cursors = game.input.keyboard.createCursorKeys();
-    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    menuButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
-    escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-    oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-    twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-    threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
-
-    // Phaser Signal
-    fireButton.onDown.add(isFiringTrue);
-    fireButton.onUp.add(isFiringFalse);
-
-    jumpButton.onDown.add(dustJumpTrue);
-    jumpButton.onUp.add(dustJumpFalse);
+  // Scritta menù Geppetto
+  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
 
 
-    // Camera Follow
-    game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
+  //  MenuButtonTimer – [non in uso]
+  // menuButtonTimer = game.time.create(false);
 
-    // Time
-    timeWhenLoaded = game.time.time;
-
-    // Scritta menù Geppetto
-    interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
-
-
-    //  MenuButtonTimer – [non in uso]
-    // menuButtonTimer = game.time.create(false);
-
-    //  Set a TimerEvent to occur after 2 seconds – [non in uso]
-    // menuButtonTimer.loop(2000, updateCounter, this);
+  //  Set a TimerEvent to occur after 2 seconds – [non in uso]
+  // menuButtonTimer.loop(2000, updateCounter, this);
 
 }
 
@@ -587,7 +744,7 @@ function updateCounter() { // [non in uso]
 }
 
 function update () {
-    //  console.log(isJumping);
+  //  console.log(isJumping);
   //  console.log(player.health);
   //  console.log(enemy.getChildAt(0).health);
 
@@ -609,30 +766,24 @@ function update () {
 
 
     if (levelPlaying == 1) {
-        game.physics.arcade.collide(player, level1_platform2x1);
-        game.physics.arcade.collide(player, level1_platform5x1);
-        game.physics.arcade.collide(player, level1_platform6x1);
-        game.physics.arcade.collide(player, level1_casa1);
-        game.physics.arcade.collide(player, level1_casa2);
-        game.physics.arcade.collide(player, level1_casa3_hitbox);
-        game.physics.arcade.collide(player, level1_casa3_balcone);
-        game.physics.arcade.collide(player, level1_casa4_tettoia);
+      game.physics.arcade.collide(player, level1_platform2x1);
+      game.physics.arcade.collide(player, level1_platform5x1);
+      game.physics.arcade.collide(player, level1_platform6x1);
+      game.physics.arcade.collide(player, level1_casa1);
+      game.physics.arcade.collide(player, level1_casa2);
+      game.physics.arcade.collide(player, level1_casa3_hitbox);
+      game.physics.arcade.collide(player, level1_casa3_balcone);
+      game.physics.arcade.collide(player, level1_casa4_tettoia);
     }
 
     if (levelPlaying == 2) {
-        game.physics.arcade.collide(player, level2_pavimento1, landingCallback, landingProcessCallback, this);
-        game.physics.arcade.collide(player, level2_pavimento1);
-        game.physics.arcade.collide(player, level2_pavimento2);
-        game.physics.arcade.collide(player, level2_pavimento3);
-        game.physics.arcade.collide(player, level2_pavimento4);
+      game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
+      game.physics.arcade.collide(player, level2_floor);
 
-        game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
-        game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
+      game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
+      game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
 
-        game.physics.arcade.collide(enemy, level2_pavimento1);
-        game.physics.arcade.collide(enemy, level2_pavimento2);
-        game.physics.arcade.collide(enemy, level2_pavimento3);
-        game.physics.arcade.collide(enemy, level2_pavimento4);
+      game.physics.arcade.collide(enemy, level2_floor);
     }
 
     // Overlap e interazioni con oggetti interattivi
