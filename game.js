@@ -67,7 +67,8 @@ function preload() {
     game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
 
     // Level 2
-    game.load.image('level2_calpestabile', 'assets/levelTwo/calpestabile_fisso@72x.png');
+    game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
+    game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/level2_calpestabile_parte2.png');
     game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
     game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
     game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
@@ -148,7 +149,8 @@ var level1_casa4_supportoTettoia;
 var level1_casa4_tettoia;
 
 // Variabili livello 2
-var level2_calpestabile;
+var level2_calpestabile_parte1;
+var level2_calpestabile_parte2;
 var level2_cielo;
 var level2_collineRosse;
 var level2_collineGialle;
@@ -226,206 +228,224 @@ var child1;
 
 function create() {
 
-    game.world.setBounds(0, 0, 20000, 2304);
+  game.world.setBounds(0, 0, 20000, 2304);
 
-    // Elementi livelli
+  // Elementi livelli
 
-    modulo2x2 = game.add.physicsGroup();
-    modulo1x1 = game.add.physicsGroup();
+  modulo2x2 = game.add.physicsGroup();
+  modulo1x1 = game.add.physicsGroup();
 
-        // Livello 1
-        if(levelPlaying == 1)
-        {
-            sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
+  // Livello 1
+  if(levelPlaying == 1)
+  {
+    sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
-            level1_floor = game.add.physicsGroup();
-            level1_floor.create(0, 2200, 'globalFloor');
-            level1_floor.create(16000, 2200, 'globalFloor');
-            level1_floor.setAll('body.immovable', true);
+    level1_floor = game.add.physicsGroup();
+    level1_floor.create(0, 2200, 'globalFloor');
+    level1_floor.create(16000, 2200, 'globalFloor');
+    level1_floor.setAll('body.immovable', true);
 
-            placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
+    placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
 
-            interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
-            game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
+    interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
+    game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
 
-            modulo2x2.create(550, 2100, 'modulo2x2');
-            modulo2x2.create(3750, 2100, 'modulo2x2');
-            modulo2x2.create(4450, 2100, 'modulo2x2');
-            modulo2x2.create(4650, 2100, 'modulo2x2');
-            modulo2x2.create(4650, 2000, 'modulo2x2');
-            modulo2x2.create(4900, 2100, 'modulo2x2');
-            modulo2x2.create(16000, 2100, 'modulo2x2');
-            modulo2x2.setAll('body.immovable', true);
+    modulo2x2.create(550, 2100, 'modulo2x2');
+    modulo2x2.create(3750, 2100, 'modulo2x2');
+    modulo2x2.create(4450, 2100, 'modulo2x2');
+    modulo2x2.create(4650, 2100, 'modulo2x2');
+    modulo2x2.create(4650, 2000, 'modulo2x2');
+    modulo2x2.create(4900, 2100, 'modulo2x2');
+    modulo2x2.create(16000, 2100, 'modulo2x2');
+    modulo2x2.setAll('body.immovable', true);
 
-            level1_platform2x1 = game.add.physicsGroup();
-            level1_platform2x1.create(3900, 1900, 'platform2x1');
-            level1_platform2x1.setAll('body.immovable', true);
+    level1_platform2x1 = game.add.physicsGroup();
+    level1_platform2x1.create(3900, 1900, 'platform2x1');
+    level1_platform2x1.setAll('body.immovable', true);
 
-            level1_platform5x1 = game.add.physicsGroup();
-            level1_platform5x1.create(4100, 1700, 'platform5x1');
-            level1_platform5x1.setAll('body.immovable', true);
+    level1_platform5x1 = game.add.physicsGroup();
+    level1_platform5x1.create(4100, 1700, 'platform5x1');
+    level1_platform5x1.setAll('body.immovable', true);
 
-            level1_platform6x1 = game.add.physicsGroup();
-            level1_platform6x1.create(800, 1950, 'platform6x1');
-            level1_platform6x1.create(1250, 1800, 'platform6x1');
-            level1_platform6x1.create(3600, 1600, 'platform6x1');
-            level1_platform6x1.setAll('body.immovable', true);
+    level1_platform6x1 = game.add.physicsGroup();
+    level1_platform6x1.create(800, 1950, 'platform6x1');
+    level1_platform6x1.create(1250, 1800, 'platform6x1');
+    level1_platform6x1.create(3600, 1600, 'platform6x1');
+    level1_platform6x1.setAll('body.immovable', true);
 
-            deathGap3x = game.add.physicsGroup();
-            deathGap3x.create(2200, 2200, 'death-gap-3x');
-            deathGap3x.setAll('body.immovable', true);
+    deathGap3x = game.add.physicsGroup();
+    deathGap3x.create(2200, 2200, 'death-gap-3x');
+    deathGap3x.setAll('body.immovable', true);
 
-            deathGap4x = game.add.physicsGroup();
-            deathGap4x.create(1550, 2200,'death-gap-4x');
-            deathGap4x.setAll('body.immovable', true);
+    deathGap4x = game.add.physicsGroup();
+    deathGap4x.create(1550, 2200,'death-gap-4x');
+    deathGap4x.setAll('body.immovable', true);
 
-            deathGap5x = game.add.physicsGroup();
-            deathGap5x.create(2750, 2200,'death-gap-5x');
-            deathGap5x.setAll('body.immovable', true);
+    deathGap5x = game.add.physicsGroup();
+    deathGap5x.create(2750, 2200,'death-gap-5x');
+    deathGap5x.setAll('body.immovable', true);
 
-            level1_casa1 = game.add.physicsGroup();
-            level1_casa1.create(1725, 1650, 'level1_casa1');
-            level1_casa1.setAll('body.immovable', true);
+    level1_casa1 = game.add.physicsGroup();
+    level1_casa1.create(1725, 1650, 'level1_casa1');
+    level1_casa1.setAll('body.immovable', true);
 
-            level1_casa2 = game.add.physicsGroup();
-            level1_casa2.create(2300, 1800, 'level1_casa2');
-            level1_casa2.setAll('body.immovable', true);
+    level1_casa2 = game.add.physicsGroup();
+    level1_casa2.create(2300, 1800, 'level1_casa2');
+    level1_casa2.setAll('body.immovable', true);
 
-            level1_casa3 = game.add.physicsGroup();
-            level1_casa3.create(2850, 1450, 'level1_casa3');
-            level1_casa3.setAll('body.immovable', true);
+    level1_casa3 = game.add.physicsGroup();
+    level1_casa3.create(2850, 1450, 'level1_casa3');
+    level1_casa3.setAll('body.immovable', true);
 
-            level1_casa3_hitbox = game.add.physicsGroup();
-            level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
-            level1_casa3_hitbox.setAll('body.immovable', true);
-            level1_casa3_hitbox.alpha = 0;
-
-
-            level1_casa3_balcone = game.add.physicsGroup();
-            level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
-            level1_casa3_balcone.create(3400, 1900, 'level1_casa3_balcone');
-            level1_casa3_balcone.setAll('body.immovable', true);
-
-            level1_casa4 = game.add.physicsGroup();
-            level1_casa4.create(5400, 1700, 'level1_casa4');
-            level1_casa4.setAll('body.immovable', true);
-
-            level1_casa4_supportoTettoia = game.add.physicsGroup();
-            level1_casa4_supportoTettoia.create(5167, 2000, 'level1_casa4_supportoTettoia');
-            level1_casa4_supportoTettoia.setAll('body.immovable', true);
-
-            level1_casa4_tettoia = game.add.physicsGroup();
-            level1_casa4_tettoia.create(5150, 1950, 'level1_casa4_tettoia');
-            level1_casa4_tettoia.setAll('body.immovable', true);
-        }
-
-        // Livello 2
-        if(levelPlaying == 2)
-        {
-            level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
-            level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
-            level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
-            level2_calpestabile = game.add.sprite(0, 0, 'level2_calpestabile');
-
-            level2_pavimento1 = game.add.physicsGroup();
-            level2_pavimento1.create(0, 2200, 'level2_pavimento1');
-            level2_pavimento1.alpha = 0;
-            level2_pavimento1.setAll('body.immovable', true);
-
-            level2_pavimento2 = game.add.physicsGroup();
-            level2_pavimento2.create(1709, 2200, 'level2_pavimento2');
-            level2_pavimento2.alpha = 0;
-            level2_pavimento2.setAll('body.immovable', true);
-
-            level2_pavimento3 = game.add.physicsGroup();
-            level2_pavimento3.create(3321, 2200, 'level2_pavimento3');
-            level2_pavimento3.alpha = 0;
-            level2_pavimento3.setAll('body.immovable', true);
-
-            level2_pavimento4 = game.add.physicsGroup();
-            level2_pavimento4.create(4426, 2200, 'level2_pavimento3');
-            level2_pavimento4.alpha = 0;
-            level2_pavimento4.setAll('body.immovable', true);
-
-            // Moduli 1x1
-            // modulo1x1 = game.add.physicsGroup();
-            modulo1x1.create(1080, 1900, 'modulo1x1');
-            modulo1x1.create(1130, 1900, 'modulo1x1');
-            modulo1x1.create(1180, 1900, 'modulo1x1');
-            modulo1x1.create(1230, 1900, 'modulo1x1');
-            modulo1x1.create(1280, 1900, 'modulo1x1');
-            modulo1x1.create(1612, 1989, 'modulo1x1');
-            modulo1x1.create(1662, 1989, 'modulo1x1');
-            modulo1x1.create(1712, 1989, 'modulo1x1');
-            modulo1x1.create(1762, 1989, 'modulo1x1');
-            modulo1x1.create(1812, 1989, 'modulo1x1');
-            modulo1x1.create(1862, 1989, 'modulo1x1');
-            modulo1x1.create(3126, 1679, 'modulo1x1');
-            modulo1x1.create(3176, 1679, 'modulo1x1');
-            modulo1x1.create(3325, 1826, 'modulo1x1');
-            modulo1x1.create(3375, 1826, 'modulo1x1');
-            modulo1x1.create(3425, 1826, 'modulo1x1');
-            modulo1x1.create(3651, 1950, 'modulo1x1');
-            modulo1x1.create(3701, 1950, 'modulo1x1');
-            modulo1x1.create(3751, 1950, 'modulo1x1');
-            modulo1x1.create(3972, 2000, 'modulo1x1');
-            modulo1x1.create(4022, 2000, 'modulo1x1');
-            modulo1x1.create(4072, 2000, 'modulo1x1');
-            modulo1x1.create(4122, 2000, 'modulo1x1');
-            modulo1x1.create(4172, 2000, 'modulo1x1');
-            modulo1x1.create(4222, 2000, 'modulo1x1');
-            modulo1x1.create(4945, 1588, 'modulo1x1');
-            modulo1x1.create(4995, 1588, 'modulo1x1');
-            modulo1x1.create(5045, 1588, 'modulo1x1');
-            modulo1x1.create(5095, 1588, 'modulo1x1');
-            modulo1x1.create(5145, 1588, 'modulo1x1');
-            modulo1x1.create(5195, 1588, 'modulo1x1');
-            modulo1x1.setAll('body.immovable', true);
-
-            // Moduli 2x2
-            // modulo2x2 = game.add.physicsGroup();
-            modulo2x2.create(550, 2100, 'modulo2x2');
-            modulo2x2.create(750, 2100, 'modulo2x2');
-            modulo2x2.create(750, 2000, 'modulo2x2');
-            modulo2x2.create(2979, 2100, 'modulo2x2');
-            modulo2x2.create(3321, 2100, 'modulo2x2');
-            modulo2x2.setAll('body.immovable', true);
-
-            // Interattivi
-            level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
-            game.physics.arcade.enable(level2_mongolfiera);
-            level2_mongolfiera.body.setSize(105, 100, 277, 883);
-
-            movimentoMongolfiera1 = game.add.tween(level2_mongolfiera).to({ y: 600}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true);
-
-            level2_piattaformaMongolfiera = game.add.physicsGroup();
-            level2_piattaformaMongolfiera.create(4449, 2100, 'modulo2x2');
-            movimentoPiattaformaMongolfiera = game.add.tween(level2_piattaformaMongolfiera).to({ y: -617}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true) // y: 1483
-            level2_piattaformaMongolfiera.setAll('body.immovable', true);
-
-        }
+    level1_casa3_hitbox = game.add.physicsGroup();
+    level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
+    level1_casa3_hitbox.setAll('body.immovable', true);
+    level1_casa3_hitbox.alpha = 0;
 
 
-        // Livello 3 (circo)
-        if(levelPlaying == 3)
-        {
-            level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
-            level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
-            level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
+    level1_casa3_balcone = game.add.physicsGroup();
+    level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
+    level1_casa3_balcone.create(3400, 1900, 'level1_casa3_balcone');
+    level1_casa3_balcone.setAll('body.immovable', true);
 
-            // Floor
-            floor = game.add.physicsGroup();
-            floor.create(0, 687, 'floorLevel3');
-            floor.setAll('body.immovable', true);
-            floor.alpha = 0;
+    level1_casa4 = game.add.physicsGroup();
+    level1_casa4.create(5400, 1700, 'level1_casa4');
+    level1_casa4.setAll('body.immovable', true);
 
-            // Platforms
-            platforms = game.add.physicsGroup();
-            platforms.create(501, 576, 'platform');
-            platforms.setAll('body.immovable', true);
-            platforms.alpha = 0;
+    level1_casa4_supportoTettoia = game.add.physicsGroup();
+    level1_casa4_supportoTettoia.create(5167, 2000, 'level1_casa4_supportoTettoia');
+    level1_casa4_supportoTettoia.setAll('body.immovable', true);
 
-        }
+    level1_casa4_tettoia = game.add.physicsGroup();
+    level1_casa4_tettoia.create(5150, 1950, 'level1_casa4_tettoia');
+    level1_casa4_tettoia.setAll('body.immovable', true); 
+  }
+
+  // Livello 2
+  if(levelPlaying == 2)
+  {
+    level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
+    level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
+    level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
+    level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
+    level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
+
+    level2_pavimento1 = game.add.physicsGroup();
+    level2_pavimento1.create(0, 2200, 'level2_pavimento1');
+    level2_pavimento1.alpha = 0;
+    level2_pavimento1.setAll('body.immovable', true);
+
+    level2_pavimento2 = game.add.physicsGroup();
+    level2_pavimento2.create(1709, 2200, 'level2_pavimento2');
+    level2_pavimento2.alpha = 0;
+    level2_pavimento2.setAll('body.immovable', true);
+
+    level2_pavimento3 = game.add.physicsGroup();
+    level2_pavimento3.create(3321, 2200, 'level2_pavimento3');
+    level2_pavimento3.alpha = 0;
+    level2_pavimento3.setAll('body.immovable', true);
+
+    level2_pavimento4 = game.add.physicsGroup();
+    level2_pavimento4.create(4426, 2200, 'level2_pavimento3');
+    level2_pavimento4.alpha = 0;
+    level2_pavimento4.setAll('body.immovable', true);
+
+    // Moduli 1x1
+    // modulo1x1 = game.add.physicsGroup();
+    modulo1x1.create(1080, 1900, 'modulo1x1');
+    modulo1x1.create(1130, 1900, 'modulo1x1');
+    modulo1x1.create(1180, 1900, 'modulo1x1');
+    modulo1x1.create(1230, 1900, 'modulo1x1');
+    modulo1x1.create(1280, 1900, 'modulo1x1');
+    modulo1x1.create(1612, 1989, 'modulo1x1');
+    modulo1x1.create(1662, 1989, 'modulo1x1');
+    modulo1x1.create(1712, 1989, 'modulo1x1');
+    modulo1x1.create(1762, 1989, 'modulo1x1');
+    modulo1x1.create(1812, 1989, 'modulo1x1');
+    modulo1x1.create(1862, 1989, 'modulo1x1');
+    modulo1x1.create(3126, 1679, 'modulo1x1');
+    modulo1x1.create(3176, 1679, 'modulo1x1');
+    modulo1x1.create(3325, 1826, 'modulo1x1');
+    modulo1x1.create(3375, 1826, 'modulo1x1');
+    modulo1x1.create(3425, 1826, 'modulo1x1');
+    modulo1x1.create(3651, 1950, 'modulo1x1');
+    modulo1x1.create(3701, 1950, 'modulo1x1');
+    modulo1x1.create(3751, 1950, 'modulo1x1');
+    modulo1x1.create(3972, 2000, 'modulo1x1');
+    modulo1x1.create(4022, 2000, 'modulo1x1');
+    modulo1x1.create(4072, 2000, 'modulo1x1');
+    modulo1x1.create(4122, 2000, 'modulo1x1');
+    modulo1x1.create(4172, 2000, 'modulo1x1');
+    modulo1x1.create(4222, 2000, 'modulo1x1');
+    modulo1x1.create(4945, 1588, 'modulo1x1');
+    modulo1x1.create(4995, 1588, 'modulo1x1');
+    modulo1x1.create(5045, 1588, 'modulo1x1');
+    modulo1x1.create(5095, 1588, 'modulo1x1');
+    modulo1x1.create(5145, 1588, 'modulo1x1');
+    modulo1x1.create(5195, 1588, 'modulo1x1');
+    modulo1x1.setAll('body.immovable', true);
+
+    // Moduli 2x2
+    // modulo2x2 = game.add.physicsGroup();
+    modulo2x2.create(600, 2100, 'modulo2x2');
+    modulo2x2.create(800, 2100, 'modulo2x2');
+    modulo2x2.create(800, 2000, 'modulo2x2');
+    modulo2x2.create(2950, 2100, 'modulo2x2');
+    modulo2x2.create(3300, 2100, 'modulo2x2');
+    modulo2x2.create(4400, 2100, 'modulo2x2');
+    modulo2x2.create(6100, 2100, 'modulo2x2');
+    modulo2x2.create(6300, 2100, 'modulo2x2');
+    modulo2x2.create(6300, 2000, 'modulo2x2');
+    modulo2x2.create(8800, 2100, 'modulo2x2');
+    modulo2x2.create(8800, 2100, 'modulo2x2');
+    modulo2x2.create(9200, 2100, 'modulo2x2');
+    modulo2x2.create(9200, 2100, 'modulo2x2');
+    modulo2x2.create(9300, 2100, 'modulo2x2');
+    modulo2x2.create(9300, 2000, 'modulo2x2');
+    modulo2x2.create(10750, 2100, 'modulo2x2');
+    modulo2x2.create(10850, 2100, 'modulo2x2');
+    modulo2x2.create(10850, 2000, 'modulo2x2');
+    modulo2x2.create(14200, 2100, 'modulo2x2');
+    modulo2x2.create(18000, 2100, 'modulo2x2');
+    modulo2x2.create(18450, 2100, 'modulo2x2');
+    modulo2x2.create(18550, 2100, 'modulo2x2');
+    modulo2x2.create(18550, 2000, 'modulo2x2');
+    modulo2x2.create(19700, 2100, 'modulo2x2');
+    modulo2x2.create(19700, 2000, 'modulo2x2');
+    modulo2x2.setAll('body.immovable', true);
+
+    // Interattivi
+    level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
+    game.physics.arcade.enable(level2_mongolfiera);
+    level2_mongolfiera.body.setSize(105, 100, 277, 883);
+
+    movimentoMongolfiera1 = game.add.tween(level2_mongolfiera).to({ y: 600}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true);
+
+    level2_piattaformaMongolfiera = game.add.physicsGroup();
+    level2_piattaformaMongolfiera.create(4449, 2100, 'modulo2x2');
+    movimentoPiattaformaMongolfiera = game.add.tween(level2_piattaformaMongolfiera).to({ y: -617}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true) // y: 1483
+    level2_piattaformaMongolfiera.setAll('body.immovable', true);
+  }
+
+  // Livello 3 (circo)
+  if(levelPlaying == 3)
+  {
+    level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
+    level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
+    level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
+
+    // Floor
+    floor = game.add.physicsGroup();
+    floor.create(0, 687, 'floorLevel3');
+    floor.setAll('body.immovable', true);
+    floor.alpha = 0;
+
+    // Platforms
+    platforms = game.add.physicsGroup();
+    platforms.create(501, 576, 'platform');
+    platforms.setAll('body.immovable', true);
+    platforms.alpha = 0;
+  }
 
 
     // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
