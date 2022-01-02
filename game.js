@@ -20,100 +20,101 @@ var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'main-frame', { preload: prel
 
 function preload() {
 
-    game.load.crossOrigin = 'anonymous';
+  game.load.crossOrigin = 'anonymous';
 
-    game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
-    game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+  game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
+  game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
-    game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10)
+  game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10)
 
-    game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
+  game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
 
-    game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
+  game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
 
-    // Globali
-    game.load.image('globalFloor', 'assets/global/Floor16k.png');
-    game.load.image('sfondoAzzurro', 'assets/global/Lightblue background.png');
+  // Globali
+  game.load.image('globalFloor', 'assets/global/Floor16k.png');
+  game.load.image('sfondoAzzurro', 'assets/global/Lightblue background.png');
 
-    game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
+  game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
 
-    game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
-    game.load.image('modulo1x1', 'assets/global/Modulo1x1.png');
+  game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
+  game.load.image('modulo1x1', 'assets/global/Modulo1x1.png');
 
-    game.load.image('platform2x1', 'assets/global/Size=2x1.png');
-    game.load.image('platform3x1', 'assets/global/Size=3x1.png');
-    game.load.image('platform4x1', 'assets/global/Size=4x1.png');
-    game.load.image('platform5x1', 'assets/global/Size=5x1.png');
-    game.load.image('platform6x1', 'assets/global/Size=6x1.png');
+  game.load.image('platform2x1', 'assets/global/Size=2x1.png');
+  game.load.image('platform3x1', 'assets/global/Size=3x1.png');
+  game.load.image('platform4x1', 'assets/global/Size=4x1.png');
+  game.load.image('platform5x1', 'assets/global/Size=5x1.png');
+  game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
-    game.load.image('death-gap-2x', 'assets/global/Size=2xdeath-gap.png')
-    game.load.image('death-gap-3x', 'assets/global/Size=3xdeath-gap.png')
-    game.load.image('death-gap-4x', 'assets/global/Size=4xdeath-gap.png')
-    game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
-    game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
-    game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
+  game.load.image('death-gap-2x', 'assets/global/Size=2xdeath-gap.png')
+  game.load.image('death-gap-3x', 'assets/global/Size=3xdeath-gap.png')
+  game.load.image('death-gap-4x', 'assets/global/Size=4xdeath-gap.png')
+  game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
+  game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
+  game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
 
-    // Level 1
-    game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
-    game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
-    game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-    game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
-    game.load.image('level1_casa2', 'assets/levelOne/casa2.png');
-    game.load.image('level1_casa3', 'assets/levelOne/casa3_balconies.png');
-    game.load.image('level1_casa3_balcone', 'assets/levelOne/casa3_balcone3x2.png');
-    game.load.image('level1_casa3_hitbox', 'assets/levelOne/casa3_hitbox.png');
-    game.load.image('level1_casa4', 'assets/levelOne/casa4_SenzaTettoia.png');
-    game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
-    game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
+  // Level 1
+  game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
+  game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
+  game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
+  game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
+  game.load.image('level1_casa2', 'assets/levelOne/casa2.png');
+  game.load.image('level1_casa3', 'assets/levelOne/casa3_balconies.png');
+  game.load.image('level1_casa3_balcone', 'assets/levelOne/casa3_balcone3x2.png');
+  game.load.image('level1_casa3_hitbox', 'assets/levelOne/casa3_hitbox.png');
+  game.load.image('level1_casa4', 'assets/levelOne/casa4_SenzaTettoia.png');
+  game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
+  game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
 
-    // Level 2
-    game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
-    game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/level2_calpestabile_parte2.png');
-    game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
-    game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
-    game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
-    game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
-    game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
-    game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
+  // Level 2
+  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
+  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/level2_calpestabile_parte2.png');
+  game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
+  game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
+  game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
+  game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
+  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
+  game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
+  game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera.png');
 
-    // Level 2 /Floor
-    game.load.image('level2_floor1', 'assets/levelTwo/floor/1.png');
-    game.load.image('level2_floor2', 'assets/levelTwo/floor/2.png');
-    game.load.image('level2_floor3', 'assets/levelTwo/floor/3.png');
-    game.load.image('level2_floor4', 'assets/levelTwo/floor/4.png');
-    game.load.image('level2_floor5', 'assets/levelTwo/floor/5.png');
-    game.load.image('level2_floor6', 'assets/levelTwo/floor/6.png');
-    game.load.image('level2_floor7', 'assets/levelTwo/floor/7.png');
-    game.load.image('level2_floor8', 'assets/levelTwo/floor/8.png');
-    game.load.image('level2_floor9', 'assets/levelTwo/floor/9.png');
-    game.load.image('level2_floor10', 'assets/levelTwo/floor/10.png');
-    game.load.image('level2_floor11', 'assets/levelTwo/floor/11.png');
-    game.load.image('level2_floor12', 'assets/levelTwo/floor/12.png');
-    game.load.image('level2_floor13', 'assets/levelTwo/floor/13.png');
-    game.load.image('level2_floor14', 'assets/levelTwo/floor/14.png');
-    game.load.image('level2_floor15', 'assets/levelTwo/floor/15.png');
-    game.load.image('level2_floor16', 'assets/levelTwo/floor/16.png');
-    game.load.image('level2_floor17', 'assets/levelTwo/floor/17.png');
-    game.load.image('level2_floor18', 'assets/levelTwo/floor/18.png');
-    game.load.image('level2_floor19', 'assets/levelTwo/floor/19.png');
-    game.load.image('level2_floor20', 'assets/levelTwo/floor/20.png');
-    game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
+  // Level 2 /Floor
+  game.load.image('level2_floor1', 'assets/levelTwo/floor/1.png');
+  game.load.image('level2_floor2', 'assets/levelTwo/floor/2.png');
+  game.load.image('level2_floor3', 'assets/levelTwo/floor/3.png');
+  game.load.image('level2_floor4', 'assets/levelTwo/floor/4.png');
+  game.load.image('level2_floor5', 'assets/levelTwo/floor/5.png');
+  game.load.image('level2_floor6', 'assets/levelTwo/floor/6.png');
+  game.load.image('level2_floor7', 'assets/levelTwo/floor/7.png');
+  game.load.image('level2_floor8', 'assets/levelTwo/floor/8.png');
+  game.load.image('level2_floor9', 'assets/levelTwo/floor/9.png');
+  game.load.image('level2_floor10', 'assets/levelTwo/floor/10.png');
+  game.load.image('level2_floor11', 'assets/levelTwo/floor/11.png');
+  game.load.image('level2_floor12', 'assets/levelTwo/floor/12.png');
+  game.load.image('level2_floor13', 'assets/levelTwo/floor/13.png');
+  game.load.image('level2_floor14', 'assets/levelTwo/floor/14.png');
+  game.load.image('level2_floor15', 'assets/levelTwo/floor/15.png');
+  game.load.image('level2_floor16', 'assets/levelTwo/floor/16.png');
+  game.load.image('level2_floor17', 'assets/levelTwo/floor/17.png');
+  game.load.image('level2_floor18', 'assets/levelTwo/floor/18.png');
+  game.load.image('level2_floor19', 'assets/levelTwo/floor/19.png');
+  game.load.image('level2_floor20', 'assets/levelTwo/floor/20.png');
+  game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
 
-    // Level 3
-    // Piattaforme e pavimento del livello 3
-    game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
-    game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
+  // Level 3
+  // Piattaforme e pavimento del livello 3
+  game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
+  game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
 
-    // Assets sfondi Level 3
-    game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
-    game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
-    game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
+  // Assets sfondi Level 3
+  game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
+  game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
+  game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
 
-    // Assets menu (placeholders)
-    game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
-    game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
-    game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
-    game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
+  // Assets menu (placeholders)
+  game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
+  game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
+  game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
+  game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
 }
 
 // Variabili sprite
@@ -212,7 +213,6 @@ var level2_ruota3_cabinaF;
 var level2_ruota3_cabinaG;
 var level2_ruota3_cabinaH;
 
-
 var angleCounterA = 45;
 var angleCounterB = 22.5;
 var angleCounterC = 0;
@@ -222,11 +222,8 @@ var angleCounterF = 112.5;
 var angleCounterG = 90;
 var angleCounterH = 67.5;
 
-var level2_mongolfiera;
-var onMongolfiera = false;
-var i = 0;
-var mongolfieraUsed = false;
-var movimentoMongolfiera1;
+var level2_mongolfiera1;
+var level2_mongolfiera2;
 
 // Variabili livello 3
 var floor;
@@ -781,16 +778,16 @@ function create() {
     level2_ruota3_cabinaH.body.setSize(176, 20, 0, 0);
 
     // Mongolfiera
-    level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
-    game.physics.arcade.enable(level2_mongolfiera);
-    level2_mongolfiera.body.setSize(105, 100, 277, 883);
+    level2_mongolfiera1 = game.add.sprite(6700, 1218, 'level2_mongolfiera');
+    game.physics.arcade.enable(level2_mongolfiera1);
+    level2_mongolfiera1.body.setSize(105, 100, 277, 883);
+    level2_mongolfiera1.body.immovable = true;
 
-    movimentoMongolfiera1 = game.add.tween(level2_mongolfiera).to({ y: 600}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true);
+    level2_mongolfiera2 = game.add.sprite(12050, 1218, 'level2_mongolfiera');
+    game.physics.arcade.enable(level2_mongolfiera2);
+    level2_mongolfiera2.body.setSize(105, 100, 277, 883);
+    level2_mongolfiera2.body.immovable = true;
 
-    level2_piattaformaMongolfiera = game.add.physicsGroup();
-    level2_piattaformaMongolfiera.create(4449, 2100, 'modulo2x2');
-    movimentoPiattaformaMongolfiera = game.add.tween(level2_piattaformaMongolfiera).to({ y: -617}, 4000, Phaser.Easing.Linear.None, true, 0, 5000, true) // y: 1483
-    level2_piattaformaMongolfiera.setAll('body.immovable', true);
   }
 
   // Livello 3 (circo)
@@ -832,7 +829,7 @@ function create() {
   }
 
   // Player
-  player = game.add.sprite(2000, 1800, 'pinocchio');
+  player = game.add.sprite(6500, 1800, 'pinocchio');
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -938,316 +935,287 @@ function create() {
 
 }
 
-function updateCounter() { // [non in uso]
-    total++;
-}
-
 function update () {
   //  console.log(isJumping);
   //  console.log(player.health);
   //  console.log(enemy.getChildAt(0).health);
 
+  // TIME
+  gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
-  //  console.log(level2_piattaformaMongolfiera.x + ' ' +  level2_piattaformaMongolfiera.y);
-    // console.log(level2_mongolfiera.body.x + ' ' + level2_mongolfiera.body.y);
+  // Collide
+  
+  game.physics.arcade.collide(player, platforms);
+  game.physics.arcade.collide(player, floor);
+  game.physics.arcade.collide(player, modulo1x1);
+  game.physics.arcade.collide(player, modulo2x2);
 
-    // TIME
-    gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
-
-    // Collide
+  if (levelPlaying == 1)
+  {
+    game.physics.arcade.collide(enemy, level1_floor);
     game.physics.arcade.collide(player, level1_floor);
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(player, floor);
-    game.physics.arcade.collide(enemy, level1_floor );
-    game.physics.arcade.collide(player, modulo1x1);
-    game.physics.arcade.collide(player, modulo2x2);
+    game.physics.arcade.collide(player, level1_platform2x1);
+    game.physics.arcade.collide(player, level1_platform5x1);
+    game.physics.arcade.collide(player, level1_platform6x1);
+    game.physics.arcade.collide(player, level1_casa1);
+    game.physics.arcade.collide(player, level1_casa2);
+    game.physics.arcade.collide(player, level1_casa3_hitbox);
+    game.physics.arcade.collide(player, level1_casa3_balcone);
+    game.physics.arcade.collide(player, level1_casa4_tettoia);
+  }
 
+  if (levelPlaying == 2)
+  {
+    game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level2_floor);
 
+    // Ruote panoramiche
+    // Ruota 1
+    game.physics.arcade.collide(player, level2_ruota1_cabinaA);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaB);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaC);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaD);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaE);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaF);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaG);
+    game.physics.arcade.collide(player, level2_ruota1_cabinaH);
+    // Ruota 2
+    game.physics.arcade.collide(player, level2_ruota2_cabinaA);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaB);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaC);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaD);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaE);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaF);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaG);
+    game.physics.arcade.collide(player, level2_ruota2_cabinaH);
+    // Ruota 3
+    game.physics.arcade.collide(player, level2_ruota3_cabinaA);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaB);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaC);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaD);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaE);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaF);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaG);
+    game.physics.arcade.collide(player, level2_ruota3_cabinaH);
 
-    if (levelPlaying == 1)
+    game.physics.arcade.collide(player, level2_mongolfiera1, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level2_mongolfiera1);
+    game.physics.arcade.collide(player, level2_mongolfiera2, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level2_mongolfiera2);
+
+    game.physics.arcade.collide(enemy, level2_floor);
+  }
+
+  // Livello 2 / Oggetti interattivi 
+  if (levelPlaying == 2) {
+
+    // Ruota panoramica
+    level2_ruota1_centrale.angle -= 0.4;
+    level2_ruota2_centrale.angle -= 0.4;
+    level2_ruota3_centrale.angle += 0.4;
+
+    // Cabina A
+    angleCounterA += 0.2;
+    if (angleCounterA == 180) {
+      angleCounterA = 0;
+    }
+    sinA = Math.sin(Math.PI*2*angleCounterA/180);
+    cosA = Math.cos(Math.PI*2*angleCounterA/180);
+
+    // Ruota 1/A
+    level2_ruota1_cabinaA.body.velocity.x = (200)*cosA;
+    level2_ruota1_cabinaA.body.velocity.y = -(200)*sinA;
+    // Ruota 2/A
+    level2_ruota2_cabinaA.body.velocity.x = (200)*cosA;
+    level2_ruota2_cabinaA.body.velocity.y = -(200)*sinA;
+    // Ruota 3/A
+    level2_ruota3_cabinaA.body.velocity.x = (200)*cosA;
+    level2_ruota3_cabinaA.body.velocity.y = (200)*sinA;
+
+    // Cabina B
+    angleCounterB += 0.2;
+    if (angleCounterB == 180) {
+      angleCounterB = 0;
+    }
+    sinB = Math.sin(Math.PI*2*angleCounterB/180);
+    cosB = Math.cos(Math.PI*2*angleCounterB/180);
+  
+    // Ruota 1/B
+    level2_ruota1_cabinaB.body.velocity.x = (200)*cosB;
+    level2_ruota1_cabinaB.body.velocity.y = -(200)*sinB;
+    // Ruota 2/B
+    level2_ruota2_cabinaB.body.velocity.x = (200)*cosB;
+    level2_ruota2_cabinaB.body.velocity.y = -(200)*sinB;
+    // Ruota 3/B
+    level2_ruota3_cabinaB.body.velocity.x = -(200)*sinB;
+    level2_ruota3_cabinaB.body.velocity.y = (200)*cosB;
+
+    // Cabina C
+    angleCounterC += 0.2;
+    if (angleCounterC == 180) {
+    angleCounterC = 0;
+    }
+    sinC = Math.sin(Math.PI*2*angleCounterC/180);
+    cosC = Math.cos(Math.PI*2*angleCounterC/180);
+
+    // Ruota 1/C
+    level2_ruota1_cabinaC.body.velocity.x = (200)*cosC;
+    level2_ruota1_cabinaC.body.velocity.y = -(200)*sinC;
+    // Ruota 2/C
+    level2_ruota2_cabinaC.body.velocity.x = (200)*cosC;
+    level2_ruota2_cabinaC.body.velocity.y = -(200)*sinC;
+    // Ruota 3/C
+    level2_ruota3_cabinaC.body.velocity.x = -(200)*cosC;
+    level2_ruota3_cabinaC.body.velocity.y = -(200)*sinC;
+
+    // Cabina D
+    angleCounterD += 0.2;
+    if (angleCounterD == 180) {
+    angleCounterD = 0;
+    }
+    sinD = Math.sin(Math.PI*2*angleCounterD/180);
+    cosD = Math.cos(Math.PI*2*angleCounterD/180);
+
+    // Ruota 1/D 
+    level2_ruota1_cabinaD.body.velocity.x = (200)*cosD;
+    level2_ruota1_cabinaD.body.velocity.y = -(200)*sinD;
+    // Ruota 2/D 
+    level2_ruota2_cabinaD.body.velocity.x = (200)*cosD;
+    level2_ruota2_cabinaD.body.velocity.y = -(200)*sinD;
+    // Ruota 3/D 
+    level2_ruota3_cabinaD.body.velocity.x = (200)*sinD;
+    level2_ruota3_cabinaD.body.velocity.y = -(200)*cosD;
+
+    // Cabina E
+    angleCounterE += 0.2;
+    if (angleCounterE == 180) {
+      angleCounterE = 0;
+    }
+    sinE = Math.sin(Math.PI*2*angleCounterE/180);
+    cosE = Math.cos(Math.PI*2*angleCounterE/180);
+  
+    // Ruota 1/E
+    level2_ruota1_cabinaE.body.velocity.x = (200)*cosE;
+    level2_ruota1_cabinaE.body.velocity.y = -(200)*sinE;
+    // Ruota 2/E
+    level2_ruota2_cabinaE.body.velocity.x = (200)*cosE;
+    level2_ruota2_cabinaE.body.velocity.y = -(200)*sinE;
+    // Ruota 3/E
+    level2_ruota3_cabinaE.body.velocity.x = (200)*cosE;
+    level2_ruota3_cabinaE.body.velocity.y = (200)*sinE;
+
+    // Cabina F
+    angleCounterF += 0.2;
+    if (angleCounterF == 180) {
+      angleCounterF = 0;
+    }
+    sinF = Math.sin(Math.PI*2*angleCounterF/180);
+    cosF = Math.cos(Math.PI*2*angleCounterF/180);
+  
+    // Ruota 1/F
+    level2_ruota1_cabinaF.body.velocity.x = (200)*cosF;
+    level2_ruota1_cabinaF.body.velocity.y = -(200)*sinF;
+    // Ruota 2/F
+    level2_ruota2_cabinaF.body.velocity.x = (200)*cosF;
+    level2_ruota2_cabinaF.body.velocity.y = -(200)*sinF;
+    // Ruota 3/F
+    level2_ruota3_cabinaF.body.velocity.x = -(200)*sinF;
+    level2_ruota3_cabinaF.body.velocity.y = (200)*cosF;
+
+    // Cabina G
+    angleCounterG += 0.2;
+    if (angleCounterG == 180) {
+      angleCounterG = 0;
+    }
+    sinG = Math.sin(Math.PI*2*angleCounterG/180);
+    cosG = Math.cos(Math.PI*2*angleCounterG/180);
+  
+    // Ruota 1/G
+    level2_ruota1_cabinaG.body.velocity.x = (200)*cosG;
+    level2_ruota1_cabinaG.body.velocity.y = -(200)*sinG;
+    // Ruota 2/G
+    level2_ruota2_cabinaG.body.velocity.x = (200)*cosG;
+    level2_ruota2_cabinaG.body.velocity.y = -(200)*sinG;
+    // Ruota 3/G
+    level2_ruota3_cabinaG.body.velocity.x = -(200)*cosG;
+    level2_ruota3_cabinaG.body.velocity.y = -(200)*sinG;
+
+    // Cabina H
+    angleCounterH += 0.2;
+    if (angleCounterH == 180) {
+      angleCounterH = 0;
+    }
+    sinH = Math.sin(Math.PI*2*angleCounterH/180);
+    cosH = Math.cos(Math.PI*2*angleCounterH/180);
+
+    // Ruota 1/H
+    level2_ruota1_cabinaH.body.velocity.x = (200)*cosH;
+    level2_ruota1_cabinaH.body.velocity.y = -(200)*sinH;
+    // Ruota 2/H
+    level2_ruota2_cabinaH.body.velocity.x = (200)*cosH;
+    level2_ruota2_cabinaH.body.velocity.y = -(200)*sinH;
+    // Ruota 3/H
+    level2_ruota3_cabinaH.body.velocity.x = (200)*sinH;
+    level2_ruota3_cabinaH.body.velocity.y = -(200)*cosH;
+
+    // Mongolfiera
+    if(level2_mongolfiera.y <= 550)
     {
-      game.physics.arcade.collide(player, level1_platform2x1);
-      game.physics.arcade.collide(player, level1_platform5x1);
-      game.physics.arcade.collide(player, level1_platform6x1);
-      game.physics.arcade.collide(player, level1_casa1);
-      game.physics.arcade.collide(player, level1_casa2);
-      game.physics.arcade.collide(player, level1_casa3_hitbox);
-      game.physics.arcade.collide(player, level1_casa3_balcone);
-      game.physics.arcade.collide(player, level1_casa4_tettoia);
+      level2_mongolfiera.body.velocity.y = +125;
     }
-
-    if (levelPlaying == 2)
+    if(level2_mongolfiera.y > 1217)
     {
-      game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
-      game.physics.arcade.collide(player, level2_floor);
-
-      // Ruote panoramiche
-      // Ruota 1
-      game.physics.arcade.collide(player, level2_ruota1_cabinaA);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaB);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaC);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaD);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaE);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaF);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaG);
-      game.physics.arcade.collide(player, level2_ruota1_cabinaH);
-      // Ruota 2
-      game.physics.arcade.collide(player, level2_ruota2_cabinaA);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaB);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaC);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaD);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaE);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaF);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaG);
-      game.physics.arcade.collide(player, level2_ruota2_cabinaH);
-      // Ruota 3
-      game.physics.arcade.collide(player, level2_ruota3_cabinaA);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaB);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaC);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaD);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaE);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaF);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaG);
-      game.physics.arcade.collide(player, level2_ruota3_cabinaH);
-
-      game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
-      game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
-
-      game.physics.arcade.collide(enemy, level2_floor);
+      level2_mongolfiera.body.velocity.y = -125;
     }
-
-    // Overlap e interazioni con oggetti interattivi
-    if (levelPlaying == 2) {
-
-      // Ruota panoramica
-      level2_ruota1_centrale.angle -= 0.4;
-      level2_ruota2_centrale.angle -= 0.4;
-      level2_ruota3_centrale.angle += 0.4;
-
-      // Cabina A
-      angleCounterA += 0.2;
-      if (angleCounterA == 180) {
-        angleCounterA = 0;
-      }
-      sinA = Math.sin(Math.PI*2*angleCounterA/180);
-      cosA = Math.cos(Math.PI*2*angleCounterA/180);
-
-      // Ruota 1/A
-      level2_ruota1_cabinaA.body.velocity.x = (200)*cosA;
-      level2_ruota1_cabinaA.body.velocity.y = -(200)*sinA;
-      // Ruota 2/A
-      level2_ruota2_cabinaA.body.velocity.x = (200)*cosA;
-      level2_ruota2_cabinaA.body.velocity.y = -(200)*sinA;
-      // Ruota 3/A
-      level2_ruota3_cabinaA.body.velocity.x = (200)*cosA;
-      level2_ruota3_cabinaA.body.velocity.y = (200)*sinA;
-
-      // Cabina B
-      angleCounterB += 0.2;
-      if (angleCounterB == 180) {
-        angleCounterB = 0;
-      }
-      sinB = Math.sin(Math.PI*2*angleCounterB/180);
-      cosB = Math.cos(Math.PI*2*angleCounterB/180);
-    
-      // Ruota 1/B
-      level2_ruota1_cabinaB.body.velocity.x = (200)*cosB;
-      level2_ruota1_cabinaB.body.velocity.y = -(200)*sinB;
-      // Ruota 2/B
-      level2_ruota2_cabinaB.body.velocity.x = (200)*cosB;
-      level2_ruota2_cabinaB.body.velocity.y = -(200)*sinB;
-      // Ruota 3/B
-      level2_ruota3_cabinaB.body.velocity.x = -(200)*sinB;
-      level2_ruota3_cabinaB.body.velocity.y = (200)*cosB;
-
-      // Cabina C
-      angleCounterC += 0.2;
-      if (angleCounterC == 180) {
-      angleCounterC = 0;
-      }
-      sinC = Math.sin(Math.PI*2*angleCounterC/180);
-      cosC = Math.cos(Math.PI*2*angleCounterC/180);
-
-      // Ruota 1/C
-      level2_ruota1_cabinaC.body.velocity.x = (200)*cosC;
-      level2_ruota1_cabinaC.body.velocity.y = -(200)*sinC;
-      // Ruota 2/C
-      level2_ruota2_cabinaC.body.velocity.x = (200)*cosC;
-      level2_ruota2_cabinaC.body.velocity.y = -(200)*sinC;
-      // Ruota 3/C
-      level2_ruota3_cabinaC.body.velocity.x = -(200)*cosC;
-      level2_ruota3_cabinaC.body.velocity.y = -(200)*sinC;
+  }
 
 
-      // Cabina D
-      angleCounterD += 0.2;
-      if (angleCounterD == 180) {
-      angleCounterD = 0;
-      }
-      sinD = Math.sin(Math.PI*2*angleCounterD/180);
-      cosD = Math.cos(Math.PI*2*angleCounterD/180);
+  // Player shadow offset
+  shadow.x = player.x+350;
+  shadow.y = player.y+200;
 
-      // Ruota 1/D 
-      level2_ruota1_cabinaD.body.velocity.x = (200)*cosD;
-      level2_ruota1_cabinaD.body.velocity.y = -(200)*sinD;
-      // Ruota 2/D 
-      level2_ruota2_cabinaD.body.velocity.x = (200)*cosD;
-      level2_ruota2_cabinaD.body.velocity.y = -(200)*sinD;
-      // Ruota 3/D 
-      level2_ruota3_cabinaD.body.velocity.x = (200)*sinD;
-      level2_ruota3_cabinaD.body.velocity.y = -(200)*cosD;
+  // Parallasse sfondi
+  if(levelPlaying == 2)
+  {
+      level2_cielo.x = game.camera.x*(-0.005);
+      level2_collineGialle.x = game.camera.x*(-0.025);
+      level2_collineRosse.x = game.camera.x*(-0.04);
+  }
 
-
-      // Cabina E
-      angleCounterE += 0.2;
-      if (angleCounterE == 180) {
-        angleCounterE = 0;
-      }
-      sinE = Math.sin(Math.PI*2*angleCounterE/180);
-      cosE = Math.cos(Math.PI*2*angleCounterE/180);
-    
-      // Ruota 1/E
-      level2_ruota1_cabinaE.body.velocity.x = (200)*cosE;
-      level2_ruota1_cabinaE.body.velocity.y = -(200)*sinE;
-      // Ruota 2/E
-      level2_ruota2_cabinaE.body.velocity.x = (200)*cosE;
-      level2_ruota2_cabinaE.body.velocity.y = -(200)*sinE;
-      // Ruota 3/E
-      level2_ruota3_cabinaE.body.velocity.x = (200)*cosE;
-      level2_ruota3_cabinaE.body.velocity.y = (200)*sinE;
-
-      // Cabina F
-      angleCounterF += 0.2;
-      if (angleCounterF == 180) {
-        angleCounterF = 0;
-      }
-      sinF = Math.sin(Math.PI*2*angleCounterF/180);
-      cosF = Math.cos(Math.PI*2*angleCounterF/180);
-    
-      // Ruota 1/F
-      level2_ruota1_cabinaF.body.velocity.x = (200)*cosF;
-      level2_ruota1_cabinaF.body.velocity.y = -(200)*sinF;
-      // Ruota 2/F
-      level2_ruota2_cabinaF.body.velocity.x = (200)*cosF;
-      level2_ruota2_cabinaF.body.velocity.y = -(200)*sinF;
-      // Ruota 3/F
-      level2_ruota3_cabinaF.body.velocity.x = -(200)*sinF;
-      level2_ruota3_cabinaF.body.velocity.y = (200)*cosF;
-
-      // Cabina G
-      angleCounterG += 0.2;
-      if (angleCounterG == 180) {
-        angleCounterG = 0;
-      }
-      sinG = Math.sin(Math.PI*2*angleCounterG/180);
-      cosG = Math.cos(Math.PI*2*angleCounterG/180);
-    
-      // Ruota 1/G
-      level2_ruota1_cabinaG.body.velocity.x = (200)*cosG;
-      level2_ruota1_cabinaG.body.velocity.y = -(200)*sinG;
-      // Ruota 2/G
-      level2_ruota2_cabinaG.body.velocity.x = (200)*cosG;
-      level2_ruota2_cabinaG.body.velocity.y = -(200)*sinG;
-      // Ruota 3/G
-      level2_ruota3_cabinaG.body.velocity.x = -(200)*cosG;
-      level2_ruota3_cabinaG.body.velocity.y = -(200)*sinG;
-
-      // Cabina H
-      angleCounterH += 0.2;
-      if (angleCounterH == 180) {
-        angleCounterH = 0;
-      }
-      sinH = Math.sin(Math.PI*2*angleCounterH/180);
-      cosH = Math.cos(Math.PI*2*angleCounterH/180);
-
-      // Ruota 1/H
-      level2_ruota1_cabinaH.body.velocity.x = (200)*cosH;
-      level2_ruota1_cabinaH.body.velocity.y = -(200)*sinH;
-      // Ruota 2/H
-      level2_ruota2_cabinaH.body.velocity.x = (200)*cosH;
-      level2_ruota2_cabinaH.body.velocity.y = -(200)*sinH;
-      // Ruota 3/H
-      level2_ruota3_cabinaH.body.velocity.x = (200)*sinH;
-      level2_ruota3_cabinaH.body.velocity.y = -(200)*cosH;
+  if(levelPlaying == 3)
+  {
+      level3_layer1.x = game.camera.x*(-0.25);
+      level3_layer3.x = game.camera.x*(-0.05);
+  }
 
 
-      // Mongolfiera automatizzata
-      function mongolfiera() {
-        if (onMongolfiera == false && mongolfieraUsed == false) {
-          onMongolfiera = true;
-        }
+  // Overlap tra player e enemy
+  game.physics.arcade.overlap(player, enemy, touchEnemy);
+  game.physics.arcade.overlap(gun1.bullets, enemy, shootEnemy);
 
-        while (onMongolfiera == true && i == 0) {
-          i = i + 1;
-          enablePlayerMovement = false;
-          player.body.velocity.x = 0;
-          player.body.velocity.y = 0;
-          player.x = 4420;
-          player.y = 1960;
-        }
-      }
+  // Interaction point
+  game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
-      if (onMongolfiera == true && jumpButton.isDown) { // La barra spaziatrice "slega" il Player dalla Mongolfiera. Salta verso destra.
-        onMongolfiera = false;
-        mongolfieraUsed = true;
-        enablePlayerMovement = true;
-        player.body.gravity.y = 2000;
-        player.body.velocity.x = 450;
-        player.body.velocity.y = -850;
-      }
-
-    }
-
-    // console.log('enablePlayerMovement: ' + enablePlayerMovement);
-    // console.log('onMongolfiera: ' + onMongolfiera);
-
-
-    // Player shadow offset
-    shadow.x = player.x+350;
-    shadow.y = player.y+200;
-
-    // Parallasse sfondi
-    if(levelPlaying == 2)
+  // Controls
+  if (cursors.left.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
+  {
+    player.body.velocity.x = -300;
+    if (facing !== "left") // Se il player è rivolto a sinistra
     {
-        level2_cielo.x = game.camera.x*(-0.005);
-        level2_collineGialle.x = game.camera.x*(-0.025);
-        level2_collineRosse.x = game.camera.x*(-0.04);
+      facing = "left";
     }
+  }
 
-    if(levelPlaying == 3)
+  else if (cursors.right.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
+  {
+    player.body.velocity.x = 300;
+    if (facing !== "right") // Se il player è rivolto a destra
     {
-        level3_layer1.x = game.camera.x*(-0.25);
-        level3_layer3.x = game.camera.x*(-0.05);
+      facing = "right";
     }
+  }
 
-
-    // Overlap tra player e enemy
-    game.physics.arcade.overlap(player, enemy, touchEnemy);
-    game.physics.arcade.overlap(gun1.bullets, enemy, shootEnemy);
-
-    // Interaction point
-    game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
-
-    // Controls
-    if (cursors.left.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
-    {
-        player.body.velocity.x = -300;
-        if (facing !== "left") // Se il player è rivolto a sinistra
-        {
-            facing = "left";
-        }
-    }
-
-    else if (cursors.right.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
-    {
-        player.body.velocity.x = 300;
-        if (facing !== "right") // Se il player è rivolto a destra
-        {
-          facing = "right";
-        }
-    }
-
-   //Animazioni
+  //Animazioni
 
   if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) //SE player rivolto a sinistra
     {
@@ -1264,13 +1232,13 @@ function update () {
       player.animations.play('fireR', 15)
     }
 
-if (facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
-  if (isFiring === false) {
+    if (facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
+    if (isFiring === false) {
     player.animations.play('walkR', 15, true);
-  } else {
+    } else {
     player.animations.play('walkFireR', 15, true);
   }
-} else if (facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
+  } else if (facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
   if (isFiring === false) {
     player.animations.play('walkL', 15, true);
   } else {
@@ -1372,156 +1340,153 @@ if (facing === 'right') {
 
     if (menuButton.isDown) // SE il tasto menuButton è premuto
     {
-
-        if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
+      if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
+      {
+        menuButtonIsPressed = true; // Cambia lo stato della variabile.
+        if(menuOpen === false) // SE il menu NON è GIÀ aperto.
         {
-            menuButtonIsPressed = true; // Cambia lo stato della variabile.
-            if(menuOpen === false) // SE il menu NON è GIÀ aperto.
-            {
-                menuOpen = true; // Cambia lo stato della variabile.
-                console.log('Menu was opened');
+          menuOpen = true; // Cambia lo stato della variabile.
+          console.log('Menu was opened');
 
-                // Crea gli sprite che mostrano le opzioni (la grafica) del menu
-                menuOption1 = game.add.sprite(180, 170, 'option1');
-                menuOption1.fixedToCamera = true;
-                menuOption1.cameraOffset.setTo(180, 170);
-                menuOption2 = game.add.sprite(438, 170, 'option2');
-                menuOption2.fixedToCamera = true;
-                menuOption2.cameraOffset.setTo(438, 170);
-                menuOption3 = game.add.sprite(696, 170, 'option3');
-                menuOption3.fixedToCamera = true;
-                menuOption3.cameraOffset.setTo(696, 170);
+          // Crea gli sprite che mostrano le opzioni (la grafica) del menu
+          menuOption1 = game.add.sprite(180, 170, 'option1');
+          menuOption1.fixedToCamera = true;
+          menuOption1.cameraOffset.setTo(180, 170);
+          menuOption2 = game.add.sprite(438, 170, 'option2');
+          menuOption2.fixedToCamera = true;
+          menuOption2.cameraOffset.setTo(438, 170);
+          menuOption3 = game.add.sprite(696, 170, 'option3');
+          menuOption3.fixedToCamera = true;
+          menuOption3.cameraOffset.setTo(696, 170);
 
-                // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
-                if (optionSelected == 1)
-                {
-                    menuOption1.frame = 0;
-                    menuOption2.frame = 1;
-                    menuOption3.frame = 1;
-                }
-                else if (optionSelected == 2)
-                {
-                    menuOption1.frame = 1;
-                    menuOption2.frame = 0;
-                    menuOption3.frame = 1;
-                }
-                else if (optionSelected == 3)
-                {
-                    menuOption1.frame = 1;
-                    menuOption2.frame = 1;
-                    menuOption3.frame = 0;
-                }
-            }
-            else if(menuOpen === true) // SE il menu è GIÀ aperto.
-            {
-                menuOpen = false; // Cambia lo stato della variabile.
-                console.log('Menu was closed');
-                menuOption1.kill(); // Kill della grafica.
-                menuOption2.kill(); // Kill della grafica.
-                menuOption3.kill(); // Kill della grafica.
-            }
-
-        }
-
-    } else
-    menuButtonIsPressed = false;
-
-    // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
-    function changeOptionHovered() {
-        if (optionHovered == 1)
-        {
+          // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
+          if (optionSelected == 1)
+          {
             menuOption1.frame = 0;
             menuOption2.frame = 1;
             menuOption3.frame = 1;
-        }
-        else if (optionHovered == 2)
-        {
+          }
+          else if (optionSelected == 2)
+          {
             menuOption1.frame = 1;
             menuOption2.frame = 0;
             menuOption3.frame = 1;
-        }
-        else if (optionHovered == 3)
-        {
+          }
+          else if (optionSelected == 3)
+          {
             menuOption1.frame = 1;
             menuOption2.frame = 1;
             menuOption3.frame = 0;
+          }
         }
-    }
+        else if(menuOpen === true) // SE il menu è GIÀ aperto.
+        {
+          menuOpen = false; // Cambia lo stato della variabile.
+          console.log('Menu was closed');
+          menuOption1.kill(); // Kill della grafica.
+          menuOption2.kill(); // Kill della grafica.
+          menuOption3.kill(); // Kill della grafica.
+        }
+      }
+    } else
+    menuButtonIsPressed = false;
 
-    // Esegue la funzione quando vengono premuti i tasti 1, 2, 3 per la selezione delle opzioni.
-    if (oneKey.isDown && menuOpen == true)
+  // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
+  function changeOptionHovered() {
+    if (optionHovered == 1)
     {
-        optionHovered = 1;
-        console.log('Hovering option ' + optionHovered);
-        changeOptionHovered();
+      menuOption1.frame = 0;
+      menuOption2.frame = 1;
+      menuOption3.frame = 1;
     }
-    if (twoKey.isDown && menuOpen == true)
+    else if (optionHovered == 2)
     {
-        optionHovered = 2;
-        console.log('Hovering option ' + optionHovered);
-        changeOptionHovered();
+      menuOption1.frame = 1;
+      menuOption2.frame = 0;
+      menuOption3.frame = 1;
     }
-    if (threeKey.isDown && menuOpen == true)
+    else if (optionHovered == 3)
     {
-        optionHovered = 3;
-        console.log('Hovering option ' + optionHovered);
-        changeOptionHovered();
+      menuOption1.frame = 1;
+      menuOption2.frame = 1;
+      menuOption3.frame = 0;
     }
+  }
 
-    // Imposta l'opzione selezionata.
-    if (jumpButton.isDown && menuOpen == true)
+  // Esegue la funzione quando vengono premuti i tasti 1, 2, 3 per la selezione delle opzioni.
+  if (oneKey.isDown && menuOpen == true)
+  {
+    optionHovered = 1;
+    console.log('Hovering option ' + optionHovered);
+    changeOptionHovered();
+  }
+  if (twoKey.isDown && menuOpen == true)
+  {
+    optionHovered = 2;
+    console.log('Hovering option ' + optionHovered);
+    changeOptionHovered();
+  }
+  if (threeKey.isDown && menuOpen == true)
+  {
+    optionHovered = 3;
+    console.log('Hovering option ' + optionHovered);
+    changeOptionHovered();
+  }
+
+  // Imposta l'opzione selezionata.
+  if (jumpButton.isDown && menuOpen == true)
+  {
+    optionSelected = optionHovered;
+    console.log('Option selected: '+optionSelected);
+    if (optionSelected == 1)
     {
-        optionSelected = optionHovered;
-        console.log('Option selected: '+optionSelected);
-        if (optionSelected == 1)
-        {
-            selectionIcon.frame = 0;
-        }
-        else if (optionSelected == 2)
-        {
-            selectionIcon.frame = 1;
-        }
-        else if (optionSelected == 3)
-        {
-            selectionIcon.frame = 2;
-        }
+      selectionIcon.frame = 0;
     }
+    else if (optionSelected == 2)
+    {
+      selectionIcon.frame = 1;
+    }
+    else if (optionSelected == 3)
+    {
+      selectionIcon.frame = 2;
+    }
+  }
 }
 
 
 function enableInteraction() {
-    if(onInteraction === false)
+  if(onInteraction === false)
+  {
+    onInteraction = true;
+    interactionEnabled = true;
+    console.log("Interazione possibile");
+    if (interactionPointLabelShown == false)
     {
-        onInteraction = true;
-        interactionEnabled = true;
-        console.log("Interazione possibile");
-        if (interactionPointLabelShown == false)
-        {
-            interactionPointLabelShown = true;
-          //  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
-        }
+      interactionPointLabelShown = true;
+      //  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+    }
 
-    }
-    else
-    {
-        onInteraction = false;
-        interactionEnabled = false;
-        interactionPointLabelShown = false;
-      //  interactionPointLabel.kill();
-    }
+  }
+  else
+  {
+    onInteraction = false;
+    interactionEnabled = false;
+    interactionPointLabelShown = false;
+    //  interactionPointLabel.kill();
+  }
 
 }
 function touchEnemy(player, enemy) {
-    enemy.kill();
+  enemy.kill();
   //  player.health.damage = 1;
 }
 
 function shootEnemy(bullets, enemy) {
-    bullets.kill();
-    enemy.health = enemy.health - 1;
-    if (enemy.health <= 0) {
-      enemy.kill();
-    }
+  bullets.kill();
+  enemy.health = enemy.health - 1;
+  if (enemy.health <= 0) {
+    enemy.kill();
+  }
 }
 
 function isFiringTrue() {
@@ -1553,7 +1518,7 @@ function dustJumpTrue() {
 }
 
 function dustJumpFalse() {
-  dustJump = false;
+dustJump = false;
 console.log(dustJump);
 
 }
@@ -1566,22 +1531,20 @@ function landingCallback(player, obj) {
     dustLandR = dust.animations.add('dustLandR', [4, 5, 6]);
     dustLandR.play(10, false);
     dustLandR.killOnComplete = true;
-} else {
+  } else {
     dust = game.add.sprite(player.x, player.y + 5, 'dust');
     dustLandL = dust.animations.add('dustLandL', [7, 8, 9]);
     dustLandL.play(10, false);
     dustLandL.killOnComplete = true;
+  }
 }
 
-}
 function landingProcessCallback(player, obj) {
-if (isJumping === true) {
-  return true;
-} else {
-  return false;
-}
-
-
+  if (isJumping === true) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /*
@@ -1598,7 +1561,8 @@ if (isJumping === true) {
   }
 }
 */
+
 function render () {
-  // game.debug.body(level2_mongolfiera);
+  game.debug.body(level2_mongolfiera);
   game.debug.body(player);
 }
