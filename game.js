@@ -179,7 +179,24 @@ var level2_floor;
 var level2_ruota_supporto;
 var level2_ruota_centrale;
 var level2_ruota_cabina;
-var angleCounter = 135;
+var level2_ruota_cabinaA;
+var level2_ruota_cabinaB;
+var level2_ruota_cabinaC;
+var level2_ruota_cabinaD;
+var level2_ruota_cabinaE;
+var level2_ruota_cabinaF;
+var level2_ruota_cabinaG;
+var level2_ruota_cabinaH;
+
+
+var angleCounterA = 45;
+var angleCounterB = 22.5;
+var angleCounterC = 0;
+var angleCounterD = 157.5;
+var angleCounterE = 135;
+var angleCounterF = 112.5;
+var angleCounterG = 90;
+var angleCounterH = 67.5;
 
 var level2_mongolfiera;
 var onMongolfiera = false;
@@ -582,12 +599,47 @@ function create() {
     level2_ruota_centrale.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(level2_ruota_centrale);
 
-    level2_ruota_cabina = game.add.sprite(1969, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota_cabina);
-    level2_ruota_cabina.body.immovable = true;
-    level2_ruota_cabina.anchor.setTo(0.5, 0.5);
+    level2_ruota_cabinaA = game.add.sprite(2929, 1574, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaA);
+    level2_ruota_cabinaA.body.immovable = true;
+    level2_ruota_cabinaA.anchor.setTo(0.5, 0.5);
 
+    level2_ruota_cabinaB = game.add.sprite(2790, 1909, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaB);
+    level2_ruota_cabinaB.body.immovable = true;
+    level2_ruota_cabinaB.anchor.setTo(0.5, 0.5);
 
+    level2_ruota_cabinaC = game.add.sprite(2448, 2050, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaC);
+    level2_ruota_cabinaC.body.immovable = true;
+    level2_ruota_cabinaC.anchor.setTo(0.5, 0.5);
+
+    level2_ruota_cabinaD = game.add.sprite(2112, 1909, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaD);
+    level2_ruota_cabinaD.body.immovable = true;
+    level2_ruota_cabinaD.anchor.setTo(0.5, 0.5);
+
+    level2_ruota_cabinaE = game.add.sprite(1969, 1574, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaE);
+    level2_ruota_cabinaE.body.immovable = true;
+    level2_ruota_cabinaE.anchor.setTo(0.5, 0.5);
+
+    level2_ruota_cabinaF = game.add.sprite(2112, 1239, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaF);
+    level2_ruota_cabinaF.body.immovable = true;
+    level2_ruota_cabinaF.anchor.setTo(0.5, 0.5);
+
+    level2_ruota_cabinaG = game.add.sprite(2448, 1100, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaG);
+    level2_ruota_cabinaG.body.immovable = true;
+    level2_ruota_cabinaG.anchor.setTo(0.5, 0.5);
+
+    level2_ruota_cabinaH = game.add.sprite(2790, 1239, 'level2_ruota_cabina');
+    game.physics.arcade.enable(level2_ruota_cabinaH);
+    level2_ruota_cabinaH.body.immovable = true;
+    level2_ruota_cabinaH.anchor.setTo(0.5, 0.5);
+
+    
 
     level2_mongolfiera = game.add.sprite(4172, 1217, 'level2_mongolfiera');
     game.physics.arcade.enable(level2_mongolfiera);
@@ -794,8 +846,14 @@ function update () {
       game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
       game.physics.arcade.collide(player, level2_floor);
 
-      game.physics.arcade.collide(player, level2_ruota_cabina);
-
+      game.physics.arcade.collide(player, level2_ruota_cabinaA);
+      game.physics.arcade.collide(player, level2_ruota_cabinaB);
+      game.physics.arcade.collide(player, level2_ruota_cabinaC);
+      game.physics.arcade.collide(player, level2_ruota_cabinaD);
+      game.physics.arcade.collide(player, level2_ruota_cabinaE);
+      game.physics.arcade.collide(player, level2_ruota_cabinaF);
+      game.physics.arcade.collide(player, level2_ruota_cabinaG);
+      game.physics.arcade.collide(player, level2_ruota_cabinaH);
 
       game.physics.arcade.collide(player, level2_piattaformaMongolfiera, landingCallback, landingProcessCallback, this);
       game.physics.arcade.collide(player, level2_piattaformaMongolfiera);
@@ -809,22 +867,110 @@ function update () {
       // Ruota panoramica
       level2_ruota_centrale.angle -= 0.4;
 
-      angleCounter += 0.2;
-      if (angleCounter == 180) {
-        angleCounter = 0;
+      // Cabina A
+      angleCounterA += 0.2;
+      if (angleCounterA == 180) {
+        angleCounterA = 0;
       }
     
-      //player.x = 200+Math.sin(Math.PI*2*contatore/100)*100;
-      //player.y = 200+Math.cos(Math.PI*2*contatore/100)*100;
-    
-      sin = Math.sin(Math.PI*2*angleCounter/180);
-      cos = Math.cos(Math.PI*2*angleCounter/180);
-    
-      console.log(sin + ' ' + cos);
+      sinA = Math.sin(Math.PI*2*angleCounterA/180);
+      cosA = Math.cos(Math.PI*2*angleCounterA/180);
     
       // velocità = 
-      level2_ruota_cabina.body.velocity.x = (200)*cos;
-      level2_ruota_cabina.body.velocity.y = -(200)*sin;
+      level2_ruota_cabinaA.body.velocity.x = (200)*cosA;
+      level2_ruota_cabinaA.body.velocity.y = -(200)*sinA;
+
+      // Cabina B
+      angleCounterB += 0.2;
+      if (angleCounterB == 180) {
+        angleCounterB = 0;
+      }
+    
+      sinB = Math.sin(Math.PI*2*angleCounterB/180);
+      cosB = Math.cos(Math.PI*2*angleCounterB/180);
+    
+      // velocità = 
+      level2_ruota_cabinaB.body.velocity.x = (200)*cosB;
+      level2_ruota_cabinaB.body.velocity.y = -(200)*sinB;
+
+      // Cabina C
+      angleCounterC += 0.2;
+      if (angleCounterC == 180) {
+      angleCounterC = 0;
+      }
+
+      sinC = Math.sin(Math.PI*2*angleCounterC/180);
+      cosC = Math.cos(Math.PI*2*angleCounterC/180);
+
+      // velocità = 
+      level2_ruota_cabinaC.body.velocity.x = (200)*cosC;
+      level2_ruota_cabinaC.body.velocity.y = -(200)*sinC;
+
+      // Cabina D
+      angleCounterD += 0.2;
+      if (angleCounterD == 180) {
+      angleCounterD = 0;
+      }
+
+      sinD = Math.sin(Math.PI*2*angleCounterD/180);
+      cosD = Math.cos(Math.PI*2*angleCounterD/180);
+
+      // velocità = 
+      level2_ruota_cabinaD.body.velocity.x = (200)*cosD;
+      level2_ruota_cabinaD.body.velocity.y = -(200)*sinD;
+
+
+      // Cabina E
+      angleCounterE += 0.2;
+      if (angleCounterE == 180) {
+        angleCounterE = 0;
+      }
+
+      sinE = Math.sin(Math.PI*2*angleCounterE/180);
+      cosE = Math.cos(Math.PI*2*angleCounterE/180);
+    
+      // velocità = 
+      level2_ruota_cabinaE.body.velocity.x = (200)*cosE;
+      level2_ruota_cabinaE.body.velocity.y = -(200)*sinE;
+
+      // Cabina F
+      angleCounterF += 0.2;
+      if (angleCounterF == 180) {
+        angleCounterF = 0;
+      }
+
+      sinF = Math.sin(Math.PI*2*angleCounterF/180);
+      cosF = Math.cos(Math.PI*2*angleCounterF/180);
+    
+      // velocità = 
+      level2_ruota_cabinaF.body.velocity.x = (200)*cosF;
+      level2_ruota_cabinaF.body.velocity.y = -(200)*sinF;
+
+      // Cabina G
+      angleCounterG += 0.2;
+      if (angleCounterG == 180) {
+        angleCounterG = 0;
+      }
+
+      sinG = Math.sin(Math.PI*2*angleCounterG/180);
+      cosG = Math.cos(Math.PI*2*angleCounterG/180);
+    
+      // velocità = 
+      level2_ruota_cabinaG.body.velocity.x = (200)*cosG;
+      level2_ruota_cabinaG.body.velocity.y = -(200)*sinG;
+
+      // Cabina H
+      angleCounterH += 0.2;
+      if (angleCounterH == 180) {
+        angleCounterH = 0;
+      }
+
+      sinH = Math.sin(Math.PI*2*angleCounterH/180);
+      cosH = Math.cos(Math.PI*2*angleCounterH/180);
+
+      // velocità = 
+      level2_ruota_cabinaH.body.velocity.x = (200)*cosH;
+      level2_ruota_cabinaH.body.velocity.y = -(200)*sinH;
 
 
       // Mongolfiera automatizzata
