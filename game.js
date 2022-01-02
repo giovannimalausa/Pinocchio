@@ -388,7 +388,7 @@ function create() {
     level2_floor.create(13800, 2200, 'level2_floor18')
     level2_floor.create(14800, 2200, 'level2_floor20')
     level2_floor.create(17850, 2200, 'level2_floor21')
-    level2_floor.alpha = 1;
+    level2_floor.alpha = 0;
     level2_floor.setAll('body.immovable', true);
 
     // Moduli 1x1
