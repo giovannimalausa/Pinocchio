@@ -829,7 +829,7 @@ function create() {
   }
 
   // Player
-  player = game.add.sprite(6500, 1800, 'pinocchio');
+  player = game.add.sprite(12000, 1800, 'pinocchio');
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -1158,16 +1158,19 @@ function update () {
     level2_ruota3_cabinaH.body.velocity.x = (200)*sinH;
     level2_ruota3_cabinaH.body.velocity.y = -(200)*cosH;
 
-    // Mongolfiera
-    if(level2_mongolfiera.y <= 550)
+    // Movimento mongolfiere
+    if(level2_mongolfiera1.y <= 550)
     {
-      level2_mongolfiera.body.velocity.y = +125;
+      level2_mongolfiera1.body.velocity.y = +125;
+      level2_mongolfiera2.body.velocity.y = +125;
     }
-    if(level2_mongolfiera.y > 1217)
+    if(level2_mongolfiera1.y > 1217)
     {
-      level2_mongolfiera.body.velocity.y = -125;
+      level2_mongolfiera1.body.velocity.y = -125;
+      level2_mongolfiera2.body.velocity.y = -125;
     }
   }
+  
 
 
   // Player shadow offset
@@ -1563,6 +1566,7 @@ function landingProcessCallback(player, obj) {
 */
 
 function render () {
-  game.debug.body(level2_mongolfiera);
+  game.debug.body(level2_mongolfiera1);
+  game.debug.body(level2_mongolfiera2);
   game.debug.body(player);
 }
