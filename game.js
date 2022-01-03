@@ -242,8 +242,6 @@ var optionHovered = 1;
 // Tempo
 var timeWhenLoaded;
 var gameStopWatch;
-var menuButtonTimer;
-var total = 0;
 
 //Armi
 var bullets;
@@ -286,7 +284,7 @@ var child1;
 
 function create() {
 
-  game.world.setBounds(0, 0, 20000, 2304);
+  game.world.setBounds(0, 0, 20000, 2504);
 
   // Elementi livelli
   modulo2x2 = game.add.physicsGroup();
@@ -829,7 +827,7 @@ function create() {
   }
 
   // Player
-  player = game.add.sprite(12000, 1800, 'pinocchio');
+  player = game.add.sprite(16000, 1800, 'pinocchio');
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -925,14 +923,6 @@ function create() {
 
   // Scritta menù Geppetto
   interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
-
-
-  //  MenuButtonTimer – [non in uso]
-  // menuButtonTimer = game.time.create(false);
-
-  //  Set a TimerEvent to occur after 2 seconds – [non in uso]
-  // menuButtonTimer.loop(2000, updateCounter, this);
-
 }
 
 function update () {
@@ -1164,7 +1154,7 @@ function update () {
       level2_mongolfiera1.body.velocity.y = +125;
       level2_mongolfiera2.body.velocity.y = +125;
     }
-    if(level2_mongolfiera1.y > 1217)
+    if(level2_mongolfiera1.y > 1100)
     {
       level2_mongolfiera1.body.velocity.y = -125;
       level2_mongolfiera2.body.velocity.y = -125;
@@ -1175,7 +1165,7 @@ function update () {
 
   // Player shadow offset
   shadow.x = player.x+350;
-  shadow.y = player.y+200;
+  shadow.y = player.y-70;
 
   // Parallasse sfondi
   if(levelPlaying == 2)
