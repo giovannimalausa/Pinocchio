@@ -73,7 +73,7 @@ function preload() {
   game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
   game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
-  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
+  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
   game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera.png');
 
@@ -119,7 +119,7 @@ function preload() {
 
 // Variabili sprite
 var player;
-var shadow; // per camera tracking con offset
+var shadow; // per camera-tracking con offset
 var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
 var enemy;
 var dust; // sprite polvere del salto
@@ -133,6 +133,7 @@ var onInteraction = false;
 var enablePlayerMovement = true;
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
+var gameOverTimer = 0;
 
 // Variabili scelta livello
 var levelPlaying = 2;
@@ -280,6 +281,7 @@ var isJumping = false;
 var dustJump = false;
 var enemyIndex;
 var child1;
+
 // ++++++++++ CREATE ++++++++++
 
 function create() {
@@ -356,7 +358,6 @@ function create() {
     level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
     level1_casa3_hitbox.setAll('body.immovable', true);
     level1_casa3_hitbox.alpha = 0;
-
 
     level1_casa3_balcone = game.add.physicsGroup();
     level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
@@ -827,7 +828,7 @@ function create() {
   }
 
   // Player
-  player = game.add.sprite(16000, 1800, 'pinocchio');
+  player = game.add.sprite(200, 1800, 'pinocchio');
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -895,7 +896,7 @@ function create() {
 
   // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
   shadow = game.add.sprite(100+200, 200, 'player');
-  shadow.alpha = 0;
+  shadow.alpha = 0.5;
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
@@ -940,8 +941,7 @@ function update () {
   game.physics.arcade.collide(player, modulo1x1);
   game.physics.arcade.collide(player, modulo2x2);
 
-  if (levelPlaying == 1)
-  {
+  if (levelPlaying == 1) {
     game.physics.arcade.collide(enemy, level1_floor);
     game.physics.arcade.collide(player, level1_floor);
     game.physics.arcade.collide(player, level1_platform2x1);
@@ -954,8 +954,7 @@ function update () {
     game.physics.arcade.collide(player, level1_casa4_tettoia);
   }
 
-  if (levelPlaying == 2)
-  {
+  if (levelPlaying == 2) {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
 
@@ -1000,9 +999,23 @@ function update () {
   if (levelPlaying == 2) {
 
     // Ruota panoramica
-    level2_ruota1_centrale.angle -= 0.4;
-    level2_ruota2_centrale.angle -= 0.4;
-    level2_ruota3_centrale.angle += 0.4;
+    // La Ruota 1 e la Ruota 2, con le loro cabine, hanno gli stessi movimenti. Le Ruota 3 ha movimenti analoghi a quelli delle altre, ma nel verso opposto.
+    level2_ruota1_centrale.angle -= 0.4; // Rotazione Parte Centrale Ruota 1
+    level2_ruota2_centrale.angle -= 0.4; // Rotazione Parte Centrale Ruota 2
+    level2_ruota3_centrale.angle += 0.4; // Rotazione Parte Centrale Ruota 3 (senso opposto alle altre)
+
+    // Ciascuna ruota panoramica ha 8 cabine. Ogni cabina è chiamata con una lettera diversa (A-H).
+
+    // Schema cabine-lettere:
+    //        |H|
+    //    |F|     |G|
+    //   •           •
+    // |E|     o     |A|
+    //   •           •
+    //    |D|     |B|
+    //        |C|
+    //      //   \\         
+    //     //     \\
 
     // Cabina A
     angleCounterA += 0.2;
@@ -1043,7 +1056,7 @@ function update () {
     // Cabina C
     angleCounterC += 0.2;
     if (angleCounterC == 180) {
-    angleCounterC = 0;
+      angleCounterC = 0;
     }
     sinC = Math.sin(Math.PI*2*angleCounterC/180);
     cosC = Math.cos(Math.PI*2*angleCounterC/180);
@@ -1061,7 +1074,7 @@ function update () {
     // Cabina D
     angleCounterD += 0.2;
     if (angleCounterD == 180) {
-    angleCounterD = 0;
+      angleCounterD = 0;
     }
     sinD = Math.sin(Math.PI*2*angleCounterD/180);
     cosD = Math.cos(Math.PI*2*angleCounterD/180);
@@ -1149,36 +1162,49 @@ function update () {
     level2_ruota3_cabinaH.body.velocity.y = -(200)*cosH;
 
     // Movimento mongolfiere
-    if(level2_mongolfiera1.y <= 550)
-    {
+    if (level2_mongolfiera1.y <= 550) {
       level2_mongolfiera1.body.velocity.y = +125;
       level2_mongolfiera2.body.velocity.y = +125;
     }
-    if(level2_mongolfiera1.y > 1100)
-    {
+    if (level2_mongolfiera1.y > 1100) {
       level2_mongolfiera1.body.velocity.y = -125;
       level2_mongolfiera2.body.velocity.y = -125;
     }
   }
   
-
-
   // Player shadow offset
-  shadow.x = player.x+350;
-  shadow.y = player.y-70;
-
-  // Parallasse sfondi
-  if(levelPlaying == 2)
+  if (player.y > 2060) {
+    shadow.y = 1987;
+    gameOverTimer += 1;
+    if (gameOverTimer === 60) {
+      console.log("Game Over: player fell below y=2060");
+      game.paused = true;
+    }
+  }
+  else if(player.y < 1900 && player.y > 1600)
   {
-      level2_cielo.x = game.camera.x*(-0.005);
-      level2_collineGialle.x = game.camera.x*(-0.025);
-      level2_collineRosse.x = game.camera.x*(-0.04);
+    shadow.x = player.x+350;
+    shadow.y = player.y+100;
+  }
+  else if(player.y < 1600)
+  {
+    shadow.x = player.x+350;
+    shadow.y = player.y+120;
+  } else {
+    shadow.x = player.x+350;
+    shadow.y = player.y-70;
   }
 
-  if(levelPlaying == 3)
-  {
-      level3_layer1.x = game.camera.x*(-0.25);
-      level3_layer3.x = game.camera.x*(-0.05);
+  // Parallasse sfondi
+  if(levelPlaying == 2) {
+    level2_cielo.x = game.camera.x*(-0.005);
+    level2_collineGialle.x = game.camera.x*(-0.025);
+    level2_collineRosse.x = game.camera.x*(-0.04);
+  }
+
+  if(levelPlaying == 3) {
+    level3_layer1.x = game.camera.x*(-0.25);
+    level3_layer3.x = game.camera.x*(-0.05);
   }
 
 
@@ -1210,12 +1236,10 @@ function update () {
 
   //Animazioni
 
-  if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) //SE player rivolto a sinistra
-    {
+  if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) { // SE player rivolto a sinistra 
       player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
     }
-    if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) // player rivolto a destra
-    {
+    if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) { // player rivolto a destra
       player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
     }
     if (isFiring === true  && facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
@@ -1225,83 +1249,92 @@ function update () {
       player.animations.play('fireR', 15)
     }
 
-    if (facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata dx
-    if (isFiring === false) {
-    player.animations.play('walkR', 15, true);
-    } else {
-    player.animations.play('walkFireR', 15, true);
+    if(facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down))
+    {  //Camminata dx
+      if(isFiring === false)
+      {
+      player.animations.play('walkR', 15, true);
+      } else {
+      player.animations.play('walkFireR', 15, true);
+      }
+    } else if(facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down))
+    {  //Camminata sx
+      if(isFiring === false)
+      {
+      player.animations.play('walkL', 15, true);
+      } else {
+      player.animations.play('walkFireL', 15, true);
+      }
+    }
+
+    if(player.body.velocity.y < -300 && facing === "right") // Salto dx
+    {
+      player.animations.play('jumpR', 10, false);
+    }
+    if(player.body.velocity.y < -100 && facing === "left") // Salto sx
+    {
+      player.animations.play('jumpL', 10, false);
+    }
+
+    if(player.body.velocity.y > 100 && facing === "right") //Atterraggio salto dx
+    {
+      animDropR.play(10, false);
+    }
+    if(player.body.velocity.y > 100 && facing === "left") // Atterraggio salto sx
+    {
+    player.animations.play('dropL', 10, false);
+    }
+
+    if(player.body.velocity.x < 100 && player.body.velocity.x > 10 && facing === "right" && (player.body.onFloor() || player.body.touching.down)) {
+      player.animations.play('skidR', 10, false);
+    }
+    if(player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing === "left" && (player.body.onFloor() || player.body.touching.down)) {
+    player.animations.play('skidL', 10, false);
+    }
+
+  if (player.body.velocity.y < -100) {
+    isJumping = true;
   }
-  } else if (facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {  //Camminata sx
-  if (isFiring === false) {
-    player.animations.play('walkL', 15, true);
+
+
+
+  //WEAPONs
+  if(fireButton.isDown) {
+    //fireBullet();
+    gun1.fire()
+  }
+  if (facing === 'right') {
+    gun1.trackOffset.x = 170;
+    gun1.fireAngle = 0;
   } else {
-    player.animations.play('walkFireL', 15, true);
+    gun1.trackOffset.x = 40;
+    gun1.fireAngle = 180;
   }
-  }
-
-if (player.body.velocity.y < -300 && facing === "right") {  //salto dx
-  player.animations.play('jumpR', 10, false);
-}
-if (player.body.velocity.y < -100 && facing === "left") {  //Salto sx
-  player.animations.play('jumpL', 10, false);
-}
-
-if (player.body.velocity.y > 100 && facing === "right") {  //salto dx
-  animDropR.play(10, false);
-}
-if (player.body.velocity.y > 100 && facing === "left") {  //Salto sx
-  player.animations.play('dropL', 10, false);
-}
-
-if (player.body.velocity.x < 100 && player.body.velocity.x > 10 && facing === "right" && (player.body.onFloor() || player.body.touching.down)) {
-  player.animations.play('skidR', 10, false);
-}
-if (player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing === "left" && (player.body.onFloor() || player.body.touching.down)) {
-  player.animations.play('skidL', 10, false);
-}
-
-if (player.body.velocity.y < -100) {
-  isJumping = true;
-}
-
-
-
-//WEAPONs
-if(fireButton.isDown) {
-  //fireBullet();
-  gun1.fire()
-}
-if (facing === 'right') {
-  gun1.trackOffset.x = 170;
-  gun1.fireAngle = 0;
-} else {
-  gun1.trackOffset.x = 40;
-  gun1.fireAngle = 180;
-}
-//console.log(player.animations.frame);
+  //console.log(player.animations.frame);
 
     // Salto con funzione di potenza variabile
     if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
     {
-        if(showingControlsTutorial == true)
-        {
-            showingControlsTutorial = false;
-            controlsTutorialUI.kill();
-        }
-        player.body.velocity.y = -650;
-        jumpPower = jumpPower + .3;
+      if(showingControlsTutorial == true)
+      {
+        showingControlsTutorial = false;
+        controlsTutorialUI.kill();
+      }
+      player.body.velocity.y = -650;
+      jumpPower = jumpPower + .3;
     }
     else
     {
-        jumpPower = 0;
+      jumpPower = 0;
     }
 
     // Scivolamento
-    if (player.body.touching.down || player.body.onFloor()) {
-        player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
-      }
+    if(player.body.touching.down || player.body.onFloor())
+    {
+      player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
+    }
     else {
-        player.body.velocity.x = (0.97 *  player.body.velocity.x);
+      player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
     //console.log(facing)
     enemyIndex = enemy.getChildIndex(child1);
@@ -1309,7 +1342,7 @@ if (facing === 'right') {
 
 //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
-//ENEMY ENEMIES
+    //ENEMY
     if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x > player.x) {
       enemy.getChildAt(0).body.velocity.x = -100;
     }
@@ -1323,7 +1356,6 @@ if (facing === 'right') {
     else if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(1)) < 600 && enemy.getChildAt(1).x < player.x) {
       enemy.getChildAt(1).body.velocity.x = 100;
     }
-
 
     enemy.setAll('body.gravity.y', 2000);
     enemy.setAll('body.collideWorldBounds', true);
@@ -1496,26 +1528,24 @@ function dustJumpTrue() {
   dustJump = true;
   if (player.body.onFloor() || player.body.touching.down) {
     if (facing === 'right') {
-    dust = game.add.sprite(player.x, player.y + 5, 'dust');
-    dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
-    dustJumpR.play(10, false);
-    dustJumpR.killOnComplete = true;
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
+      dustJumpR.play(10, false);
+      dustJumpR.killOnComplete = true;
     } else {
-    dust = game.add.sprite(player.x, player.y + 5, 'dust');
-    dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
-    dustJumpL.play(10, false);
-    dustJumpL.killOnComplete = true;
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
+      dustJumpL.play(10, false);
+      dustJumpL.killOnComplete = true;
     }
   }
   console.log(dustJump)
 }
 
 function dustJumpFalse() {
-dustJump = false;
-console.log(dustJump);
-
+  dustJump = false;
+  console.log(dustJump);
 }
-
 
 function landingCallback(player, obj) {
   isJumping = false;
@@ -1559,4 +1589,5 @@ function render () {
   game.debug.body(level2_mongolfiera1);
   game.debug.body(level2_mongolfiera2);
   game.debug.body(player);
+  // game.debug.spriteInfo(player, 30, 100);
 }
