@@ -37,8 +37,9 @@ function preload() {
 
   game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
 
-  game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
   game.load.image('modulo1x1', 'assets/global/Modulo1x1.png');
+  game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
+  game.load.image('modulo2x4', 'assets/global/Modulo2x4.png');
 
   game.load.image('platform2x1', 'assets/global/Size=2x1.png');
   game.load.image('platform3x1', 'assets/global/Size=3x1.png');
@@ -46,25 +47,40 @@ function preload() {
   game.load.image('platform5x1', 'assets/global/Size=5x1.png');
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
-  game.load.image('death-gap-2x', 'assets/global/Size=2xdeath-gap.png')
-  game.load.image('death-gap-3x', 'assets/global/Size=3xdeath-gap.png')
-  game.load.image('death-gap-4x', 'assets/global/Size=4xdeath-gap.png')
-  game.load.image('death-gap-5x', 'assets/global/Size=5xdeath-gap.png')
-  game.load.image('death-gap-6x', 'assets/global/Size=6xdeath-gap.png')
-  game.load.image('death-gap-7x', 'assets/global/Size=7xdeath-gap.png')
-
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
   game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-  game.load.image('level1_casa1', 'assets/levelOne/casa1.png');
-  game.load.image('level1_casa2', 'assets/levelOne/casa2.png');
-  game.load.image('level1_casa3', 'assets/levelOne/casa3_balconies.png');
-  game.load.image('level1_casa3_balcone', 'assets/levelOne/casa3_balcone3x2.png');
-  game.load.image('level1_casa3_hitbox', 'assets/levelOne/casa3_hitbox.png');
-  game.load.image('level1_casa4', 'assets/levelOne/casa4_SenzaTettoia.png');
-  game.load.image('level1_casa4_tettoia', 'assets/levelOne/casa4_tettoia.png');
-  game.load.image('level1_casa4_supportoTettoia', 'assets/levelOne/casa4_SupportoTettoia.png');
+  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile_parte1.png');
+  game.load.image('level1_calpestabile_parte2', 'assets/levelOne/calpestabile_parte2.png');
+
+  // Level 1 /Floor
+  game.load.image('level1_floor1', 'assets/levelOne/floor/1.png');
+  game.load.image('level1_floor2', 'assets/levelOne/floor/2.png');
+  game.load.image('level1_floor3', 'assets/levelOne/floor/3.png');
+  game.load.image('level1_floor4', 'assets/levelOne/floor/4.png');
+  game.load.image('level1_floor5', 'assets/levelOne/floor/5.png');
+  game.load.image('level1_floor6', 'assets/levelOne/floor/6.png');
+  game.load.image('level1_floor7', 'assets/levelOne/floor/7.png');
+  game.load.image('level1_floor8', 'assets/levelOne/floor/8.png');
+  game.load.image('level1_floor9', 'assets/levelOne/floor/9.png');
+  game.load.image('level1_floor10', 'assets/levelOne/floor/10.png');
+  game.load.image('level1_floor11', 'assets/levelOne/floor/11.png');
+  game.load.image('level1_floor12', 'assets/levelOne/floor/12.png');
+  game.load.image('level1_floor13', 'assets/levelOne/floor/13.png');
+  game.load.image('level1_floor14', 'assets/levelOne/floor/14.png');
+  game.load.image('level1_floor15', 'assets/levelOne/floor/15.png');
+  game.load.image('level1_floor16', 'assets/levelOne/floor/16.png');
+  game.load.image('level1_floor17', 'assets/levelOne/floor/17.png');
+  game.load.image('level1_floor18', 'assets/levelOne/floor/18.png');
+  game.load.image('level1_floor19', 'assets/levelOne/floor/19.png');
+  game.load.image('level1_floor20', 'assets/levelOne/floor/20.png');
+  game.load.image('level1_floor21', 'assets/levelOne/floor/21.png');
+  game.load.image('level1_floor22', 'assets/levelOne/floor/22.png');
+
+  // Level 1 /Houses
+  game.load.image('level1_house1', 'assets/levelOne/houses/Casa 1.png');
+  game.load.image('level1_house2', 'assets/levelOne/houses/Casa 2.png');
 
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
@@ -136,38 +152,24 @@ var interactionPointLabelShown = false;
 var gameOverTimer = 0;
 
 // Variabili scelta livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 
 // Variabili globali
 var controlsTutorialUI;
 var sfondoAzzurro;
-var deathGap2x;
-var deathGap3x;
-var deathGap4x;
-var deathGap5x;
-var deathGap6x;
-var deathGap7x;
 var modulo1x1;
 var modulo2x2;
+var modulo2x4;
 
 // Variabili livello 1
 var level1_floor;
-var level1_platform2x1;
-var level1_platform3x1;
-var level1_platform4x1;
-var level1_platform5x1;
-var level1_platform6x1;
+var level1_houses;
+var level1_calpestabile_parte1;
+var level1_calpestabile_parte2;
+
 var placeholder_CasaGeppetto;
 var interactionPoint;
 var interactionPointLabel;
-var level1_casa1;
-var level1_casa2;
-var level1_casa3;
-var level1_casa3_balcone;
-var level1_casa3_hitbox;
-var level1_casa4;
-var level1_casa4_supportoTettoia;
-var level1_casa4_tettoia;
 
 // Variabili livello 2
 var level2_calpestabile_parte1;
@@ -289,92 +291,68 @@ function create() {
   game.world.setBounds(0, 0, 20000, 2504);
 
   // Elementi livelli
-  modulo2x2 = game.add.physicsGroup();
   modulo1x1 = game.add.physicsGroup();
+  modulo2x2 = game.add.physicsGroup();
+  modulo2x4 = game.add.physicsGroup();
 
   // Livello 1
   if(levelPlaying == 1)
   {
     sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
+    // Calpestabile livello 1
+    level1_calpestabile_parte1 = game.add.sprite(0, 4, 'level1_calpestabile_parte1');
+    level1_calpestabile_parte2 = game.add.sprite(10000, 4, 'level1_calpestabile_parte2');
+
+    // Pavimento livello 1
     level1_floor = game.add.physicsGroup();
-    level1_floor.create(0, 2200, 'globalFloor');
-    level1_floor.create(16000, 2200, 'globalFloor');
+    level1_floor.create(0, 2200, 'level1_floor1');
+    level1_floor.create(2350, 2200, 'level1_floor2');
+    level1_floor.create(3000, 2200, 'level1_floor3');
+    level1_floor.create(4100, 2200, 'level1_floor4');
+    level1_floor.create(4650, 2200, 'level1_floor5');
+    level1_floor.create(4900, 2200, 'level1_floor6');
+    //  <=== Aggiungere qui in mezzo gli altri pezzi del pavimento (per Clara)
+    level1_floor.create(19500, 2200, 'level1_floor22');
+    level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
     level1_floor.setAll('body.immovable', true);
 
-    placeholder_CasaGeppetto = game.add.sprite(0, 1853, 'placeholder_CasaGeppetto');
+    // Moduli 1x1 (piattaforme e tetti)
+    modulo1x1.create(1350, 1950, 'modulo1x1');
+    modulo1x1.create(1400, 1950, 'modulo1x1');
+    modulo1x1.create(1450, 1950, 'modulo1x1');
+    modulo1x1.create(1500, 1950, 'modulo1x1');
+    modulo1x1.create(1550, 1950, 'modulo1x1');
+    modulo1x1.create(1600, 1950, 'modulo1x1');
 
-    interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
-    game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
+    modulo1x1.create(1800, 1800, 'modulo1x1');
+    modulo1x1.create(1850, 1800, 'modulo1x1');
+    modulo1x1.create(1900, 1800, 'modulo1x1');
+    modulo1x1.create(1950, 1800, 'modulo1x1');
+    modulo1x1.create(2000, 1800, 'modulo1x1');
+    modulo1x1.create(2050, 1800, 'modulo1x1');
 
-    modulo2x2.create(550, 2100, 'modulo2x2');
+    modulo1x1.setAll('body.immovable', true);
+
+    // Moduli 2x2 (casse singole)
+    modulo2x2.create(1100, 2100, 'modulo2x2');
+    modulo2x2.create(1800, 2100, 'modulo2x2');
     modulo2x2.create(3750, 2100, 'modulo2x2');
-    modulo2x2.create(4450, 2100, 'modulo2x2');
-    modulo2x2.create(4650, 2100, 'modulo2x2');
-    modulo2x2.create(4650, 2000, 'modulo2x2');
-    modulo2x2.create(4900, 2100, 'modulo2x2');
-    modulo2x2.create(16000, 2100, 'modulo2x2');
     modulo2x2.setAll('body.immovable', true);
 
-    level1_platform2x1 = game.add.physicsGroup();
-    level1_platform2x1.create(3900, 1900, 'platform2x1');
-    level1_platform2x1.setAll('body.immovable', true);
+    // Moduli 2x4 (casse doppie)
+    modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
+    modulo2x4.setAll('body.immovable', true);
 
-    level1_platform5x1 = game.add.physicsGroup();
-    level1_platform5x1.create(4100, 1700, 'platform5x1');
-    level1_platform5x1.setAll('body.immovable', true);
+    // Case (pareti)
+    level1_houses = game.add.physicsGroup();
+    level1_houses.create(100, 1700, 'level1_house1');
+    level1_houses.create(2345, 1850, 'level1_house2');
+    level1_houses.setAll('body.immovable', true);
 
-    level1_platform6x1 = game.add.physicsGroup();
-    level1_platform6x1.create(800, 1950, 'platform6x1');
-    level1_platform6x1.create(1250, 1800, 'platform6x1');
-    level1_platform6x1.create(3600, 1600, 'platform6x1');
-    level1_platform6x1.setAll('body.immovable', true);
-
-    deathGap3x = game.add.physicsGroup();
-    deathGap3x.create(2200, 2200, 'death-gap-3x');
-    deathGap3x.setAll('body.immovable', true);
-
-    deathGap4x = game.add.physicsGroup();
-    deathGap4x.create(1550, 2200,'death-gap-4x');
-    deathGap4x.setAll('body.immovable', true);
-
-    deathGap5x = game.add.physicsGroup();
-    deathGap5x.create(2750, 2200,'death-gap-5x');
-    deathGap5x.setAll('body.immovable', true);
-
-    level1_casa1 = game.add.physicsGroup();
-    level1_casa1.create(1725, 1650, 'level1_casa1');
-    level1_casa1.setAll('body.immovable', true);
-
-    level1_casa2 = game.add.physicsGroup();
-    level1_casa2.create(2300, 1800, 'level1_casa2');
-    level1_casa2.setAll('body.immovable', true);
-
-    level1_casa3 = game.add.physicsGroup();
-    level1_casa3.create(2850, 1450, 'level1_casa3');
-    level1_casa3.setAll('body.immovable', true);
-
-    level1_casa3_hitbox = game.add.physicsGroup();
-    level1_casa3_hitbox.create(3000, 1450, 'level1_casa3_hitbox');
-    level1_casa3_hitbox.setAll('body.immovable', true);
-    level1_casa3_hitbox.alpha = 0;
-
-    level1_casa3_balcone = game.add.physicsGroup();
-    level1_casa3_balcone.create(2850, 1650, 'level1_casa3_balcone');
-    level1_casa3_balcone.create(3400, 1900, 'level1_casa3_balcone');
-    level1_casa3_balcone.setAll('body.immovable', true);
-
-    level1_casa4 = game.add.physicsGroup();
-    level1_casa4.create(5400, 1700, 'level1_casa4');
-    level1_casa4.setAll('body.immovable', true);
-
-    level1_casa4_supportoTettoia = game.add.physicsGroup();
-    level1_casa4_supportoTettoia.create(5167, 2000, 'level1_casa4_supportoTettoia');
-    level1_casa4_supportoTettoia.setAll('body.immovable', true);
-
-    level1_casa4_tettoia = game.add.physicsGroup();
-    level1_casa4_tettoia.create(5150, 1950, 'level1_casa4_tettoia');
-    level1_casa4_tettoia.setAll('body.immovable', true); 
+    // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
+    interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
+    game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
   }
 
   // Livello 2
@@ -386,6 +364,7 @@ function create() {
     level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
     level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
 
+    // Pavimento livello 2
     level2_floor = game.add.physicsGroup();
     level2_floor.create(0, 2200, 'level2_floor1');
     level2_floor.create(1100, 2200, 'level2_floor2');
@@ -412,7 +391,6 @@ function create() {
     level2_floor.setAll('body.immovable', true);
 
     // Moduli 1x1
-    // modulo1x1 = game.add.physicsGroup();
     modulo1x1.create(1125, 1900, 'modulo1x1');
     modulo1x1.create(1175, 1900, 'modulo1x1');
     modulo1x1.create(1225, 1900, 'modulo1x1');
@@ -585,7 +563,6 @@ function create() {
     modulo1x1.setAll('body.immovable', true);
 
     // Moduli 2x2
-    // modulo2x2 = game.add.physicsGroup();
     modulo2x2.create(600, 2100, 'modulo2x2');
     modulo2x2.create(800, 2100, 'modulo2x2');
     modulo2x2.create(800, 2000, 'modulo2x2');
@@ -827,8 +804,16 @@ function create() {
     selectionIcon.frame = 3;
   }
 
-  // Player
-  player = game.add.sprite(200, 1800, 'pinocchio');
+  // Player (Pinocchio)
+  // Coordinate di spawn [variano a seconda del livello caricato]
+  if (levelPlaying == 1) {
+    player = game.add.sprite(500, 1800, 'pinocchio');
+  } else if (levelPlaying == 2) {
+    player = game.add.sprite(200, 1800, 'pinocchio');
+  } else if (levelPlaying == 3) {
+    player = game.add.sprite(200, 1800, 'pinocchio');
+  }
+
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -896,7 +881,7 @@ function create() {
 
   // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
   shadow = game.add.sprite(100+200, 200, 'player');
-  shadow.alpha = 0.5;
+  shadow.alpha = 0;
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
@@ -935,25 +920,22 @@ function update () {
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
   // Collide
-  
+  // Collide /Globali
   game.physics.arcade.collide(player, platforms);
   game.physics.arcade.collide(player, floor);
   game.physics.arcade.collide(player, modulo1x1);
   game.physics.arcade.collide(player, modulo2x2);
+  game.physics.arcade.collide(player, modulo2x4);
 
+  // Collide /Livello 1
   if (levelPlaying == 1) {
     game.physics.arcade.collide(enemy, level1_floor);
     game.physics.arcade.collide(player, level1_floor);
-    game.physics.arcade.collide(player, level1_platform2x1);
-    game.physics.arcade.collide(player, level1_platform5x1);
-    game.physics.arcade.collide(player, level1_platform6x1);
-    game.physics.arcade.collide(player, level1_casa1);
-    game.physics.arcade.collide(player, level1_casa2);
-    game.physics.arcade.collide(player, level1_casa3_hitbox);
-    game.physics.arcade.collide(player, level1_casa3_balcone);
-    game.physics.arcade.collide(player, level1_casa4_tettoia);
+    game.physics.arcade.collide(enemy, level1_houses);
+    game.physics.arcade.collide(player, level1_houses);
   }
 
+  // Collide /Livello 2
   if (levelPlaying == 2) {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
@@ -1586,8 +1568,8 @@ function landingProcessCallback(player, obj) {
 */
 
 function render () {
-  game.debug.body(level2_mongolfiera1);
-  game.debug.body(level2_mongolfiera2);
-  game.debug.body(player);
+  // game.debug.body(level2_mongolfiera1);
+  // game.debug.body(level2_mongolfiera2);
+  // game.debug.body(player);
   // game.debug.spriteInfo(player, 30, 100);
 }
