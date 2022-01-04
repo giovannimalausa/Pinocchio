@@ -142,19 +142,24 @@ var dust; // sprite polvere del salto
 var dustVar;
 
 // Variabili di gioco
-var showingControlsTutorial = true;
 var facing = "right";
 var jumpPower = 0;
 var onInteraction = false;
-var enablePlayerMovement = true;
+
+var enableUserMovement = true;
+var autoPilot = false;
+var spawning = true;
+var spawningTimer = 0;
+
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
 var gameOverTimer = 0;
 
-// Variabili scelta livello
+// Variabili cambio livello
 var levelPlaying = 1;
+var timerLivello1Livello2 = 0;
 
-// Variabili globali
+// Variabili grafiche globali
 var controlsTutorialUI;
 var sfondoAzzurro;
 var modulo1x1;
@@ -287,10 +292,11 @@ var child1;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
+  console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2504);
 
-  // Elementi livelli
+  // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
   modulo2x2 = game.add.physicsGroup();
   modulo2x4 = game.add.physicsGroup();
@@ -313,6 +319,7 @@ function create() {
     level1_floor.create(4650, 2200, 'level1_floor5');
     level1_floor.create(4900, 2200, 'level1_floor6');
     //  <=== Aggiungere qui in mezzo gli altri pezzi del pavimento (per Clara)
+    level1_floor.create(18900, 2200, 'level1_floor21');
     level1_floor.create(19500, 2200, 'level1_floor22');
     level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
     level1_floor.setAll('body.immovable', true);
@@ -348,6 +355,7 @@ function create() {
     level1_houses = game.add.physicsGroup();
     level1_houses.create(100, 1700, 'level1_house1');
     level1_houses.create(2345, 1850, 'level1_house2');
+    level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
@@ -763,7 +771,6 @@ function create() {
     game.physics.arcade.enable(level2_mongolfiera2);
     level2_mongolfiera2.body.setSize(105, 100, 277, 883);
     level2_mongolfiera2.body.immovable = true;
-
   }
 
   // Livello 3 (circo)
@@ -806,13 +813,7 @@ function create() {
 
   // Player (Pinocchio)
   // Coordinate di spawn [variano a seconda del livello caricato]
-  if (levelPlaying == 1) {
-    player = game.add.sprite(500, 1800, 'pinocchio');
-  } else if (levelPlaying == 2) {
-    player = game.add.sprite(200, 1800, 'pinocchio');
-  } else if (levelPlaying == 3) {
-    player = game.add.sprite(200, 1800, 'pinocchio');
-  }
+  spawn();
 
   animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
@@ -872,17 +873,6 @@ function create() {
   gun1.bulletSpeed = 700;
   gun1.trackOffset.y = 80;
 
-  // Tutorial
-  if(showingControlsTutorial == true)  {
-  controlsTutorialUI = game.add.sprite(0, 0, 'ControlsTutorial_UI');
-  controlsTutorialUI.fixedToCamera = true;
-  controlsTutorialUI.cameraOffset.setTo(0, 0);
-  }
-
-  // Player shadow (per camera tracking con offset). NOTA: Vedi update() per i valori di offset x,y rispetto al player.
-  shadow = game.add.sprite(100+200, 200, 'player');
-  shadow.alpha = 0;
-
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -909,15 +899,34 @@ function create() {
 
   // Scritta menù Geppetto
   interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+
+  console.log("create() completed.")
 }
 
+// ===== UPDATE =====
+
 function update () {
+  // console.log('Player x = ' + player.x);
   //  console.log(isJumping);
   //  console.log(player.health);
   //  console.log(enemy.getChildAt(0).health);
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
+
+  // Automovement spawn
+  if (levelPlaying == 1 && spawning == true) {
+    spawningTimer += 1;
+    if (spawningTimer >= 70) {
+      player.body.velocity.x = 300;
+      if (player.x > 500) {
+        spawning = false;
+        autoPilot = false;
+        spawningTimer = 0;
+        console.log('autoPilot is OFF. User has control.')
+      }
+    }
+  }
 
   // Collide
   // Collide /Globali
@@ -1157,10 +1166,12 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
-    gameOverTimer += 1;
-    if (gameOverTimer === 60) {
-      console.log("Game Over: player fell below y=2060");
-      game.paused = true;
+    if (autoPilot == false) {
+      gameOverTimer += 1;
+      if (gameOverTimer === 60) {
+        console.log("Game Over: player fell below y=2060");
+        game.paused = true;
+      }
     }
   }
   else if(player.y < 1900 && player.y > 1600)
@@ -1173,8 +1184,10 @@ function update () {
     shadow.x = player.x+350;
     shadow.y = player.y+120;
   } else {
-    shadow.x = player.x+350;
     shadow.y = player.y-70;
+    if (autoPilot == false) {
+      shadow.x = player.x+350;
+    }
   }
 
   // Parallasse sfondi
@@ -1198,7 +1211,7 @@ function update () {
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
   // Controls
-  if (cursors.left.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso sinistra
+  if (cursors.left.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso sinistra
   {
     player.body.velocity.x = -300;
     if (facing !== "left") // Se il player è rivolto a sinistra
@@ -1207,7 +1220,7 @@ function update () {
     }
   }
 
-  else if (cursors.right.isDown && enablePlayerMovement == true && menuOpen == false && showingControlsTutorial == false) // Camminata verso destra
+  else if (cursors.right.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso destra
   {
     player.body.velocity.x = 300;
     if (facing !== "right") // Se il player è rivolto a destra
@@ -1297,11 +1310,6 @@ function update () {
     // Salto con funzione di potenza variabile
     if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
     {
-      if(showingControlsTutorial == true)
-      {
-        showingControlsTutorial = false;
-        controlsTutorialUI.kill();
-      }
       player.body.velocity.y = -650;
       jumpPower = jumpPower + .3;
     }
@@ -1320,9 +1328,9 @@ function update () {
     }
     //console.log(facing)
     enemyIndex = enemy.getChildIndex(child1);
-    console.log(enemy.getChildIndex(child1));
+    // console.log(enemy.getChildIndex(child1));
 
-//console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
+    //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0))); 
 
     //ENEMY
     if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x > player.x) {
@@ -1458,6 +1466,59 @@ function update () {
       selectionIcon.frame = 2;
     }
   }
+
+  // ===== CAMBIO LIVELLI =====
+  // Cambio Livello 1 => 2
+  if (levelPlaying == 1 && player.x >= 19500) {
+    if (autoPilot == false) {
+      autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
+      enableUserMovement = false; // Disabilita i controlli da parte dell'utente
+      player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
+      console.log("Turning ON Autopilot...")
+    }
+    player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
+    timerLivello1Livello2 += 1;
+    if (timerLivello1Livello2 == 150) {
+      // Destroy gli sprite del Livello 1
+      console.log("Destroying Level 1 sprites...");
+      level1_calpestabile_parte1.destroy();
+      level1_calpestabile_parte2.destroy();
+      level1_floor.destroy();
+      level1_houses.destroy();
+      modulo1x1.destroy();
+      modulo2x2.destroy();
+      modulo2x4.destroy();
+      player.destroy();
+
+      levelPlaying = 2;
+
+      // enableUserMovement = true; // Attiva i controlli da parte dell'utente
+      // autoPilot = true; // Fa sapere che il giocatore NON è controllato dal codice.
+      console.log("Turning OFF Autopilot...")
+      create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
+    }
+  }
+}
+
+function spawn() {
+  autoPilot = true;
+  console.log('autoPilot is ON')
+  spawning = true;
+  if (levelPlaying == 1) {
+    player = game.add.sprite(250, 1900, 'pinocchio');
+    shadow = game.add.sprite(1000, 200, 'player');
+    shadow.alpha = 0;
+  } else if (levelPlaying == 2) {
+    player = game.add.sprite(200, 1900, 'pinocchio');
+    shadow = game.add.sprite(300, 200, 'player');
+    shadow.alpha = 0;
+    player.x = 201;
+  } else if (levelPlaying == 3) {
+    player = game.add.sprite(200, 1900, 'pinocchio');
+    shadow = game.add.sprite(300, 200, 'player');
+    shadow.alpha = 0;
+  }
+  console.log("spawn() completed.")
 }
 
 
@@ -1498,11 +1559,11 @@ function shootEnemy(bullets, enemy) {
 
 function isFiringTrue() {
   isFiring = true;
-  console.log(isFiring);
+  console.log('isFiring = ' + isFiring);
 }
 function isFiringFalse() {
   isFiring = false;
-  console.log(isFiring);
+  console.log('isFiring = ' + isFiring);
 }
 
 
@@ -1521,12 +1582,12 @@ function dustJumpTrue() {
       dustJumpL.killOnComplete = true;
     }
   }
-  console.log(dustJump)
+  // console.log(dustJump)
 }
 
 function dustJumpFalse() {
   dustJump = false;
-  console.log(dustJump);
+  // console.log(dustJump);
 }
 
 function landingCallback(player, obj) {
