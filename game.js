@@ -25,8 +25,9 @@ function preload() {
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
-  game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10)
+  game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
+  game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug1.png', 300, 225, 40);
   game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
@@ -137,7 +138,8 @@ function preload() {
 var player;
 var shadow; // per camera-tracking con offset
 var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
-var enemy;
+var enemyBomb;
+var enemyJug;
 var dust; // sprite polvere del salto
 var dustVar;
 
@@ -268,25 +270,14 @@ var threeKey;
 var fireButton;
 
 //Animazioni (da eiminare se possibile)
-var animStandR;
-var animStandL;
-var animWalkR;
-var animWalkL;
-var animJumpR;
-var animJumpL;
 var animDropR;
 var animDropL;
-var animSkidR;
-var animSkidL;
-var animWalkFireR;
-var animWalkFireL;
-var animFireR;
-var animFireL;
+
 
 var isFiring = false;
 var isJumping = false;
 var dustJump = false;
-var enemyIndex;
+var enemyBombIndex;
 var child1;
 
 // ++++++++++ CREATE ++++++++++
@@ -418,7 +409,7 @@ function create() {
     modulo1x1.create(3300, 1800, 'modulo1x1');
     modulo1x1.create(3350, 1800, 'modulo1x1');
     modulo1x1.create(3400, 1800, 'modulo1x1');
-    
+
     modulo1x1.create(3600, 1950, 'modulo1x1');
     modulo1x1.create(3650, 1950, 'modulo1x1');
     modulo1x1.create(3700, 1950, 'modulo1x1');
@@ -443,7 +434,7 @@ function create() {
     modulo1x1.create(5050, 1850, 'modulo1x1');
     modulo1x1.create(5100, 1850, 'modulo1x1');
     modulo1x1.create(5150, 1850, 'modulo1x1');
-    
+
     modulo1x1.create(5350, 2000, 'modulo1x1');
     modulo1x1.create(5400, 2000, 'modulo1x1');
     modulo1x1.create(5450, 2000, 'modulo1x1');
@@ -815,20 +806,20 @@ function create() {
   // Coordinate di spawn [variano a seconda del livello caricato]
   spawn();
 
-  animStandR = player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
-  animStandL = player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
-  animWalkR = player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
-  animWalkL = player.animations.add('walkL', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]); // Animazione camminata verso sx
-  animJumpR = player.animations.add('jumpR', [100, 101, 102, 103, 104]);
-  animJumpL = player.animations.add('jumpL', [110, 111, 112, 113, 114]);
+  player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
+  player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
+  player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
+  player.animations.add('walkL', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]); // Animazione camminata verso sx
+  player.animations.add('jumpR', [100, 101, 102, 103, 104]);
+  player.animations.add('jumpL', [110, 111, 112, 113, 114]);
   animDropR = player.animations.add('dropR', [105, 106]);
   animDropL = player.animations.add('dropL', [115, 116]);
-  animSkidR = player.animations.add('skidR', [24, 25, 26]);
-  animSkidL = player.animations.add('skidL', [27, 28, 29]);
-  animWalkFireR = player.animations.add('walkFireR', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]);
-  animWalkFireL = player.animations.add('walkFireL', [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]);
-  animFireR = player.animations.add('fireR', [60, 64, 62, 63, 64, 65, 66, 67]);
-  animFireL = player.animations.add('fireL', [68 ,69, 70, 71, 72, 73, 74, 75]);
+  player.animations.add('skidR', [24, 25, 26]);
+  player.animations.add('skidL', [27, 28, 29]);
+  player.animations.add('walkFireR', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]);
+  player.animations.add('walkFireL', [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]);
+  player.animations.add('fireR', [60, 64, 62, 63, 64, 65, 66, 67]);
+  player.animations.add('fireL', [68 ,69, 70, 71, 72, 73, 74, 75]);
   player.animations.add('landR', [107, 108, 109]);
   player.animations.add('landL', [117, 118, 119]);
   //Assegnando una variabile loop = false funziona!
@@ -842,16 +833,25 @@ function create() {
 
 
   // Enemy
-  enemy = game.add.physicsGroup();
+  enemyBomb = game.add.physicsGroup();
   //  enemy.create(2200, 1800, 'marionettaBomba');
   //  enemy.create(2400, 1800, 'marionettaBomba');
   //  enemy.create(2600, 1800, 'marionettaBomba');
-  child1 = enemy.create(2800, 1800, 'marionettaBomba');
-  child1 = enemy.create(3000, 1800, 'marionettaBomba');
+  child1 = enemyBomb.create(1000, 1800, 'marionettaBomba');
+  child1 = enemyBomb.create(1200, 1800, 'marionettaBomba');
 
-  game.physics.arcade.enable(enemy);
-  enemy.setAll('health', 3);
+  game.physics.arcade.enable(enemyBomb);
+  enemyBomb.setAll('health', 3);
   //  enemy.getChildAt(0).body.velocity.x = 100;
+
+  enemyJug = game.add.sprite(1000, 1300, 'marionettaJug');
+  game.physics.arcade.enable(enemyJug);
+  enemyJug.body.collideWorldBounds = true;
+  enemyJug.body.gravity.y = 2000;
+  enemyJug.body.setSize(150, 120, 100, 93); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
+  enemyJug.animations.add('jugFireL', [30,31,32,33,34,35,36,37,38,39]);
+  enemyJug.animations.play('jugFireL', 10, true);
+
 
   // Armi
   // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
@@ -864,7 +864,7 @@ function create() {
   bullets.setAll('outOfBoundKill', true);
   bullets.setAll('checkWorldBounds', true);
   */
-  
+
   // FUNZIONE DI SPARO CON PHASER.WEAPON
   gun1 = game.add.weapon(50, 'bullet');
   gun1.trackSprite(player);
@@ -938,9 +938,12 @@ function update () {
 
   // Collide /Livello 1
   if (levelPlaying == 1) {
-    game.physics.arcade.collide(enemy, level1_floor);
+    game.physics.arcade.collide(enemyBomb, level1_floor);
+    game.physics.arcade.collide(enemyJug, level1_floor);
+    game.physics.arcade.collide(player, level1_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level1_floor);
-    game.physics.arcade.collide(enemy, level1_houses);
+
+    game.physics.arcade.collide(enemyBomb, level1_houses);
     game.physics.arcade.collide(player, level1_houses);
   }
 
@@ -983,10 +986,10 @@ function update () {
     game.physics.arcade.collide(player, level2_mongolfiera2, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_mongolfiera2);
 
-    game.physics.arcade.collide(enemy, level2_floor);
+    game.physics.arcade.collide(enemyBomb, level2_floor);
   }
 
-  // Livello 2 / Oggetti interattivi 
+  // Livello 2 / Oggetti interattivi
   if (levelPlaying == 2) {
 
     // Ruota panoramica
@@ -1005,7 +1008,7 @@ function update () {
     //   •           •
     //    |D|     |B|
     //        |C|
-    //      //   \\         
+    //      //   \\
     //     //     \\
 
     // Cabina A
@@ -1033,7 +1036,7 @@ function update () {
     }
     sinB = Math.sin(Math.PI*2*angleCounterB/180);
     cosB = Math.cos(Math.PI*2*angleCounterB/180);
-  
+
     // Ruota 1/B
     level2_ruota1_cabinaB.body.velocity.x = (200)*cosB;
     level2_ruota1_cabinaB.body.velocity.y = -(200)*sinB;
@@ -1070,13 +1073,13 @@ function update () {
     sinD = Math.sin(Math.PI*2*angleCounterD/180);
     cosD = Math.cos(Math.PI*2*angleCounterD/180);
 
-    // Ruota 1/D 
+    // Ruota 1/D
     level2_ruota1_cabinaD.body.velocity.x = (200)*cosD;
     level2_ruota1_cabinaD.body.velocity.y = -(200)*sinD;
-    // Ruota 2/D 
+    // Ruota 2/D
     level2_ruota2_cabinaD.body.velocity.x = (200)*cosD;
     level2_ruota2_cabinaD.body.velocity.y = -(200)*sinD;
-    // Ruota 3/D 
+    // Ruota 3/D
     level2_ruota3_cabinaD.body.velocity.x = (200)*sinD;
     level2_ruota3_cabinaD.body.velocity.y = -(200)*cosD;
 
@@ -1087,7 +1090,7 @@ function update () {
     }
     sinE = Math.sin(Math.PI*2*angleCounterE/180);
     cosE = Math.cos(Math.PI*2*angleCounterE/180);
-  
+
     // Ruota 1/E
     level2_ruota1_cabinaE.body.velocity.x = (200)*cosE;
     level2_ruota1_cabinaE.body.velocity.y = -(200)*sinE;
@@ -1105,7 +1108,7 @@ function update () {
     }
     sinF = Math.sin(Math.PI*2*angleCounterF/180);
     cosF = Math.cos(Math.PI*2*angleCounterF/180);
-  
+
     // Ruota 1/F
     level2_ruota1_cabinaF.body.velocity.x = (200)*cosF;
     level2_ruota1_cabinaF.body.velocity.y = -(200)*sinF;
@@ -1123,7 +1126,7 @@ function update () {
     }
     sinG = Math.sin(Math.PI*2*angleCounterG/180);
     cosG = Math.cos(Math.PI*2*angleCounterG/180);
-  
+
     // Ruota 1/G
     level2_ruota1_cabinaG.body.velocity.x = (200)*cosG;
     level2_ruota1_cabinaG.body.velocity.y = -(200)*sinG;
@@ -1162,7 +1165,7 @@ function update () {
       level2_mongolfiera2.body.velocity.y = -125;
     }
   }
-  
+
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
@@ -1204,8 +1207,8 @@ function update () {
 
 
   // Overlap tra player e enemy
-  game.physics.arcade.overlap(player, enemy, touchEnemy);
-  game.physics.arcade.overlap(gun1.bullets, enemy, shootEnemy);
+  game.physics.arcade.overlap(player, enemyBomb, touchEnemy);
+  game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemy);
 
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -1231,7 +1234,7 @@ function update () {
 
   //Animazioni
 
-  if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) { // SE player rivolto a sinistra 
+  if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) { // SE player rivolto a sinistra
       player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
     }
     if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) { // player rivolto a destra
@@ -1327,28 +1330,28 @@ function update () {
       player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
     //console.log(facing)
-    enemyIndex = enemy.getChildIndex(child1);
+    enemyBombIndex = enemyBomb.getChildIndex(child1);
     // console.log(enemy.getChildIndex(child1));
 
-    //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0))); 
+    //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
     //ENEMY
-    if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x > player.x) {
-      enemy.getChildAt(0).body.velocity.x = -100;
+    if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(0)) < 600 && enemyBomb.getChildAt(0).x > player.x + 80) {
+      enemyBomb.getChildAt(0).body.velocity.x = -100;
     }
-     else if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)) < 600 && enemy.getChildAt(0).x < player.x) {
-      enemy.getChildAt(0).body.velocity.x = 100;
-    }
-
-    if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(1)) < 600 && enemy.getChildAt(1).x > player.x) {
-      enemy.getChildAt(1).body.velocity.x = -100;
-    }
-    else if (game.physics.arcade.distanceBetween(player, enemy.getChildAt(1)) < 600 && enemy.getChildAt(1).x < player.x) {
-      enemy.getChildAt(1).body.velocity.x = 100;
+     else if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(0)) < 600 && enemyBomb.getChildAt(0).x < player.x + 80) {
+      enemyBomb.getChildAt(0).body.velocity.x = 100;
     }
 
-    enemy.setAll('body.gravity.y', 2000);
-    enemy.setAll('body.collideWorldBounds', true);
+    if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(1)) < 600 && enemyBomb.getChildAt(1).x > player.x + 80) {
+      enemyBomb.getChildAt(1).body.velocity.x = -100;
+    }
+    else if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(1)) < 600 && enemyBomb.getChildAt(1).x < player.x + 80) {
+      enemyBomb.getChildAt(1).body.velocity.x = 100;
+    }
+
+    enemyBomb.setAll('body.gravity.y', 2000);
+    enemyBomb.setAll('body.collideWorldBounds', true);
 
 
     // MENU
@@ -1544,16 +1547,16 @@ function enableInteraction() {
   }
 
 }
-function touchEnemy(player, enemy) {
-  enemy.kill();
+function touchEnemy(player, enemyBomb) {
+  enemyBomb.kill();
   //  player.health.damage = 1;
 }
 
-function shootEnemy(bullets, enemy) {
+function shootEnemy(bullets, enemyBomb) {
   bullets.kill();
-  enemy.health = enemy.health - 1;
-  if (enemy.health <= 0) {
-    enemy.kill();
+  enemyBomb.health = enemy.health - 1;
+  if (enemyBomb.health <= 0) {
+    enemyBomb.kill();
   }
 }
 
@@ -1632,5 +1635,6 @@ function render () {
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
+  // game.debug.body(enemyJug);
   // game.debug.spriteInfo(player, 30, 100);
 }
