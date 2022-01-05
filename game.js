@@ -158,7 +158,7 @@ var interactionPointLabelShown = false;
 var gameOverTimer = 0;
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 
 // Variabili grafiche globali
@@ -906,7 +906,8 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
-  // console.log('Player x = ' + player.x);
+  // console.log('autoPilot: '+ autoPilot);
+  console.log('Player x = ' + player.x);
   //  console.log(isJumping);
   //  console.log(player.health);
   //  console.log(enemy.getChildAt(0).health);
@@ -920,6 +921,18 @@ function update () {
     if (spawningTimer >= 70) {
       player.body.velocity.x = 300;
       if (player.x > 500) {
+        spawning = false;
+        autoPilot = false;
+        spawningTimer = 0;
+        console.log('autoPilot is OFF. User has control.')
+      }
+    }
+  }
+  if (levelPlaying == 2 && spawning == true) {
+    spawningTimer += 1;
+    if (spawningTimer >= 70) {
+      player.body.velocity.x = 300;
+      if (player.x > 190) {
         spawning = false;
         autoPilot = false;
         spawningTimer = 0;
@@ -1508,14 +1521,13 @@ function spawn() {
   console.log('autoPilot is ON')
   spawning = true;
   if (levelPlaying == 1) {
-    player = game.add.sprite(250, 1900, 'pinocchio');
+    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI x = 250; y = 1900
     shadow = game.add.sprite(1000, 200, 'player');
     shadow.alpha = 0;
   } else if (levelPlaying == 2) {
-    player = game.add.sprite(200, 1900, 'pinocchio');
-    shadow = game.add.sprite(300, 200, 'player');
-    shadow.alpha = 0;
-    player.x = 201;
+    player = game.add.sprite(-90, 1900, 'pinocchio');
+    shadow = game.add.sprite(680, 200, 'player');
+    shadow.alpha = 1;
   } else if (levelPlaying == 3) {
     player = game.add.sprite(200, 1900, 'pinocchio');
     shadow = game.add.sprite(300, 200, 'player');
