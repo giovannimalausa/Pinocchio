@@ -1554,7 +1554,7 @@ function touchEnemy(player, enemyBomb) {
 
 function shootEnemy(bullets, enemyBomb) {
   bullets.kill();
-  enemyBomb.health = enemy.health - 1;
+  enemyBomb.health = enemyBomb.health - 1;
   if (enemyBomb.health <= 0) {
     enemyBomb.kill();
   }
