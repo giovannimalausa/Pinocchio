@@ -158,7 +158,7 @@ var interactionPointLabelShown = false;
 var gameOverTimer = 0;
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 
 // Variabili grafiche globali
@@ -350,8 +350,8 @@ function create() {
     level1_houses.setAll('body.immovable', true);
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
-    interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
-    game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
+    // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
+    // game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
   }
 
   // Livello 2
@@ -827,7 +827,7 @@ function create() {
 
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
-  player.body.gravity.y = 2000;
+  player.body.gravity.y = 2000; // valore corretto 2000
   player.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   player.health = 10;
 
@@ -898,7 +898,7 @@ function create() {
   timeWhenLoaded = game.time.time;
 
   // Scritta menù Geppetto
-  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
+  // interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
 
   console.log("create() completed.")
 }
@@ -1521,7 +1521,7 @@ function spawn() {
   console.log('autoPilot is ON')
   spawning = true;
   if (levelPlaying == 1) {
-    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI x = 250; y = 1900
+    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
     shadow = game.add.sprite(1000, 200, 'player');
     shadow.alpha = 0;
   } else if (levelPlaying == 2) {
