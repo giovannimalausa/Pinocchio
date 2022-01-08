@@ -82,6 +82,7 @@ function preload() {
   // Level 1 /Houses
   game.load.image('level1_house1', 'assets/levelOne/houses/Casa 1.png');
   game.load.image('level1_house2', 'assets/levelOne/houses/Casa 2.png');
+  game.load.image('level1_house3', 'assets/levelOne/houses/Casa 3.png');
 
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
@@ -346,6 +347,7 @@ function create() {
     level1_houses = game.add.physicsGroup();
     level1_houses.create(100, 1700, 'level1_house1');
     level1_houses.create(2345, 1850, 'level1_house2');
+    level1_houses.create(2995, 1450, 'level1_house3');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
