@@ -83,6 +83,7 @@ function preload() {
   game.load.image('level1_house1', 'assets/levelOne/houses/Casa 1.png');
   game.load.image('level1_house2', 'assets/levelOne/houses/Casa 2.png');
   game.load.image('level1_house3', 'assets/levelOne/houses/Casa 3.png');
+  game.load.image('level1_house4', 'assets/levelOne/houses/Casa 4.png');
 
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
@@ -331,12 +332,47 @@ function create() {
     modulo1x1.create(2000, 1800, 'modulo1x1');
     modulo1x1.create(2050, 1800, 'modulo1x1');
 
+    modulo1x1.create(2845, 1650, 'modulo1x1');
+    modulo1x1.create(2895, 1650, 'modulo1x1');
+    modulo1x1.create(2845, 1650, 'modulo1x1');
+
+    modulo1x1.create(3400, 1900, 'modulo1x1');
+    modulo1x1.create(3450, 1900, 'modulo1x1');
+    modulo1x1.create(3500, 1900, 'modulo1x1');
+    
+    modulo1x1.create(3600, 1600, 'modulo1x1');
+    modulo1x1.create(3650, 1600, 'modulo1x1');
+    modulo1x1.create(3700, 1600, 'modulo1x1');
+    modulo1x1.create(3750, 1600, 'modulo1x1');
+    modulo1x1.create(3800, 1600, 'modulo1x1');
+    modulo1x1.create(3850, 1600, 'modulo1x1');
+
+    modulo1x1.create(3900, 1900, 'modulo1x1');
+    modulo1x1.create(3950, 1900, 'modulo1x1');
+
+    modulo1x1.create(4100, 1700, 'modulo1x1');
+    modulo1x1.create(4150, 1700, 'modulo1x1');
+    modulo1x1.create(4200, 1700, 'modulo1x1');
+    modulo1x1.create(4250, 1700, 'modulo1x1');
+    modulo1x1.create(4300, 1700, 'modulo1x1');
+
+    modulo1x1.create(5150, 1950, 'modulo1x1');
+    modulo1x1.create(5200, 1950, 'modulo1x1');
+    modulo1x1.create(5250, 1950, 'modulo1x1');
+    modulo1x1.create(5300, 1950, 'modulo1x1');
+    modulo1x1.create(5350, 1950, 'modulo1x1');
+
+    modulo1x1.create(5400, 1700, 'modulo1x1');
+    modulo1x1.create(6000, 1700, 'modulo1x1');
+
     modulo1x1.setAll('body.immovable', true);
 
     // Moduli 2x2 (casse singole)
     modulo2x2.create(1100, 2100, 'modulo2x2');
     modulo2x2.create(1800, 2100, 'modulo2x2');
     modulo2x2.create(3750, 2100, 'modulo2x2');
+    modulo2x2.create(4450, 2100, 'modulo2x2');
+    modulo2x2.create(4895, 2100, 'modulo2x2');
     modulo2x2.setAll('body.immovable', true);
 
     // Moduli 2x4 (casse doppie)
@@ -346,8 +382,9 @@ function create() {
     // Case (pareti)
     level1_houses = game.add.physicsGroup();
     level1_houses.create(100, 1700, 'level1_house1');
-    level1_houses.create(2345, 1850, 'level1_house2');
+    level1_houses.create(2345, 1800, 'level1_house2');
     level1_houses.create(2995, 1450, 'level1_house3');
+    level1_houses.create(5450, 1700, 'level1_house4');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
