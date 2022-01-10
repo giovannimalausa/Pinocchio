@@ -84,6 +84,13 @@ function preload() {
   game.load.image('level1_house2', 'assets/levelOne/houses/Casa 2.png');
   game.load.image('level1_house3', 'assets/levelOne/houses/Casa 3.png');
   game.load.image('level1_house4', 'assets/levelOne/houses/Casa 4.png');
+  game.load.image('level1_house5', 'assets/levelOne/houses/Casa 5.png');
+  game.load.image('level1_house6', 'assets/levelOne/houses/Casa 6.png');
+  game.load.image('level1_house7', 'assets/levelOne/houses/Casa 7.png');
+  game.load.image('level1_house8', 'assets/levelOne/houses/Casa 8.png');
+  game.load.image('level1_house9', 'assets/levelOne/houses/Casa 9.png');
+  game.load.image('level1_house10', 'assets/levelOne/houses/Casa 10.png');
+  game.load.image('level1_house11', 'assets/levelOne/houses/Casa 11.png');
 
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
@@ -364,6 +371,29 @@ function create() {
 
     modulo1x1.create(5400, 1700, 'modulo1x1');
     modulo1x1.create(6000, 1700, 'modulo1x1');
+    
+    //piattaforma nuova a cui manca la grafica
+    modulo1x1.create(5250, 1850, 'modulo1x1');
+    modulo1x1.create(5300, 1850, 'modulo1x1');
+
+    modulo1x1.create(6300, 1800, 'modulo1x1');
+    modulo1x1.create(6750, 1800, 'modulo1x1');
+    
+    modulo1x1.create(8050, 1700, 'modulo1x1');
+    modulo1x1.create(8100, 1700, 'modulo1x1');
+    modulo1x1.create(8150, 1700, 'modulo1x1');
+
+    modulo1x1.create(8350, 1750, 'modulo1x1');
+    modulo1x1.create(8400, 1750, 'modulo1x1');
+    modulo1x1.create(8450, 1750, 'modulo1x1');
+    
+    modulo1x1.create(9250, 1750, 'modulo1x1');
+    modulo1x1.create(9700, 1750, 'modulo1x1');
+    
+    modulo1x1.create(9900, 1850, 'modulo1x1');
+    modulo1x1.create(9950, 1850, 'modulo1x1');
+
+
 
     modulo1x1.setAll('body.immovable', true);
 
@@ -373,10 +403,16 @@ function create() {
     modulo2x2.create(3750, 2100, 'modulo2x2');
     modulo2x2.create(4450, 2100, 'modulo2x2');
     modulo2x2.create(4895, 2100, 'modulo2x2');
+    modulo2x2.create(8100, 2100, 'modulo2x2');
+    modulo2x2.create(8400, 2100, 'modulo2x2');
+    modulo2x2.create(9850, 2100, 'modulo2x2');
+    modulo2x2.create(10100, 2100, 'modulo2x2');
+    modulo2x2.create(10800, 2100, 'modulo2x2');
     modulo2x2.setAll('body.immovable', true);
 
     // Moduli 2x4 (casse doppie)
     modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
+    modulo2x4.create(8200, 2000, 'modulo2x4');
     modulo2x4.setAll('body.immovable', true);
 
     // Case (pareti)
@@ -385,6 +421,12 @@ function create() {
     level1_houses.create(2345, 1800, 'level1_house2');
     level1_houses.create(2995, 1450, 'level1_house3');
     level1_houses.create(5450, 1700, 'level1_house4');
+    level1_houses.create(6345, 1800, 'level1_house5');
+    level1_houses.create(6995, 1700, 'level1_house6');
+    level1_houses.create(7645, 1500, 'level1_house7');
+    level1_houses.create(8500, 1550, 'level1_house8');
+    level1_houses.create(9295, 1750, 'level1_house9');
+    level1_houses.create(10395, 1900, 'level1_house10');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
