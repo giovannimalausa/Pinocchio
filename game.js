@@ -28,6 +28,7 @@ function preload() {
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
   game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug1.png', 300, 225, 40);
+  game.load.spritesheet('marionettaSniper', 'assets/sprites/spritesheet_enemySniper.png', 150, 100, 40);
   game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
@@ -149,6 +150,7 @@ var shadow; // per camera-tracking con offset
 var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
 var enemyBomb;
 var enemyJug;
+var enemySniper;
 var dust; // sprite polvere del salto
 var dustVar;
 
@@ -263,9 +265,11 @@ var timeWhenLoaded;
 var gameStopWatch;
 
 //Armi
-var bullets;
-var bulletTime = 0;
-var gun1
+//var bullets;
+//var bulletTime = 0;
+var gun1;
+var bulletPool = 10;
+var pickAmmo;
 
 // Keys & input
 var cursors;
@@ -286,8 +290,6 @@ var animDropL;
 var isFiring = false;
 var isJumping = false;
 var dustJump = false;
-var enemyBombIndex;
-var child1;
 
 // ++++++++++ CREATE ++++++++++
 
@@ -346,7 +348,7 @@ function create() {
     modulo1x1.create(3400, 1900, 'modulo1x1');
     modulo1x1.create(3450, 1900, 'modulo1x1');
     modulo1x1.create(3500, 1900, 'modulo1x1');
-    
+
     modulo1x1.create(3600, 1600, 'modulo1x1');
     modulo1x1.create(3650, 1600, 'modulo1x1');
     modulo1x1.create(3700, 1600, 'modulo1x1');
@@ -371,14 +373,14 @@ function create() {
 
     modulo1x1.create(5400, 1700, 'modulo1x1');
     modulo1x1.create(6000, 1700, 'modulo1x1');
-    
+
     //piattaforma nuova a cui manca la grafica
     modulo1x1.create(5250, 1850, 'modulo1x1');
     modulo1x1.create(5300, 1850, 'modulo1x1');
 
     modulo1x1.create(6300, 1800, 'modulo1x1');
     modulo1x1.create(6750, 1800, 'modulo1x1');
-    
+
     modulo1x1.create(8050, 1700, 'modulo1x1');
     modulo1x1.create(8100, 1700, 'modulo1x1');
     modulo1x1.create(8150, 1700, 'modulo1x1');
@@ -386,10 +388,10 @@ function create() {
     modulo1x1.create(8350, 1750, 'modulo1x1');
     modulo1x1.create(8400, 1750, 'modulo1x1');
     modulo1x1.create(8450, 1750, 'modulo1x1');
-    
+
     modulo1x1.create(9250, 1750, 'modulo1x1');
     modulo1x1.create(9700, 1750, 'modulo1x1');
-    
+
     modulo1x1.create(9900, 1850, 'modulo1x1');
     modulo1x1.create(9950, 1850, 'modulo1x1');
 
@@ -912,18 +914,39 @@ function create() {
   player.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   player.health = 10;
 
+  // FUNZIONE DI SPARO CON PHASER.WEAPON
+  gun1 = game.add.weapon(100, 'bullet');
+  gun1.trackSprite(player);
+  gun1.fireRate = 200;
+  gun1.fireAngle = 0;
+  gun1.bulletSpeed = 700;
+  gun1.trackOffset.y = 80;
+  gun1.fireLimit = bulletPool;
 
-  // Enemy
+
+  //  =====================ENEMIES============================
   enemyBomb = game.add.physicsGroup();
   //  enemy.create(2200, 1800, 'marionettaBomba');
   //  enemy.create(2400, 1800, 'marionettaBomba');
   //  enemy.create(2600, 1800, 'marionettaBomba');
-  child1 = enemyBomb.create(1000, 1800, 'marionettaBomba');
-  child1 = enemyBomb.create(1200, 1800, 'marionettaBomba');
-
+  enemyBomb.create(1000, 1800, 'marionettaBomba');
+  enemyBomb.create(1200, 1800, 'marionettaBomba');
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
-  //  enemy.getChildAt(0).body.velocity.x = 100;
+
+//Enemy Sniper
+  enemySniper = game.add.physicsGroup();
+  enemySniper.create(1300, 1800, 'marionettaSniper');
+  enemySniper.create(1600, 1800, 'marionettaSniper');
+  game.physics.arcade.enable(enemySniper);
+  enemySniper.setAll('health', 5);
+  enemySniper.callAll('animations.add', 'animations', 'sniperL', [29,28,27,26,25,24,23,22,21,20], 10, true);
+  enemySniper.callAll('animations.add', 'animations', 'sniperR', [0,1,2,3,4,5,6,7,8,9], 10, true);
+  enemySniper.callAll('animations.add', 'animations', 'sniperFireL', [39,38,37,36,35,34,33,32,31,30], 10, true);
+  enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [10,11,12,13,14,15,16,17,18,19], 10, true);
+//EnemySniper Weapon
+  enemySniperGun = game.add.weapon(100, 'bullet');
+  enemySniperGun.fireRate = 300;
 
   enemyJug = game.add.sprite(1000, 1300, 'marionettaJug');
   game.physics.arcade.enable(enemyJug);
@@ -934,25 +957,7 @@ function create() {
   enemyJug.animations.play('jugFireL', 10, true);
 
 
-  // Armi
-  // FUNZIONE DI SPARO CON BULLET GROUP MANUALE
-  /*  bullets = game.add.group();
-  bullets.enableBody = true;
-  bullets.physicsBodyType = Phaser.Physics.ARCADE;
-  bullets.createMultiple(50, 'bullet');
-  bullets.setAll('anchor.x', 0.5);
-  bullets.setAll('anchor.y', 0.5);
-  bullets.setAll('outOfBoundKill', true);
-  bullets.setAll('checkWorldBounds', true);
-  */
 
-  // FUNZIONE DI SPARO CON PHASER.WEAPON
-  gun1 = game.add.weapon(50, 'bullet');
-  gun1.trackSprite(player);
-  gun1.fireRate = 200;
-  gun1.fireAngle = 0;
-  gun1.bulletSpeed = 700;
-  gun1.trackOffset.y = 80;
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
@@ -963,13 +968,18 @@ function create() {
   twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
   threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
+  pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
 
   // Phaser Signal
+  pickAmmo.onDown.add(addAmmo);
+  gun1.onFire.add(ammoSpent);
   fireButton.onDown.add(isFiringTrue);
   fireButton.onUp.add(isFiringFalse);
 
   jumpButton.onDown.add(dustJumpTrue);
   jumpButton.onUp.add(dustJumpFalse);
+
+
 
 
   // Camera Follow
@@ -988,9 +998,9 @@ function create() {
 
 function update () {
   // console.log('autoPilot: '+ autoPilot);
-  console.log('Player x = ' + player.x);
+  //console.log('Player x = ' + player.x);
   //  console.log(isJumping);
-  //  console.log(player.health);
+    console.log("player health=" + player.health);
   //  console.log(enemy.getChildAt(0).health);
 
   // TIME
@@ -1034,6 +1044,8 @@ function update () {
   if (levelPlaying == 1) {
     game.physics.arcade.collide(enemyBomb, level1_floor);
     game.physics.arcade.collide(enemyJug, level1_floor);
+    game.physics.arcade.collide(enemySniper, level1_floor);
+
     game.physics.arcade.collide(player, level1_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level1_floor);
 
@@ -1326,7 +1338,7 @@ function update () {
     }
   }
 
-  //Animazioni
+  //===========Animazioni===================
 
   if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) { // SE player rivolto a sinistra
       player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
@@ -1388,12 +1400,23 @@ function update () {
     isJumping = true;
   }
 
+//ENEMY Animazioni
 
+enemySniper.forEach(function (enemy2) {
+  if (enemy2.x > player.x) {
+    enemy2.animations.play('sniperL')
+  }
+   else if (enemy2.x < player.x) {
+    enemy2.animations.play('sniperR')
+  }
+})
+
+enemySniperGun.fire()
 
   //WEAPONs
   if(fireButton.isDown) {
-    //fireBullet();
-    gun1.fire()
+  //  gun1.fire();
+    enemySniperGun.fire()
   }
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
@@ -1424,28 +1447,24 @@ function update () {
       player.body.velocity.x = (0.97 *  player.body.velocity.x);
     }
     //console.log(facing)
-    enemyBombIndex = enemyBomb.getChildIndex(child1);
-    // console.log(enemy.getChildIndex(child1));
-
     //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
     //ENEMY
-    if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(0)) < 600 && enemyBomb.getChildAt(0).x > player.x + 80) {
-      enemyBomb.getChildAt(0).body.velocity.x = -100;
-    }
-     else if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(0)) < 600 && enemyBomb.getChildAt(0).x < player.x + 80) {
-      enemyBomb.getChildAt(0).body.velocity.x = 100;
-    }
-
-    if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(1)) < 600 && enemyBomb.getChildAt(1).x > player.x + 80) {
-      enemyBomb.getChildAt(1).body.velocity.x = -100;
-    }
-    else if (game.physics.arcade.distanceBetween(player, enemyBomb.getChildAt(1)) < 600 && enemyBomb.getChildAt(1).x < player.x + 80) {
-      enemyBomb.getChildAt(1).body.velocity.x = 100;
-    }
+    enemyBomb.forEach(function (enemy1) {
+      if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x > player.x + 80) {
+        enemy1.body.velocity.x = -100;
+      }
+       else if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x < player.x + 80) {
+        enemy1.body.velocity.x = 100;
+      }
+    })
 
     enemyBomb.setAll('body.gravity.y', 2000);
     enemyBomb.setAll('body.collideWorldBounds', true);
+
+    enemySniper.setAll('body.gravity.y', 2000);
+    enemySniper.setAll('body.collideWorldBounds', true);
+
 
 
     // MENU
@@ -1642,7 +1661,7 @@ function enableInteraction() {
 }
 function touchEnemy(player, enemyBomb) {
   enemyBomb.kill();
-  //  player.health.damage = 1;
+  player.health = player.health - 3;
 }
 
 function shootEnemy(bullets, enemyBomb) {
@@ -1662,6 +1681,15 @@ function isFiringFalse() {
   console.log('isFiring = ' + isFiring);
 }
 
+function addAmmo() {
+  bulletPool = bulletPool + 10;
+  gun1.resetShots(bulletPool);
+console.log('Bullet N' + bulletPool);
+}
+function ammoSpent() {
+  bulletPool = bulletPool - 1;
+  console.log('Bullet N' + bulletPool);
+}
 
 function dustJumpTrue() {
   dustJump = true;
@@ -1708,21 +1736,6 @@ function landingProcessCallback(player, obj) {
     return false;
   }
 }
-
-/*
-   //FUNZIONE DI SPARO CON BULLET GROUP MANUALE
- function fireBullet() {
-  if(game.time.now > bulletTime){
-    bullet = bullets.getFirstExists(false);
-
-    if(bullet) {
-      bullet.reset(player.x + 130, player.y + 50);
-      bullet.body.velocity.x = 100;
-      bulletTime = game.time.now + 50;
-    }
-  }
-}
-*/
 
 function render () {
   // game.debug.body(level2_mongolfiera1);
