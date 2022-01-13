@@ -96,6 +96,14 @@ function preload() {
   game.load.image('level1_house9', 'assets/levelOne/houses/Casa 9.png');
   game.load.image('level1_house10', 'assets/levelOne/houses/Casa 10.png');
   game.load.image('level1_house11', 'assets/levelOne/houses/Casa 11.png');
+  game.load.image('level1_house12', 'assets/levelOne/houses/Casa 12.png');
+  game.load.image('level1_house13', 'assets/levelOne/houses/Casa 13.png');
+  game.load.image('level1_house14', 'assets/levelOne/houses/Casa 14.png');
+  game.load.image('level1_house15', 'assets/levelOne/houses/Casa 15.png');
+  game.load.image('level1_house16', 'assets/levelOne/houses/Casa 16.png');
+  game.load.image('level1_house17', 'assets/levelOne/houses/Casa 17.png');
+  game.load.image('level1_house18', 'assets/levelOne/houses/Casa 18.png');
+  game.load.image('level1_house19', 'assets/levelOne/houses/Casa 19.png');
 
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
@@ -353,7 +361,20 @@ function create() {
     level1_floor.create(4100, 2200, 'level1_floor4');
     level1_floor.create(4650, 2200, 'level1_floor5');
     level1_floor.create(4900, 2200, 'level1_floor6');
-    //  <=== Aggiungere qui in mezzo gli altri pezzi del pavimento (per Clara)
+    level1_floor.create(6350, 2200, 'level1_floor7');
+    level1_floor.create(7000, 2200, 'level1_floor8');
+    level1_floor.create(7650, 2200, 'level1_floor9');
+    level1_floor.create(9300, 2200, 'level1_floor10');
+    level1_floor.create(10350, 2200, 'level1_floor11');
+    level1_floor.create(12300, 2200, 'level1_floor12');
+    level1_floor.create(12750, 2200, 'level1_floor13');
+    level1_floor.create(13900, 2200, 'level1_floor14');
+    level1_floor.create(14750, 2200, 'level1_floor15');
+    level1_floor.create(15350, 2200, 'level1_floor16');
+    level1_floor.create(16100, 2200, 'level1_floor17');
+    level1_floor.create(16650, 2200, 'level1_floor18');
+    level1_floor.create(17500, 2200, 'level1_floor19');
+    level1_floor.create(17950, 2200, 'level1_floor20');
     level1_floor.create(18900, 2200, 'level1_floor21');
     level1_floor.create(19500, 2200, 'level1_floor22');
     level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
@@ -407,9 +428,8 @@ function create() {
     modulo1x1.create(5400, 1700, 'modulo1x1');
     modulo1x1.create(6000, 1700, 'modulo1x1');
 
-    //piattaforma nuova a cui manca la grafica
-    modulo1x1.create(5250, 1850, 'modulo1x1');
-    modulo1x1.create(5300, 1850, 'modulo1x1');
+    modulo1x1.create(5150, 1750, 'modulo1x1');
+    modulo1x1.create(5200, 1750, 'modulo1x1');
 
     modulo1x1.create(6300, 1800, 'modulo1x1');
     modulo1x1.create(6750, 1800, 'modulo1x1');
@@ -418,17 +438,111 @@ function create() {
     modulo1x1.create(8100, 1700, 'modulo1x1');
     modulo1x1.create(8150, 1700, 'modulo1x1');
 
-    modulo1x1.create(8350, 1750, 'modulo1x1');
-    modulo1x1.create(8400, 1750, 'modulo1x1');
-    modulo1x1.create(8450, 1750, 'modulo1x1');
+    modulo1x1.create(8350, 1800, 'modulo1x1');
+    modulo1x1.create(8400, 1800, 'modulo1x1');
+    modulo1x1.create(8450, 1800, 'modulo1x1');
 
     modulo1x1.create(9250, 1750, 'modulo1x1');
     modulo1x1.create(9700, 1750, 'modulo1x1');
 
-    modulo1x1.create(9900, 1850, 'modulo1x1');
-    modulo1x1.create(9950, 1850, 'modulo1x1');
+    modulo1x1.create(9900, 1900, 'modulo1x1');
+    modulo1x1.create(9950, 1900, 'modulo1x1');
+    
+    modulo1x1.create(10100, 2000, 'modulo1x1');
+    modulo1x1.create(10150, 2000, 'modulo1x1');
+    
+    modulo1x1.create(10950, 1750, 'modulo1x1');
+    modulo1x1.create(11000, 1750, 'modulo1x1');
+    modulo1x1.create(11050, 1750, 'modulo1x1');
+    
+    modulo1x1.create(11000, 1950, 'modulo1x1');
+    modulo1x1.create(11050, 1950, 'modulo1x1');
+    modulo1x1.create(11100, 1950, 'modulo1x1');
+    modulo1x1.create(11150, 1950, 'modulo1x1');
+    modulo1x1.create(11200, 1950, 'modulo1x1');
+    modulo1x1.create(11250, 1950, 'modulo1x1');
+    
+    modulo1x1.create(11250, 1700, 'modulo1x1');
+    modulo1x1.create(11700, 1700, 'modulo1x1');
 
-
+    modulo1x1.create(11900, 1750, 'modulo1x1');
+    modulo1x1.create(11950, 1750, 'modulo1x1');
+    modulo1x1.create(12000, 1750, 'modulo1x1');
+    modulo1x1.create(12050, 1750, 'modulo1x1');
+    modulo1x1.create(12100, 1750, 'modulo1x1');
+    modulo1x1.create(12150, 1750, 'modulo1x1');
+    
+    modulo1x1.create(12300, 1850, 'modulo1x1');
+    modulo1x1.create(12350, 1850, 'modulo1x1');
+    
+    modulo1x1.create(12500, 1750, 'modulo1x1');
+    modulo1x1.create(12550, 1750, 'modulo1x1');
+    modulo1x1.create(12600, 1750, 'modulo1x1');
+    modulo1x1.create(12650, 1750, 'modulo1x1');
+    modulo1x1.create(12700, 1750, 'modulo1x1');
+    
+    modulo1x1.create(12550, 2050, 'modulo1x1');
+    modulo1x1.create(12600, 2050, 'modulo1x1');
+    modulo1x1.create(12650, 2050, 'modulo1x1');
+    
+    modulo1x1.create(12850, 1900, 'modulo1x1');
+    modulo1x1.create(12900, 1900, 'modulo1x1');
+    modulo1x1.create(12950, 1900, 'modulo1x1');
+    modulo1x1.create(13000, 1900, 'modulo1x1');
+    modulo1x1.create(13050, 1900, 'modulo1x1');
+    modulo1x1.create(13100, 1900, 'modulo1x1');
+    
+    modulo1x1.create(13600, 1650, 'modulo1x1');
+    modulo1x1.create(13650, 1650, 'modulo1x1');
+    modulo1x1.create(13700, 1650, 'modulo1x1');
+    
+    modulo1x1.create(13750, 1850, 'modulo1x1');
+    modulo1x1.create(13800, 1850, 'modulo1x1');
+    modulo1x1.create(13850, 1850, 'modulo1x1');
+    
+    modulo1x1.create(14600, 1550, 'modulo1x1');
+    modulo1x1.create(14650, 1550, 'modulo1x1');
+    
+    modulo1x1.create(14700, 1750, 'modulo1x1');
+    modulo1x1.create(15150, 1750, 'modulo1x1');
+    
+    modulo1x1.create(15100, 1600, 'modulo1x1');
+    modulo1x1.create(15150, 1600, 'modulo1x1');
+    
+    modulo1x1.create(15950, 1650, 'modulo1x1');
+    modulo1x1.create(16000, 1650, 'modulo1x1');
+    modulo1x1.create(16050, 1650, 'modulo1x1');
+    
+    modulo1x1.create(16900, 1500, 'modulo1x1');
+    modulo1x1.create(16950, 1500, 'modulo1x1');
+    
+    modulo1x1.create(17000, 1350, 'modulo1x1');
+    modulo1x1.create(17050, 1350, 'modulo1x1');
+    
+    modulo1x1.create(17500, 1800, 'modulo1x1');
+    modulo1x1.create(17550, 1800, 'modulo1x1');
+    modulo1x1.create(17600, 1800, 'modulo1x1');
+    modulo1x1.create(17650, 1800, 'modulo1x1');
+    
+    modulo1x1.create(17750, 1600, 'modulo1x1');
+    modulo1x1.create(17800, 1600, 'modulo1x1');
+    
+    modulo1x1.create(18000, 1750, 'modulo1x1');
+    modulo1x1.create(18050, 1750, 'modulo1x1');
+    modulo1x1.create(18100, 1750, 'modulo1x1');
+    modulo1x1.create(18150, 1750, 'modulo1x1');
+    modulo1x1.create(18200, 1750, 'modulo1x1');
+   
+    modulo1x1.create(18850, 1800, 'modulo1x1');
+    modulo1x1.create(19300, 1800, 'modulo1x1');
+    
+    modulo1x1.create(19000, 1600, 'modulo1x1');
+    modulo1x1.create(19050, 1600, 'modulo1x1');
+    modulo1x1.create(19100, 1600, 'modulo1x1');
+    modulo1x1.create(19150, 1600, 'modulo1x1');
+    
+    modulo1x1.create(19500, 1900, 'modulo1x1');
+    modulo1x1.create(19550, 1900, 'modulo1x1');
 
     modulo1x1.setAll('body.immovable', true);
 
@@ -441,13 +555,20 @@ function create() {
     modulo2x2.create(8100, 2100, 'modulo2x2');
     modulo2x2.create(8400, 2100, 'modulo2x2');
     modulo2x2.create(9850, 2100, 'modulo2x2');
-    modulo2x2.create(10100, 2100, 'modulo2x2');
     modulo2x2.create(10800, 2100, 'modulo2x2');
+    modulo2x2.create(12000, 2100, 'modulo2x2');
+    modulo2x2.create(12295, 2100, 'modulo2x2');
+    modulo2x2.create(13300, 2100, 'modulo2x2');
+    modulo2x2.create(17945, 2100, 'modulo2x2');
+    modulo2x2.create(19495, 2100, 'modulo2x2');
     modulo2x2.setAll('body.immovable', true);
 
     // Moduli 2x4 (casse doppie)
     modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
     modulo2x4.create(8200, 2000, 'modulo2x4');
+    modulo2x4.create(13500, 2000, 'modulo2x4');
+    modulo2x4.create(17750, 2000, 'modulo2x4');
+    modulo2x4.create(19700, 2000, 'modulo2x4');
     modulo2x4.setAll('body.immovable', true);
 
     // Case (pareti)
@@ -459,9 +580,18 @@ function create() {
     level1_houses.create(6345, 1800, 'level1_house5');
     level1_houses.create(6995, 1700, 'level1_house6');
     level1_houses.create(7645, 1500, 'level1_house7');
-    level1_houses.create(8500, 1550, 'level1_house8');
+    level1_houses.create(8500, 1600, 'level1_house8');
     level1_houses.create(9295, 1750, 'level1_house9');
     level1_houses.create(10395, 1900, 'level1_house10');
+    level1_houses.create(11300, 1700, 'level1_house11');
+    level1_houses.create(13895, 1550, 'level1_house12');
+    level1_houses.create(14745, 1750, 'level1_house13');
+    level1_houses.create(15345, 1550, 'level1_house14');
+    level1_houses.create(16095, 1450, 'level1_house15');
+    level1_houses.create(16645, 1300, 'level1_house16');
+    level1_houses.create(16795, 1700, 'level1_house17');
+    level1_houses.create(18350, 1900, 'level1_house18');
+    level1_houses.create(18895, 1800, 'level1_house19');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
@@ -589,8 +719,8 @@ function create() {
     modulo1x1.create(9700, 1950, 'modulo1x1');
     modulo1x1.create(9750, 1950, 'modulo1x1');
 
-    modulo1x1.create(9900, 1800, 'modulo1x1');
-    modulo1x1.create(9950, 1800, 'modulo1x1');
+    modulo1x1.create(9900, 1900, 'modulo1x1');
+    modulo1x1.create(9950, 1900, 'modulo1x1');
 
     modulo1x1.create(10000, 2000, 'modulo1x1');
     modulo1x1.create(10050, 2000, 'modulo1x1');
@@ -1665,7 +1795,7 @@ function spawn() {
   spawning = true;
   if (levelPlaying == 1) {
     console.log("level 1 player create")
-    player = game.add.sprite(18860, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
+    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
     shadow = game.add.sprite(1000, 200, 'player');
     shadow.alpha = 0;
   } else if (levelPlaying == 2) {
