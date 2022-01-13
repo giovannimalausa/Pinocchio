@@ -1282,7 +1282,11 @@ function update () {
       gameOverTimer += 1;
       if (gameOverTimer === 60) {
         console.log("Game Over: player fell below y=2060");
-        game.paused = true;
+        // game.paused = true;
+        if (levelPlaying == 1) {
+          destroyLevel1();
+          create();
+        }
       }
     }
   }
@@ -1600,15 +1604,8 @@ enemySniperGun.fire()
     if (timerLivello1Livello2 == 150) {
       // Destroy gli sprite del Livello 1
       console.log("Destroying Level 1 sprites...");
-      level1_calpestabile_parte1.destroy();
-      level1_calpestabile_parte2.destroy();
-      level1_floor.destroy();
-      level1_houses.destroy();
-      modulo1x1.destroy();
-      modulo2x2.destroy();
-      modulo2x4.destroy();
-      // player.destroy();
-
+      destroyLevel1();
+      
       levelPlaying = 2;
 
       // enableUserMovement = true; // Attiva i controlli da parte dell'utente
@@ -1621,8 +1618,9 @@ enemySniperGun.fire()
 
 function spawn() {
   autoPilot = true;
-  console.log('autoPilot is ON')
-  console.log("SPAWN")
+  console.log('spawn() started. AutoPilot is ON.')
+  gameOverTimer = 0;
+  console.log('gameOverTimer reset to 0.')
   spawning = true;
   if (levelPlaying == 1) {
     console.log("level 1 player create")
@@ -1645,6 +1643,26 @@ function spawn() {
   }
   console.log("spawn() completed.")
 }
+
+function destroyLevel1() {
+  level1_calpestabile_parte1.destroy();
+  level1_calpestabile_parte2.destroy();
+  level1_floor.destroy();
+  level1_houses.destroy();
+  modulo1x1.destroy();
+  modulo2x2.destroy();
+  modulo2x4.destroy();
+}
+
+function destroyLevel2() {
+  
+}
+
+function destroyLevel3() {
+  
+}
+
+
 
 
 function enableInteraction() {
