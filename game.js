@@ -350,8 +350,8 @@ function create() {
     sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
     // Calpestabile livello 1
-    level1_calpestabile_parte1 = game.add.sprite(0, 4, 'level1_calpestabile_parte1');
-    level1_calpestabile_parte2 = game.add.sprite(10000, 4, 'level1_calpestabile_parte2');
+    level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
+    level1_calpestabile_parte2 = game.add.sprite(10000, 0, 'level1_calpestabile_parte2');
 
     // Pavimento livello 1
     level1_floor = game.add.physicsGroup();
