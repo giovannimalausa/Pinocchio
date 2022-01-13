@@ -998,39 +998,13 @@ function create() {
 
 function update () {
   // console.log('autoPilot: '+ autoPilot);
-  //console.log('Player x = ' + player.x);
+  console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
     console.log("player health=" + player.health);
   //  console.log(enemy.getChildAt(0).health);
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
-
-  // Automovement spawn
-  if (levelPlaying == 1 && spawning == true) {
-    spawningTimer += 1;
-    if (spawningTimer >= 70) {
-      player.body.velocity.x = 300;
-      if (player.x > 500) {
-        spawning = false;
-        autoPilot = false;
-        spawningTimer = 0;
-        console.log('autoPilot is OFF. User has control.')
-      }
-    }
-  }
-  if (levelPlaying == 2 && spawning == true) {
-    spawningTimer += 1;
-    if (spawningTimer >= 70) {
-      player.body.velocity.x = 300;
-      if (player.x > 190) {
-        spawning = false;
-        autoPilot = false;
-        spawningTimer = 0;
-        console.log('autoPilot is OFF. User has control.')
-      }
-    }
-  }
 
   // Collide
   // Collide /Globali
@@ -1269,6 +1243,35 @@ function update () {
     if (level2_mongolfiera1.y > 1100) {
       level2_mongolfiera1.body.velocity.y = -125;
       level2_mongolfiera2.body.velocity.y = -125;
+    }
+  }
+
+  // Automovement spawn
+  if (levelPlaying == 1 && spawning == true) {
+    console.log("levelPlaying 1")
+    spawningTimer += 1;
+    if (spawningTimer >= 70) {
+      player.body.velocity.x = 300;
+      if (player.x > 500) {
+        spawning = false;
+        autoPilot = false;
+        spawningTimer = 0;
+        console.log('autoPilot is OFF. User has control.')
+      }
+    }
+  }
+  if (levelPlaying == 2 && spawning == true) {
+    console.log("levelPlaying 2")
+    spawningTimer += 1;
+    if (spawningTimer >= 70) {
+      player.body.velocity.x = 300;
+      if (player.x > 160) {
+        spawning = false;
+        autoPilot = false;
+        enableUserMovement = true;
+        spawningTimer = 0;
+        console.log('autoPilot is OFF. User has control.')
+      }
     }
   }
 
@@ -1604,7 +1607,7 @@ enemySniperGun.fire()
       modulo1x1.destroy();
       modulo2x2.destroy();
       modulo2x4.destroy();
-      player.destroy();
+      // player.destroy();
 
       levelPlaying = 2;
 
@@ -1619,16 +1622,23 @@ enemySniperGun.fire()
 function spawn() {
   autoPilot = true;
   console.log('autoPilot is ON')
+  console.log("SPAWN")
   spawning = true;
   if (levelPlaying == 1) {
-    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
+    console.log("level 1 player create")
+    player = game.add.sprite(18860, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
     shadow = game.add.sprite(1000, 200, 'player');
     shadow.alpha = 0;
   } else if (levelPlaying == 2) {
-    player = game.add.sprite(-90, 1900, 'pinocchio');
+    console.log("level 2 player move")
+    player.x = -90;
+    player.y = 1200;
+    player.bringToTop();
+    // player = game.add.sprite(-90, 1900, 'pinocchio');
     shadow = game.add.sprite(680, 200, 'player');
-    shadow.alpha = 1;
+    shadow.alpha = 0;
   } else if (levelPlaying == 3) {
+    console.log("layer 3 player create")
     player = game.add.sprite(200, 1900, 'pinocchio');
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
