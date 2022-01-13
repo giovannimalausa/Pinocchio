@@ -49,6 +49,10 @@ function preload() {
   game.load.image('platform5x1', 'assets/global/Size=5x1.png');
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
+  // Interfaccia
+  game.load.image('healthFull', 'assets/interface/healthFull.png');
+  game.load.image('healthHalf', 'assets/interface/healthHalf.png');
+
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
   game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
@@ -172,9 +176,17 @@ var gameOverTimer = 0;
 var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 
-// Variabili grafiche globali
+// Variabili grafiche
+var healthFull1;
+var healthFull2;
+var healthFull3;
+var healthHalf1;
+var healthHalf2;
+var healthHalf3;
 var controlsTutorialUI;
 var sfondoAzzurro;
+
+// Variabili globali
 var modulo1x1;
 var modulo2x2;
 var modulo2x4;
@@ -297,6 +309,27 @@ function create() {
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2504);
+
+  healthFull1 = game.add.sprite(50, 50, 'healthFull');
+  healthFull1.fixedToCamera = true;
+  healthFull1.scale.setTo(0.75, 0.75);
+  healthFull2 = game.add.sprite(100, 50, 'healthFull');
+  healthFull2.fixedToCamera = true;
+  healthFull2.scale.setTo(0.75, 0.75);
+  healthFull3 = game.add.sprite(150, 50, 'healthFull');
+  healthFull3.fixedToCamera = true;
+  healthFull3.scale.setTo(0.75, 0.75);
+  healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
+  healthHalf1.fixedToCamera = true;
+  healthHalf1.scale.setTo(0.75, 0.75);
+  healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
+  healthHalf2.fixedToCamera = true;
+  healthHalf2.scale.setTo(0.75, 0.75);
+  healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
+  healthHalf3.fixedToCamera = true;
+  healthHalf3.scale.setTo(0.75, 0.75);
+
+  // BringToTop() alla fine di create().
 
   // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
@@ -1614,6 +1647,14 @@ enemySniperGun.fire()
       create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
     }
   }
+
+  // BringToTop()
+  healthFull1.bringToTop();
+  healthFull2.bringToTop();
+  healthFull3.bringToTop();
+  healthHalf1.bringToTop();
+  healthHalf2.bringToTop();
+  healthHalf3.bringToTop();
 }
 
 function spawn() {
@@ -1661,8 +1702,6 @@ function destroyLevel2() {
 function destroyLevel3() {
   
 }
-
-
 
 
 function enableInteraction() {
