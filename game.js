@@ -181,6 +181,9 @@ var interactionPointLabelShown = false;
 var gameOverTimer = 0;
 var gameWasOver = false;
 
+// Variabili enemyBomb
+enemyBomb_0_Direction = 'right';
+
 // Variabili cambio livello
 var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
@@ -352,7 +355,6 @@ function create() {
 
     // Calpestabile livello 1
     level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
-    level1_calpestabile_parte2 = game.add.sprite(10000, 0, 'level1_calpestabile_parte2');
 
     // Pavimento livello 1
     level1_floor = game.add.physicsGroup();
@@ -369,15 +371,6 @@ function create() {
     level1_floor.create(10350, 2200, 'level1_floor11');
     level1_floor.create(12300, 2200, 'level1_floor12');
     level1_floor.create(12750, 2200, 'level1_floor13');
-    level1_floor.create(13900, 2200, 'level1_floor14');
-    level1_floor.create(14750, 2200, 'level1_floor15');
-    level1_floor.create(15350, 2200, 'level1_floor16');
-    level1_floor.create(16100, 2200, 'level1_floor17');
-    level1_floor.create(16650, 2200, 'level1_floor18');
-    level1_floor.create(17500, 2200, 'level1_floor19');
-    level1_floor.create(17950, 2200, 'level1_floor20');
-    level1_floor.create(18900, 2200, 'level1_floor21');
-    level1_floor.create(19500, 2200, 'level1_floor22');
     level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
     level1_floor.setAll('body.immovable', true);
 
@@ -404,21 +397,13 @@ function create() {
     modulo1x1.create(3450, 1900, 'modulo1x1');
     modulo1x1.create(3500, 1900, 'modulo1x1');
 
-    modulo1x1.create(3600, 1600, 'modulo1x1');
-    modulo1x1.create(3650, 1600, 'modulo1x1');
-    modulo1x1.create(3700, 1600, 'modulo1x1');
-    modulo1x1.create(3750, 1600, 'modulo1x1');
-    modulo1x1.create(3800, 1600, 'modulo1x1');
-    modulo1x1.create(3850, 1600, 'modulo1x1');
+    modulo1x1.create(3500, 1700, 'modulo1x1');
+    modulo1x1.create(3550, 1700, 'modulo1x1');
+    modulo1x1.create(3600, 1700, 'modulo1x1');
 
-    modulo1x1.create(3900, 1900, 'modulo1x1');
-    modulo1x1.create(3950, 1900, 'modulo1x1');
-
-    modulo1x1.create(4100, 1700, 'modulo1x1');
-    modulo1x1.create(4150, 1700, 'modulo1x1');
-    modulo1x1.create(4200, 1700, 'modulo1x1');
-    modulo1x1.create(4250, 1700, 'modulo1x1');
-    modulo1x1.create(4300, 1700, 'modulo1x1');
+    modulo1x1.create(3650, 1550, 'modulo1x1');
+    modulo1x1.create(3700, 1550, 'modulo1x1');
+    modulo1x1.create(3750, 1550, 'modulo1x1');
 
     modulo1x1.create(5150, 1950, 'modulo1x1');
     modulo1x1.create(5200, 1950, 'modulo1x1');
@@ -466,84 +451,8 @@ function create() {
     modulo1x1.create(11250, 1700, 'modulo1x1');
     modulo1x1.create(11700, 1700, 'modulo1x1');
 
-    modulo1x1.create(11900, 1750, 'modulo1x1');
-    modulo1x1.create(11950, 1750, 'modulo1x1');
-    modulo1x1.create(12000, 1750, 'modulo1x1');
-    modulo1x1.create(12050, 1750, 'modulo1x1');
-    modulo1x1.create(12100, 1750, 'modulo1x1');
-    modulo1x1.create(12150, 1750, 'modulo1x1');
-    
-    modulo1x1.create(12300, 1850, 'modulo1x1');
-    modulo1x1.create(12350, 1850, 'modulo1x1');
-    
-    modulo1x1.create(12500, 1750, 'modulo1x1');
-    modulo1x1.create(12550, 1750, 'modulo1x1');
-    modulo1x1.create(12600, 1750, 'modulo1x1');
-    modulo1x1.create(12650, 1750, 'modulo1x1');
-    modulo1x1.create(12700, 1750, 'modulo1x1');
-    
-    modulo1x1.create(12550, 2050, 'modulo1x1');
-    modulo1x1.create(12600, 2050, 'modulo1x1');
-    modulo1x1.create(12650, 2050, 'modulo1x1');
-    
-    modulo1x1.create(12850, 1900, 'modulo1x1');
-    modulo1x1.create(12900, 1900, 'modulo1x1');
-    modulo1x1.create(12950, 1900, 'modulo1x1');
-    modulo1x1.create(13000, 1900, 'modulo1x1');
-    modulo1x1.create(13050, 1900, 'modulo1x1');
-    modulo1x1.create(13100, 1900, 'modulo1x1');
-    
-    modulo1x1.create(13600, 1650, 'modulo1x1');
-    modulo1x1.create(13650, 1650, 'modulo1x1');
-    modulo1x1.create(13700, 1650, 'modulo1x1');
-    
-    modulo1x1.create(13750, 1850, 'modulo1x1');
-    modulo1x1.create(13800, 1850, 'modulo1x1');
-    modulo1x1.create(13850, 1850, 'modulo1x1');
-    
-    modulo1x1.create(14600, 1550, 'modulo1x1');
-    modulo1x1.create(14650, 1550, 'modulo1x1');
-    
-    modulo1x1.create(14700, 1750, 'modulo1x1');
-    modulo1x1.create(15150, 1750, 'modulo1x1');
-    
-    modulo1x1.create(15100, 1600, 'modulo1x1');
-    modulo1x1.create(15150, 1600, 'modulo1x1');
-    
-    modulo1x1.create(15950, 1650, 'modulo1x1');
-    modulo1x1.create(16000, 1650, 'modulo1x1');
-    modulo1x1.create(16050, 1650, 'modulo1x1');
-    
-    modulo1x1.create(16900, 1500, 'modulo1x1');
-    modulo1x1.create(16950, 1500, 'modulo1x1');
-    
-    modulo1x1.create(17000, 1350, 'modulo1x1');
-    modulo1x1.create(17050, 1350, 'modulo1x1');
-    
-    modulo1x1.create(17500, 1800, 'modulo1x1');
-    modulo1x1.create(17550, 1800, 'modulo1x1');
-    modulo1x1.create(17600, 1800, 'modulo1x1');
-    modulo1x1.create(17650, 1800, 'modulo1x1');
-    
-    modulo1x1.create(17750, 1600, 'modulo1x1');
-    modulo1x1.create(17800, 1600, 'modulo1x1');
-    
-    modulo1x1.create(18000, 1750, 'modulo1x1');
-    modulo1x1.create(18050, 1750, 'modulo1x1');
-    modulo1x1.create(18100, 1750, 'modulo1x1');
-    modulo1x1.create(18150, 1750, 'modulo1x1');
-    modulo1x1.create(18200, 1750, 'modulo1x1');
-   
-    modulo1x1.create(18850, 1800, 'modulo1x1');
-    modulo1x1.create(19300, 1800, 'modulo1x1');
-    
-    modulo1x1.create(19000, 1600, 'modulo1x1');
-    modulo1x1.create(19050, 1600, 'modulo1x1');
-    modulo1x1.create(19100, 1600, 'modulo1x1');
-    modulo1x1.create(19150, 1600, 'modulo1x1');
-    
-    modulo1x1.create(19500, 1900, 'modulo1x1');
-    modulo1x1.create(19550, 1900, 'modulo1x1');
+    modulo1x1.create(11850, 1900, 'modulo1x1');
+    modulo1x1.create(11900, 1900, 'modulo1x1');
 
     modulo1x1.setAll('body.immovable', true);
 
@@ -559,15 +468,11 @@ function create() {
     modulo2x2.create(10800, 2100, 'modulo2x2');
     modulo2x2.create(12000, 2100, 'modulo2x2');
     modulo2x2.create(12295, 2100, 'modulo2x2');
-    modulo2x2.create(13300, 2100, 'modulo2x2');
-    modulo2x2.create(17945, 2100, 'modulo2x2');
-    modulo2x2.create(19495, 2100, 'modulo2x2');
     modulo2x2.setAll('body.immovable', true);
 
     // Moduli 2x4 (casse doppie)
     modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
     modulo2x4.create(8200, 2000, 'modulo2x4');
-    modulo2x4.create(13500, 2000, 'modulo2x4');
     modulo2x4.create(17750, 2000, 'modulo2x4');
     modulo2x4.create(19700, 2000, 'modulo2x4');
     modulo2x4.setAll('body.immovable', true);
@@ -585,14 +490,6 @@ function create() {
     level1_houses.create(9295, 1750, 'level1_house9');
     level1_houses.create(10395, 1900, 'level1_house10');
     level1_houses.create(11300, 1700, 'level1_house11');
-    level1_houses.create(13895, 1550, 'level1_house12');
-    level1_houses.create(14745, 1750, 'level1_house13');
-    level1_houses.create(15345, 1550, 'level1_house14');
-    level1_houses.create(16095, 1450, 'level1_house15');
-    level1_houses.create(16645, 1300, 'level1_house16');
-    level1_houses.create(16795, 1700, 'level1_house17');
-    level1_houses.create(18350, 1900, 'level1_house18');
-    level1_houses.create(18895, 1800, 'level1_house19');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
@@ -1093,7 +990,7 @@ function create() {
   //  enemy.create(2200, 1800, 'marionettaBomba');
   //  enemy.create(2400, 1800, 'marionettaBomba');
   //  enemy.create(2600, 1800, 'marionettaBomba');
-  enemyBomb.create(1000, 1800, 'marionettaBomba');
+  enemyBomb.create(710, 1500, 'marionettaBomba');
   enemyBomb.create(1200, 1800, 'marionettaBomba');
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
@@ -1167,10 +1064,11 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
+  console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
-  console.log('Player x = ' + player.x + ' y = ' + player.y);
+  // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
-    console.log("player health=" + player.health);
+  // console.log("player health=" + player.health);
   //  console.log(enemy.getChildAt(0).health);
 
   // TIME
@@ -1418,7 +1316,6 @@ function update () {
 
   // Automovement spawn
   if (levelPlaying == 1 && spawning == true) {
-    console.log("levelPlaying 1")
     spawningTimer += 1;
     if (spawningTimer >= 70) {
       player.body.velocity.x = 300;
@@ -1596,8 +1493,8 @@ enemySniperGun.fire()
 
   //WEAPONs
   if(fireButton.isDown) {
-  //  gun1.fire();
-    enemySniperGun.fire()
+    gun1.fire();
+    // enemySniperGun.fire()
   }
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
@@ -1632,13 +1529,29 @@ enemySniperGun.fire()
 
     //ENEMY
     enemyBomb.forEach(function (enemy1) {
-      if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x > player.x + 80) {
-        enemy1.body.velocity.x = -100;
-      }
-       else if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x < player.x + 80) {
-        enemy1.body.velocity.x = 100;
-      }
+      // if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x > player.x + 80) {
+      //   enemy1.body.velocity.x = -100;
+      // }
+      //  else if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x < player.x + 80) {
+      //   enemy1.body.velocity.x = 100;
+      // }
     })
+
+
+    if (enemyBomb_0_Direction === 'right') {
+      enemyBomb.getChildAt(0).body.velocity.x = 100;
+    } else {
+      enemyBomb.getChildAt(0).body.velocity.x = -100;
+    }
+    if (enemyBomb.getChildAt(0).x > 950 && enemyBomb_0_Direction === 'right') {
+      enemyBomb_0_Direction = 'left';
+      enemyBomb.getChildAt(0).body.velocity.x = -100;
+    } else if (enemyBomb.getChildAt(0).x < 700 && enemyBomb_0_Direction === 'left') {
+      enemyBomb_0_Direction = 'right';
+      enemyBomb.getChildAt(0).body.velocity.x = 100;
+    }
+
+
 
     enemyBomb.setAll('body.gravity.y', 2000);
     enemyBomb.setAll('body.collideWorldBounds', true);
@@ -1685,6 +1598,7 @@ enemySniperGun.fire()
       healthFull2.alpha = 0.1;
       healthHalf3.alpha = 0;
       healthFull3.alpha = 0.1;
+
     } else if (player.health == 0) {
       healthHalf1.alpha = 0;
       healthFull1.alpha = 0.1;
@@ -1917,6 +1831,7 @@ function enableInteraction() {
 
 }
 function touchEnemy(player, enemyBomb) {
+  // <== Inserire animazione [esplosione enemyBomb]
   enemyBomb.kill();
   player.health = player.health - 3;
 }
@@ -1941,7 +1856,7 @@ function isFiringFalse() {
 function addAmmo() {
   bulletPool = bulletPool + 10;
   gun1.resetShots(bulletPool);
-console.log('Bullet N' + bulletPool);
+  console.log('Bullet N' + bulletPool);
 }
 function ammoSpent() {
   bulletPool = bulletPool - 1;
