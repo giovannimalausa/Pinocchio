@@ -60,6 +60,7 @@ function preload() {
   game.load.image('ammo/3', 'assets/interface/Ammo/3.png');
   game.load.image('ammo/2', 'assets/interface/Ammo/2.png');
   game.load.image('ammo/1', 'assets/interface/Ammo/1.png');
+  game.load.spritesheet('ammoUI', 'assets/interface/Ammo/ammoUI.png', 185, 50, 15);
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
@@ -209,6 +210,8 @@ var ammoUI4;
 var ammoUI3;
 var ammoUI2;
 var ammoUI1;
+var ammoUI;
+
 var controlsTutorialUI;
 var sfondoAzzurro;
 
@@ -1020,6 +1023,8 @@ function create() {
   gun1.trackOffset.y = 80;
   gun1.fireLimit = bulletPool;
 
+  
+
 
   //  =====================ENEMIES============================
   enemyBomb = game.add.physicsGroup();
@@ -1031,7 +1036,7 @@ function create() {
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
 
-//Enemy Sniper
+  //Enemy Sniper
   enemySniper = game.add.physicsGroup();
   enemySniper.create(1300, 1800, 'marionettaSniper');
   enemySniper.create(1600, 1800, 'marionettaSniper');
@@ -1041,7 +1046,7 @@ function create() {
   enemySniper.callAll('animations.add', 'animations', 'sniperR', [0,1,2,3,4,5,6,7,8,9], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireL', [39,38,37,36,35,34,33,32,31,30], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [10,11,12,13,14,15,16,17,18,19], 10, true);
-//EnemySniper Weapon
+  //EnemySniper Weapon
   enemySniperGun = game.add.weapon(100, 'bullet');
   enemySniperGun.fireRate = 300;
 
@@ -1052,9 +1057,6 @@ function create() {
   enemyJug.body.setSize(150, 120, 100, 93); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   enemyJug.animations.add('jugFireL', [30,31,32,33,34,35,36,37,38,39]);
   enemyJug.animations.play('jugFireL', 10, true);
-
-
-
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
