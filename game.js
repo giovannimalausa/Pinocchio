@@ -49,9 +49,17 @@ function preload() {
   game.load.image('platform5x1', 'assets/global/Size=5x1.png');
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
+  // Elementi d'interazione
+  game.load.image('ammoBox', 'assets/global/ammo.png');
+
   // Interfaccia
   game.load.image('healthFull', 'assets/interface/healthFull.png');
   game.load.image('healthHalf', 'assets/interface/healthHalf.png');
+  game.load.image('ammo/5', 'assets/interface/Ammo/5.png');
+  game.load.image('ammo/4', 'assets/interface/Ammo/4.png');
+  game.load.image('ammo/3', 'assets/interface/Ammo/3.png');
+  game.load.image('ammo/2', 'assets/interface/Ammo/2.png');
+  game.load.image('ammo/1', 'assets/interface/Ammo/1.png');
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
@@ -195,8 +203,17 @@ var healthFull3;
 var healthHalf1;
 var healthHalf2;
 var healthHalf3;
+
+var ammoUI5;
+var ammoUI4;
+var ammoUI3;
+var ammoUI2;
+var ammoUI1;
 var controlsTutorialUI;
 var sfondoAzzurro;
+
+// Variabili elementi grafici d'interazione
+var ammoBox;
 
 // Variabili globali
 var modulo1x1;
@@ -292,7 +309,8 @@ var gameStopWatch;
 //var bullets;
 //var bulletTime = 0;
 var gun1;
-var bulletPool = 10;
+var bulletPool = 50;
+const maxAmmo = 50;
 var pickAmmo;
 
 // Keys & input
@@ -340,6 +358,17 @@ function create() {
   healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
   healthHalf3.fixedToCamera = true;
   healthHalf3.scale.setTo(0.75, 0.75);
+
+  ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
+  ammoUI5.fixedToCamera = true;
+  ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
+  ammoUI4.fixedToCamera = true;
+  ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
+  ammoUI3.fixedToCamera = true;
+  ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
+  ammoUI2.fixedToCamera = true;
+  ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
+  ammoUI1.fixedToCamera = true;
 
   // BringToTop() alla fine di create().
 
@@ -492,6 +521,13 @@ function create() {
     level1_houses.create(11300, 1700, 'level1_house11');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
+
+    // Munizioni
+    ammoBox = game.add.physicsGroup();
+    ammoBox.create(1470, 1885, 'ammoBox');
+    ammoBox.create(1920, 1735, 'ammoBox');
+    ammoBox.setAll('body.immovable', true);
+
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
     // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
@@ -1029,10 +1065,10 @@ function create() {
   twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
   threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
-  pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
+  // pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
 
   // Phaser Signal
-  pickAmmo.onDown.add(addAmmo);
+  // pickAmmo.onDown.add(addAmmo);
   gun1.onFire.add(ammoSpent);
   fireButton.onDown.add(isFiringTrue);
   fireButton.onUp.add(isFiringFalse);
@@ -1043,12 +1079,9 @@ function create() {
 
   // Camera Follow
   game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
-
+  
   // Time
   timeWhenLoaded = game.time.time;
-
-  // Scritta menù Geppetto
-  // interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
   
   // BringToTop()
   healthFull1.bringToTop();
@@ -1057,6 +1090,12 @@ function create() {
   healthHalf1.bringToTop();
   healthHalf2.bringToTop();
   healthHalf3.bringToTop();
+
+  ammoUI1.bringToTop();
+  ammoUI2.bringToTop();
+  ammoUI3.bringToTop();
+  ammoUI4.bringToTop();
+  ammoUI5.bringToTop();
   
   console.log("create() completed.")
 }
@@ -1064,7 +1103,7 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
-  console.log(enemyBomb_0_Direction);
+  // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
@@ -1748,6 +1787,42 @@ enemySniperGun.fire()
       create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
     }
   }
+
+  // Ammo UI
+  if (bulletPool*100/maxAmmo >= 80) { // > 80% di munizioni
+    ammoUI1.alpha = 0;
+    ammoUI2.alpha = 0;
+    ammoUI3.alpha = 0;
+    ammoUI4.alpha = 0;
+    ammoUI5.alpha = 1;
+  } else if (bulletPool*100/maxAmmo >= 60 && bulletPool*100/maxAmmo < 80) { 
+    ammoUI1.alpha = 0;
+    ammoUI2.alpha = 0;
+    ammoUI3.alpha = 0;
+    ammoUI4.alpha = 1;
+    ammoUI5.alpha = 0;
+  } else if (bulletPool*100/maxAmmo >= 40 && bulletPool*100/maxAmmo < 60)  { 
+    ammoUI1.alpha = 0;
+    ammoUI2.alpha = 0;
+    ammoUI3.alpha = 1;
+    ammoUI4.alpha = 0;
+    ammoUI5.alpha = 0;
+  } else if (bulletPool*100/maxAmmo >= 20 && bulletPool*100/maxAmmo < 40)  { 
+    ammoUI1.alpha = 0;
+    ammoUI2.alpha = 1;
+    ammoUI3.alpha = 0;
+    ammoUI4.alpha = 0;
+    ammoUI5.alpha = 0;
+  } else if (bulletPool*100/maxAmmo >= 0 && bulletPool*100/maxAmmo < 20)  { 
+    ammoUI1.alpha = 1;
+    ammoUI2.alpha = 0;
+    ammoUI3.alpha = 0;
+    ammoUI4.alpha = 0;
+    ammoUI5.alpha = 0;
+  }
+
+  game.physics.arcade.overlap(player, ammoBox, addAmmo);
+
 }
 
 function spawn() {
@@ -1791,7 +1866,6 @@ function spawn() {
 
 function destroyLevel1() {
   level1_calpestabile_parte1.destroy();
-  level1_calpestabile_parte2.destroy();
   level1_floor.destroy();
   level1_houses.destroy();
   modulo1x1.destroy();
@@ -1806,7 +1880,6 @@ function destroyLevel2() {
 function destroyLevel3() {
   
 }
-
 
 function enableInteraction() {
   if(onInteraction === false)
@@ -1853,10 +1926,21 @@ function isFiringFalse() {
   console.log('isFiring = ' + isFiring);
 }
 
-function addAmmo() {
-  bulletPool = bulletPool + 10;
-  gun1.resetShots(bulletPool);
-  console.log('Bullet N' + bulletPool);
+function addAmmo(player, ammoBox) {
+  if ((maxAmmo-bulletPool) >= 20) {
+    bulletPool += 20;
+    gun1.resetShots(bulletPool);
+    console.log('Bullet N' + bulletPool);
+    ammoBox.kill();
+  }
+  else if ((maxAmmo-bulletPool) > 0 && (maxAmmo-bulletPool) < 20) {
+    bulletPool = maxAmmo;
+    gun1.resetShots(bulletPool);
+    console.log('Bullet N' + bulletPool);
+    ammoBox.kill();
+  } else if ((maxAmmo-bulletPool) <= 0) {
+    console.log('Max ammo reached. Reloading not possible.')
+  }
 }
 function ammoSpent() {
   bulletPool = bulletPool - 1;
