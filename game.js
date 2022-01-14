@@ -179,6 +179,7 @@ var spawningTimer = 0;
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
 var gameOverTimer = 0;
+var gameWasOver = false;
 
 // Variabili cambio livello
 var levelPlaying = 1;
@@ -1075,7 +1076,7 @@ function create() {
   player.body.collideWorldBounds = true;
   player.body.gravity.y = 2000; // valore corretto 2000
   player.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-  player.health = 10;
+  player.health = 6;
 
   // FUNZIONE DI SPARO CON PHASER.WEAPON
   gun1 = game.add.weapon(100, 'bullet');
@@ -1143,8 +1144,6 @@ function create() {
   jumpButton.onUp.add(dustJumpFalse);
 
 
-
-
   // Camera Follow
   game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
@@ -1153,7 +1152,15 @@ function create() {
 
   // Scritta menù Geppetto
   // interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
-
+  
+  // BringToTop()
+  healthFull1.bringToTop();
+  healthFull2.bringToTop();
+  healthFull3.bringToTop();
+  healthHalf1.bringToTop();
+  healthHalf2.bringToTop();
+  healthHalf3.bringToTop();
+  
   console.log("create() completed.")
 }
 
@@ -1441,17 +1448,6 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
-    if (autoPilot == false) {
-      gameOverTimer += 1;
-      if (gameOverTimer === 60) {
-        console.log("Game Over: player fell below y=2060");
-        // game.paused = true;
-        if (levelPlaying == 1) {
-          destroyLevel1();
-          create();
-        }
-      }
-    }
   }
   else if(player.y < 1900 && player.y > 1600)
   {
@@ -1466,6 +1462,21 @@ function update () {
     shadow.y = player.y-70;
     if (autoPilot == false) {
       shadow.x = player.x+350;
+    }
+  }
+
+  // Game Over
+  // Game over per caduta
+  if (player.y > 2060 && autoPilot == false) {
+    gameWasOver = true;
+    gameOverTimer += 1;
+    if (gameOverTimer === 60) {
+      console.log("Game Over: player fell below y=2060");
+      // game.paused = true;
+      if (levelPlaying == 1) {
+        destroyLevel1();
+        create();
+      }
     }
   }
 
@@ -1636,6 +1647,52 @@ enemySniperGun.fire()
     enemySniper.setAll('body.collideWorldBounds', true);
 
 
+    // Player health UI 
+    if (player.health == 6) {
+      healthHalf1.alpha = 0;
+      healthFull1.alpha = 1;
+      healthHalf2.alpha = 0;
+      healthFull2.alpha = 1;
+      healthHalf3.alpha = 0;
+      healthFull3.alpha = 1;
+
+    } else if (player.health == 5) {
+      healthFull1.alpha = 1;
+      healthFull2.alpha = 1;
+      healthHalf3.alpha = 1;
+      healthFull3.alpha = 0.1;
+    } else if (player.health == 4) {
+      healthFull1.alpha = 1;
+      healthFull2.alpha = 1;
+      healthHalf3.alpha = 0.1;
+      healthFull3.alpha = 0.1;
+    } else if (player.health == 3) {
+      healthFull1.alpha = 1;
+      healthHalf2.alpha = 1;
+      healthFull2.alpha = 0.1;
+      healthFull3.alpha = 0.1;
+      healthHalf3.alpha = 0;
+    } else if (player.health == 2) {
+      healthFull1.alpha = 1;
+      healthHalf2.alpha = 0;
+      healthFull2.alpha = 0.1;
+      healthHalf3.alpha = 0;
+      healthFull3.alpha = 0.1;
+    } else if (player.health == 1) {
+      healthHalf1.alpha = 1;
+      healthFull1.alpha = 0;
+      healthHalf2.alpha = 0;
+      healthFull2.alpha = 0.1;
+      healthHalf3.alpha = 0;
+      healthFull3.alpha = 0.1;
+    } else if (player.health == 0) {
+      healthHalf1.alpha = 0;
+      healthFull1.alpha = 0.1;
+      healthHalf2.alpha = 0;
+      healthFull2.alpha = 0.1;
+      healthHalf3.alpha = 0;
+      healthFull3.alpha = 0.1;
+    }
 
     // MENU
 
@@ -1777,35 +1834,38 @@ enemySniperGun.fire()
       create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
     }
   }
-
-  // BringToTop()
-  healthFull1.bringToTop();
-  healthFull2.bringToTop();
-  healthFull3.bringToTop();
-  healthHalf1.bringToTop();
-  healthHalf2.bringToTop();
-  healthHalf3.bringToTop();
 }
 
 function spawn() {
   autoPilot = true;
-  console.log('spawn() started. AutoPilot is ON.')
+  console.log('spawn() started. AutoPilot is ON.');
   gameOverTimer = 0;
-  console.log('gameOverTimer reset to 0.')
+  console.log('gameOverTimer reset to 0.');
   spawning = true;
   if (levelPlaying == 1) {
-    console.log("level 1 player create")
-    player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
-    shadow = game.add.sprite(1000, 200, 'player');
-    shadow.alpha = 0;
+    if (gameWasOver == false) { // Il livello viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere creati.
+      console.log("Level 1: player & shadow created.");
+      player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
+      shadow = game.add.sprite(1000, 200, 'player');
+      shadow.alpha = 0;
+    }
+    if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
+      console.log("Level 1: player coordinates reset.");
+      gameWasOver = false;
+      console.log("gameWasOver reset to " + gameWasOver);
+      player.x = 250;
+      player.y = 1900;
+      player.bringToTop();
+    }
+    
   } else if (levelPlaying == 2) {
-    console.log("level 2 player move")
+    console.log("Level 2: player move")
     player.x = -90;
-    player.y = 1200;
+    player.y = 1900;
     player.bringToTop();
     // player = game.add.sprite(-90, 1900, 'pinocchio');
-    shadow = game.add.sprite(680, 200, 'player');
-    shadow.alpha = 0;
+    // shadow = game.add.sprite(680, 200, 'player');
+    // shadow.alpha = 0;
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
     player = game.add.sprite(200, 1900, 'pinocchio');
