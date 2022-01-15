@@ -194,8 +194,9 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
+var cambioLivello = false;
 
 // Variabili grafiche
 var healthFull1;
@@ -244,7 +245,6 @@ var level2_floor;
 
 var level2_ruota1_supporto;
 var level2_ruota1_centrale;
-var level2_ruota1_cabina;
 var level2_ruota1_cabinaA;
 var level2_ruota1_cabinaB;
 var level2_ruota1_cabinaC;
@@ -256,7 +256,6 @@ var level2_ruota1_cabinaH;
 
 var level2_ruota2_supporto;
 var level2_ruota2_centrale;
-var level2_ruota2_cabina;
 var level2_ruota2_cabinaA;
 var level2_ruota2_cabinaB;
 var level2_ruota2_cabinaC;
@@ -268,7 +267,6 @@ var level2_ruota2_cabinaH;
 
 var level2_ruota3_supporto;
 var level2_ruota3_centrale;
-var level2_ruota3_cabina;
 var level2_ruota3_cabinaA;
 var level2_ruota3_cabinaB;
 var level2_ruota3_cabinaC;
@@ -403,7 +401,7 @@ function create() {
     level1_floor.create(10350, 2200, 'level1_floor11');
     level1_floor.create(12300, 2200, 'level1_floor12');
     level1_floor.create(12750, 2200, 'level1_floor13');
-    level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
+    level1_floor.alpha = 1; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
     level1_floor.setAll('body.immovable', true);
 
     // Moduli 1x1 (piattaforme e tetti)
@@ -1414,6 +1412,9 @@ function update () {
       if (levelPlaying == 1) {
         destroyLevel1();
         create();
+      } else if (levelPlaying == 2) {
+        destroyLevel2();
+        create();
       }
     }
   }
@@ -1490,20 +1491,20 @@ function update () {
       }
     }
 
-    if(player.body.velocity.y < -300 && facing === "right") // Salto dx
+    if(player.body.velocity.y < -300 && facing === "right" && !(player.body.touching.down)) // Salto dx
     {
       player.animations.play('jumpR', 10, false);
     }
-    if(player.body.velocity.y < -100 && facing === "left") // Salto sx
+    if(player.body.velocity.y < -100 && facing === "left" && !(player.body.touching.down)) // Salto sx
     {
       player.animations.play('jumpL', 10, false);
     }
 
-    if(player.body.velocity.y > 100 && facing === "right") //Atterraggio salto dx
+    if(player.body.velocity.y > 100 && facing === "right" && !(player.body.touching.down)) //Atterraggio salto dx
     {
       animDropR.play(10, false);
     }
-    if(player.body.velocity.y > 100 && facing === "left") // Atterraggio salto sx
+    if(player.body.velocity.y > 100 && facing === "left" && !(player.body.touching.down)) // Atterraggio salto sx
     {
     player.animations.play('dropL', 10, false);
     }
@@ -1767,7 +1768,7 @@ enemySniperGun.fire()
 
   // ===== CAMBIO LIVELLI =====
   // Cambio Livello 1 => 2
-  if (levelPlaying == 1 && player.x >= 19500) {
+  if (levelPlaying == 1 && player.x >= 12750) {
     if (autoPilot == false) {
       autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
       enableUserMovement = false; // Disabilita i controlli da parte dell'utente
@@ -1782,9 +1783,9 @@ enemySniperGun.fire()
       destroyLevel1();
       
       levelPlaying = 2;
+      cambioLivello = true;
+      console.log("cambioLivello set to: "+cambioLivello);
 
-      // enableUserMovement = true; // Attiva i controlli da parte dell'utente
-      // autoPilot = true; // Fa sapere che il giocatore NON è controllato dal codice.
       console.log("Turning OFF Autopilot...")
       create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
     }
@@ -1850,13 +1851,23 @@ function spawn() {
     }
     
   } else if (levelPlaying == 2) {
-    console.log("Level 2: player move")
-    player.x = -90;
-    player.y = 1900;
-    player.bringToTop();
-    // player = game.add.sprite(-90, 1900, 'pinocchio');
-    // shadow = game.add.sprite(680, 200, 'player');
-    // shadow.alpha = 0;
+      if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
+        console.log("Level 1: player & shadow created.");
+        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
+        shadow = game.add.sprite(1000, 200, 'player');
+        shadow.alpha = 0;
+        player.bringToTop();
+      }
+      if (gameWasOver == true || cambioLivello == true) {
+        console.log("Level 2: coordinates reset.")
+        gameWasOver = false;
+        cambioLivello = false;
+        console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
+        player.x = -90;
+        player.y = 1900;
+        player.bringToTop();
+      }
+
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
     player = game.add.sprite(200, 1900, 'pinocchio');
@@ -1876,7 +1887,52 @@ function destroyLevel1() {
 }
 
 function destroyLevel2() {
+  level2_cielo.destroy();
+  level2_collineGialle.destroy();
+  level2_collineRosse.destroy();
+  level2_calpestabile_parte1.destroy();
+  level2_calpestabile_parte2.destroy();
+  level2_floor.destroy();
+
+  modulo1x1.destroy();
+  modulo2x2.destroy();
+  modulo2x4.destroy();
+
+  level2_ruota1_supporto.destroy();
+  level2_ruota1_centrale.destroy();
+  level2_ruota1_cabinaA.destroy();
+  level2_ruota1_cabinaB.destroy();
+  level2_ruota1_cabinaC.destroy();
+  level2_ruota1_cabinaD.destroy();
+  level2_ruota1_cabinaE.destroy();
+  level2_ruota1_cabinaF.destroy();
+  level2_ruota1_cabinaG.destroy();
+  level2_ruota1_cabinaH.destroy();
+
+  level2_ruota2_supporto.destroy();
+  level2_ruota2_centrale.destroy();
+  level2_ruota2_cabinaA.destroy();
+  level2_ruota2_cabinaB.destroy();
+  level2_ruota2_cabinaC.destroy();
+  level2_ruota2_cabinaD.destroy();
+  level2_ruota2_cabinaE.destroy();
+  level2_ruota2_cabinaF.destroy();
+  level2_ruota2_cabinaG.destroy();
+  level2_ruota2_cabinaH.destroy();
+
+  level2_ruota3_supporto.destroy();
+  level2_ruota3_centrale.destroy();
+  level2_ruota3_cabinaA.destroy();
+  level2_ruota3_cabinaB.destroy();
+  level2_ruota3_cabinaC.destroy();
+  level2_ruota3_cabinaD.destroy();
+  level2_ruota3_cabinaE.destroy();
+  level2_ruota3_cabinaF.destroy();
+  level2_ruota3_cabinaG.destroy();
+  level2_ruota3_cabinaH.destroy();
   
+  level2_mongolfiera1.destroy();
+  level2_mongolfiera2.destroy();
 }
 
 function destroyLevel3() {
