@@ -150,13 +150,22 @@ function preload() {
 
   // Level 3
   // Piattaforme e pavimento del livello 3
-  game.load.image('platform', 'assets/backgrounds/level3/palco-platform.png');
-  game.load.image('floorLevel3', 'assets/backgrounds/level3/floor.png');
+  
 
   // Assets sfondi Level 3
-  game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
-  game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
-  game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
+  //game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
+  //game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
+  //game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
+
+  game.load.image('level3_layer1', 'assets/levelThree/cielo.png');
+  game.load.image('level3_layer2', 'assets/levelThree/colline1.png');
+  game.load.image('level3_layer3', 'assets/levelThree/colline2.png');
+  game.load.image('level3_calpestabile', 'assets/levelThree/calpestabile.png');
+
+  // Level 3 /Floor
+  game.load.image('level3_floor1', 'assets/levelThree/floor/1.png');
+  game.load.image('level3_floor2', 'assets/levelThree/floor/2.png');
+  game.load.image('level3_floor3', 'assets/levelThree/floor/3.png');
 
   // Assets menu (placeholders)
   game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
@@ -194,7 +203,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -289,10 +298,12 @@ var level2_mongolfiera1;
 var level2_mongolfiera2;
 
 // Variabili livello 3
-var floor;
-var level3_layer1;
-var level3_layer2;
-var level3_layer3;
+
+var level3_layer1
+var level3_layer2
+var level3_layer3
+var level3_calpestabile
+var level3_floor
 
 // Variabili menu
 var menuOption1;
@@ -948,15 +959,26 @@ function create() {
   // Livello 3 (circo)
   if(levelPlaying == 3)
   {
-    level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
-    level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
+    //sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
+
+    //level3_sfondo1 = game.add.sprite(0, 0, 'level3_layer3');
+    //level3_sfondo2 = game.add.sprite(0, 0, 'level3_layer2');
+    //level3_sfondo3 = game.add.sprite(0, 0, 'level3_layer1');
     level3_layer1 = game.add.sprite(0, 0, 'level3_layer1');
+    level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
+    level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
+    level3_calpestabile = game.add.sprite(0, 0, 'level3_calpestabile');
+
 
     // Floor
-    floor = game.add.physicsGroup();
-    floor.create(0, 687, 'floorLevel3');
-    floor.setAll('body.immovable', true);
-    floor.alpha = 0;
+    level3_floor = game.add.physicsGroup();
+    level3_floor.create(0, 2200, 'level3_floor1');
+    level3_floor.create(1200, 2200, 'level3_floor2');
+    level3_floor.create(2450, 2200, 'level3_floor3');
+    
+
+    level3_floor.setAll('body.immovable', true);
+    level3_floor.alpha = 0;
 
     // Platforms
     platforms = game.add.physicsGroup();
@@ -1116,10 +1138,13 @@ function update () {
   // Collide
   // Collide /Globali
   game.physics.arcade.collide(player, platforms);
-  game.physics.arcade.collide(player, floor);
+  
   game.physics.arcade.collide(player, modulo1x1);
   game.physics.arcade.collide(player, modulo2x2);
   game.physics.arcade.collide(player, modulo2x4);
+  game.physics.arcade.collide(player, modulo1x1, landingCallback, landingProcessCallback, this);
+  game.physics.arcade.collide(player, modulo2x2, landingCallback, landingProcessCallback, this);
+  game.physics.arcade.collide(player, modulo2x4, landingCallback, landingProcessCallback, this);
 
   // Collide /Livello 1
   if (levelPlaying == 1) {
@@ -1353,6 +1378,15 @@ function update () {
     }
   }
 
+  // Collide /Livello 3
+  if (levelPlaying == 3) {
+    game.physics.arcade.collide(player, level3_floor, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level3_floor);
+
+    game.physics.arcade.collide(enemyBomb, level3_floor);
+    game.physics.arcade.collide(enemyJug, level3_floor);
+    game.physics.arcade.collide(enemySniper, level3_floor);
+  }
   // Automovement spawn
   if (levelPlaying == 1 && spawning == true) {
     spawningTimer += 1;
@@ -1372,6 +1406,20 @@ function update () {
     if (spawningTimer >= 70) {
       player.body.velocity.x = 300;
       if (player.x > 160) {
+        spawning = false;
+        autoPilot = false;
+        enableUserMovement = true;
+        spawningTimer = 0;
+        console.log('autoPilot is OFF. User has control.')
+      }
+    }
+  }
+  //prova spawn livello 3
+  if (levelPlaying == 3 && spawning == true) {
+    spawningTimer += 1;
+    if (spawningTimer >= 70) {
+      player.body.velocity.x = 300;
+      if (player.x >= 160) {
         spawning = false;
         autoPilot = false;
         enableUserMovement = true;
@@ -1427,8 +1475,8 @@ function update () {
   }
 
   if(levelPlaying == 3) {
-    level3_layer1.x = game.camera.x*(-0.25);
-    level3_layer3.x = game.camera.x*(-0.05);
+    //level3_layer1.x = game.camera.x*(-0.25);
+    //level3_layer3.x = game.camera.x*(-0.05);
   }
 
 
@@ -1791,6 +1839,30 @@ enemySniperGun.fire()
     }
   }
 
+    // Cambio Livello 2 => 3
+    if (levelPlaying == 2 && player.x >= 19650) {
+      if (autoPilot == false) {
+        autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
+        enableUserMovement = false; // Disabilita i controlli da parte dell'utente
+        player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
+        console.log("Turning ON Autopilot...")
+      }
+      player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
+      timerLivello1Livello2 += 1;
+      if (timerLivello1Livello2 == 150) {
+        // Destroy gli sprite del Livello 1
+        console.log("Destroying Level 2 sprites...");
+        destroyLevel2();
+        
+        levelPlaying = 3;
+        cambioLivello = true;
+        console.log("cambioLivello set to: "+cambioLivello);
+  
+        console.log("Turning OFF Autopilot...")
+        create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
+      }
+    }
+
   // Ammo UI
   if (bulletPool*100/maxAmmo >= 80) { // > 80% di munizioni
     ammoUI1.alpha = 0;
@@ -1853,7 +1925,7 @@ function spawn() {
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
         console.log("Level 1: player & shadow created.");
-        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
+        player = game.add.sprite(18000, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
         shadow = game.add.sprite(1000, 200, 'player');
         shadow.alpha = 0;
         player.bringToTop();
