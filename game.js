@@ -117,9 +117,9 @@ function preload() {
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
   game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/level2_calpestabile_parte2.png');
-  game.load.image('level2_collineRosse', 'assets/levelTwo/colline rosse2@72x.png');
-  game.load.image('level2_collineGialle', 'assets/levelTwo/colline gialle2@72x.png');
-  game.load.image('level2_cielo', 'assets/levelTwo/cielo2@72x.png');
+  game.load.image('level2_collineRosse', 'assets/levelTwo/collinerossept1.png');
+  game.load.image('level2_collineGialle', 'assets/levelTwo/collinegiallept1.png');
+  game.load.image('level2_cielo', 'assets/levelTwo/cielonuovopt1.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
   game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
@@ -167,6 +167,15 @@ function preload() {
   game.load.image('level3_floor2', 'assets/levelThree/floor/2.png');
   game.load.image('level3_floor3', 'assets/levelThree/floor/3.png');
 
+  // Level 3 /carrozza
+  game.load.image('carrozza', 'assets/levelThree/Carrozza.png');
+
+  // Level 3 /teatro
+  game.load.image('teatro', 'assets/levelThree/teatro.png');
+
+  // Level 3 /tenda
+  game.load.image('tenda', 'assets/levelThree/tenda.png');
+
   // Assets menu (placeholders)
   game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
   game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
@@ -203,7 +212,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -304,6 +313,9 @@ var level3_layer2
 var level3_layer3
 var level3_calpestabile
 var level3_floor
+var carrozza
+var teatro
+var tenda
 
 // Variabili menu
 var menuOption1;
@@ -980,11 +992,44 @@ function create() {
     level3_floor.setAll('body.immovable', true);
     level3_floor.alpha = 0;
 
-    // Platforms
-    platforms = game.add.physicsGroup();
-    platforms.create(501, 576, 'platform');
-    platforms.setAll('body.immovable', true);
-    platforms.alpha = 0;
+    // Casse singole
+    modulo2x2.create(900, 2100, 'modulo2x2');
+    modulo2x2.create(1650, 2100, 'modulo2x2');
+    modulo2x2.create(2700, 2100, 'modulo2x2');
+    modulo2x2.create(3450, 2100, 'modulo2x2');
+    modulo2x2.setAll('body.immovable', true);
+
+    // Moduli 2x4 (casse doppie)
+    modulo2x4.create(1750, 2000, 'modulo2x4');
+    modulo2x4.setAll('body.immovable', true);
+
+    // Piattaforme
+    modulo1x1.create(2000, 2050, 'modulo1x1');
+    modulo1x1.create(2050, 2050, 'modulo1x1');
+    modulo1x1.create(2100, 2050, 'modulo1x1');
+    modulo1x1.create(2150, 2050, 'modulo1x1');
+    modulo1x1.create(2200, 2050, 'modulo1x1');
+    modulo1x1.create(2250, 2050, 'modulo1x1');
+    modulo1x1.create(2300, 2050, 'modulo1x1');
+
+    modulo1x1.setAll('body.immovable', true);
+
+    //carrozza
+    carrozza = game.add.physicsGroup();
+    carrozza.create(3000, 1950, 'carrozza');
+
+    carrozza.setAll('body.immovable', true);
+    carrozza.alpha = 0;
+
+    //teatro
+    teatro = game.add.physicsGroup();
+    teatro.create(6800, 2100, 'teatro');
+
+    teatro.setAll('body.immovable', true);
+    teatro.alpha = 0;
+
+    tenda = game.add.sprite(0, 0, 'tenda');
+  
   }
 
 
@@ -1382,6 +1427,8 @@ function update () {
   if (levelPlaying == 3) {
     game.physics.arcade.collide(player, level3_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level3_floor);
+    game.physics.arcade.collide(player, carrozza);
+    game.physics.arcade.collide(player, teatro);
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
@@ -1475,8 +1522,9 @@ function update () {
   }
 
   if(levelPlaying == 3) {
-    //level3_layer1.x = game.camera.x*(-0.25);
-    //level3_layer3.x = game.camera.x*(-0.05);
+    level3_layer1.x = game.camera.x*(-0.005);
+    level3_layer2.x = game.camera.x*(-0.055);
+    level3_layer3.x = game.camera.x*(-0.07);
   }
 
 
@@ -1925,7 +1973,7 @@ function spawn() {
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
         console.log("Level 1: player & shadow created.");
-        player = game.add.sprite(18000, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
+        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
         shadow = game.add.sprite(1000, 200, 'player');
         shadow.alpha = 0;
         player.bringToTop();
