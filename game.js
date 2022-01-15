@@ -115,8 +115,8 @@ function preload() {
   game.load.image('level1_house19', 'assets/levelOne/houses/Casa 19.png');
 
   // Level 2
-  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/level2_calpestabile_parte1.png');
-  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/level2_calpestabile_parte2.png');
+  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/piattaforma1def.png');
+  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaforma2def.png');
   game.load.image('level2_collineRosse', 'assets/levelTwo/collinerossept1.png');
   game.load.image('level2_collineGialle', 'assets/levelTwo/collinegiallept1.png');
   game.load.image('level2_cielo', 'assets/levelTwo/cielonuovopt1.png');
@@ -147,6 +147,19 @@ function preload() {
   game.load.image('level2_floor19', 'assets/levelTwo/floor/19.png');
   game.load.image('level2_floor20', 'assets/levelTwo/floor/20.png');
   game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
+
+  // Level 2/componenti
+  game.load.image('level2_componente1', 'assets/levelTwo/componenti/bancarella 1.png');
+  game.load.image('level2_componente2', 'assets/levelTwo/componenti/bancarella 2.png');
+  game.load.image('level2_componente3', 'assets/levelTwo/componenti/bancarella 3.png');
+  game.load.image('level2_componente4', 'assets/levelTwo/componenti/bancarella 4.png');
+  game.load.image('level2_componente5', 'assets/levelTwo/componenti/bancarella 5.1.png');
+  game.load.image('level2_componente6', 'assets/levelTwo/componenti/bancarella 5.2.png');
+  game.load.image('level2_componente7', 'assets/levelTwo/componenti/bancarella 6.png');
+  game.load.image('level2_componente8', 'assets/levelTwo/componenti/giostra cavalli.png');
+  game.load.image('level2_componente9', 'assets/levelTwo/componenti/giostra cavalli2.png');
+  game.load.image('level2_componente10', 'assets/levelTwo/componenti/giostra cavalli3.png');
+
 
   // Level 3
   // Piattaforme e pavimento del livello 3
@@ -260,6 +273,7 @@ var level2_collineRosse;
 var level2_collineGialle;
 
 var level2_floor;
+var level2_componente;
 
 var level2_ruota1_supporto;
 var level2_ruota1_centrale;
@@ -593,6 +607,23 @@ function create() {
     level2_floor.alpha = 0;
     level2_floor.setAll('body.immovable', true);
 
+    // Componenti livello 2
+    level2_componente = game.add.physicsGroup();
+    level2_componente.create(1095, 1900, 'level2_componente1');
+    level2_componente.create(3600, 1950, 'level2_componente2');
+    level2_componente.create(4800, 1850, 'level2_componente8');
+    level2_componente.create(8000, 1900, 'level2_componente3');
+    level2_componente.create(8495, 1950, 'level2_componente4');
+    level2_componente.create(11050, 1950, 'level2_componente5');
+    level2_componente.create(11100, 1850, 'level2_componente6');
+    level2_componente.create(13145, 1850, 'level2_componente9');
+    level2_componente.create(14395, 1950, 'level2_componente7');
+    level2_componente.create(17200, 1950, 'level2_componente5');
+    level2_componente.create(17250, 1850, 'level2_componente6');
+    level2_componente.create(18800, 1850, 'level2_componente10');
+    level2_componente.alpha = 0;
+    level2_componente.setAll('body.immovable', true);
+    
     // Moduli 1x1
     modulo1x1.create(1125, 1900, 'modulo1x1');
     modulo1x1.create(1175, 1900, 'modulo1x1');
@@ -677,8 +708,8 @@ function create() {
     modulo1x1.create(9700, 1950, 'modulo1x1');
     modulo1x1.create(9750, 1950, 'modulo1x1');
 
-    modulo1x1.create(9900, 1900, 'modulo1x1');
-    modulo1x1.create(9950, 1900, 'modulo1x1');
+    modulo1x1.create(9900, 1800, 'modulo1x1');
+    modulo1x1.create(9950, 1800, 'modulo1x1');
 
     modulo1x1.create(10000, 2000, 'modulo1x1');
     modulo1x1.create(10050, 2000, 'modulo1x1');
@@ -1208,6 +1239,7 @@ function update () {
   if (levelPlaying == 2) {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
+    game.physics.arcade.collide(player, level2_componente);
 
     // Ruote panoramiche
     // Ruota 1
