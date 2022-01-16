@@ -30,6 +30,7 @@ function preload() {
   game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug1.png', 300, 225, 40);
   game.load.spritesheet('marionettaSniper', 'assets/sprites/spritesheet_enemySniper.png', 150, 100, 40);
   game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
+  game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
 
@@ -163,7 +164,7 @@ function preload() {
 
   // Level 3
   // Piattaforme e pavimento del livello 3
-  
+
 
   // Assets sfondi Level 3
   //game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
@@ -201,6 +202,7 @@ var player;
 var shadow; // per camera-tracking con offset
 var platforms; // dal codice di base di Phaser. Variabile non utilizzata nel Livello 1.
 var enemyBomb;
+var enemyBombEsplosione;
 var enemyJug;
 var enemySniper;
 var dust; // sprite polvere del salto
@@ -500,21 +502,21 @@ function create() {
 
     modulo1x1.create(9900, 1900, 'modulo1x1');
     modulo1x1.create(9950, 1900, 'modulo1x1');
-    
+
     modulo1x1.create(10100, 2000, 'modulo1x1');
     modulo1x1.create(10150, 2000, 'modulo1x1');
-    
+
     modulo1x1.create(10950, 1750, 'modulo1x1');
     modulo1x1.create(11000, 1750, 'modulo1x1');
     modulo1x1.create(11050, 1750, 'modulo1x1');
-    
+
     modulo1x1.create(11000, 1950, 'modulo1x1');
     modulo1x1.create(11050, 1950, 'modulo1x1');
     modulo1x1.create(11100, 1950, 'modulo1x1');
     modulo1x1.create(11150, 1950, 'modulo1x1');
     modulo1x1.create(11200, 1950, 'modulo1x1');
     modulo1x1.create(11250, 1950, 'modulo1x1');
-    
+
     modulo1x1.create(11250, 1700, 'modulo1x1');
     modulo1x1.create(11700, 1700, 'modulo1x1');
 
@@ -623,7 +625,7 @@ function create() {
     level2_componente.create(18800, 1850, 'level2_componente10');
     level2_componente.alpha = 0;
     level2_componente.setAll('body.immovable', true);
-    
+
     // Moduli 1x1
     modulo1x1.create(1125, 1900, 'modulo1x1');
     modulo1x1.create(1175, 1900, 'modulo1x1');
@@ -1018,7 +1020,7 @@ function create() {
     level3_floor.create(0, 2200, 'level3_floor1');
     level3_floor.create(1200, 2200, 'level3_floor2');
     level3_floor.create(2450, 2200, 'level3_floor3');
-    
+
 
     level3_floor.setAll('body.immovable', true);
     level3_floor.alpha = 0;
@@ -1060,7 +1062,7 @@ function create() {
     teatro.alpha = 0;
 
     tenda = game.add.sprite(0, 0, 'tenda');
-  
+
   }
 
 
@@ -1119,7 +1121,7 @@ function create() {
   gun1.trackOffset.y = 80;
   gun1.fireLimit = bulletPool;
 
-  
+
 
 
   //  =====================ENEMIES============================
@@ -1127,10 +1129,16 @@ function create() {
   //  enemy.create(2200, 1800, 'marionettaBomba');
   //  enemy.create(2400, 1800, 'marionettaBomba');
   //  enemy.create(2600, 1800, 'marionettaBomba');
-  enemyBomb.create(710, 1500, 'marionettaBomba');
-  enemyBomb.create(1200, 1800, 'marionettaBomba');
+  enemyBomb.create(800, 1500, 'marionettaBomba');
+  enemyBomb.create(700, 1800, 'marionettaBomba');
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
+
+  //enemyBombEsplosione = game.add.sprite(10000, 10000, 'marionettaEsplosione')
+
+
+//  game.physics.arcade.enable(enemyBombEsplosione);
+//  enemyBombEsplosione.body.collideWorldBounds = true;
 
   //Enemy Sniper
   enemySniper = game.add.physicsGroup();
@@ -1177,10 +1185,10 @@ function create() {
 
   // Camera Follow
   game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
-  
+
   // Time
   timeWhenLoaded = game.time.time;
-  
+
   // BringToTop()
   healthFull1.bringToTop();
   healthFull2.bringToTop();
@@ -1194,7 +1202,7 @@ function create() {
   ammoUI3.bringToTop();
   ammoUI4.bringToTop();
   ammoUI5.bringToTop();
-  
+
   console.log("create() completed.")
 }
 
@@ -1206,7 +1214,7 @@ function update () {
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
   // console.log("player health=" + player.health);
-  //  console.log(enemy.getChildAt(0).health);
+    console.log(enemyBomb.getChildAt(1).x)
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
@@ -1214,7 +1222,7 @@ function update () {
   // Collide
   // Collide /Globali
   game.physics.arcade.collide(player, platforms);
-  
+
   game.physics.arcade.collide(player, modulo1x1);
   game.physics.arcade.collide(player, modulo2x2);
   game.physics.arcade.collide(player, modulo2x4);
@@ -1698,27 +1706,39 @@ enemySniperGun.fire()
     //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
     //ENEMY
-    enemyBomb.forEach(function (enemy1) {
+  //  enemyBomb.forEach(function (enemy1) {
       // if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x > player.x + 80) {
       //   enemy1.body.velocity.x = -100;
       // }
       //  else if (game.physics.arcade.distanceBetween(player, enemy1) < 600 && enemy1.x < player.x + 80) {
       //   enemy1.body.velocity.x = 100;
       // }
-    })
+  //  })
 
+// QUESTO VALE PER TUTTI I NEMICI
+enemyBomb.forEach(function (enemy) {
+  if (enemyBomb_0_Direction === 'right') {
+    enemy.body.velocity.x = 100;
+  } else {
+    enemy.body.velocity.x = -100;
+  }
+})
 
-    if (enemyBomb_0_Direction === 'right') {
-      enemyBomb.getChildAt(0).body.velocity.x = 100;
-    } else {
-      enemyBomb.getChildAt(0).body.velocity.x = -100;
-    }
-    if (enemyBomb.getChildAt(0).x > 950 && enemyBomb_0_Direction === 'right') {
+    if (enemyBomb.getChildAt(0).x > 850 && enemyBomb_0_Direction === 'right') {
       enemyBomb_0_Direction = 'left';
       enemyBomb.getChildAt(0).body.velocity.x = -100;
     } else if (enemyBomb.getChildAt(0).x < 700 && enemyBomb_0_Direction === 'left') {
       enemyBomb_0_Direction = 'right';
       enemyBomb.getChildAt(0).body.velocity.x = 100;
+    }
+
+
+    if (enemyBomb.getChildAt(1).x > 750 && enemyBomb_0_Direction === 'right') {
+      enemyBomb_0_Direction = 'left';
+      enemyBomb.getChildAt(1).body.velocity.x = -100;
+    } else if (enemyBomb.getChildAt(1).x < 600 && enemyBomb_0_Direction === 'left') {
+      enemyBomb_0_Direction = 'right';
+      enemyBomb.getChildAt(1).body.velocity.x = 100;
     }
 
 
@@ -1730,7 +1750,7 @@ enemySniperGun.fire()
     enemySniper.setAll('body.collideWorldBounds', true);
 
 
-    // Player health UI 
+    // Player health UI
     if (player.health == 6) {
       healthHalf1.alpha = 0;
       healthFull1.alpha = 1;
@@ -1909,7 +1929,7 @@ enemySniperGun.fire()
       // Destroy gli sprite del Livello 1
       console.log("Destroying Level 1 sprites...");
       destroyLevel1();
-      
+
       levelPlaying = 2;
       cambioLivello = true;
       console.log("cambioLivello set to: "+cambioLivello);
@@ -1933,11 +1953,11 @@ enemySniperGun.fire()
         // Destroy gli sprite del Livello 1
         console.log("Destroying Level 2 sprites...");
         destroyLevel2();
-        
+
         levelPlaying = 3;
         cambioLivello = true;
         console.log("cambioLivello set to: "+cambioLivello);
-  
+
         console.log("Turning OFF Autopilot...")
         create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
       }
@@ -1950,25 +1970,25 @@ enemySniperGun.fire()
     ammoUI3.alpha = 0;
     ammoUI4.alpha = 0;
     ammoUI5.alpha = 1;
-  } else if (bulletPool*100/maxAmmo >= 60 && bulletPool*100/maxAmmo < 80) { 
+  } else if (bulletPool*100/maxAmmo >= 60 && bulletPool*100/maxAmmo < 80) {
     ammoUI1.alpha = 0;
     ammoUI2.alpha = 0;
     ammoUI3.alpha = 0;
     ammoUI4.alpha = 1;
     ammoUI5.alpha = 0;
-  } else if (bulletPool*100/maxAmmo >= 40 && bulletPool*100/maxAmmo < 60)  { 
+  } else if (bulletPool*100/maxAmmo >= 40 && bulletPool*100/maxAmmo < 60)  {
     ammoUI1.alpha = 0;
     ammoUI2.alpha = 0;
     ammoUI3.alpha = 1;
     ammoUI4.alpha = 0;
     ammoUI5.alpha = 0;
-  } else if (bulletPool*100/maxAmmo >= 20 && bulletPool*100/maxAmmo < 40)  { 
+  } else if (bulletPool*100/maxAmmo >= 20 && bulletPool*100/maxAmmo < 40)  {
     ammoUI1.alpha = 0;
     ammoUI2.alpha = 1;
     ammoUI3.alpha = 0;
     ammoUI4.alpha = 0;
     ammoUI5.alpha = 0;
-  } else if (bulletPool*100/maxAmmo >= 0 && bulletPool*100/maxAmmo < 20)  { 
+  } else if (bulletPool*100/maxAmmo >= 0 && bulletPool*100/maxAmmo < 20)  {
     ammoUI1.alpha = 1;
     ammoUI2.alpha = 0;
     ammoUI3.alpha = 0;
@@ -2001,7 +2021,7 @@ function spawn() {
       player.y = 1900;
       player.bringToTop();
     }
-    
+
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
         console.log("Level 1: player & shadow created.");
@@ -2082,13 +2102,13 @@ function destroyLevel2() {
   level2_ruota3_cabinaF.destroy();
   level2_ruota3_cabinaG.destroy();
   level2_ruota3_cabinaH.destroy();
-  
+
   level2_mongolfiera1.destroy();
   level2_mongolfiera2.destroy();
 }
 
 function destroyLevel3() {
-  
+
 }
 
 function enableInteraction() {
@@ -2115,6 +2135,9 @@ function enableInteraction() {
 }
 function touchEnemy(player, enemyBomb) {
   // <== Inserire animazione [esplosione enemyBomb]
+  enemyBombEsplosione = game.add.sprite(enemyBomb.x - 110, enemyBomb.y - 35, 'marionettaEsplosione');
+  enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
+  enemyBombEsplosione.animations.play('marionettaEsplode', 15);
   enemyBomb.kill();
   player.health = player.health - 3;
 }
@@ -2123,7 +2146,11 @@ function shootEnemy(bullets, enemyBomb) {
   bullets.kill();
   enemyBomb.health = enemyBomb.health - 1;
   if (enemyBomb.health <= 0) {
+    enemyBombEsplosione = game.add.sprite(enemyBomb.x - 110, enemyBomb.y - 35, 'marionettaEsplosione');
+    enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
+    enemyBombEsplosione.animations.play('marionettaEsplode', 15);
     enemyBomb.kill();
+
   }
 }
 
