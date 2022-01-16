@@ -227,7 +227,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -324,14 +324,14 @@ var level2_mongolfiera2;
 
 // Variabili livello 3
 
-var level3_layer1
-var level3_layer2
-var level3_layer3
-var level3_calpestabile
-var level3_floor
-var carrozza
-var teatro
-var tenda
+var level3_layer1;
+var level3_layer2;
+var level3_layer3;
+var level3_calpestabile;
+var level3_floor;
+var carrozza;
+var teatro;
+var tenda;
 
 // Variabili menu
 var menuOption1;
@@ -1190,6 +1190,11 @@ function create() {
   timeWhenLoaded = game.time.time;
 
   // BringToTop()
+  if (levelPlaying == 3) {
+    tenda.bringToTop();
+  }
+
+
   healthFull1.bringToTop();
   healthFull2.bringToTop();
   healthFull3.bringToTop();
