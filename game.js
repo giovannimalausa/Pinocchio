@@ -72,12 +72,10 @@ function preload() {
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
   game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile_parte1.png');
   game.load.image('level1_calpestabile_parte2', 'assets/levelOne/calpestabile_parte2.png');
-  game.load.image('level1_cielo1', 'assets/levelOne/cielo1.png');
-  game.load.image('level1_cielo2', 'assets/levelOne/cielo2.png');
-  game.load.image('level1_casedietro1', 'assets/levelOne/casedietro1.png');
-  game.load.image('level1_casedietro2', 'assets/levelOne/casedietro2.png');
-  game.load.image('level1_casedavanti1', 'assets/levelOne/casedavanti1.png');
-  game.load.image('level1_casedavanti2', 'assets/levelOne/casedavanti2.png');
+  game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
+  game.load.image('level1_casedietro', 'assets/levelOne/Colline 2 piano.png');
+  game.load.image('level1_casedavanti', 'assets/levelOne/Colline 1 piano.png');
+  
 
   // Level 1 /Floor
   game.load.image('level1_floor1', 'assets/levelOne/floor/1.png');
@@ -236,7 +234,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -276,12 +274,9 @@ var level1_floor;
 var level1_houses;
 var level1_calpestabile_parte1;
 var level1_calpestabile_parte2;
-var level1_cielo1;
-var level1_cielo2;
-var level1_casedavanti1;
-var level1_casedavanti2;
-var level1_casedietro1;
-var level1_casedietro2;
+var level1_cielo;
+var level1_casedavanti;
+var level1_casedietro;
 
 var placeholder_CasaGeppetto;
 var interactionPoint;
@@ -446,9 +441,9 @@ function create() {
     sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
     // Calpestabile livello 1
-    level1_cielo1 = game.add.sprite(0, 0, 'level1_cielo1');
-    level1_casedietro1 = game.add.sprite(0, 0, 'level1_casedietro1');
-    level1_casedavanti1 = game.add.sprite(0, 0, 'level1_casedavanti1');
+    level1_cielo = game.add.sprite(0, 0, 'level1_cielo');
+    level1_casedietro = game.add.sprite(0, 0, 'level1_casedietro');
+    level1_casedavanti = game.add.sprite(0, 0, 'level1_casedavanti');
     level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
     // Pavimento livello 1
     level1_floor = game.add.physicsGroup();
@@ -1618,7 +1613,7 @@ function update () {
   // Parallasse sfondi
   if(levelPlaying == 2) {
     level2_cielo.x = game.camera.x*(-0.005);
-    //level2_cielo2.x = game.camera.x*(-0.005);
+    level2_cielo2.x = game.camera.x*(-11649.005); //non funziona
     level2_collineGialle.x = game.camera.x*(-0.025);
     //level2_collineGialle2.x = game.camera.x*(-0.025);
     level2_collineRosse.x = game.camera.x*(-0.04);
