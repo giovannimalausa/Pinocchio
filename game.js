@@ -73,8 +73,8 @@ function preload() {
   game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile_parte1.png');
   game.load.image('level1_calpestabile_parte2', 'assets/levelOne/calpestabile_parte2.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
-  game.load.image('level1_casedietro', 'assets/levelOne/Colline 2 piano.png');
-  game.load.image('level1_casedavanti', 'assets/levelOne/Colline 1 piano.png');
+  game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
+  game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
   
 
   // Level 1 /Floor
@@ -234,7 +234,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1611,19 +1611,25 @@ function update () {
   }
 
   // Parallasse sfondi
+  if(levelPlaying == 1) {
+    level1_cielo.x = game.camera.x*(-0.01);
+    level1_casedietro.x = game.camera.x*(-0.025);
+    level1_casedavanti.x = game.camera.x*(-0.09);
+  }
+
   if(levelPlaying == 2) {
-    level2_cielo.x = game.camera.x*(-0.005);
+    level2_cielo.x = game.camera.x*(-0.01);
     level2_cielo2.x = game.camera.x*(-11649.005); //non funziona
     level2_collineGialle.x = game.camera.x*(-0.025);
     //level2_collineGialle2.x = game.camera.x*(-0.025);
-    level2_collineRosse.x = game.camera.x*(-0.04);
+    level2_collineRosse.x = game.camera.x*(-0.09);
     //level2_collineRosse2.x = game.camera.x*(-0.04);
   }
 
   if(levelPlaying == 3) {
-    level3_layer1.x = game.camera.x*(-0.005);
-    level3_layer2.x = game.camera.x*(-0.055);
-    level3_layer3.x = game.camera.x*(-0.07);
+    level3_layer1.x = game.camera.x*(-0.01);
+    level3_layer2.x = game.camera.x*(-0.025);
+    level3_layer3.x = game.camera.x*(-0.09);
   }
 
 
