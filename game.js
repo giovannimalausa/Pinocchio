@@ -50,8 +50,11 @@ function preload() {
   game.load.image('platform5x1', 'assets/global/Size=5x1.png');
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
+  game.load.image('nero', 'assets/interface/nero.png');
+
   // Elementi d'interazione
   game.load.image('ammoBox', 'assets/global/ammo.png');
+  game.load.image('pozione', 'assets/global/pozione.png');
 
   // Interfaccia
   game.load.image('healthFull', 'assets/interface/healthFull.png');
@@ -233,7 +236,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -252,11 +255,16 @@ var ammoUI2;
 var ammoUI1;
 var ammoUI;
 
+var nero;
+var tweenNeroAppear;
+var tweenNeroDisappear;
+
 var controlsTutorialUI;
 var sfondoAzzurro;
 
 // Variabili elementi grafici d'interazione
 var ammoBox;
+var pozione;
 
 // Variabili globali
 var modulo1x1;
@@ -368,6 +376,8 @@ var bulletPool = 50;
 const maxAmmo = 50;
 var pickAmmo;
 
+const playerMaxHealth = 6;
+
 // Keys & input
 var cursors;
 var jumpButton;
@@ -382,7 +392,6 @@ var fireButton;
 //Animazioni (da eiminare se possibile)
 var animDropR;
 var animDropL;
-
 
 var isFiring = false;
 var isJumping = false;
@@ -424,7 +433,6 @@ function create() {
   ammoUI2.fixedToCamera = true;
   ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
   ammoUI1.fixedToCamera = true;
-
   // BringToTop() alla fine di create().
 
   // Elementi modulari globali
@@ -581,9 +589,18 @@ function create() {
 
     // Munizioni
     ammoBox = game.add.physicsGroup();
-    ammoBox.create(1470, 1885, 'ammoBox');
+    ammoBox.create(5350, 1700, 'ammoBox');
     ammoBox.create(1920, 1735, 'ammoBox');
+    ammoBox.alpha = 1;
     ammoBox.setAll('body.immovable', true);
+
+    // Pozioni
+    pozione = game.add.physicsGroup();
+    pozione.create(5350, 2126, 'pozione');
+    pozione.create(8215, 1926, 'pozione');
+    pozione.create(11700, 1926, 'pozione');
+    pozione.alpha = 1;
+    pozione.setAll('body.immovable', true);
 
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
@@ -753,7 +770,7 @@ function create() {
     modulo1x1.create(11950, 1600, 'modulo1x1');
     modulo1x1.create(12000, 1600, 'modulo1x1');
     modulo1x1.create(12050, 1600, 'modulo1x1');
-    
+
     modulo1x1.create(12600, 1600, 'modulo1x1');
     modulo1x1.create(12650, 1600, 'modulo1x1');
     modulo1x1.create(12700, 1600, 'modulo1x1');
@@ -781,11 +798,11 @@ function create() {
 
     modulo1x1.create(14800, 2000, 'modulo1x1');
     modulo1x1.create(14850, 2000, 'modulo1x1');
-    
+
     modulo1x1.create(17150, 1550, 'modulo1x1');
     modulo1x1.create(17200, 1550, 'modulo1x1');
     modulo1x1.create(17250, 1550, 'modulo1x1');
-    
+
     modulo1x1.create(17500, 1600, 'modulo1x1');
     modulo1x1.create(17550, 1600, 'modulo1x1');
 
@@ -846,7 +863,7 @@ function create() {
     modulo2x2.create(18450, 2100, 'modulo2x2');
     modulo2x2.create(18550, 2100, 'modulo2x2');
     modulo2x2.create(18550, 2000, 'modulo2x2');
-    
+
     modulo2x2.setAll('body.immovable', true);
 
     // Interattivi
@@ -1133,7 +1150,7 @@ function create() {
   player.body.collideWorldBounds = true;
   player.body.gravity.y = 2000; // valore corretto 2000
   player.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-  player.health = 6;
+  player.health = playerMaxHealth;
 
   // FUNZIONE DI SPARO CON PHASER.WEAPON
   gun1 = game.add.weapon(100, 'bullet');
@@ -1231,18 +1248,34 @@ function create() {
   ammoUI4.bringToTop();
   ammoUI5.bringToTop();
 
+  if (gameWasOver == false) {
+    // Nero per gameover e cambio livello
+    nero = game.add.sprite(0, 0, 'nero');
+    nero.fixedToCamera = true;
+    nero.alpha = 0;
+    nero.bringToTop();
+    tweenNeroAppear = game.add.tween(nero).to( {alpha:1}, 1000, Phaser.Easing.Linear.None, false, 0, 0, false); // to(properties, duration in frames, ease, autoStart, delay, repeat, yoyo)
+    tweenNeroDisappear = game.add.tween(nero).to( {alpha:0}, 1000, Phaser.Easing.Linear.None, false, 500, 0, false);
+  }
+
+  gameWasOver = false;
+  console.log("gameWasOver reset to " + gameWasOver);
+
   console.log("create() completed.")
+  tweenNeroDisappear.start();
 }
 
 // ===== UPDATE =====
 
 function update () {
+  console.log('gameWasOver: '+gameWasOver);
   // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
   // console.log("player health=" + player.health);
-    console.log(enemyBomb.getChildAt(1).x)
+  // console.log(enemyBomb.getChildAt(1).x)
+  nero.bringToTop();
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
@@ -1568,10 +1601,10 @@ function update () {
   // Game over per caduta
   if (player.y > 2060 && autoPilot == false) {
     gameWasOver = true;
+    tweenNeroAppear.start();
     gameOverTimer += 1;
     if (gameOverTimer === 60) {
       console.log("Game Over: player fell below y=2060");
-      // game.paused = true;
       if (levelPlaying == 1) {
         destroyLevel1();
         create();
@@ -1701,7 +1734,7 @@ enemySniper.forEach(function (enemy2) {
 enemySniperGun.fire()
 
   //WEAPONs
-  if(fireButton.isDown) {
+  if(fireButton.isDown && player.alive == true) {
     gun1.fire();
     // enemySniperGun.fire()
   }
@@ -1791,22 +1824,28 @@ enemyBomb.forEach(function (enemy) {
       healthFull3.alpha = 1;
 
     } else if (player.health == 5) {
+      healthHalf1.alpha = 0;
       healthFull1.alpha = 1;
+      healthHalf2.alpha = 0;
       healthFull2.alpha = 1;
       healthHalf3.alpha = 1;
       healthFull3.alpha = 0.1;
     } else if (player.health == 4) {
+      healthHalf1.alpha = 0;
       healthFull1.alpha = 1;
+      healthHalf2.alpha = 0;
       healthFull2.alpha = 1;
-      healthHalf3.alpha = 0.1;
+      healthHalf3.alpha = 0;
       healthFull3.alpha = 0.1;
     } else if (player.health == 3) {
+      healthHalf1.alpha = 0;
       healthFull1.alpha = 1;
       healthHalf2.alpha = 1;
       healthFull2.alpha = 0.1;
       healthFull3.alpha = 0.1;
       healthHalf3.alpha = 0;
     } else if (player.health == 2) {
+      healthHalf1.alpha = 0;
       healthFull1.alpha = 1;
       healthHalf2.alpha = 0;
       healthFull2.alpha = 0.1;
@@ -2028,6 +2067,7 @@ enemyBomb.forEach(function (enemy) {
   }
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
+  game.physics.arcade.overlap(player, pozione, heal);
 
 }
 
@@ -2046,8 +2086,6 @@ function spawn() {
     }
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       console.log("Level 1: player coordinates reset.");
-      gameWasOver = false;
-      console.log("gameWasOver reset to " + gameWasOver);
       player.x = 250;
       player.y = 1900;
       player.bringToTop();
@@ -2173,7 +2211,7 @@ function touchEnemy(player, enemyBomb) {
   enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
   enemyBombEsplosione.animations.play('marionettaEsplode', 15);
   enemyBomb.kill();
-  player.health = player.health - 3;
+  player.damage(3);
 }
 
 function shootEnemy(bullets, enemyBomb) {
@@ -2213,9 +2251,18 @@ function addAmmo(player, ammoBox) {
     console.log('Max ammo reached. Reloading not possible.')
   }
 }
+
 function ammoSpent() {
   bulletPool = bulletPool - 1;
   console.log('Bullet N' + bulletPool);
+}
+
+function heal(player, pozione) {
+  if (player.health < 6) {
+    pozione.kill();
+    player.heal(2);
+  }
+
 }
 
 function dustJumpTrue() {
