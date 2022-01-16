@@ -129,8 +129,8 @@ function preload() {
   game.load.image('level2_collineRosse2', 'assets/levelTwo/collinerosse2nuove.png');
   game.load.image('level2_collineGialle', 'assets/levelTwo/collinegialle1nuove.png');
   game.load.image('level2_collineGialle2', 'assets/levelTwo/collinegialle2nuove.png');
-  game.load.image('level2_cielo', 'assets/levelTwo/cielonuovopt1.png');
-  game.load.image('level2_cielo2', 'assets/levelTwo/cielonuovopt2.png');
+  game.load.image('level2_cielo', 'assets/levelTwo/cielonuvole_2.png');
+  game.load.image('level2_cielo2', 'assets/levelTwo/cielonuvole2_2.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
   game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
@@ -234,7 +234,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1619,7 +1619,7 @@ function update () {
 
   if(levelPlaying == 2) {
     level2_cielo.x = game.camera.x*(-0.01);
-    level2_cielo2.x = game.camera.x*(-11649.005); //non funziona
+    //level2_cielo2.x = game.camera.x*(-11649.005); //non funziona
     level2_collineGialle.x = game.camera.x*(-0.025);
     //level2_collineGialle2.x = game.camera.x*(-0.025);
     level2_collineRosse.x = game.camera.x*(-0.09);
