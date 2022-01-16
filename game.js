@@ -69,6 +69,12 @@ function preload() {
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
   game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile_parte1.png');
   game.load.image('level1_calpestabile_parte2', 'assets/levelOne/calpestabile_parte2.png');
+  game.load.image('level1_cielo1', 'assets/levelOne/cielo1.png');
+  game.load.image('level1_cielo2', 'assets/levelOne/cielo2.png');
+  game.load.image('level1_casedietro1', 'assets/levelOne/casedietro1.png');
+  game.load.image('level1_casedietro2', 'assets/levelOne/casedietro2.png');
+  game.load.image('level1_casedavanti1', 'assets/levelOne/casedavanti1.png');
+  game.load.image('level1_casedavanti2', 'assets/levelOne/casedavanti2.png');
 
   // Level 1 /Floor
   game.load.image('level1_floor1', 'assets/levelOne/floor/1.png');
@@ -118,9 +124,12 @@ function preload() {
   // Level 2
   game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/piattaforma1def.png');
   game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaforma2def.png');
-  game.load.image('level2_collineRosse', 'assets/levelTwo/collinerossept1.png');
-  game.load.image('level2_collineGialle', 'assets/levelTwo/collinegiallept1.png');
+  game.load.image('level2_collineRosse', 'assets/levelTwo/collinerosse1nuove.png');
+  game.load.image('level2_collineRosse2', 'assets/levelTwo/collinerosse2nuove.png');
+  game.load.image('level2_collineGialle', 'assets/levelTwo/collinegialle1nuove.png');
+  game.load.image('level2_collineGialle2', 'assets/levelTwo/collinegialle2nuove.png');
   game.load.image('level2_cielo', 'assets/levelTwo/cielonuovopt1.png');
+  game.load.image('level2_cielo2', 'assets/levelTwo/cielonuovopt2.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
   game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
@@ -166,10 +175,7 @@ function preload() {
   // Piattaforme e pavimento del livello 3
 
 
-  // Assets sfondi Level 3
-  //game.load.image('level3_layer3', 'assets/backgrounds/level3/layer3.png'); // Layer 3
-  //game.load.image('level3_layer2', 'assets/backgrounds/level3/layer2.png'); // Layer 2
-  //game.load.image('level3_layer1', 'assets/backgrounds/level3/layer1.png'); // Layer 1
+  // Level 3 /Sfondi
 
   game.load.image('level3_layer1', 'assets/levelThree/cielo.png');
   game.load.image('level3_layer2', 'assets/levelThree/colline1.png');
@@ -227,7 +233,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -262,6 +268,12 @@ var level1_floor;
 var level1_houses;
 var level1_calpestabile_parte1;
 var level1_calpestabile_parte2;
+var level1_cielo1;
+var level1_cielo2;
+var level1_casedavanti1;
+var level1_casedavanti2;
+var level1_casedietro1;
+var level1_casedietro2;
 
 var placeholder_CasaGeppetto;
 var interactionPoint;
@@ -271,8 +283,11 @@ var interactionPointLabel;
 var level2_calpestabile_parte1;
 var level2_calpestabile_parte2;
 var level2_cielo;
+var level2_cielo2;
 var level2_collineRosse;
+var level2_collineRosse2;
 var level2_collineGialle;
+var level2_collineGialle2;
 
 var level2_floor;
 var level2_componente;
@@ -423,8 +438,10 @@ function create() {
     sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
     // Calpestabile livello 1
+    level1_cielo1 = game.add.sprite(0, 0, 'level1_cielo1');
+    level1_casedietro1 = game.add.sprite(0, 0, 'level1_casedietro1');
+    level1_casedavanti1 = game.add.sprite(0, 0, 'level1_casedavanti1');
     level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
-
     // Pavimento livello 1
     level1_floor = game.add.physicsGroup();
     level1_floor.create(0, 2200, 'level1_floor1');
@@ -440,7 +457,7 @@ function create() {
     level1_floor.create(10350, 2200, 'level1_floor11');
     level1_floor.create(12300, 2200, 'level1_floor12');
     level1_floor.create(12750, 2200, 'level1_floor13');
-    level1_floor.alpha = 1; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
+    level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
     level1_floor.setAll('body.immovable', true);
 
     // Moduli 1x1 (piattaforme e tetti)
@@ -578,8 +595,11 @@ function create() {
   if(levelPlaying == 2)
   {
     level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
+    level2_cielo2 = game.add.sprite(11649, 0, 'level2_cielo2');
     level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
+    level2_collineGialle2 = game.add.sprite(13824, 0, 'level2_collineGialle2');
     level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
+    level2_collineRosse2 = game.add.sprite(13824, 0, 'level2_collineRosse2');
     level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
     level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
 
@@ -733,10 +753,14 @@ function create() {
     modulo1x1.create(11950, 1600, 'modulo1x1');
     modulo1x1.create(12000, 1600, 'modulo1x1');
     modulo1x1.create(12050, 1600, 'modulo1x1');
+    
+    modulo1x1.create(12600, 1600, 'modulo1x1');
+    modulo1x1.create(12650, 1600, 'modulo1x1');
+    modulo1x1.create(12700, 1600, 'modulo1x1');
 
-    modulo1x1.create(12850, 2000, 'modulo1x1');
-    modulo1x1.create(12900, 2000, 'modulo1x1');
-    modulo1x1.create(12950, 2000, 'modulo1x1');
+    modulo1x1.create(12800, 1750, 'modulo1x1');
+    modulo1x1.create(12850, 1750, 'modulo1x1');
+    modulo1x1.create(12900, 1750, 'modulo1x1');
 
     modulo1x1.create(13150, 1850, 'modulo1x1');
     modulo1x1.create(13200, 1850, 'modulo1x1');
@@ -757,6 +781,13 @@ function create() {
 
     modulo1x1.create(14800, 2000, 'modulo1x1');
     modulo1x1.create(14850, 2000, 'modulo1x1');
+    
+    modulo1x1.create(17150, 1550, 'modulo1x1');
+    modulo1x1.create(17200, 1550, 'modulo1x1');
+    modulo1x1.create(17250, 1550, 'modulo1x1');
+    
+    modulo1x1.create(17500, 1600, 'modulo1x1');
+    modulo1x1.create(17550, 1600, 'modulo1x1');
 
     modulo1x1.create(17250, 1850, 'modulo1x1');
     modulo1x1.create(17300, 1850, 'modulo1x1');
@@ -784,13 +815,6 @@ function create() {
     modulo1x1.create(19050, 1850, 'modulo1x1');
     modulo1x1.create(19100, 1850, 'modulo1x1');
     modulo1x1.create(19150, 1850, 'modulo1x1');
-
-    modulo1x1.create(19350, 1750, 'modulo1x1');
-    modulo1x1.create(19400, 1750, 'modulo1x1');
-    modulo1x1.create(19450, 1750, 'modulo1x1');
-    modulo1x1.create(19500, 1750, 'modulo1x1');
-    modulo1x1.create(19550, 1750, 'modulo1x1');
-    modulo1x1.create(19600, 1750, 'modulo1x1');
 
     modulo1x1.create(19350, 2000, 'modulo1x1');
     modulo1x1.create(19400, 2000, 'modulo1x1');
@@ -822,8 +846,7 @@ function create() {
     modulo2x2.create(18450, 2100, 'modulo2x2');
     modulo2x2.create(18550, 2100, 'modulo2x2');
     modulo2x2.create(18550, 2000, 'modulo2x2');
-    modulo2x2.create(19700, 2100, 'modulo2x2');
-    modulo2x2.create(19700, 2000, 'modulo2x2');
+    
     modulo2x2.setAll('body.immovable', true);
 
     // Interattivi
@@ -1562,8 +1585,11 @@ function update () {
   // Parallasse sfondi
   if(levelPlaying == 2) {
     level2_cielo.x = game.camera.x*(-0.005);
+    //level2_cielo2.x = game.camera.x*(-0.005);
     level2_collineGialle.x = game.camera.x*(-0.025);
+    //level2_collineGialle2.x = game.camera.x*(-0.025);
     level2_collineRosse.x = game.camera.x*(-0.04);
+    //level2_collineRosse2.x = game.camera.x*(-0.04);
   }
 
   if(levelPlaying == 3) {
@@ -2065,8 +2091,11 @@ function destroyLevel1() {
 
 function destroyLevel2() {
   level2_cielo.destroy();
+  level2_cielo2.destroy();
   level2_collineGialle.destroy();
+  level2_collineGialle2.destroy();
   level2_collineRosse.destroy();
+  level2_collineRosse2.destroy();
   level2_calpestabile_parte1.destroy();
   level2_calpestabile_parte2.destroy();
   level2_floor.destroy();
