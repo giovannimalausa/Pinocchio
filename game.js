@@ -249,6 +249,7 @@ enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
 var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
