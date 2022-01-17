@@ -409,7 +409,7 @@ var animDropL;
 function create() {
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
-  game.world.setBounds(0, 0, 20000, 2504);
+  game.world.setBounds(0, 0, 20000, 2304);
 
   healthFull1 = game.add.sprite(50, 50, 'healthFull');
   healthFull1.fixedToCamera = true;
@@ -450,149 +450,151 @@ function create() {
   // Livello 1
   if(levelPlaying == 1)
   {
-    sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
+    if (gameWasOver == false) {
+      sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
-    // Calpestabile livello 1
-    level1_cielo = game.add.sprite(0, 0, 'level1_cielo');
-    level1_casedietro = game.add.sprite(0, 0, 'level1_casedietro');
-    level1_casedavanti = game.add.sprite(0, 0, 'level1_casedavanti');
-    level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
-    // Pavimento livello 1
-    level1_floor = game.add.physicsGroup();
-    level1_floor.create(0, 2200, 'level1_floor1');
-    level1_floor.create(2350, 2200, 'level1_floor2');
-    level1_floor.create(3000, 2200, 'level1_floor3');
-    level1_floor.create(4000, 2200, 'level1_floor4');
-    level1_floor.create(4650, 2200, 'level1_floor5');
-    level1_floor.create(4900, 2200, 'level1_floor6');
-    level1_floor.create(6350, 2200, 'level1_floor7');
-    level1_floor.create(7000, 2200, 'level1_floor8');
-    level1_floor.create(7650, 2200, 'level1_floor9');
-    level1_floor.create(9300, 2200, 'level1_floor10');
-    level1_floor.create(10350, 2200, 'level1_floor11');
-    level1_floor.create(12300, 2200, 'level1_floor12');
-    level1_floor.create(12750, 2200, 'level1_floor13');
-    level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
-    level1_floor.setAll('body.immovable', true);
+      // Calpestabile livello 1
+      level1_cielo = game.add.sprite(0, 0, 'level1_cielo');
+      level1_casedietro = game.add.sprite(0, 0, 'level1_casedietro');
+      level1_casedavanti = game.add.sprite(0, 0, 'level1_casedavanti');
+      level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
+      // Pavimento livello 1
+      level1_floor = game.add.physicsGroup();
+      level1_floor.create(0, 2200, 'level1_floor1');
+      level1_floor.create(2350, 2200, 'level1_floor2');
+      level1_floor.create(3000, 2200, 'level1_floor3');
+      level1_floor.create(4000, 2200, 'level1_floor4');
+      level1_floor.create(4650, 2200, 'level1_floor5');
+      level1_floor.create(4900, 2200, 'level1_floor6');
+      level1_floor.create(6350, 2200, 'level1_floor7');
+      level1_floor.create(7000, 2200, 'level1_floor8');
+      level1_floor.create(7650, 2200, 'level1_floor9');
+      level1_floor.create(9300, 2200, 'level1_floor10');
+      level1_floor.create(10350, 2200, 'level1_floor11');
+      level1_floor.create(12300, 2200, 'level1_floor12');
+      level1_floor.create(12750, 2200, 'level1_floor13');
+      level1_floor.alpha = 0; // Controllo opacità // 0 = opacità 0% ; 1 = opacità 100%
+      level1_floor.setAll('body.immovable', true);
 
-    // Moduli 1x1 (piattaforme e tetti)
-    modulo1x1.create(1350, 1950, 'modulo1x1');
-    modulo1x1.create(1400, 1950, 'modulo1x1');
-    modulo1x1.create(1450, 1950, 'modulo1x1');
-    modulo1x1.create(1500, 1950, 'modulo1x1');
-    modulo1x1.create(1550, 1950, 'modulo1x1');
-    modulo1x1.create(1600, 1950, 'modulo1x1');
+      // Moduli 1x1 (piattaforme e tetti)
+      modulo1x1.create(1350, 1950, 'modulo1x1');
+      modulo1x1.create(1400, 1950, 'modulo1x1');
+      modulo1x1.create(1450, 1950, 'modulo1x1');
+      modulo1x1.create(1500, 1950, 'modulo1x1');
+      modulo1x1.create(1550, 1950, 'modulo1x1');
+      modulo1x1.create(1600, 1950, 'modulo1x1');
 
-    modulo1x1.create(1800, 1800, 'modulo1x1');
-    modulo1x1.create(1850, 1800, 'modulo1x1');
-    modulo1x1.create(1900, 1800, 'modulo1x1');
-    modulo1x1.create(1950, 1800, 'modulo1x1');
-    modulo1x1.create(2000, 1800, 'modulo1x1');
-    modulo1x1.create(2050, 1800, 'modulo1x1');
+      modulo1x1.create(1800, 1800, 'modulo1x1');
+      modulo1x1.create(1850, 1800, 'modulo1x1');
+      modulo1x1.create(1900, 1800, 'modulo1x1');
+      modulo1x1.create(1950, 1800, 'modulo1x1');
+      modulo1x1.create(2000, 1800, 'modulo1x1');
+      modulo1x1.create(2050, 1800, 'modulo1x1');
 
-    modulo1x1.create(2845, 1650, 'modulo1x1');
-    modulo1x1.create(2895, 1650, 'modulo1x1');
-    modulo1x1.create(2845, 1650, 'modulo1x1');
+      modulo1x1.create(2845, 1650, 'modulo1x1');
+      modulo1x1.create(2895, 1650, 'modulo1x1');
+      modulo1x1.create(2845, 1650, 'modulo1x1');
 
-    modulo1x1.create(3400, 1900, 'modulo1x1');
-    modulo1x1.create(3450, 1900, 'modulo1x1');
-    modulo1x1.create(3500, 1900, 'modulo1x1');
+      modulo1x1.create(3400, 1900, 'modulo1x1');
+      modulo1x1.create(3450, 1900, 'modulo1x1');
+      modulo1x1.create(3500, 1900, 'modulo1x1');
 
-    modulo1x1.create(3500, 1700, 'modulo1x1');
-    modulo1x1.create(3550, 1700, 'modulo1x1');
-    modulo1x1.create(3600, 1700, 'modulo1x1');
+      modulo1x1.create(3500, 1700, 'modulo1x1');
+      modulo1x1.create(3550, 1700, 'modulo1x1');
+      modulo1x1.create(3600, 1700, 'modulo1x1');
 
-    modulo1x1.create(3650, 1550, 'modulo1x1');
-    modulo1x1.create(3700, 1550, 'modulo1x1');
-    modulo1x1.create(3750, 1550, 'modulo1x1');
+      modulo1x1.create(3650, 1550, 'modulo1x1');
+      modulo1x1.create(3700, 1550, 'modulo1x1');
+      modulo1x1.create(3750, 1550, 'modulo1x1');
 
-    modulo1x1.create(5150, 1950, 'modulo1x1');
-    modulo1x1.create(5200, 1950, 'modulo1x1');
-    modulo1x1.create(5250, 1950, 'modulo1x1');
-    modulo1x1.create(5300, 1950, 'modulo1x1');
-    modulo1x1.create(5350, 1950, 'modulo1x1');
+      modulo1x1.create(5150, 1950, 'modulo1x1');
+      modulo1x1.create(5200, 1950, 'modulo1x1');
+      modulo1x1.create(5250, 1950, 'modulo1x1');
+      modulo1x1.create(5300, 1950, 'modulo1x1');
+      modulo1x1.create(5350, 1950, 'modulo1x1');
 
-    modulo1x1.create(5400, 1700, 'modulo1x1');
-    modulo1x1.create(6000, 1700, 'modulo1x1');
+      modulo1x1.create(5400, 1700, 'modulo1x1');
+      modulo1x1.create(6000, 1700, 'modulo1x1');
 
-    modulo1x1.create(5150, 1750, 'modulo1x1');
-    modulo1x1.create(5200, 1750, 'modulo1x1');
+      modulo1x1.create(5150, 1750, 'modulo1x1');
+      modulo1x1.create(5200, 1750, 'modulo1x1');
 
-    modulo1x1.create(6300, 1800, 'modulo1x1');
-    modulo1x1.create(6750, 1800, 'modulo1x1');
+      modulo1x1.create(6300, 1800, 'modulo1x1');
+      modulo1x1.create(6750, 1800, 'modulo1x1');
 
-    modulo1x1.create(8050, 1700, 'modulo1x1');
-    modulo1x1.create(8100, 1700, 'modulo1x1');
-    modulo1x1.create(8150, 1700, 'modulo1x1');
+      modulo1x1.create(8050, 1700, 'modulo1x1');
+      modulo1x1.create(8100, 1700, 'modulo1x1');
+      modulo1x1.create(8150, 1700, 'modulo1x1');
 
-    modulo1x1.create(8350, 1800, 'modulo1x1');
-    modulo1x1.create(8400, 1800, 'modulo1x1');
-    modulo1x1.create(8450, 1800, 'modulo1x1');
+      modulo1x1.create(8350, 1800, 'modulo1x1');
+      modulo1x1.create(8400, 1800, 'modulo1x1');
+      modulo1x1.create(8450, 1800, 'modulo1x1');
 
-    modulo1x1.create(9250, 1750, 'modulo1x1');
-    modulo1x1.create(9700, 1750, 'modulo1x1');
+      modulo1x1.create(9250, 1750, 'modulo1x1');
+      modulo1x1.create(9700, 1750, 'modulo1x1');
 
-    modulo1x1.create(9900, 1900, 'modulo1x1');
-    modulo1x1.create(9950, 1900, 'modulo1x1');
+      modulo1x1.create(9900, 1900, 'modulo1x1');
+      modulo1x1.create(9950, 1900, 'modulo1x1');
 
-    modulo1x1.create(10100, 2000, 'modulo1x1');
-    modulo1x1.create(10150, 2000, 'modulo1x1');
+      modulo1x1.create(10100, 2000, 'modulo1x1');
+      modulo1x1.create(10150, 2000, 'modulo1x1');
 
-    modulo1x1.create(10950, 1750, 'modulo1x1');
-    modulo1x1.create(11000, 1750, 'modulo1x1');
-    modulo1x1.create(11050, 1750, 'modulo1x1');
+      modulo1x1.create(10950, 1750, 'modulo1x1');
+      modulo1x1.create(11000, 1750, 'modulo1x1');
+      modulo1x1.create(11050, 1750, 'modulo1x1');
 
-    modulo1x1.create(11000, 1950, 'modulo1x1');
-    modulo1x1.create(11050, 1950, 'modulo1x1');
-    modulo1x1.create(11100, 1950, 'modulo1x1');
-    modulo1x1.create(11150, 1950, 'modulo1x1');
-    modulo1x1.create(11200, 1950, 'modulo1x1');
-    modulo1x1.create(11250, 1950, 'modulo1x1');
+      modulo1x1.create(11000, 1950, 'modulo1x1');
+      modulo1x1.create(11050, 1950, 'modulo1x1');
+      modulo1x1.create(11100, 1950, 'modulo1x1');
+      modulo1x1.create(11150, 1950, 'modulo1x1');
+      modulo1x1.create(11200, 1950, 'modulo1x1');
+      modulo1x1.create(11250, 1950, 'modulo1x1');
 
-    modulo1x1.create(11250, 1700, 'modulo1x1');
-    modulo1x1.create(11700, 1700, 'modulo1x1');
+      modulo1x1.create(11250, 1700, 'modulo1x1');
+      modulo1x1.create(11700, 1700, 'modulo1x1');
 
-    modulo1x1.create(11850, 1900, 'modulo1x1');
-    modulo1x1.create(11900, 1900, 'modulo1x1');
+      modulo1x1.create(11850, 1900, 'modulo1x1');
+      modulo1x1.create(11900, 1900, 'modulo1x1');
 
-    modulo1x1.setAll('body.immovable', true);
+      modulo1x1.setAll('body.immovable', true);
 
-    // Moduli 2x2 (casse singole)
-    modulo2x2.create(1100, 2100, 'modulo2x2');
-    modulo2x2.create(1800, 2100, 'modulo2x2');
-    modulo2x2.create(3750, 2100, 'modulo2x2');
-    modulo2x2.create(4450, 2100, 'modulo2x2');
-    modulo2x2.create(4895, 2100, 'modulo2x2');
-    modulo2x2.create(8100, 2100, 'modulo2x2');
-    modulo2x2.create(8400, 2100, 'modulo2x2');
-    modulo2x2.create(9800, 2100, 'modulo2x2');
-    modulo2x2.create(10800, 2100, 'modulo2x2');
-    modulo2x2.create(12000, 2100, 'modulo2x2');
-    modulo2x2.create(12295, 2100, 'modulo2x2');
-    modulo2x2.setAll('body.immovable', true);
+      // Moduli 2x2 (casse singole)
+      modulo2x2.create(1100, 2100, 'modulo2x2');
+      modulo2x2.create(1800, 2100, 'modulo2x2');
+      modulo2x2.create(3750, 2100, 'modulo2x2');
+      modulo2x2.create(4450, 2100, 'modulo2x2');
+      modulo2x2.create(4895, 2100, 'modulo2x2');
+      modulo2x2.create(8100, 2100, 'modulo2x2');
+      modulo2x2.create(8400, 2100, 'modulo2x2');
+      modulo2x2.create(9800, 2100, 'modulo2x2');
+      modulo2x2.create(10800, 2100, 'modulo2x2');
+      modulo2x2.create(12000, 2100, 'modulo2x2');
+      modulo2x2.create(12295, 2100, 'modulo2x2');
+      modulo2x2.setAll('body.immovable', true);
 
-    // Moduli 2x4 (casse doppie)
-    modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
-    modulo2x4.create(8200, 2000, 'modulo2x4');
-    modulo2x4.create(17750, 2000, 'modulo2x4');
-    modulo2x4.create(19700, 2000, 'modulo2x4');
-    modulo2x4.setAll('body.immovable', true);
+      // Moduli 2x4 (casse doppie)
+      modulo2x4.create(4650, 2000, 'modulo2x4');  // <=== sintassi per aggiungere moduli 2x4
+      modulo2x4.create(8200, 2000, 'modulo2x4');
+      modulo2x4.create(17750, 2000, 'modulo2x4');
+      modulo2x4.create(19700, 2000, 'modulo2x4');
+      modulo2x4.setAll('body.immovable', true);
 
-    // Case (pareti)
-    level1_houses = game.add.physicsGroup();
-    level1_houses.create(100, 1700, 'level1_house1');
-    level1_houses.create(2345, 1800, 'level1_house2');
-    level1_houses.create(2995, 1450, 'level1_house3');
-    level1_houses.create(5450, 1700, 'level1_house4');
-    level1_houses.create(6345, 1800, 'level1_house5');
-    level1_houses.create(6995, 1700, 'level1_house6');
-    level1_houses.create(7645, 1500, 'level1_house7');
-    level1_houses.create(8500, 1600, 'level1_house8');
-    level1_houses.create(9295, 1750, 'level1_house9');
-    level1_houses.create(10345, 1900, 'level1_house10');
-    level1_houses.create(11300, 1700, 'level1_house11');
-    level1_houses.alpha = 0;
-    level1_houses.setAll('body.immovable', true);
+      // Case (pareti)
+      level1_houses = game.add.physicsGroup();
+      level1_houses.create(100, 1700, 'level1_house1');
+      level1_houses.create(2345, 1800, 'level1_house2');
+      level1_houses.create(2995, 1450, 'level1_house3');
+      level1_houses.create(5450, 1700, 'level1_house4');
+      level1_houses.create(6345, 1800, 'level1_house5');
+      level1_houses.create(6995, 1700, 'level1_house6');
+      level1_houses.create(7645, 1500, 'level1_house7');
+      level1_houses.create(8500, 1600, 'level1_house8');
+      level1_houses.create(9295, 1750, 'level1_house9');
+      level1_houses.create(10345, 1900, 'level1_house10');
+      level1_houses.create(11300, 1700, 'level1_house11');
+      level1_houses.alpha = 0;
+      level1_houses.setAll('body.immovable', true);
+    }
 
     // Munizioni
     ammoBox = game.add.physicsGroup();
@@ -608,7 +610,6 @@ function create() {
     pozione.create(11700, 1926, 'pozione');
     pozione.alpha = 1;
     pozione.setAll('body.immovable', true);
-
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
     // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
@@ -1135,7 +1136,7 @@ function create() {
   //Comunque da eliminare se possibile
 
   game.physics.arcade.enable(player);
-  player.body.collideWorldBounds = true;
+  player.body.collideWorldBounds = false;
   player.body.gravity.y = 2000; // valore corretto 2000
   player.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   player.health = playerMaxHealth;
@@ -1240,7 +1241,7 @@ function create() {
 
 
   // Camera Follow
-  game.camera.follow(shadow, 1, 0.1, 0.1); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
+  game.camera.follow(shadow, 1, 0.1, 0.5); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
 
   // Time
   timeWhenLoaded = game.time.time;
@@ -1264,21 +1265,13 @@ function create() {
   ammoUI4.bringToTop();
   ammoUI5.bringToTop();
 
-  if (gameWasOver == false) {
-    // Nero per gameover e cambio livello
-    nero = game.add.sprite(0, 0, 'nero');
-    nero.fixedToCamera = true;
-    nero.alpha = 0;
-    nero.bringToTop();
-    tweenNeroAppear = game.add.tween(nero).to( {alpha:1}, 1000, Phaser.Easing.Linear.None, false, 0, 0, false); // to(properties, duration in frames, ease, autoStart, delay, repeat, yoyo)
-    tweenNeroDisappear = game.add.tween(nero).to( {alpha:0}, 1000, Phaser.Easing.Linear.None, false, 500, 0, false);
-  }
-
   gameWasOver = false;
   console.log("gameWasOver reset to " + gameWasOver);
 
+  game.camera.resetFX();
+  console.log("cameraFX reset");
+
   console.log("create() completed.")
-  tweenNeroDisappear.start();
 }
 
 // ===== UPDATE =====
@@ -1290,8 +1283,7 @@ function update () {
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
   // console.log("player health=" + player.health);
-  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)
-  nero.bringToTop();
+  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f 
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
@@ -1605,38 +1597,35 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
-  }
-  else if(player.y < 1900 && player.y > 1600)
-  {
-    shadow.x = player.x+350;
-    shadow.y = player.y+100;
-  }
-  else if(player.y < 1600)
-  {
+  } else if (autoPilot == false) {
     shadow.x = player.x+350;
     shadow.y = player.y+120;
-  } else {
-    shadow.y = player.y-70;
-    if (autoPilot == false) {
-      shadow.x = player.x+350;
-    }
   }
+
+  // else if(player.y < 1900 && player.y > 1600)
+  // {
+  //   shadow.x = player.x+350;
+  //   shadow.y = player.y+100;
+  // }
+  // else if(player.y < 1600)
+  // {
+  //   shadow.x = player.x+350;
+  //   shadow.y = player.y+120;
+  // } else {
+  //   shadow.y = player.y-70;
+  //   if (autoPilot == false) {
+  //     shadow.x = player.x+350;
+  //   }
+  // }
 
   // Game Over
   // Game over per caduta
-  if (player.y > 2060 && autoPilot == false) {
-    gameWasOver = true;
-    tweenNeroAppear.start();
+  if (player.y > 2060 && autoPilot == false && gameWasOver == false) {
+    game.camera.fade(0x000000, 1000);
     gameOverTimer += 1;
-    if (gameOverTimer === 60) {
-      console.log("Game Over: player fell below y=2060");
-      if (levelPlaying == 1) {
-        destroyLevel1();
-        create();
-      } else if (levelPlaying == 2) {
-        destroyLevel2();
-        create();
-      }
+    if (gameOverTimer == 50) {
+      console.log("Player fell below y=2060");
+      gameover();
     }
   }
 
@@ -2022,7 +2011,7 @@ for (let i = 0; i < 3; i++) {
     if (timerLivello1Livello2 == 150) {
       // Destroy gli sprite del Livello 1
       console.log("Destroying Level 1 sprites...");
-      destroyLevel1();
+      hardDestroyLevel1();
 
       levelPlaying = 2;
       cambioLivello = true;
@@ -2106,7 +2095,7 @@ function spawn() {
       console.log("Level 1: player & shadow created.");
       player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
       shadow = game.add.sprite(1000, 200, 'player');
-      shadow.alpha = 0;
+      shadow.alpha = 1;
     }
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       console.log("Level 1: player coordinates reset.");
@@ -2142,7 +2131,23 @@ function spawn() {
   console.log("spawn() completed.")
 }
 
-function destroyLevel1() {
+function gameover() {
+  console.log('Running gameover()...')
+  gameWasOver = true;
+  if (levelPlaying == 1) {
+    setTimeout(softDestroyLevel1, 1050); // da cambiare con softDestroyLevel1
+    setTimeout(create, 1050);
+    
+  } else if (levelPlaying == 2) {
+    destroyLevel2();
+    create();
+  }
+  console.log('gameover() completed.')
+}
+
+function hardDestroyLevel1() {
+  // Questa funzione va richiamata esclusivamente nel passaggio da Livello 1 => Livello 2.
+  // Distrugge tutti gli elementi del livello 1.
   level1_calpestabile_parte1.destroy();
   level1_floor.destroy();
   level1_houses.destroy();
@@ -2153,8 +2158,19 @@ function destroyLevel1() {
   level1_casedietro.destroy();
   level1_casedavanti.destroy();
   ammoBox.destroy();
-  posizione.destroy();
+  pozione.destroy();
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemySniper.destroy();
+}
 
+function softDestroyLevel1() {
+  // Questa funzione va richiamata quando occorre resettare il Livello 1 in seguito a game over.
+  ammoBox.destroy();
+  pozione.destroy();
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemySniper.destroy();
 }
 
 function destroyLevel2() {
