@@ -27,9 +27,11 @@ function preload() {
 
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
-  game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug1.png', 300, 225, 40);
-  game.load.spritesheet('marionettaSniper', 'assets/sprites/spritesheet_enemySniper.png', 150, 100, 40);
+  game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug.png', 300, 300, 40);
+  game.load.spritesheet('marionettaSniper', 'assets/sprites/marionettaSniper.png', 200, 200, 40);
   //game.load.spritesheet('marionettaSniperMorte', 'assets/sprites/marionettaSniperMorte.png', 225, 150, 32);
+  game.load.spritesheet('marionettaJugMorte', 'assets/sprites/marionettaJugMorte.png', 300, 300, 38);
+
   game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
   game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
 
@@ -76,7 +78,7 @@ function preload() {
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
-  
+
 
   // Level 1 /Floor
   game.load.image('level1_floor1', 'assets/levelOne/floor/1.png');
@@ -219,8 +221,8 @@ var dustVar;
 //Var armi enemySniperGun
 var enemySniperGun0
 
-//Var posizionamento x nemici
-const enemyBombX = [800, 1400, 1700, 1500];
+// Enemy x spawn position
+var enemyBombX
 const enemySniperX = [1300, 1600];
 
 // Variabili di gioco
@@ -246,7 +248,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1167,9 +1169,17 @@ function create() {
   gun1.fireLimit = bulletPool;
 
 
-
-
   //  =====================ENEMIES============================
+
+  //posizionamento x nemici
+  if (levelPlaying == 1) {
+    enemyBombX = [1200, 1400, 1700, 1500];
+  } else if (levelPlaying == 2) {
+    enemyBombX = [600, 1000, 1200];
+  } else if (levelPlaying == 3) {
+    enemyBombX = [700, 1000, 1200];
+  }
+
   enemyBomb = game.add.physicsGroup();
 
   enemyBomb.create(enemyBombX[0], 1500, 'marionettaBomba');
@@ -1186,28 +1196,45 @@ function create() {
 // Inserire qui la coordinata X dei nemici
 
   enemySniper = game.add.physicsGroup();
-  enemySniper.create(enemySniperX[0], 1800, 'marionettaSniper');
-  enemySniper.create(enemySniperX[1], 1800, 'marionettaSniper');
+  enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
+  enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 5);
-  enemySniper.callAll('animations.add', 'animations', 'sniperL', [29,28,27,26,25,24,23,22,21,20], 10, true);
+  enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [29,28,27,26,25,24,23,22,21,20], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperR', [0,1,2,3,4,5,6,7,8,9], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireL', [39,38,37,36,35,34,33,32,31,30], 10, false);
-  enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [10,11,12,13,14,15,16,17,18,19], 10, false);
+  enemySniper.callAll('animations.add', 'animations', 'sniperL', [10,11,12,13,14,15,16,17,18,19], 10, false);
+  enemySniper.callAll('body.setSize', 'body', 90, 115, 55, 45)
   //EnemySniper Weapon
   enemySniperGun0 = game.add.weapon(100, 'bullet');
   enemySniperGun0.fireRate = 1600;
   enemySniperGun0.bulletSpeed = 400;
   enemySniperGun0.bulletAngleVariance = 5;
 
+  enemyJug = game.add.physicsGroup();
+  enemyJug.create(800, 1300, 'marionettaJug');
+  //enemyJug.create(enemySniperX[1], 1500, 'marionettaJug');
+  game.physics.arcade.enable(enemyJug);
+  enemyJug.setAll('health', 7);
+  enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
+  enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
+  enemyJug.callAll('animations.add', 'animations', 'jugL', [39,38,37,36,35,34,33,32,31,30], 10, true);
+  enemyJug.callAll('animations.add', 'animations', 'jugR', [0,1,2,3,4,5,6,7,8,9], 10, true);
+  enemyJug.callAll('animations.play', 'animations', 'jugFireL');
+  //enemyJug.callAll('body.setSize', 'body', 150, 120, 100, 93)
+/*
   enemyJug = game.add.sprite(1000, 1300, 'marionettaJug');
   game.physics.arcade.enable(enemyJug);
   enemyJug.body.collideWorldBounds = true;
   enemyJug.body.gravity.y = 2000;
+  enemyJug.health = 10;
   enemyJug.body.setSize(150, 120, 100, 93); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   enemyJug.animations.add('jugFireL', [30,31,32,33,34,35,36,37,38,39]);
+  enemyJug.animations.add('jugFireR', [20,21,22,23,24,25,26,27,28,29]);
+  enemyJug.animations.add('jugL', [10,11,12,13,14,15,16,17,18,19]);
+  enemyJug.animations.add('jugR', [0,1,2,3,4,5,6,7,8,9]);
   enemyJug.animations.play('jugFireL', 10, true);
-
+*/
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -1282,7 +1309,7 @@ function update () {
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
   // console.log("player health=" + player.health);
-   console.log('Enemy X =' +enemyBomb.getChildAt(0).x)
+  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)
   nero.bringToTop();
 
   // TIME
@@ -1356,9 +1383,9 @@ function update () {
     game.physics.arcade.collide(player, level2_ruota3_cabinaG);
     game.physics.arcade.collide(player, level2_ruota3_cabinaH);
 
-    game.physics.arcade.collide(player, level2_mongolfiera1, landingCallback, landingProcessCallback, this);
+  //  game.physics.arcade.collide(player, level2_mongolfiera1, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_mongolfiera1);
-    game.physics.arcade.collide(player, level2_mongolfiera2, landingCallback, landingProcessCallback, this);
+  //  game.physics.arcade.collide(player, level2_mongolfiera2, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_mongolfiera2);
 
     game.physics.arcade.collide(enemyBomb, level2_floor);
@@ -1658,7 +1685,8 @@ function update () {
   // Overlap tra player e enemy
   game.physics.arcade.overlap(player, enemyBomb, touchEnemyBomb);
   game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
-  game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemy);
+  game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
+  game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
 
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -1794,24 +1822,15 @@ else if (enemySniper.getChildAt(1).inCamera == true && enemySniper.getChildAt(1)
 
     //ENEMY
 
-// QUESTO VALE PER TUTTI I NEMICI
-
-var enemyBombIndex = 0
-    if ((enemyBomb.getChildAt(enemyBombIndex).body.velocity.x > 0 && enemyBomb.getChildAt(enemyBombIndex).x > enemyBombX[enemyBombIndex] + 200)
-    || (enemyBomb.getChildAt(enemyBombIndex).body.velocity.x < 0 && enemyBomb.getChildAt(enemyBombIndex).x < enemyBombX[enemyBombIndex])) {
-        enemyBomb.getChildAt(enemyBombIndex).body.velocity.x *= -1;
-      }
-enemyBombIndex = 1
-if ((enemyBomb.getChildAt(enemyBombIndex).body.velocity.x > 0 && enemyBomb.getChildAt(enemyBombIndex).x > enemyBombX[enemyBombIndex] + 200)
-|| (enemyBomb.getChildAt(enemyBombIndex).body.velocity.x < 0 && enemyBomb.getChildAt(enemyBombIndex).x < enemyBombX[enemyBombIndex])) {
-    enemyBomb.getChildAt(enemyBombIndex).body.velocity.x *= -1;
-  }
-  enemyBombIndex = 2
-  if ((enemyBomb.getChildAt(enemyBombIndex).body.velocity.x > 0 && enemyBomb.getChildAt(enemyBombIndex).x > enemyBombX[enemyBombIndex] + 200)
-  || (enemyBomb.getChildAt(enemyBombIndex).body.velocity.x < 0 && enemyBomb.getChildAt(enemyBombIndex).x < enemyBombX[enemyBombIndex])) {
-      enemyBomb.getChildAt(enemyBombIndex).body.velocity.x *= -1;
+// L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
+for (let i = 0; i < 3; i++) {
+  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 200)
+  || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
+      enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }
-    /*
+}
+
+/*
     enemyBomb.forEach(function (enemy) {
       if (enemyBomb_0_Direction === 'right') {
         enemy.body.velocity.x = 100;
@@ -1836,7 +1855,8 @@ if ((enemyBomb.getChildAt(enemyBombIndex).body.velocity.x > 0 && enemyBomb.getCh
     enemySniper.setAll('body.gravity.y', 2000);
     enemySniper.setAll('body.collideWorldBounds', true);
 
-
+    enemyJug.setAll('body.gravity.y', 2000);
+    enemyJug.setAll('body.collideWorldBounds', true);
     // Player health UI
     if (player.health == 6) {
       healthHalf1.alpha = 0;
@@ -2091,8 +2111,8 @@ if ((enemyBomb.getChildAt(enemyBombIndex).body.velocity.x > 0 && enemyBomb.getCh
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
-
-}
+  console.log(enemyJug.getChildAt(0).x + ' ' + enemyJug.getChildAt(0).y)
+} //fine di UPDATE
 
 function spawn() {
   autoPilot = true;
@@ -2227,27 +2247,6 @@ function enableInteraction() {
     //  interactionPointLabel.kill();
   }
 }
-function shootEnemy(bullets, enemySniper) {
-  var enemySniperDead
-  bullets.kill();
-  enemySniper.damage(1);
-  if (enemySniper.health <= 0) {
-    /*
-    enemySniperDead = game.add.sprite(enemySniper.x, enemySniper.y, 'marionettaSniperMorte');
-    enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
-    enemySniperDead.animations.play('sniperDeadL', 15, false)
-    */
-  }
-}
-
-function touchEnemyBomb(player, enemyBomb) {
-  enemyBombEsplosione = game.add.sprite(enemyBomb.x - 110, enemyBomb.y - 35, 'marionettaEsplosione');
-  enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
-  enemyBombEsplosione.animations.play('marionettaEsplode', 15);
-  enemyBombEsplosione.killOnComplete = true;
-  enemyBomb.kill();
-  player.damage(2);
-}
 
 function shootEnemyBomb(bullets, enemyBomb) {
   bullets.kill();
@@ -2259,6 +2258,38 @@ function shootEnemyBomb(bullets, enemyBomb) {
     enemyBombEsplosione.killOnComplete = true;
   //  enemyBomb.kill();
   }
+}
+function shootEnemySniper(bullets, enemySniper) {
+  var enemySniperDead
+  bullets.kill();
+  enemySniper.damage(1);
+  if (enemySniper.health <= 0) {
+    /*
+    enemySniperDead = game.add.sprite(enemySniper.x, enemySniper.y, 'marionettaSniperMorte');
+    enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
+    enemySniperDead.animations.play('sniperDeadL', 15, false)
+    */
+  }
+}
+function shootEnemyJug(bullets, enemyJug) {
+  var enemyJugDead
+  bullets.kill();
+  enemyJug.damage(1);
+  if (enemyJug.health <= 0) {
+    enemyJugDead = game.add.sprite(enemyJug.x, enemyJug.y, 'marionettaJugMorte');
+    enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
+    enemyJugDead.animations.play('jugDeadL', 15, false);
+    console.log('STOP!' + enemyJugDead.x + ' ' + enemyJugDead.y)
+  }
+}
+
+function touchEnemyBomb(player, enemyBomb) {
+  enemyBombEsplosione = game.add.sprite(enemyBomb.x - 110, enemyBomb.y - 35, 'marionettaEsplosione');
+  enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
+  enemyBombEsplosione.animations.play('marionettaEsplode', 15);
+  enemyBombEsplosione.killOnComplete = true;
+  enemyBomb.kill();
+  player.damage(2);
 }
 
 
@@ -2310,10 +2341,6 @@ function heal(player, pozione) {
     pozione.kill();
     player.heal(2);
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> 58a91e494ce755ff11f7fee392fd7827723b6e0c
 }
 
 function dustJumpTrue() {
@@ -2366,6 +2393,8 @@ function render () {
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
-  // game.debug.body(enemyJug);
+   //game.debug.body(enemyJug.getChildAt(0));
+   //game.debug.body(enemySniper.getChildAt(0));
+
   // game.debug.spriteInfo(player, 30, 100);
 }
