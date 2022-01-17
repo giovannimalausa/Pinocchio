@@ -1668,7 +1668,7 @@ function update () {
 
   if(levelPlaying == 2) {
     level2_cielo.x = game.camera.x*(-0.01);
-    //level2_cielo2.x = game.camera.x*(-11649.005); //non funziona
+    level2_cielo2.x = game.camera.x*(-0.01)+11649;
     level2_collineGialle.x = game.camera.x*(-0.025);
     //level2_collineGialle2.x = game.camera.x*(-0.025);
     level2_collineRosse.x = game.camera.x*(-0.09);
@@ -2168,6 +2168,12 @@ function destroyLevel1() {
   modulo1x1.destroy();
   modulo2x2.destroy();
   modulo2x4.destroy();
+  level1_cielo.destroy();
+  level1_casedietro.destroy();
+  level1_casedavanti.destroy();
+  ammoBox.destroy();
+  posizione.destroy();
+
 }
 
 function destroyLevel2() {
