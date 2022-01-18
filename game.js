@@ -278,7 +278,11 @@ var sfondoAzzurro;
 
 // Variabili elementi grafici d'interazione
 var ammoBox;
+var ammoBoxX;
+var ammoBoxY;
 var pozione;
+var pozioneX;
+var pozioneY;
 
 // Variabili globali
 var modulo1x1;
@@ -602,21 +606,7 @@ function create() {
       level1_houses.alpha = 0;
       level1_houses.setAll('body.immovable', true);
     }
-
-    // Munizioni
-    ammoBox = game.add.physicsGroup();
-    ammoBox.create(5350, 1700, 'ammoBox');
-    ammoBox.create(1920, 1735, 'ammoBox');
-    ammoBox.alpha = 1;
-    ammoBox.setAll('body.immovable', true);
-
-    // Pozioni
-    pozione = game.add.physicsGroup();
-    pozione.create(5350, 2126, 'pozione');
-    pozione.create(8215, 1926, 'pozione');
-    pozione.create(11700, 1926, 'pozione');
-    pozione.alpha = 1;
-    pozione.setAll('body.immovable', true);
+    
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
     // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
@@ -1114,6 +1104,59 @@ function create() {
 
   }
 
+  // munizioni
+  if (levelPlaying == 1) {
+    ammoBoxX = [3000, 5400, 9250];
+  } else if (levelPlaying == 2) {
+    ammoBoxX = [4800, 11850, 18800];
+  } else if (levelPlaying == 3) {
+    ammoBoxX = [920, 5825, 6625, 7400];
+  }
+
+  if (levelPlaying == 1) {
+    ammoBoxY = [3000, 5400, 9250];
+  } else if (levelPlaying == 2) {
+    ammoBoxY = [4800, 11850, 18800];
+  } else if (levelPlaying == 3) {
+    ammoBoxY = [2025, 2125, 2125, 2025];
+  }
+
+  ammoBox = game.add.physicsGroup();
+
+  ammoBox.create(ammoBoxX[0], ammoBoxY[0], 'ammoBox');
+  ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
+  ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
+  ammoBox.create(ammoBoxX[2], ammoBoxY[3], 'ammoBox');
+
+  game.physics.arcade.enable(ammoBox);
+
+  // pozioni
+  if (levelPlaying == 1) {
+    pozioneX = [3000, 5400, 9250];
+  } else if (levelPlaying == 2) {
+    pozioneX = [4800, 11850, 18800];
+  } else if (levelPlaying == 3) {
+    pozioneX = [920, 5825, 6625, 7400];
+  }
+
+  if (levelPlaying == 1) {
+    pozioneY = [3000, 5400, 9250];
+  } else if (levelPlaying == 2) {
+    pozioneY = [4800, 11850, 18800];
+  } else if (levelPlaying == 3) {
+    pozioneY = [2025, 2125, 2125, 2025];
+  }
+
+  pozione = game.add.physicsGroup();
+
+  pozione.create(pozioneX[0], pozioneY[0], 'pozione');
+  pozione.create(pozioneX[1], pozioneY[1], 'pozione');
+  pozione.create(pozioneX[2], pozioneY[2], 'pozione');
+  pozione.create(pozioneX[2], pozioneY[3], 'pozione');
+
+  game.physics.arcade.enable(pozione);
+  
+
 
   // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
   selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
@@ -1299,6 +1342,7 @@ enemySniperX = [4425, 7300, 11600];
   ammoUI3.bringToTop();
   ammoUI4.bringToTop();
   ammoUI5.bringToTop();
+
 
   gameWasOver = false;
   console.log("gameWasOver reset to " + gameWasOver);
