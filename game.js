@@ -184,8 +184,8 @@ function preload() {
   game.load.image('level3_layer1', 'assets/levelThree/cielo.png');
   game.load.image('level3_layer2', 'assets/levelThree/colline1.png');
   game.load.image('level3_layer3', 'assets/levelThree/colline2.png');
-  game.load.image('level3_calpestabile', 'assets/levelThree/calpestabiledef_1.png');
-  game.load.image('level3_nuvole', 'assets/levelThree/nuvole.png');
+  game.load.image('level3_calpestabile', 'assets/levelThree/calpestabiledef.png');
+  game.load.image('level3_nuvola', 'assets/levelThree/nuvola.png');
 
   // Level 3 /Floor
   game.load.image('level3_floor1', 'assets/levelThree/floor/1.png');
@@ -365,6 +365,8 @@ var level3_floor;
 var carrozza;
 var teatro;
 var tenda;
+var level3_nuvola;
+var level3_nuvola2;
 
 // Variabili menu
 var menuOption1;
@@ -1096,6 +1098,17 @@ function create() {
 
     tenda = game.add.sprite(0, 0, 'tenda');
 
+    //nuvole
+    level3_nuvola = game.add.sprite(7209, 1925, 'level3_nuvola');
+    game.physics.arcade.enable(level3_nuvola);
+    level3_nuvola.body.setSize(215, 45, 0, 15);
+    level3_nuvola.body.immovable = true;
+
+    level3_nuvola2 = game.add.sprite(7529, 1825, 'level3_nuvola');
+    game.physics.arcade.enable(level3_nuvola2);
+    level3_nuvola2.body.setSize(215, 45, 0, 15);
+    level3_nuvola2.body.immovable = true;
+
   }
 
 
@@ -1250,6 +1263,8 @@ enemySniperX = [1300, 2700];
   // BringToTop()
   if (levelPlaying == 3) {
     tenda.bringToTop();
+    level3_nuvola.bringToTop();
+    level3_nuvola2.bringToTop();
   }
 
 
@@ -1363,6 +1378,7 @@ function update () {
     game.physics.arcade.collide(player, level2_mongolfiera2);
 
     game.physics.arcade.collide(enemyBomb, level2_floor);
+    
   }
 
   // Livello 2 / Oggetti interattivi
@@ -1548,6 +1564,8 @@ function update () {
     game.physics.arcade.collide(player, level3_floor);
     game.physics.arcade.collide(player, carrozza);
     game.physics.arcade.collide(player, teatro);
+    game.physics.arcade.collide(player, level3_nuvola);
+    game.physics.arcade.collide(player, level3_nuvola2);
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
@@ -2129,9 +2147,10 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
-    player = game.add.sprite(200, 1900, 'pinocchio');
+    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
+    player.bringToTop();
   }
   console.log("spawn() completed.")
 }
@@ -2407,4 +2426,6 @@ function render () {
    //game.debug.body(enemySniper.getChildAt(0));
 
   // game.debug.spriteInfo(player, 30, 100);
+  //game.debug.body(level3_nuvola);
+  //game.debug.body(level3_nuvola2);
 }
