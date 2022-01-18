@@ -184,7 +184,8 @@ function preload() {
   game.load.image('level3_layer1', 'assets/levelThree/cielo.png');
   game.load.image('level3_layer2', 'assets/levelThree/colline1.png');
   game.load.image('level3_layer3', 'assets/levelThree/colline2.png');
-  game.load.image('level3_calpestabile', 'assets/levelThree/calpestabile.png');
+  game.load.image('level3_calpestabile', 'assets/levelThree/calpestabiledef_1.png');
+  game.load.image('level3_nuvole', 'assets/levelThree/nuvole.png');
 
   // Level 3 /Floor
   game.load.image('level3_floor1', 'assets/levelThree/floor/1.png');
