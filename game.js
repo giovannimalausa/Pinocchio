@@ -250,7 +250,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1200,14 +1200,14 @@ function create() {
   enemyBomb.callAll('body.setSize', 'body', 70, 95, 55, 48);
 
     //Enemy Sniper
-// Inserire qui la coordinata X dei nemici
-if (levelPlaying == 1) {
-enemySniperX = [4425, 7300, 11600];
-} else if (levelPlaying == 2) {
-  enemySniperX = [1800, 6275, 8550, 13400];
-} else if (levelPlaying == 3) {
-  enemySniperX = [5300, 4700];
-}
+  // Inserire qui la coordinata X dei nemici
+  if (levelPlaying == 1) {
+    enemySniperX = [4425, 7300, 11600];
+  } else if (levelPlaying == 2) {
+    enemySniperX = [1800, 6275, 8550, 13400];
+  } else if (levelPlaying == 3) {
+    enemySniperX = [5300, 4700];
+  }
 
   enemySniper = game.add.physicsGroup();
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
@@ -1287,7 +1287,6 @@ enemySniperX = [4425, 7300, 11600];
     level3_nuvola.bringToTop();
     level3_nuvola2.bringToTop();
   }
-
 
   healthFull1.bringToTop();
   healthFull2.bringToTop();
@@ -2156,13 +2155,16 @@ function spawn() {
   gameOverTimer = 0;
   console.log('gameOverTimer reset to 0.');
   spawning = true;
+  // Spawn livello 1
   if (levelPlaying == 1) {
+    // Livello 1 / Prima volta
     if (gameWasOver == false) { // Il livello viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere creati.
       console.log("Level 1: player & shadow created.");
       player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
       shadow = game.add.sprite(1000, 200, 'player');
       shadow.alpha = 0;
     }
+    // Livello 1 / Reset
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       console.log("Level 1: player coordinates reset.");
       player.x = 250;
@@ -2237,12 +2239,17 @@ function hardDestroyLevel1() {
 
 function softDestroyLevel1() {
   // Questa funzione va richiamata quando occorre resettare il Livello 1 in seguito a game over.
+  // Di seguito ci sono gli elementi da distruggere sempre (perché esistono sicuramente):
   ammoBox.destroy();
   pozione.destroy();
   enemyBomb.destroy();
   enemyJug.destroy();
-  enemyJugDead.destroy();
   enemySniper.destroy();
+  // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
+  if (typeof enemyJugDead !== 'undefined') {
+    // if the variable is defined
+    enemyJugDead.destroy();
+  }
   console.log('softDestroyLevel1() completed.');
 }
 
@@ -2307,7 +2314,11 @@ function softDestroyLevel2() {
   enemyBomb.destroy();
   enemyJug.destroy();
   enemySniper.destroy();
-  enemyJugDead.destroy(); // <== restituisce errore se nel corso del livello non si ha mai ucciso un enemyJug (quindi non esiste nessun enemyJugDead)
+  // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
+  if (typeof enemyJugDead !== 'undefined') {
+    // if the variable is defined
+    enemyJugDead.destroy();
+  }
   console.log('softDestroyLevel2() completed.');
 }
 
@@ -2342,6 +2353,7 @@ function enableInteraction() {
 }
 
 function shootEnemyBomb(bullets, enemyBomb) {
+  game.add.tween(enemyBomb).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
   bullets.kill();
   enemyBomb.damage(1);
   if (enemyBomb.health <= 0) {
@@ -2365,7 +2377,7 @@ function shootEnemySniper(bullets, enemySniper) {
   }
 }
 function shootEnemyJug(bullets, enemyJug) {
-  var enemyJugDead
+  var enemyJugDead;
   bullets.kill();
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
