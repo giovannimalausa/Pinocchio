@@ -252,7 +252,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -407,6 +407,7 @@ var oneKey;
 var twoKey;
 var threeKey;
 var fireButton;
+var testButton;
 
 //Animazioni (da eiminare se possibile)
 var animDropR;
@@ -1240,20 +1241,20 @@ function create() {
   enemyBomb.setAll('health', 3);
   enemyBomb.forEach(function (enemy) {
     enemy.body.velocity.x = 90;
-  })
+  });
   enemyBomb.callAll('animations.add', 'animations', 'bombaWalkR', [0,1,2,3,4,5,6,7,8,9,10], 15, true);
   enemyBomb.callAll('animations.add', 'animations', 'bombaWalkL', [21,20,19,18,17,16,15,14,13,12,11], 15, true);
   enemyBomb.callAll('body.setSize', 'body', 70, 95, 55, 48);
 
-    //Enemy Sniper
-// Inserire qui la coordinata X dei nemici
-if (levelPlaying == 1) {
-enemySniperX = [4425, 7300, 11600];
-} else if (levelPlaying == 2) {
-  enemySniperX = [1800, 6275, 8550, 13400];
-} else if (levelPlaying == 3) {
-  enemySniperX = [1600, 4300, 5300, 6150];
-}
+  //Enemy Sniper
+  // Inserire qui la coordinata X dei nemici
+  if (levelPlaying == 1) {
+  enemySniperX = [4425, 7300, 11600];
+  } else if (levelPlaying == 2) {
+    enemySniperX = [1800, 6275, 8550, 13400];
+  } else if (levelPlaying == 3) {
+    enemySniperX = [1600, 4300, 5300, 6150];
+  }
 
   enemySniper = game.add.physicsGroup();
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
@@ -1268,7 +1269,7 @@ enemySniperX = [4425, 7300, 11600];
   enemySniper.callAll('animations.add', 'animations', 'sniperL', [10,11,12,13,14,15,16,17,18,19], 10, true);
   enemySniper.callAll('body.setSize', 'body', 70, 95, 45, 32);
 
-    //EnemySniper Weapon
+  //EnemySniper Weapon
   enemySniperGun0 = game.add.weapon(100, 'bullet');
   enemySniperGun0.fireRate = 1600;
   enemySniperGun0.bulletSpeed = 400;
@@ -1310,6 +1311,7 @@ enemySniperX = [4425, 7300, 11600];
   twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
   threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
+  testButton = game.input.keyboard.addKey(Phaser.Keyboard.T);
   // pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
   // Phaser Signal
   // pickAmmo.onDown.add(addAmmo);
@@ -1964,136 +1966,148 @@ var sniperFireOffset
   }
   //console.log(player.animations.frame);
 
-    // Salto con funzione di potenza variabile
-    if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
+  // Salto con funzione di potenza variabile
+  if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
+  {
+    player.body.velocity.y = -650;
+    jumpPower = jumpPower + .3;
+  }
+  else
+  {
+    jumpPower = 0;
+  }
+
+  // Scivolamento
+  if(player.body.touching.down || player.body.onFloor())
+  {
+    player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
+  }
+  else {
+    player.body.velocity.x = (0.97 *  player.body.velocity.x);
+  }
+  //console.log(facing)
+  //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
+
+  if (testButton.isDown) {
+    console.log('T pressed.')
+    // Flasha alpha/opacità del player
+    // <== Aggiungere qui var = playerImmortale = true;
+    flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 3, true); // duration = 80 frames; repetitions = 3
+    flashingPlayer.onComplete.add(function resetPlayerAlpha() {
+      // Questo codice viene eseguito quando il tween viene completato.
+      player.alpha = 1;
+      // <== Aggiungere qui playerImmortale = false; // Il player ritorna ad essere vulnerabile ai nemici.
+    });
+  }
+
+  // Player health UI
+  if (player.health == 6) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 1;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 1;
+    healthHalf3.alpha = 0;
+    healthFull3.alpha = 1;
+
+  } else if (player.health == 5) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 1;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 1;
+    healthHalf3.alpha = 1;
+    healthFull3.alpha = 0.1;
+  } else if (player.health == 4) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 1;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 1;
+    healthHalf3.alpha = 0;
+    healthFull3.alpha = 0.1;
+  } else if (player.health == 3) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 1;
+    healthHalf2.alpha = 1;
+    healthFull2.alpha = 0.1;
+    healthFull3.alpha = 0.1;
+    healthHalf3.alpha = 0;
+  } else if (player.health == 2) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 1;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 0.1;
+    healthHalf3.alpha = 0;
+    healthFull3.alpha = 0.1;
+  } else if (player.health == 1) {
+    healthHalf1.alpha = 1;
+    healthFull1.alpha = 0;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 0.1;
+    healthHalf3.alpha = 0;
+    healthFull3.alpha = 0.1;
+
+  } else if (player.health == 0) {
+    healthHalf1.alpha = 0;
+    healthFull1.alpha = 0.1;
+    healthHalf2.alpha = 0;
+    healthFull2.alpha = 0.1;
+    healthHalf3.alpha = 0;
+    healthFull3.alpha = 0.1;
+  }
+
+  // MENU
+
+  if (menuButton.isDown) // SE il tasto menuButton è premuto
+  {
+    if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
     {
-      player.body.velocity.y = -650;
-      jumpPower = jumpPower + .3;
-    }
-    else
-    {
-      jumpPower = 0;
-    }
-
-    // Scivolamento
-    if(player.body.touching.down || player.body.onFloor())
-    {
-      player.body.velocity.x = (0.85 *  player.body.velocity.x) ;
-    }
-    else {
-      player.body.velocity.x = (0.97 *  player.body.velocity.x);
-    }
-    //console.log(facing)
-    //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
-
-    // Player health UI
-    if (player.health == 6) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 1;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 1;
-      healthHalf3.alpha = 0;
-      healthFull3.alpha = 1;
-
-    } else if (player.health == 5) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 1;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 1;
-      healthHalf3.alpha = 1;
-      healthFull3.alpha = 0.1;
-    } else if (player.health == 4) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 1;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 1;
-      healthHalf3.alpha = 0;
-      healthFull3.alpha = 0.1;
-    } else if (player.health == 3) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 1;
-      healthHalf2.alpha = 1;
-      healthFull2.alpha = 0.1;
-      healthFull3.alpha = 0.1;
-      healthHalf3.alpha = 0;
-    } else if (player.health == 2) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 1;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 0.1;
-      healthHalf3.alpha = 0;
-      healthFull3.alpha = 0.1;
-    } else if (player.health == 1) {
-      healthHalf1.alpha = 1;
-      healthFull1.alpha = 0;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 0.1;
-      healthHalf3.alpha = 0;
-      healthFull3.alpha = 0.1;
-
-    } else if (player.health == 0) {
-      healthHalf1.alpha = 0;
-      healthFull1.alpha = 0.1;
-      healthHalf2.alpha = 0;
-      healthFull2.alpha = 0.1;
-      healthHalf3.alpha = 0;
-      healthFull3.alpha = 0.1;
-    }
-
-    // MENU
-
-    if (menuButton.isDown) // SE il tasto menuButton è premuto
-    {
-      if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
+      menuButtonIsPressed = true; // Cambia lo stato della variabile.
+      if(menuOpen === false) // SE il menu NON è GIÀ aperto.
       {
-        menuButtonIsPressed = true; // Cambia lo stato della variabile.
-        if(menuOpen === false) // SE il menu NON è GIÀ aperto.
+        menuOpen = true; // Cambia lo stato della variabile.
+        console.log('Menu was opened');
+
+        // Crea gli sprite che mostrano le opzioni (la grafica) del menu
+        menuOption1 = game.add.sprite(180, 170, 'option1');
+        menuOption1.fixedToCamera = true;
+        menuOption1.cameraOffset.setTo(180, 170);
+        menuOption2 = game.add.sprite(438, 170, 'option2');
+        menuOption2.fixedToCamera = true;
+        menuOption2.cameraOffset.setTo(438, 170);
+        menuOption3 = game.add.sprite(696, 170, 'option3');
+        menuOption3.fixedToCamera = true;
+        menuOption3.cameraOffset.setTo(696, 170);
+
+        // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
+        if (optionSelected == 1)
         {
-          menuOpen = true; // Cambia lo stato della variabile.
-          console.log('Menu was opened');
-
-          // Crea gli sprite che mostrano le opzioni (la grafica) del menu
-          menuOption1 = game.add.sprite(180, 170, 'option1');
-          menuOption1.fixedToCamera = true;
-          menuOption1.cameraOffset.setTo(180, 170);
-          menuOption2 = game.add.sprite(438, 170, 'option2');
-          menuOption2.fixedToCamera = true;
-          menuOption2.cameraOffset.setTo(438, 170);
-          menuOption3 = game.add.sprite(696, 170, 'option3');
-          menuOption3.fixedToCamera = true;
-          menuOption3.cameraOffset.setTo(696, 170);
-
-          // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
-          if (optionSelected == 1)
-          {
-            menuOption1.frame = 0;
-            menuOption2.frame = 1;
-            menuOption3.frame = 1;
-          }
-          else if (optionSelected == 2)
-          {
-            menuOption1.frame = 1;
-            menuOption2.frame = 0;
-            menuOption3.frame = 1;
-          }
-          else if (optionSelected == 3)
-          {
-            menuOption1.frame = 1;
-            menuOption2.frame = 1;
-            menuOption3.frame = 0;
-          }
+          menuOption1.frame = 0;
+          menuOption2.frame = 1;
+          menuOption3.frame = 1;
         }
-        else if(menuOpen === true) // SE il menu è GIÀ aperto.
+        else if (optionSelected == 2)
         {
-          menuOpen = false; // Cambia lo stato della variabile.
-          console.log('Menu was closed');
-          menuOption1.kill(); // Kill della grafica.
-          menuOption2.kill(); // Kill della grafica.
-          menuOption3.kill(); // Kill della grafica.
+          menuOption1.frame = 1;
+          menuOption2.frame = 0;
+          menuOption3.frame = 1;
+        }
+        else if (optionSelected == 3)
+        {
+          menuOption1.frame = 1;
+          menuOption2.frame = 1;
+          menuOption3.frame = 0;
         }
       }
-    } else
-    menuButtonIsPressed = false;
+      else if(menuOpen === true) // SE il menu è GIÀ aperto.
+      {
+        menuOpen = false; // Cambia lo stato della variabile.
+        console.log('Menu was closed');
+        menuOption1.kill(); // Kill della grafica.
+        menuOption2.kill(); // Kill della grafica.
+        menuOption3.kill(); // Kill della grafica.
+      }
+    }
+  } else
+  menuButtonIsPressed = false;
 
   // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
   function changeOptionHovered() {
@@ -2326,7 +2340,15 @@ function hardDestroyLevel1() {
   enemyBomb.destroy();
   enemyJug.destroy();
   enemySniper.destroy();
-  enemyJugDead.destroy();
+  // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
+  if (typeof enemyJugDead !== 'undefined') {
+    // if the variable is defined
+    enemyJugDead.destroy();
+  }
+  if (typeof enemySniperDead !== 'undefined') {
+    // if the variable is defined
+    enemySniperDead.destroy();
+  }
   console.log('hardDestroyLevel1() completed.');
 }
 
@@ -2342,6 +2364,11 @@ function softDestroyLevel1() {
   if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
     enemyJugDead.destroy();
+  }
+  if (typeof enemySniperDead !== 'undefined') {
+    // if the variable is defined
+    enemySniperDead.destroy();
+
   }
   console.log('softDestroyLevel1() completed.');
 }
@@ -2397,6 +2424,16 @@ function hardDestroyLevel2() {
   level2_mongolfiera1.destroy();
   level2_mongolfiera2.destroy();
 
+  // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
+  if (typeof enemyJugDead !== 'undefined') {
+    // if the variable is defined
+    enemyJugDead.destroy();
+  }
+  if (typeof enemySniperDead !== 'undefined') {
+    // if the variable is defined
+    enemySniperDead.destroy();
+  }
+
   console.log('hardDestroyLevel2() completed.');
 }
 
@@ -2412,15 +2449,46 @@ function softDestroyLevel2() {
     // if the variable is defined
     enemyJugDead.destroy();
   }
+  if (typeof enemySniperDead !== 'undefined') {
+    // if the variable is defined
+    enemySniperDead.destroy();
+  }
   console.log('softDestroyLevel2() completed.');
 }
 
 function hardDestroyLevel3() {
+  level3_layer1.destroy();
+  level3_layer2.destroy();
+  level3_layer3.destroy();
+  level3_calpestabile.destroy();
+  evel3_floor.destroy();
+  modulo2x2.destroy();
+  modulo2x4.destroy();
+  modulo1x1.destroy();
+  carrozza.destroy();
+  teatro.destroy();
+  tenda.destroy();
+  level3_nuvola.destroy();
+  level3_nuvola2.destroy();
 
+  console.log('hardDestroyLevel3() completed.');
 }
 
 function softDestroyLevel3() {
-
+  // Questa funzione va richiamata quando occorre resettare il Livello 2 in seguito a game over.
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemySniper.destroy();
+  // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
+  if (typeof enemyJugDead !== 'undefined') {
+    // if the variable is defined
+    enemyJugDead.destroy();
+  }
+  if (typeof enemySniperDead !== 'undefined') {
+    // if the variable is defined
+    enemySniperDead.destroy();
+  }
+  console.log('softDestroyLevel3() completed.');
 }
 
 function enableInteraction() {
@@ -2446,7 +2514,10 @@ function enableInteraction() {
 }
 
 function shootEnemyBomb(bullets, enemyBomb) {
-  game.add.tween(enemyBomb).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
+  flashEnemyBomb = game.add.tween(enemyBomb).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
+  flashEnemyBomb.onComplete.add(function resetEnemyBombTint() {
+    enemyBomb.tint = 0xFFFFFF;
+  });
   bullets.kill();
   enemyBomb.damage(1);
   if (enemyBomb.health <= 0) {
@@ -2458,13 +2529,16 @@ function shootEnemyBomb(bullets, enemyBomb) {
   }
 }
 function shootEnemySniper(bullets, enemySniper) {
-  game.add.tween(enemySniper).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
-  var enemySniperDead;
+  flashEnemySniper = game.add.tween(enemySniper).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
+  flashEnemySniper.onComplete.add(function resetEnemySniperTint() {
+    enemySniper.tint = 0xFFFFFF;
+  });
   bullets.kill();
   enemySniper.damage(1);
   if (enemySniper.health <= 0) {
-
     if (enemySniper.x > player.x) {
+      // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
+      // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
       enemySniperDead = game.add.sprite(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte');
 
       enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
@@ -2479,11 +2553,15 @@ function shootEnemySniper(bullets, enemySniper) {
   }}
 
 function shootEnemyJug(bullets, enemyJug) {
-  game.add.tween(enemyJug).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
-  var enemyJugDead;
+  flashEnemyJug = game.add.tween(enemyJug).to( { tint: 0xFF0000 }, 50, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
+  flashEnemyJug.onComplete.add(function resetEnemyJugTint() {
+    enemyJug.tint = 0xFFFFFF;
+  });
   bullets.kill();
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
+    // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
+      // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
     enemyJugDead = game.add.sprite(enemyJug.x , enemyJug.y, 'marionettaJugMorte');
     if (enemyJug.x > player.x) {
       enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
