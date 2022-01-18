@@ -225,6 +225,7 @@ var enemySniperGun0
 // Enemy x spawn position
 var enemyBombX;
 var enemySniperX;
+var enemyJugX;
 
 // Variabili di gioco
 var facing = "right";
@@ -1172,20 +1173,20 @@ function create() {
 
   //posizionamento x nemici
   if (levelPlaying == 1) {
-    enemyBombX = [1200, 1400, 1700, 1500];
+    enemyBombX = [3000, 5400, 9250];
   } else if (levelPlaying == 2) {
-    enemyBombX = [600, 1000, 1200];
+    enemyBombX = [3000, 1000, 1200];
   } else if (levelPlaying == 3) {
-    enemyBombX = [700, 1000, 1200];
+    enemyBombX = [4000, 1000, 1200];
   }
 
   enemyBomb = game.add.physicsGroup();
 
-  enemyBomb.create(enemyBombX[1], 1500, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[2], 1500, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[3], 1500, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[4], 1500, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[5], 1500, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[0], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[1], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[2], 1200, 'marionettaBomba');
+  //enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
+  //enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
 
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
@@ -1198,11 +1199,18 @@ function create() {
 
     //Enemy Sniper
 // Inserire qui la coordinata X dei nemici
-enemySniperX = [1300, 2700];
+if (levelPlaying == 1) {
+enemySniperX = [4425, 7300, 11600];
+} else if (levelPlaying == 2) {
+  enemySniperX = [5300, 6700];
+} else if (levelPlaying == 3) {
+  enemySniperX = [5300, 4700];
+}
 
   enemySniper = game.add.physicsGroup();
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
+  enemySniper.create(enemySniperX[2], 1500, 'marionettaSniper');
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 5);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
@@ -1217,10 +1225,19 @@ enemySniperX = [1300, 2700];
   enemySniperGun0.bulletSpeed = 400;
   enemySniperGun0.bulletAngleVariance = 5;
 
+  //EnemyJug
+  if (levelPlaying == 1) {
+    enemyJugX = [6700, 5400, 9250];
+  } else if (levelPlaying == 2) {
+    enemyJugX = [5000, 2000, 3200];
+  } else if (levelPlaying == 3) {
+    enemyJugX = [5000, 2000, 3200];
+  }
   enemyJug = game.add.physicsGroup();
-  enemyJug.create(800, 1300, 'marionettaJug');
-  //enemyJug.create(enemySniperX[1], 1500, 'marionettaJug');
+  enemyJug.create(enemyJugX[0], 1500, 'marionettaJug');
+  enemyJug.create(enemyJugX[1], 1500, 'marionettaJug');
   game.physics.arcade.enable(enemyJug);
+
   enemyJug.setAll('health', 7);
   enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
@@ -1334,6 +1351,8 @@ function update () {
     game.physics.arcade.collide(player, level1_floor);
 
     game.physics.arcade.collide(enemyBomb, level1_houses);
+    game.physics.arcade.collide(enemySniper, level1_houses);
+    game.physics.arcade.collide(enemyJug, level1_houses);
     game.physics.arcade.collide(player, level1_houses);
   }
 
@@ -1799,7 +1818,7 @@ enemyBomb.forEach(function (enemy) {
 
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < 3; i++) {
-  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 250)
+  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 300)
   || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }}
