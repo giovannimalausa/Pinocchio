@@ -27,12 +27,12 @@ function preload() {
 
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
-  game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug.png', 300, 300, 40);
-  game.load.spritesheet('marionettaSniper', 'assets/sprites/marionettaSniper.png', 200, 200, 40);
+  game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug.png', 200, 200, 40);
+  game.load.spritesheet('marionettaSniper', 'assets/sprites/marionettaSniper.png', 160, 160, 40);
   //game.load.spritesheet('marionettaSniperMorte', 'assets/sprites/marionettaSniperMorte.png', 225, 150, 32);
   game.load.spritesheet('marionettaJugMorte', 'assets/sprites/marionettaJugMorte.png', 300, 300, 38);
 
-  game.load.image('marionettaBomba', 'assets/sprites/marionetta-bomba.png');
+  game.load.spritesheet('marionettaBomba', 'assets/sprites/marionettaBomba.png', 180, 180, 22);
   game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
@@ -222,8 +222,8 @@ var dustVar;
 var enemySniperGun0
 
 // Enemy x spawn position
-var enemyBombX
-const enemySniperX = [1300, 1600];
+var enemyBombX;
+var enemySniperX;
 
 // Variabili di gioco
 var facing = "right";
@@ -1164,30 +1164,37 @@ function create() {
 
   enemyBomb = game.add.physicsGroup();
 
-  enemyBomb.create(enemyBombX[0], 1500, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[1], 1800, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[2], 1800, 'marionettaBomba');
-//  enemyBomb.create(1500, 1800, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[1], 1500, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[2], 1500, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[3], 1500, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[4], 1500, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[5], 1500, 'marionettaBomba');
+
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
   enemyBomb.forEach(function (enemy) {
-    enemy.body.velocity.x = 100;
+    enemy.body.velocity.x = 90;
   })
+  enemyBomb.callAll('animations.add', 'animations', 'bombaWalkR', [0,1,2,3,4,5,6,7,8,9,10], 15, true);
+  enemyBomb.callAll('animations.add', 'animations', 'bombaWalkL', [21,20,19,18,17,16,15,14,13,12,11], 15, true);
+  enemyBomb.callAll('body.setSize', 'body', 70, 95, 55, 48);
 
-  //Enemy Sniper
+    //Enemy Sniper
 // Inserire qui la coordinata X dei nemici
+enemySniperX = [1300, 2700];
 
   enemySniper = game.add.physicsGroup();
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 5);
-  enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [29,28,27,26,25,24,23,22,21,20], 10, true);
+  enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
   enemySniper.callAll('animations.add', 'animations', 'sniperR', [0,1,2,3,4,5,6,7,8,9], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireL', [39,38,37,36,35,34,33,32,31,30], 10, false);
-  enemySniper.callAll('animations.add', 'animations', 'sniperL', [10,11,12,13,14,15,16,17,18,19], 10, false);
-  enemySniper.callAll('body.setSize', 'body', 90, 115, 55, 45)
-  //EnemySniper Weapon
+  enemySniper.callAll('animations.add', 'animations', 'sniperL', [10,11,12,13,14,15,16,17,18,19], 10, true);
+  enemySniper.callAll('body.setSize', 'body', 70, 95, 45, 32);
+
+    //EnemySniper Weapon
   enemySniperGun0 = game.add.weapon(100, 'bullet');
   enemySniperGun0.fireRate = 1600;
   enemySniperGun0.bulletSpeed = 400;
@@ -1202,21 +1209,11 @@ function create() {
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugL', [39,38,37,36,35,34,33,32,31,30], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugR', [0,1,2,3,4,5,6,7,8,9], 10, true);
+
   enemyJug.callAll('animations.play', 'animations', 'jugFireL');
-  //enemyJug.callAll('body.setSize', 'body', 150, 120, 100, 93)
-/*
-  enemyJug = game.add.sprite(1000, 1300, 'marionettaJug');
-  game.physics.arcade.enable(enemyJug);
-  enemyJug.body.collideWorldBounds = true;
-  enemyJug.body.gravity.y = 2000;
-  enemyJug.health = 10;
-  enemyJug.body.setSize(150, 120, 100, 93); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-  enemyJug.animations.add('jugFireL', [30,31,32,33,34,35,36,37,38,39]);
-  enemyJug.animations.add('jugFireR', [20,21,22,23,24,25,26,27,28,29]);
-  enemyJug.animations.add('jugL', [10,11,12,13,14,15,16,17,18,19]);
-  enemyJug.animations.add('jugR', [0,1,2,3,4,5,6,7,8,9]);
-  enemyJug.animations.play('jugFireL', 10, true);
-*/
+  //enemyJug.callAll('animations.play', 'animations', 'jugFireR');
+
+  enemyJug.callAll('body.setSize', 'body', 100, 115, 40, 44);
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -1283,7 +1280,7 @@ function update () {
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
   //  console.log(isJumping);
   // console.log("player health=" + player.health);
-  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f 
+  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
@@ -1743,18 +1740,59 @@ function update () {
   }
 
 //ENEMY Animazioni
+enemyBomb.forEach(function (enemy) {
+  if (enemy.body.velocity.x > 0) {
+    enemy.animations.play('bombaWalkR')
+  } else if (enemy.body.velocity.x < 0) {
+    enemy.animations.play('bombaWalkL')
+  }})
+
+
+//if(sniperFire.isPlaying == false) {
+  //enemySniper.callAll('animations.play', 'sniperL')
+//}
+//console.log(sniperFire.isPlaying)
 
   //WEAPONs
       //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-  var sniperFiringPosition0
-if (enemySniper.getChildAt(0).inCamera == true && enemySniper.getChildAt(0).alive == true) {
-  sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(0).x, enemySniper.getChildAt(0).y + 50);
-  enemySniperGun0.fire(sniperFiringPosition0, player.x + 100, player.y + 100)
-}
-else if (enemySniper.getChildAt(1).inCamera == true && enemySniper.getChildAt(1).alive == true) {
-  sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(1).x, enemySniper.getChildAt(1).y + 50);
-  enemySniperGun0.fire(sniperFiringPosition0, player.x + 100, player.y + 100)
-}
+      //ENEMY
+
+  // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
+
+    for (i = 0; i < 2; i++) {
+      if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true)
+      {
+        sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x, enemySniper.getChildAt(i).y + 50);
+
+        var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
+        if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
+          300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y))
+          {
+        enemySniperGun0.fire(sniperFiringPosition0, player.x + 100, player.y + 100);
+      }}}
+
+    //  console.log(sniperFireAngle)
+
+    //ENEMY
+
+  // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
+  for (let i = 0; i < 3; i++) {
+  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 250)
+  || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
+      enemyBomb.getChildAt(i).body.velocity.x *= -1;
+    }}
+
+
+    enemyBomb.setAll('body.gravity.y', 2000);
+    enemyBomb.setAll('body.collideWorldBounds', true);
+
+    enemySniper.setAll('body.gravity.y', 2000);
+    enemySniper.setAll('body.collideWorldBounds', true);
+
+    enemyJug.setAll('body.gravity.y', 2000);
+    enemyJug.setAll('body.collideWorldBounds', true);
+
+
 
   if(fireButton.isDown && player.alive == true) {
     gun1.fire();
@@ -1790,43 +1828,6 @@ else if (enemySniper.getChildAt(1).inCamera == true && enemySniper.getChildAt(1)
     //console.log(facing)
     //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
-    //ENEMY
-
-// L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
-for (let i = 0; i < 3; i++) {
-  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 200)
-  || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
-      enemyBomb.getChildAt(i).body.velocity.x *= -1;
-    }
-}
-
-/*
-    enemyBomb.forEach(function (enemy) {
-      if (enemyBomb_0_Direction === 'right') {
-        enemy.body.velocity.x = 100;
-      } else {
-        enemy.body.velocity.x = -100;
-      }
-    })
-//console.log(enemyBomb.getChildAt(1).x)
-    if (enemyBomb.getChildAt(1).x > 750 && enemyBomb_0_Direction === 'right') {
-      enemyBomb_0_Direction = 'left';
-      enemyBomb.getChildAt(1).body.velocity.x = -100;
-    } else if (enemyBomb.getChildAt(1).x < 600 && enemyBomb_0_Direction === 'left') {
-      enemyBomb_0_Direction = 'right';
-      enemyBomb.getChildAt(1).body.velocity.x = 100;
-    }
-*/
-
-
-    enemyBomb.setAll('body.gravity.y', 2000);
-    enemyBomb.setAll('body.collideWorldBounds', true);
-
-    enemySniper.setAll('body.gravity.y', 2000);
-    enemySniper.setAll('body.collideWorldBounds', true);
-
-    enemyJug.setAll('body.gravity.y', 2000);
-    enemyJug.setAll('body.collideWorldBounds', true);
     // Player health UI
     if (player.health == 6) {
       healthHalf1.alpha = 0;
@@ -2095,7 +2096,7 @@ function spawn() {
       console.log("Level 1: player & shadow created.");
       player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
       shadow = game.add.sprite(1000, 200, 'player');
-      shadow.alpha = 1;
+      shadow.alpha = 0;
     }
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       console.log("Level 1: player coordinates reset.");
@@ -2137,7 +2138,7 @@ function gameover() {
   if (levelPlaying == 1) {
     setTimeout(softDestroyLevel1, 1050); // da cambiare con softDestroyLevel1
     setTimeout(create, 1050);
-    
+
   } else if (levelPlaying == 2) {
     destroyLevel2();
     create();
@@ -2280,8 +2281,10 @@ function shootEnemyJug(bullets, enemyJug) {
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
     enemyJugDead = game.add.sprite(enemyJug.x, enemyJug.y, 'marionettaJugMorte');
-    enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
-    enemyJugDead.animations.play('jugDeadL', 15, false);
+    //enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
+    //enemyJugDead.animations.play('jugDeadL', 15, false);
+    enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+    enemyJugDead.animations.play('jugDeadR', 15, false);
     console.log('STOP!' + enemyJugDead.x + ' ' + enemyJugDead.y)
   }
 }
