@@ -626,420 +626,422 @@ function create() {
   // Livello 2
   if(levelPlaying == 2)
   {
-    level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
-    level2_cielo2 = game.add.sprite(11649, 0, 'level2_cielo2');
-    level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
-    level2_collineGialle2 = game.add.sprite(13824, 0, 'level2_collineGialle2');
-    level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
-    level2_collineRosse2 = game.add.sprite(13824, 0, 'level2_collineRosse2');
-    level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
-    level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
-
-    // Pavimento livello 2
-    level2_floor = game.add.physicsGroup();
-    level2_floor.create(0, 2200, 'level2_floor1');
-    level2_floor.create(1100, 2200, 'level2_floor2');
-    level2_floor.create(1750, 2200, 'level2_floor3');
-    level2_floor.create(3300, 2200, 'level2_floor4');
-    level2_floor.create(4400, 2200, 'level2_floor5');
-    level2_floor.create(5350, 2200, 'level2_floor6');
-    level2_floor.create(5700, 2200, 'level2_floor7');
-    level2_floor.create(6300, 2200, 'level2_floor8');
-    level2_floor.create(6750, 2200, 'level2_floor9');
-    level2_floor.create(7400, 2200, 'level2_floor10');
-    level2_floor.create(7750, 2200, 'level2_floor11');
-    level2_floor.create(8500, 2200, 'level2_floor12');
-    level2_floor.create(10000, 2200, 'level2_floor13')
-    level2_floor.create(11650, 2200, 'level2_floor14')
-    level2_floor.create(12300, 2200, 'level2_floor15')
-    level2_floor.create(12650, 2200, 'level2_floor16')
-    level2_floor.create(13150, 2200, 'level2_floor17')
-    level2_floor.create(14400, 2200, 'level2_floor19')
-    level2_floor.create(13800, 2200, 'level2_floor18')
-    level2_floor.create(14800, 2200, 'level2_floor20')
-    level2_floor.create(17850, 2200, 'level2_floor21')
-    level2_floor.alpha = 0;
-    level2_floor.setAll('body.immovable', true);
-
-    // Componenti livello 2
-    level2_componente = game.add.physicsGroup();
-    level2_componente.create(1095, 1900, 'level2_componente1');
-    level2_componente.create(3600, 1950, 'level2_componente2');
-    level2_componente.create(4800, 1850, 'level2_componente8');
-    level2_componente.create(8000, 1900, 'level2_componente3');
-    level2_componente.create(8495, 1950, 'level2_componente4');
-    level2_componente.create(11050, 1950, 'level2_componente5');
-    level2_componente.create(11100, 1850, 'level2_componente6');
-    level2_componente.create(13145, 1850, 'level2_componente9');
-    level2_componente.create(14395, 1950, 'level2_componente7');
-    level2_componente.create(17200, 1950, 'level2_componente5');
-    level2_componente.create(17250, 1850, 'level2_componente6');
-    level2_componente.create(18800, 1850, 'level2_componente10');
-    level2_componente.alpha = 0;
-    level2_componente.setAll('body.immovable', true);
-
-    // Moduli 1x1
-    modulo1x1.create(1125, 1900, 'modulo1x1');
-    modulo1x1.create(1175, 1900, 'modulo1x1');
-    modulo1x1.create(1225, 1900, 'modulo1x1');
-    modulo1x1.create(1275, 1900, 'modulo1x1');
-    modulo1x1.create(1325, 1900, 'modulo1x1');
-
-    modulo1x1.create(1650, 2000, 'modulo1x1');
-    modulo1x1.create(1700, 2000, 'modulo1x1');
-    modulo1x1.create(1750, 2000, 'modulo1x1');
-    modulo1x1.create(1800, 2000, 'modulo1x1');
-    modulo1x1.create(1850, 2000, 'modulo1x1');
-    modulo1x1.create(1900, 2000, 'modulo1x1');
-
-    modulo1x1.create(3100, 1650, 'modulo1x1');
-    modulo1x1.create(3150, 1650, 'modulo1x1');
-
-    modulo1x1.create(3300, 1800, 'modulo1x1');
-    modulo1x1.create(3350, 1800, 'modulo1x1');
-    modulo1x1.create(3400, 1800, 'modulo1x1');
-
-    modulo1x1.create(3600, 1950, 'modulo1x1');
-    modulo1x1.create(3650, 1950, 'modulo1x1');
-    modulo1x1.create(3700, 1950, 'modulo1x1');
-    modulo1x1.create(3750, 1950, 'modulo1x1');
-
-    modulo1x1.create(3950, 1950, 'modulo1x1');
-    modulo1x1.create(4000, 1950, 'modulo1x1');
-    modulo1x1.create(4050, 1950, 'modulo1x1');
-    modulo1x1.create(4100, 1950, 'modulo1x1');
-    modulo1x1.create(4150, 1950, 'modulo1x1');
-    modulo1x1.create(4200, 1950, 'modulo1x1');
-
-    modulo1x1.create(4550, 2000, 'modulo1x1');
-    modulo1x1.create(4600, 2000, 'modulo1x1');
-    modulo1x1.create(4650, 2000, 'modulo1x1');
-
-    modulo1x1.create(4800, 1850, 'modulo1x1');
-    modulo1x1.create(4850, 1850, 'modulo1x1');
-    modulo1x1.create(4900, 1850, 'modulo1x1');
-    modulo1x1.create(4950, 1850, 'modulo1x1');
-    modulo1x1.create(5000, 1850, 'modulo1x1');
-    modulo1x1.create(5050, 1850, 'modulo1x1');
-    modulo1x1.create(5100, 1850, 'modulo1x1');
-    modulo1x1.create(5150, 1850, 'modulo1x1');
-
-    modulo1x1.create(5350, 2000, 'modulo1x1');
-    modulo1x1.create(5400, 2000, 'modulo1x1');
-    modulo1x1.create(5450, 2000, 'modulo1x1');
-
-    modulo1x1.create(6550, 2000, 'modulo1x1');
-    modulo1x1.create(6600, 2000, 'modulo1x1');
-    modulo1x1.create(6650, 2000, 'modulo1x1');
-    modulo1x1.create(6700, 2000, 'modulo1x1');
-
-    modulo1x1.create(7300, 1600, 'modulo1x1');
-    modulo1x1.create(7350, 1600, 'modulo1x1');
-    modulo1x1.create(7400, 1600, 'modulo1x1');
-    modulo1x1.create(7450, 1600, 'modulo1x1');
-    modulo1x1.create(7500, 1600, 'modulo1x1');
-    modulo1x1.create(7550, 1600, 'modulo1x1');
-
-    modulo1x1.create(7750, 1750, 'modulo1x1');
-    modulo1x1.create(7800, 1750, 'modulo1x1');
-    modulo1x1.create(7850, 1750, 'modulo1x1');
-
-    modulo1x1.create(8025, 1900, 'modulo1x1');
-    modulo1x1.create(8075, 1900, 'modulo1x1');
-    modulo1x1.create(8125, 1900, 'modulo1x1');
-    modulo1x1.create(8175, 1900, 'modulo1x1');
-    modulo1x1.create(8225, 1900, 'modulo1x1');
-
-    modulo1x1.create(8500, 1950, 'modulo1x1');
-    modulo1x1.create(8550, 1950, 'modulo1x1');
-    modulo1x1.create(8600, 1950, 'modulo1x1');
-    modulo1x1.create(8650, 1950, 'modulo1x1');
-
-    modulo1x1.create(11100, 1850, 'modulo1x1');
-    modulo1x1.create(11200, 1850, 'modulo1x1');
-    modulo1x1.create(11250, 1850, 'modulo1x1');
-    modulo1x1.create(11300, 1850, 'modulo1x1');
-    modulo1x1.create(11350, 1850, 'modulo1x1');
-    modulo1x1.create(11400, 1850, 'modulo1x1');
-
-    modulo1x1.create(11650, 1750, 'modulo1x1');
-    modulo1x1.create(11700, 1750, 'modulo1x1');
-    modulo1x1.create(11750, 1750, 'modulo1x1');
-
-    modulo1x1.create(11850, 1600, 'modulo1x1');
-    modulo1x1.create(11900, 1600, 'modulo1x1');
-    modulo1x1.create(11950, 1600, 'modulo1x1');
-    modulo1x1.create(12000, 1600, 'modulo1x1');
-    modulo1x1.create(12050, 1600, 'modulo1x1');
-
-    modulo1x1.create(12600, 1600, 'modulo1x1');
-    modulo1x1.create(12650, 1600, 'modulo1x1');
-    modulo1x1.create(12700, 1600, 'modulo1x1');
-
-    modulo1x1.create(12800, 1750, 'modulo1x1');
-    modulo1x1.create(12850, 1750, 'modulo1x1');
-    modulo1x1.create(12900, 1750, 'modulo1x1');
-
-    modulo1x1.create(13150, 1850, 'modulo1x1');
-    modulo1x1.create(13200, 1850, 'modulo1x1');
-    modulo1x1.create(13250, 1850, 'modulo1x1');
-    modulo1x1.create(13300, 1850, 'modulo1x1');
-    modulo1x1.create(13350, 1850, 'modulo1x1');
-    modulo1x1.create(13400, 1850, 'modulo1x1');
-    modulo1x1.create(13450, 1850, 'modulo1x1');
-    modulo1x1.create(13500, 1850, 'modulo1x1');
-
-    modulo1x1.create(13800, 2000, 'modulo1x1');
-    modulo1x1.create(13850, 2000, 'modulo1x1');
-
-    modulo1x1.create(14400, 1950, 'modulo1x1');
-    modulo1x1.create(14450, 1950, 'modulo1x1');
-    modulo1x1.create(14500, 1950, 'modulo1x1');
-    modulo1x1.create(14550, 1950, 'modulo1x1');
-
-    modulo1x1.create(14800, 2000, 'modulo1x1');
-    modulo1x1.create(14850, 2000, 'modulo1x1');
-
-    modulo1x1.create(17150, 1550, 'modulo1x1');
-    modulo1x1.create(17200, 1550, 'modulo1x1');
-    modulo1x1.create(17250, 1550, 'modulo1x1');
-
-    modulo1x1.create(17500, 1600, 'modulo1x1');
-    modulo1x1.create(17550, 1600, 'modulo1x1');
-
-    modulo1x1.create(17250, 1850, 'modulo1x1');
-    modulo1x1.create(17300, 1850, 'modulo1x1');
-    modulo1x1.create(17350, 1850, 'modulo1x1');
-    modulo1x1.create(17400, 1850, 'modulo1x1');
-    modulo1x1.create(17450, 1850, 'modulo1x1');
-    modulo1x1.create(17500, 1850, 'modulo1x1');
-    modulo1x1.create(17550, 1850, 'modulo1x1');
-
-    modulo1x1.create(17750, 2000, 'modulo1x1');
-    modulo1x1.create(17800, 2000, 'modulo1x1');
-
-    modulo1x1.create(17800, 1700, 'modulo1x1');
-    modulo1x1.create(17850, 1700, 'modulo1x1');
-    modulo1x1.create(17900, 1700, 'modulo1x1');
-    modulo1x1.create(17950, 1700, 'modulo1x1');
-    modulo1x1.create(18000, 1700, 'modulo1x1');
-    modulo1x1.create(18050, 1700, 'modulo1x1');
-
-    modulo1x1.create(18800, 1850, 'modulo1x1');
-    modulo1x1.create(18850, 1850, 'modulo1x1');
-    modulo1x1.create(18900, 1850, 'modulo1x1');
-    modulo1x1.create(18950, 1850, 'modulo1x1');
-    modulo1x1.create(19000, 1850, 'modulo1x1');
-    modulo1x1.create(19050, 1850, 'modulo1x1');
-    modulo1x1.create(19100, 1850, 'modulo1x1');
-    modulo1x1.create(19150, 1850, 'modulo1x1');
-
-    modulo1x1.create(19350, 2000, 'modulo1x1');
-    modulo1x1.create(19400, 2000, 'modulo1x1');
-    modulo1x1.create(19450, 2000, 'modulo1x1');
-
-    modulo1x1.setAll('body.immovable', true);
-
-    // Moduli 2x2
-    modulo2x2.create(600, 2100, 'modulo2x2');
-    modulo2x2.create(800, 2100, 'modulo2x2');
-    modulo2x2.create(800, 2000, 'modulo2x2');
-    modulo2x2.create(2950, 2100, 'modulo2x2');
-    modulo2x2.create(3300, 2100, 'modulo2x2');
-    modulo2x2.create(4400, 2100, 'modulo2x2');
-    modulo2x2.create(6100, 2100, 'modulo2x2');
-    modulo2x2.create(6300, 2100, 'modulo2x2');
-    modulo2x2.create(6300, 2000, 'modulo2x2');
-    modulo2x2.create(8800, 2100, 'modulo2x2');
-    modulo2x2.create(8800, 2100, 'modulo2x2');
-    modulo2x2.create(9200, 2100, 'modulo2x2');
-    modulo2x2.create(9200, 2100, 'modulo2x2');
-    modulo2x2.create(9300, 2100, 'modulo2x2');
-    modulo2x2.create(9300, 2000, 'modulo2x2');
-    modulo2x2.create(10750, 2100, 'modulo2x2');
-    modulo2x2.create(10850, 2100, 'modulo2x2');
-    modulo2x2.create(10850, 2000, 'modulo2x2');
-    modulo2x2.create(14200, 2100, 'modulo2x2');
-    modulo2x2.create(18000, 2100, 'modulo2x2');
-    modulo2x2.create(18450, 2100, 'modulo2x2');
-    modulo2x2.create(18550, 2100, 'modulo2x2');
-    modulo2x2.create(18550, 2000, 'modulo2x2');
-
-    modulo2x2.setAll('body.immovable', true);
-
-    // Interattivi
-    // Ruota 1
-    level2_ruota1_supporto = game.add.sprite(2250, 1553, 'level2_ruota_supporto');
-    level2_ruota1_centrale = game.add.sprite(2451, 1574, 'level2_ruota_centrale');
-    level2_ruota1_centrale.anchor.setTo(0.5, 0.5);
-    game.physics.arcade.enable(level2_ruota1_centrale);
-
-    level2_ruota1_cabinaA = game.add.sprite(2929, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaA);
-    level2_ruota1_cabinaA.body.immovable = true;
-    level2_ruota1_cabinaA.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaA.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaB = game.add.sprite(2790, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaB);
-    level2_ruota1_cabinaB.body.immovable = true;
-    level2_ruota1_cabinaB.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaB.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaC = game.add.sprite(2448, 2050, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaC);
-    level2_ruota1_cabinaC.body.immovable = true;
-    level2_ruota1_cabinaC.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaC.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaD = game.add.sprite(2112, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaD);
-    level2_ruota1_cabinaD.body.immovable = true;
-    level2_ruota1_cabinaD.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaD.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaE = game.add.sprite(1969, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaE);
-    level2_ruota1_cabinaE.body.immovable = true;
-    level2_ruota1_cabinaE.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaE.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaF = game.add.sprite(2112, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaF);
-    level2_ruota1_cabinaF.body.immovable = true;
-    level2_ruota1_cabinaF.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaF.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaG = game.add.sprite(2448, 1100, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaG);
-    level2_ruota1_cabinaG.body.immovable = true;
-    level2_ruota1_cabinaG.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaG.body.setSize(176, 20, 0, 0);
-
-    level2_ruota1_cabinaH = game.add.sprite(2790, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota1_cabinaH);
-    level2_ruota1_cabinaH.body.immovable = true;
-    level2_ruota1_cabinaH.anchor.setTo(0.5, 0.5);
-    level2_ruota1_cabinaH.body.setSize(176, 20, 0, 0);
-
-    // Ruota 2
-    level2_ruota2_supporto = game.add.sprite(15151, 1553, 'level2_ruota_supporto');
-    level2_ruota2_centrale = game.add.sprite(15351, 1574, 'level2_ruota_centrale');
-    level2_ruota2_centrale.anchor.setTo(0.5, 0.5);
-    game.physics.arcade.enable(level2_ruota2_centrale);
-
-    level2_ruota2_cabinaA = game.add.sprite(15831, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaA);
-    level2_ruota2_cabinaA.body.immovable = true;
-    level2_ruota2_cabinaA.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaA.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaB = game.add.sprite(15688, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaB);
-    level2_ruota2_cabinaB.body.immovable = true;
-    level2_ruota2_cabinaB.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaB.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaC = game.add.sprite(15351, 2050, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaC);
-    level2_ruota2_cabinaC.body.immovable = true;
-    level2_ruota2_cabinaC.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaC.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaD = game.add.sprite(15014, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaD);
-    level2_ruota2_cabinaD.body.immovable = true;
-    level2_ruota2_cabinaD.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaD.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaE = game.add.sprite(14871, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaE);
-    level2_ruota2_cabinaE.body.immovable = true;
-    level2_ruota2_cabinaE.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaE.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaF = game.add.sprite(15014, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaF);
-    level2_ruota2_cabinaF.body.immovable = true;
-    level2_ruota2_cabinaF.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaF.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaG = game.add.sprite(15351, 1100, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaG);
-    level2_ruota2_cabinaG.body.immovable = true;
-    level2_ruota2_cabinaG.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaG.body.setSize(176, 20, 0, 0);
-
-    level2_ruota2_cabinaH = game.add.sprite(15688, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota2_cabinaH);
-    level2_ruota2_cabinaH.body.immovable = true;
-    level2_ruota2_cabinaH.anchor.setTo(0.5, 0.5);
-    level2_ruota2_cabinaH.body.setSize(176, 20, 0, 0);
-
-    // Ruota 3
-    level2_ruota3_supporto = game.add.sprite(16301, 1553, 'level2_ruota_supporto');
-    level2_ruota3_centrale = game.add.sprite(16501, 1574, 'level2_ruota_centrale');
-    level2_ruota3_centrale.anchor.setTo(0.5, 0.5);
-    game.physics.arcade.enable(level2_ruota3_centrale);
-
-    level2_ruota3_cabinaA = game.add.sprite(16981, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaA);
-    level2_ruota3_cabinaA.body.immovable = true;
-    level2_ruota3_cabinaA.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaA.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaB = game.add.sprite(16838, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaB);
-    level2_ruota3_cabinaB.body.immovable = true;
-    level2_ruota3_cabinaB.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaB.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaC = game.add.sprite(16501, 2050, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaC);
-    level2_ruota3_cabinaC.body.immovable = true;
-    level2_ruota3_cabinaC.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaC.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaD = game.add.sprite(16164, 1909, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaD);
-    level2_ruota3_cabinaD.body.immovable = true;
-    level2_ruota3_cabinaD.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaD.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaE = game.add.sprite(16021, 1574, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaE);
-    level2_ruota3_cabinaE.body.immovable = true;
-    level2_ruota3_cabinaE.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaE.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaF = game.add.sprite(16164, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaF);
-    level2_ruota3_cabinaF.body.immovable = true;
-    level2_ruota3_cabinaF.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaF.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaG = game.add.sprite(16501, 1100, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaG);
-    level2_ruota3_cabinaG.body.immovable = true;
-    level2_ruota3_cabinaG.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaG.body.setSize(176, 20, 0, 0);
-
-    level2_ruota3_cabinaH = game.add.sprite(16838, 1239, 'level2_ruota_cabina');
-    game.physics.arcade.enable(level2_ruota3_cabinaH);
-    level2_ruota3_cabinaH.body.immovable = true;
-    level2_ruota3_cabinaH.anchor.setTo(0.5, 0.5);
-    level2_ruota3_cabinaH.body.setSize(176, 20, 0, 0);
-
-    // Mongolfiera
-    level2_mongolfiera1 = game.add.sprite(6700, 1218, 'level2_mongolfiera');
-    game.physics.arcade.enable(level2_mongolfiera1);
-    level2_mongolfiera1.body.setSize(105, 100, 277, 883);
-    level2_mongolfiera1.body.immovable = true;
-
-    level2_mongolfiera2 = game.add.sprite(12050, 1218, 'level2_mongolfiera');
-    game.physics.arcade.enable(level2_mongolfiera2);
-    level2_mongolfiera2.body.setSize(105, 100, 277, 883);
-    level2_mongolfiera2.body.immovable = true;
+    if (gameWasOver == false) {
+      level2_cielo = game.add.sprite(-1800.8767, 0, 'level2_cielo');
+      level2_cielo2 = game.add.sprite(11649, 0, 'level2_cielo2');
+      level2_collineGialle = game.add.sprite(-690.1809, 0, 'level2_collineGialle');
+      level2_collineGialle2 = game.add.sprite(13824, 0, 'level2_collineGialle2');
+      level2_collineRosse = game.add.sprite(-1800.8767, 0, 'level2_collineRosse');
+      level2_collineRosse2 = game.add.sprite(13824, 0, 'level2_collineRosse2');
+      level2_calpestabile_parte1 = game.add.sprite(0, 0, 'level2_calpestabile_parte1');
+      level2_calpestabile_parte2 = game.add.sprite(11649, 0, 'level2_calpestabile_parte2');
+
+      // Pavimento livello 2
+      level2_floor = game.add.physicsGroup();
+      level2_floor.create(0, 2200, 'level2_floor1');
+      level2_floor.create(1100, 2200, 'level2_floor2');
+      level2_floor.create(1750, 2200, 'level2_floor3');
+      level2_floor.create(3300, 2200, 'level2_floor4');
+      level2_floor.create(4400, 2200, 'level2_floor5');
+      level2_floor.create(5350, 2200, 'level2_floor6');
+      level2_floor.create(5700, 2200, 'level2_floor7');
+      level2_floor.create(6300, 2200, 'level2_floor8');
+      level2_floor.create(6750, 2200, 'level2_floor9');
+      level2_floor.create(7400, 2200, 'level2_floor10');
+      level2_floor.create(7750, 2200, 'level2_floor11');
+      level2_floor.create(8500, 2200, 'level2_floor12');
+      level2_floor.create(10000, 2200, 'level2_floor13')
+      level2_floor.create(11650, 2200, 'level2_floor14')
+      level2_floor.create(12300, 2200, 'level2_floor15')
+      level2_floor.create(12650, 2200, 'level2_floor16')
+      level2_floor.create(13150, 2200, 'level2_floor17')
+      level2_floor.create(14400, 2200, 'level2_floor19')
+      level2_floor.create(13800, 2200, 'level2_floor18')
+      level2_floor.create(14800, 2200, 'level2_floor20')
+      level2_floor.create(17850, 2200, 'level2_floor21')
+      level2_floor.alpha = 0;
+      level2_floor.setAll('body.immovable', true);
+
+      // Componenti livello 2
+      level2_componente = game.add.physicsGroup();
+      level2_componente.create(1095, 1900, 'level2_componente1');
+      level2_componente.create(3600, 1950, 'level2_componente2');
+      level2_componente.create(4800, 1850, 'level2_componente8');
+      level2_componente.create(8000, 1900, 'level2_componente3');
+      level2_componente.create(8495, 1950, 'level2_componente4');
+      level2_componente.create(11050, 1950, 'level2_componente5');
+      level2_componente.create(11100, 1850, 'level2_componente6');
+      level2_componente.create(13145, 1850, 'level2_componente9');
+      level2_componente.create(14395, 1950, 'level2_componente7');
+      level2_componente.create(17200, 1950, 'level2_componente5');
+      level2_componente.create(17250, 1850, 'level2_componente6');
+      level2_componente.create(18800, 1850, 'level2_componente10');
+      level2_componente.alpha = 0;
+      level2_componente.setAll('body.immovable', true);
+
+      // Moduli 1x1
+      modulo1x1.create(1125, 1900, 'modulo1x1');
+      modulo1x1.create(1175, 1900, 'modulo1x1');
+      modulo1x1.create(1225, 1900, 'modulo1x1');
+      modulo1x1.create(1275, 1900, 'modulo1x1');
+      modulo1x1.create(1325, 1900, 'modulo1x1');
+
+      modulo1x1.create(1650, 2000, 'modulo1x1');
+      modulo1x1.create(1700, 2000, 'modulo1x1');
+      modulo1x1.create(1750, 2000, 'modulo1x1');
+      modulo1x1.create(1800, 2000, 'modulo1x1');
+      modulo1x1.create(1850, 2000, 'modulo1x1');
+      modulo1x1.create(1900, 2000, 'modulo1x1');
+
+      modulo1x1.create(3100, 1650, 'modulo1x1');
+      modulo1x1.create(3150, 1650, 'modulo1x1');
+
+      modulo1x1.create(3300, 1800, 'modulo1x1');
+      modulo1x1.create(3350, 1800, 'modulo1x1');
+      modulo1x1.create(3400, 1800, 'modulo1x1');
+
+      modulo1x1.create(3600, 1950, 'modulo1x1');
+      modulo1x1.create(3650, 1950, 'modulo1x1');
+      modulo1x1.create(3700, 1950, 'modulo1x1');
+      modulo1x1.create(3750, 1950, 'modulo1x1');
+
+      modulo1x1.create(3950, 1950, 'modulo1x1');
+      modulo1x1.create(4000, 1950, 'modulo1x1');
+      modulo1x1.create(4050, 1950, 'modulo1x1');
+      modulo1x1.create(4100, 1950, 'modulo1x1');
+      modulo1x1.create(4150, 1950, 'modulo1x1');
+      modulo1x1.create(4200, 1950, 'modulo1x1');
+
+      modulo1x1.create(4550, 2000, 'modulo1x1');
+      modulo1x1.create(4600, 2000, 'modulo1x1');
+      modulo1x1.create(4650, 2000, 'modulo1x1');
+
+      modulo1x1.create(4800, 1850, 'modulo1x1');
+      modulo1x1.create(4850, 1850, 'modulo1x1');
+      modulo1x1.create(4900, 1850, 'modulo1x1');
+      modulo1x1.create(4950, 1850, 'modulo1x1');
+      modulo1x1.create(5000, 1850, 'modulo1x1');
+      modulo1x1.create(5050, 1850, 'modulo1x1');
+      modulo1x1.create(5100, 1850, 'modulo1x1');
+      modulo1x1.create(5150, 1850, 'modulo1x1');
+
+      modulo1x1.create(5350, 2000, 'modulo1x1');
+      modulo1x1.create(5400, 2000, 'modulo1x1');
+      modulo1x1.create(5450, 2000, 'modulo1x1');
+
+      modulo1x1.create(6550, 2000, 'modulo1x1');
+      modulo1x1.create(6600, 2000, 'modulo1x1');
+      modulo1x1.create(6650, 2000, 'modulo1x1');
+      modulo1x1.create(6700, 2000, 'modulo1x1');
+
+      modulo1x1.create(7300, 1600, 'modulo1x1');
+      modulo1x1.create(7350, 1600, 'modulo1x1');
+      modulo1x1.create(7400, 1600, 'modulo1x1');
+      modulo1x1.create(7450, 1600, 'modulo1x1');
+      modulo1x1.create(7500, 1600, 'modulo1x1');
+      modulo1x1.create(7550, 1600, 'modulo1x1');
+
+      modulo1x1.create(7750, 1750, 'modulo1x1');
+      modulo1x1.create(7800, 1750, 'modulo1x1');
+      modulo1x1.create(7850, 1750, 'modulo1x1');
+
+      modulo1x1.create(8025, 1900, 'modulo1x1');
+      modulo1x1.create(8075, 1900, 'modulo1x1');
+      modulo1x1.create(8125, 1900, 'modulo1x1');
+      modulo1x1.create(8175, 1900, 'modulo1x1');
+      modulo1x1.create(8225, 1900, 'modulo1x1');
+
+      modulo1x1.create(8500, 1950, 'modulo1x1');
+      modulo1x1.create(8550, 1950, 'modulo1x1');
+      modulo1x1.create(8600, 1950, 'modulo1x1');
+      modulo1x1.create(8650, 1950, 'modulo1x1');
+
+      modulo1x1.create(11100, 1850, 'modulo1x1');
+      modulo1x1.create(11200, 1850, 'modulo1x1');
+      modulo1x1.create(11250, 1850, 'modulo1x1');
+      modulo1x1.create(11300, 1850, 'modulo1x1');
+      modulo1x1.create(11350, 1850, 'modulo1x1');
+      modulo1x1.create(11400, 1850, 'modulo1x1');
+
+      modulo1x1.create(11650, 1750, 'modulo1x1');
+      modulo1x1.create(11700, 1750, 'modulo1x1');
+      modulo1x1.create(11750, 1750, 'modulo1x1');
+
+      modulo1x1.create(11850, 1600, 'modulo1x1');
+      modulo1x1.create(11900, 1600, 'modulo1x1');
+      modulo1x1.create(11950, 1600, 'modulo1x1');
+      modulo1x1.create(12000, 1600, 'modulo1x1');
+      modulo1x1.create(12050, 1600, 'modulo1x1');
+
+      modulo1x1.create(12600, 1600, 'modulo1x1');
+      modulo1x1.create(12650, 1600, 'modulo1x1');
+      modulo1x1.create(12700, 1600, 'modulo1x1');
+
+      modulo1x1.create(12800, 1750, 'modulo1x1');
+      modulo1x1.create(12850, 1750, 'modulo1x1');
+      modulo1x1.create(12900, 1750, 'modulo1x1');
+
+      modulo1x1.create(13150, 1850, 'modulo1x1');
+      modulo1x1.create(13200, 1850, 'modulo1x1');
+      modulo1x1.create(13250, 1850, 'modulo1x1');
+      modulo1x1.create(13300, 1850, 'modulo1x1');
+      modulo1x1.create(13350, 1850, 'modulo1x1');
+      modulo1x1.create(13400, 1850, 'modulo1x1');
+      modulo1x1.create(13450, 1850, 'modulo1x1');
+      modulo1x1.create(13500, 1850, 'modulo1x1');
+
+      modulo1x1.create(13800, 2000, 'modulo1x1');
+      modulo1x1.create(13850, 2000, 'modulo1x1');
+
+      modulo1x1.create(14400, 1950, 'modulo1x1');
+      modulo1x1.create(14450, 1950, 'modulo1x1');
+      modulo1x1.create(14500, 1950, 'modulo1x1');
+      modulo1x1.create(14550, 1950, 'modulo1x1');
+
+      modulo1x1.create(14800, 2000, 'modulo1x1');
+      modulo1x1.create(14850, 2000, 'modulo1x1');
+
+      modulo1x1.create(17150, 1550, 'modulo1x1');
+      modulo1x1.create(17200, 1550, 'modulo1x1');
+      modulo1x1.create(17250, 1550, 'modulo1x1');
+
+      modulo1x1.create(17500, 1600, 'modulo1x1');
+      modulo1x1.create(17550, 1600, 'modulo1x1');
+
+      modulo1x1.create(17250, 1850, 'modulo1x1');
+      modulo1x1.create(17300, 1850, 'modulo1x1');
+      modulo1x1.create(17350, 1850, 'modulo1x1');
+      modulo1x1.create(17400, 1850, 'modulo1x1');
+      modulo1x1.create(17450, 1850, 'modulo1x1');
+      modulo1x1.create(17500, 1850, 'modulo1x1');
+      modulo1x1.create(17550, 1850, 'modulo1x1');
+
+      modulo1x1.create(17750, 2000, 'modulo1x1');
+      modulo1x1.create(17800, 2000, 'modulo1x1');
+
+      modulo1x1.create(17800, 1700, 'modulo1x1');
+      modulo1x1.create(17850, 1700, 'modulo1x1');
+      modulo1x1.create(17900, 1700, 'modulo1x1');
+      modulo1x1.create(17950, 1700, 'modulo1x1');
+      modulo1x1.create(18000, 1700, 'modulo1x1');
+      modulo1x1.create(18050, 1700, 'modulo1x1');
+
+      modulo1x1.create(18800, 1850, 'modulo1x1');
+      modulo1x1.create(18850, 1850, 'modulo1x1');
+      modulo1x1.create(18900, 1850, 'modulo1x1');
+      modulo1x1.create(18950, 1850, 'modulo1x1');
+      modulo1x1.create(19000, 1850, 'modulo1x1');
+      modulo1x1.create(19050, 1850, 'modulo1x1');
+      modulo1x1.create(19100, 1850, 'modulo1x1');
+      modulo1x1.create(19150, 1850, 'modulo1x1');
+
+      modulo1x1.create(19350, 2000, 'modulo1x1');
+      modulo1x1.create(19400, 2000, 'modulo1x1');
+      modulo1x1.create(19450, 2000, 'modulo1x1');
+
+      modulo1x1.setAll('body.immovable', true);
+
+      // Moduli 2x2
+      modulo2x2.create(600, 2100, 'modulo2x2');
+      modulo2x2.create(800, 2100, 'modulo2x2');
+      modulo2x2.create(800, 2000, 'modulo2x2');
+      modulo2x2.create(2950, 2100, 'modulo2x2');
+      modulo2x2.create(3300, 2100, 'modulo2x2');
+      modulo2x2.create(4400, 2100, 'modulo2x2');
+      modulo2x2.create(6100, 2100, 'modulo2x2');
+      modulo2x2.create(6300, 2100, 'modulo2x2');
+      modulo2x2.create(6300, 2000, 'modulo2x2');
+      modulo2x2.create(8800, 2100, 'modulo2x2');
+      modulo2x2.create(8800, 2100, 'modulo2x2');
+      modulo2x2.create(9200, 2100, 'modulo2x2');
+      modulo2x2.create(9200, 2100, 'modulo2x2');
+      modulo2x2.create(9300, 2100, 'modulo2x2');
+      modulo2x2.create(9300, 2000, 'modulo2x2');
+      modulo2x2.create(10750, 2100, 'modulo2x2');
+      modulo2x2.create(10850, 2100, 'modulo2x2');
+      modulo2x2.create(10850, 2000, 'modulo2x2');
+      modulo2x2.create(14200, 2100, 'modulo2x2');
+      modulo2x2.create(18000, 2100, 'modulo2x2');
+      modulo2x2.create(18450, 2100, 'modulo2x2');
+      modulo2x2.create(18550, 2100, 'modulo2x2');
+      modulo2x2.create(18550, 2000, 'modulo2x2');
+
+      modulo2x2.setAll('body.immovable', true);
+
+      // Interattivi
+      // Ruota 1
+      level2_ruota1_supporto = game.add.sprite(2250, 1553, 'level2_ruota_supporto');
+      level2_ruota1_centrale = game.add.sprite(2451, 1574, 'level2_ruota_centrale');
+      level2_ruota1_centrale.anchor.setTo(0.5, 0.5);
+      game.physics.arcade.enable(level2_ruota1_centrale);
+
+      level2_ruota1_cabinaA = game.add.sprite(2929, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaA);
+      level2_ruota1_cabinaA.body.immovable = true;
+      level2_ruota1_cabinaA.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaA.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaB = game.add.sprite(2790, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaB);
+      level2_ruota1_cabinaB.body.immovable = true;
+      level2_ruota1_cabinaB.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaB.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaC = game.add.sprite(2448, 2050, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaC);
+      level2_ruota1_cabinaC.body.immovable = true;
+      level2_ruota1_cabinaC.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaC.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaD = game.add.sprite(2112, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaD);
+      level2_ruota1_cabinaD.body.immovable = true;
+      level2_ruota1_cabinaD.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaD.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaE = game.add.sprite(1969, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaE);
+      level2_ruota1_cabinaE.body.immovable = true;
+      level2_ruota1_cabinaE.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaE.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaF = game.add.sprite(2112, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaF);
+      level2_ruota1_cabinaF.body.immovable = true;
+      level2_ruota1_cabinaF.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaF.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaG = game.add.sprite(2448, 1100, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaG);
+      level2_ruota1_cabinaG.body.immovable = true;
+      level2_ruota1_cabinaG.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaG.body.setSize(176, 20, 0, 0);
+
+      level2_ruota1_cabinaH = game.add.sprite(2790, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota1_cabinaH);
+      level2_ruota1_cabinaH.body.immovable = true;
+      level2_ruota1_cabinaH.anchor.setTo(0.5, 0.5);
+      level2_ruota1_cabinaH.body.setSize(176, 20, 0, 0);
+
+      // Ruota 2
+      level2_ruota2_supporto = game.add.sprite(15151, 1553, 'level2_ruota_supporto');
+      level2_ruota2_centrale = game.add.sprite(15351, 1574, 'level2_ruota_centrale');
+      level2_ruota2_centrale.anchor.setTo(0.5, 0.5);
+      game.physics.arcade.enable(level2_ruota2_centrale);
+
+      level2_ruota2_cabinaA = game.add.sprite(15831, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaA);
+      level2_ruota2_cabinaA.body.immovable = true;
+      level2_ruota2_cabinaA.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaA.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaB = game.add.sprite(15688, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaB);
+      level2_ruota2_cabinaB.body.immovable = true;
+      level2_ruota2_cabinaB.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaB.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaC = game.add.sprite(15351, 2050, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaC);
+      level2_ruota2_cabinaC.body.immovable = true;
+      level2_ruota2_cabinaC.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaC.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaD = game.add.sprite(15014, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaD);
+      level2_ruota2_cabinaD.body.immovable = true;
+      level2_ruota2_cabinaD.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaD.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaE = game.add.sprite(14871, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaE);
+      level2_ruota2_cabinaE.body.immovable = true;
+      level2_ruota2_cabinaE.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaE.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaF = game.add.sprite(15014, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaF);
+      level2_ruota2_cabinaF.body.immovable = true;
+      level2_ruota2_cabinaF.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaF.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaG = game.add.sprite(15351, 1100, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaG);
+      level2_ruota2_cabinaG.body.immovable = true;
+      level2_ruota2_cabinaG.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaG.body.setSize(176, 20, 0, 0);
+
+      level2_ruota2_cabinaH = game.add.sprite(15688, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota2_cabinaH);
+      level2_ruota2_cabinaH.body.immovable = true;
+      level2_ruota2_cabinaH.anchor.setTo(0.5, 0.5);
+      level2_ruota2_cabinaH.body.setSize(176, 20, 0, 0);
+
+      // Ruota 3
+      level2_ruota3_supporto = game.add.sprite(16301, 1553, 'level2_ruota_supporto');
+      level2_ruota3_centrale = game.add.sprite(16501, 1574, 'level2_ruota_centrale');
+      level2_ruota3_centrale.anchor.setTo(0.5, 0.5);
+      game.physics.arcade.enable(level2_ruota3_centrale);
+
+      level2_ruota3_cabinaA = game.add.sprite(16981, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaA);
+      level2_ruota3_cabinaA.body.immovable = true;
+      level2_ruota3_cabinaA.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaA.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaB = game.add.sprite(16838, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaB);
+      level2_ruota3_cabinaB.body.immovable = true;
+      level2_ruota3_cabinaB.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaB.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaC = game.add.sprite(16501, 2050, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaC);
+      level2_ruota3_cabinaC.body.immovable = true;
+      level2_ruota3_cabinaC.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaC.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaD = game.add.sprite(16164, 1909, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaD);
+      level2_ruota3_cabinaD.body.immovable = true;
+      level2_ruota3_cabinaD.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaD.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaE = game.add.sprite(16021, 1574, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaE);
+      level2_ruota3_cabinaE.body.immovable = true;
+      level2_ruota3_cabinaE.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaE.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaF = game.add.sprite(16164, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaF);
+      level2_ruota3_cabinaF.body.immovable = true;
+      level2_ruota3_cabinaF.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaF.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaG = game.add.sprite(16501, 1100, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaG);
+      level2_ruota3_cabinaG.body.immovable = true;
+      level2_ruota3_cabinaG.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaG.body.setSize(176, 20, 0, 0);
+
+      level2_ruota3_cabinaH = game.add.sprite(16838, 1239, 'level2_ruota_cabina');
+      game.physics.arcade.enable(level2_ruota3_cabinaH);
+      level2_ruota3_cabinaH.body.immovable = true;
+      level2_ruota3_cabinaH.anchor.setTo(0.5, 0.5);
+      level2_ruota3_cabinaH.body.setSize(176, 20, 0, 0);
+
+      // Mongolfiera
+      level2_mongolfiera1 = game.add.sprite(6700, 1218, 'level2_mongolfiera');
+      game.physics.arcade.enable(level2_mongolfiera1);
+      level2_mongolfiera1.body.setSize(105, 100, 277, 883);
+      level2_mongolfiera1.body.immovable = true;
+
+      level2_mongolfiera2 = game.add.sprite(12050, 1218, 'level2_mongolfiera');
+      game.physics.arcade.enable(level2_mongolfiera2);
+      level2_mongolfiera2.body.setSize(105, 100, 277, 883);
+      level2_mongolfiera2.body.immovable = true;
+    }
   }
 
   // Livello 3 (circo)
@@ -2148,8 +2150,8 @@ function spawn() {
 
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
-        console.log("Level 1: player & shadow created.");
-        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
+        console.log("Level 2: player & shadow created.");
+        player = game.add.sprite(100, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
         shadow = game.add.sprite(1000, 200, 'player');
         shadow.alpha = 0;
         player.bringToTop();
@@ -2182,8 +2184,8 @@ function gameover() {
     setTimeout(create, 1050);
 
   } else if (levelPlaying == 2) {
-    destroyLevel2();
-    create();
+    setTimeout(softDestroyLevel2, 1050);
+    setTimeout(create, 1050);
   }
   console.log('gameover() completed.')
 }
@@ -2216,7 +2218,7 @@ function softDestroyLevel1() {
   enemySniper.destroy();
 }
 
-function destroyLevel2() {
+function hardDestroyLevel2() {
   level2_cielo.destroy();
   level2_cielo2.destroy();
   level2_collineGialle.destroy();
@@ -2266,6 +2268,10 @@ function destroyLevel2() {
 
   level2_mongolfiera1.destroy();
   level2_mongolfiera2.destroy();
+}
+
+function softDestroyLevel2() {
+  
 }
 
 function destroyLevel3() {
@@ -2338,6 +2344,7 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBombEsplosione.killOnComplete = true;
   enemyBomb.kill();
   player.damage(2);
+  console.log("touchEnemyBomb(). Player health -= 2.")
 }
 
 
