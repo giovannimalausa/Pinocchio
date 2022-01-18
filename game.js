@@ -250,7 +250,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1179,7 +1179,7 @@ function create() {
   } else if (levelPlaying == 2) {
     enemyBombX = [4800, 11850, 18800];
   } else if (levelPlaying == 3) {
-    enemyBombX = [4000, 1000, 1200];
+    enemyBombX = [1950, 3700, 5500];
   }
 
   enemyBomb = game.add.physicsGroup();
@@ -1206,7 +1206,7 @@ enemySniperX = [4425, 7300, 11600];
 } else if (levelPlaying == 2) {
   enemySniperX = [1800, 6275, 8550, 13400];
 } else if (levelPlaying == 3) {
-  enemySniperX = [5300, 4700];
+  enemySniperX = [1600, 4300, 5300, 6150];
 }
 
   enemySniper = game.add.physicsGroup();
@@ -1234,7 +1234,7 @@ enemySniperX = [4425, 7300, 11600];
   } else if (levelPlaying == 2) {
     enemyJugX = [4000, 10500, 17150];
   } else if (levelPlaying == 3) {
-    enemyJugX = [5000, 2000, 3200];
+    enemyJugX = [3100, 4650, 6500];
   }
   enemyJug = game.add.physicsGroup();
   enemyJug.create(enemyJugX[0], 1300, 'marionettaJug');
@@ -1595,6 +1595,7 @@ function update () {
     game.physics.arcade.collide(player, level3_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level3_floor);
     game.physics.arcade.collide(player, carrozza);
+    game.physics.arcade.collide(enemyJug, carrozza);
     game.physics.arcade.collide(player, teatro);
     game.physics.arcade.collide(player, level3_nuvola);
     game.physics.arcade.collide(player, level3_nuvola2);
@@ -2281,7 +2282,12 @@ function hardDestroyLevel2() {
 }
 
 function softDestroyLevel2() {
-  
+  ammoBox.destroy();
+  pozione.destroy();
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemyJugDead.destroy();
+  enemySniper.destroy();
 }
 
 function destroyLevel3() {
