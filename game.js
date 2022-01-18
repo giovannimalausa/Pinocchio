@@ -608,7 +608,7 @@ function create() {
       level1_houses.alpha = 0;
       level1_houses.setAll('body.immovable', true);
     }
-    
+
 
     // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
     // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
@@ -1157,7 +1157,7 @@ function create() {
   pozione.create(pozioneX[2], pozioneY[3], 'pozione');
 
   game.physics.arcade.enable(pozione);
-  
+
 
 
   // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
@@ -1769,7 +1769,7 @@ function update () {
   game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
   game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
   game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
-  
+
   // Overlap tra sparo Sniper e player
   game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemySniperDamage);
 
@@ -2240,10 +2240,6 @@ var sniperFireOffset
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
-<<<<<<< HEAD
-=======
-  //console.log(enemyJug.getChildAt(0).x + ' ' + enemyJug.getChildAt(0).y)
->>>>>>> 4df651e27dea338c1294cee37688320279eba6ae
 } //fine di UPDATE
 
 function spawn() {
@@ -2508,7 +2504,7 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBomb.kill();
   player.damage(2);
   console.log("touchEnemyBomb(). Player health -= 2.")
-  
+
 }
 
 function EnemySniperDamage(player, bullets) {
