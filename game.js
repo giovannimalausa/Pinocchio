@@ -1587,7 +1587,6 @@ function update () {
     }
   }
   if (levelPlaying == 2 && spawning == true) {
-    console.log("levelPlaying 2")
     spawningTimer += 1;
     if (spawningTimer >= 70) {
       player.body.velocity.x = 300;
@@ -1720,17 +1719,17 @@ function update () {
     {  //Camminata dx
       if(isFiring === false)
       {
-      player.animations.play('walkR', 15, true);
+        player.animations.play('walkR', 15, true);
       } else {
-      player.animations.play('walkFireR', 15, true);
+        player.animations.play('walkFireR', 15, true);
       }
     } else if(facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down))
     {  //Camminata sx
       if(isFiring === false)
       {
-      player.animations.play('walkL', 15, true);
+        player.animations.play('walkL', 15, true);
       } else {
-      player.animations.play('walkFireL', 15, true);
+        player.animations.play('walkFireL', 15, true);
       }
     }
 
@@ -1749,14 +1748,14 @@ function update () {
     }
     if(player.body.velocity.y > 100 && facing === "left" && !(player.body.touching.down)) // Atterraggio salto sx
     {
-    player.animations.play('dropL', 10, false);
+      player.animations.play('dropL', 10, false);
     }
 
     if(player.body.velocity.x < 100 && player.body.velocity.x > 10 && facing === "right" && (player.body.onFloor() || player.body.touching.down)) {
       player.animations.play('skidR', 10, false);
     }
     if(player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing === "left" && (player.body.onFloor() || player.body.touching.down)) {
-    player.animations.play('skidL', 10, false);
+      player.animations.play('skidL', 10, false);
     }
 
   if (player.body.velocity.y < -100) {
@@ -1820,7 +1819,7 @@ enemyBomb.forEach(function (enemy) {
 
   if(fireButton.isDown && player.alive == true) {
     gun1.fire();
-}
+  }
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
     gun1.fireAngle = 0;
@@ -2029,7 +2028,7 @@ enemyBomb.forEach(function (enemy) {
       autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
       enableUserMovement = false; // Disabilita i controlli da parte dell'utente
       player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
-      console.log("Turning ON Autopilot...")
+      console.log("Turning ON Autopilot...");
     }
     player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
     timerLivello1Livello2 += 1;
