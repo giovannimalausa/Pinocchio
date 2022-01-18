@@ -2411,7 +2411,8 @@ function shootEnemyBomb(bullets, enemyBomb) {
   }
 }
 function shootEnemySniper(bullets, enemySniper) {
-  var enemySniperDead
+  game.add.tween(enemySniper).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
+  var enemySniperDead;
   bullets.kill();
   enemySniper.damage(1);
   if (enemySniper.health <= 0) {
@@ -2423,6 +2424,7 @@ function shootEnemySniper(bullets, enemySniper) {
   }
 }
 function shootEnemyJug(bullets, enemyJug) {
+  game.add.tween(enemyJug).to( { tint: 0xFF0000 }, 80, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
   var enemyJugDead;
   bullets.kill();
   enemyJug.damage(1);
