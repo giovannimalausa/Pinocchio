@@ -24,13 +24,14 @@ function preload() {
 
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+  game.load.spritesheet('pinocchioBullet', 'assets/sprites/pinocchio/pinocchioBullet.png', 150, 100, 4);
 
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
   game.load.spritesheet('marionettaJug', 'assets/sprites/marionettaJug.png', 200, 200, 40);
   game.load.spritesheet('marionettaSniper', 'assets/sprites/marionettaSniper.png', 160, 160, 40);
-  //game.load.spritesheet('marionettaSniperMorte', 'assets/sprites/marionettaSniperMorte.png', 225, 150, 32);
-  game.load.spritesheet('marionettaJugMorte', 'assets/sprites/marionettaJugMorte.png', 300, 300, 38);
+  game.load.spritesheet('marionettaSniperMorte', 'assets/sprites/marionettaSniperMorte.png', 200, 160, 32);
+  game.load.spritesheet('marionettaJugMorte', 'assets/sprites/marionettaJugMorte.png', 200, 200, 38);
 
   game.load.spritesheet('marionettaBomba', 'assets/sprites/marionettaBomba.png', 180, 180, 22);
   game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
@@ -218,8 +219,9 @@ var enemySniper;
 var dust; // sprite polvere del salto
 var dustVar;
 
-//Var armi enemySniperGun
+//Var armi enemyGun
 var enemySniperGun0
+var enemyJugGun0
 
 // Enemy x spawn position
 var enemyBombX;
@@ -1142,13 +1144,16 @@ function create() {
   player.health = playerMaxHealth;
 
   // FUNZIONE DI SPARO CON PHASER.WEAPON
-  gun1 = game.add.weapon(100, 'bullet');
+  gun1 = game.add.weapon(100, 'pinocchioBullet');
   gun1.trackSprite(player);
   gun1.fireRate = 200;
   gun1.fireAngle = 0;
   gun1.bulletSpeed = 700;
-  gun1.trackOffset.y = 80;
+
   gun1.fireLimit = bulletPool;
+  gun1.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
+  gun1.setBulletBodyOffset(90, 30, 45, 45);
+  gun1.bulletAngleOffset = 180;
 
 
   //  =====================ENEMIES============================
@@ -1207,13 +1212,16 @@ enemySniperX = [1300, 2700];
   enemyJug.setAll('health', 7);
   enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
-  enemyJug.callAll('animations.add', 'animations', 'jugL', [39,38,37,36,35,34,33,32,31,30], 10, true);
+  enemyJug.callAll('animations.add', 'animations', 'jugL', [10,11,12,13,14,15,16,17,18,19], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugR', [0,1,2,3,4,5,6,7,8,9], 10, true);
 
-  enemyJug.callAll('animations.play', 'animations', 'jugFireL');
-  //enemyJug.callAll('animations.play', 'animations', 'jugFireR');
-
   enemyJug.callAll('body.setSize', 'body', 100, 115, 40, 44);
+
+  enemyJugGun0 = game.add.weapon(100, 'bullet');
+  enemyJugGun0.fireRate = 100;
+  enemyJugGun0.bulletSpeed = 400;
+  enemyJugGun0.bulletAngleVariance = 5;
+
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -1685,7 +1693,7 @@ function update () {
     if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) { // player rivolto a destra
       player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
     }
-    if (isFiring === true  && facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
+    if (isFiring === true && facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
       player.animations.play('fireL', 15);
     }
     if (isFiring === true && facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
@@ -1747,34 +1755,72 @@ enemyBomb.forEach(function (enemy) {
     enemy.animations.play('bombaWalkL')
   }})
 
-
+  enemyJug.forEach(function (enemy) {
+    if (enemy.x > player.x && gameStopWatch % 2 == 0) {
+      enemy.animations.play('jugFireL')
+    }
+      else if (enemy.x > player.x && gameStopWatch % 2 != 0) {
+          enemy.animations.play('jugL')
+    }
+    else if (enemy.x < player.x && gameStopWatch % 2 == 0) {
+      enemy.animations.play('jugFireR')
+    }
+    else if (enemy.x < player.x && gameStopWatch % 2 != 0) {
+      enemy.animations.play('jugR')
+    }
+  })
 //if(sniperFire.isPlaying == false) {
   //enemySniper.callAll('animations.play', 'sniperL')
 //}
 //console.log(sniperFire.isPlaying)
-
-  //WEAPONs
       //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
       //ENEMY
 
-  // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
-
+  //ENEMY SNIPER
+var sniperFireOffset
     for (i = 0; i < 2; i++) {
+      if (player.x < enemySniper.getChildAt(i).x) {
+        sniperFireOffset = 30
+      } else if (player.x > enemySniper.getChildAt(i).x) {
+        sniperFireOffset = 130
+      }
+
       if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true)
       {
-        sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x, enemySniper.getChildAt(i).y + 50);
+        sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
 
         var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
         if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
           300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y))
           {
-        enemySniperGun0.fire(sniperFiringPosition0, player.x + 100, player.y + 100);
+        enemySniperGun0.fire(sniperFiringPosition0, player.x + 120, player.y + 78);
       }}}
+
+
+  //ENEMY JUGGERNAUT
+      var jugFireOffset
+          for (i = 0; i < 1; i++) {
+            if (player.x < enemyJug.getChildAt(i).x) {
+              jugFireOffset = 30;
+              enemyJugGun0.fireAngle = 180;
+            } else if (player.x > enemyJug.getChildAt(i).x) {
+              jugFireOffset = 160
+              enemyJugGun0.fireAngle = 0;
+            }
+
+            if (enemyJug.getChildAt(i).inCamera == true && enemyJug.getChildAt(i).alive == true)
+            {
+              jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
+              if(gameStopWatch % 2 == 0) {
+                  enemyJugGun0.fire(jugFiringPosition0);
+              }}}
+
+
+
 
     //  console.log(sniperFireAngle)
 
-    //ENEMY
-
+    //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < 3; i++) {
   if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 250)
@@ -1799,9 +1845,11 @@ enemyBomb.forEach(function (enemy) {
 }
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
+    gun1.trackOffset.y = 79;
     gun1.fireAngle = 0;
   } else {
     gun1.trackOffset.x = 40;
+    gun1.trackOffset.y = 90;
     gun1.fireAngle = 180;
   }
   //console.log(player.animations.frame);
@@ -2082,7 +2130,6 @@ enemyBomb.forEach(function (enemy) {
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
-  console.log(enemyJug.getChildAt(0).x + ' ' + enemyJug.getChildAt(0).y)
 } //fine di UPDATE
 
 function spawn() {
@@ -2268,24 +2315,35 @@ function shootEnemySniper(bullets, enemySniper) {
   bullets.kill();
   enemySniper.damage(1);
   if (enemySniper.health <= 0) {
-    /*
-    enemySniperDead = game.add.sprite(enemySniper.x, enemySniper.y, 'marionettaSniperMorte');
-    enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
-    enemySniperDead.animations.play('sniperDeadL', 15, false)
-    */
-  }
-}
+
+    if (enemySniper.x > player.x) {
+      enemySniperDead = game.add.sprite(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte');
+
+      enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
+      enemySniperDead.animations.play('sniperDeadL', 15, false)
+    }
+     else if(enemySniper.x < player.x) {
+      enemySniperDead = game.add.sprite(enemySniper.x - 37, enemySniper.y, 'marionettaSniperMorte');
+
+      enemySniperDead.animations.add('sniperDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+      enemySniperDead.animations.play('sniperDeadR', 15, false)
+    }
+  }}
+
 function shootEnemyJug(bullets, enemyJug) {
   var enemyJugDead
   bullets.kill();
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
-    enemyJugDead = game.add.sprite(enemyJug.x, enemyJug.y, 'marionettaJugMorte');
-    //enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
-    //enemyJugDead.animations.play('jugDeadL', 15, false);
-    enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
-    enemyJugDead.animations.play('jugDeadR', 15, false);
-    console.log('STOP!' + enemyJugDead.x + ' ' + enemyJugDead.y)
+    enemyJugDead = game.add.sprite(enemyJug.x , enemyJug.y, 'marionettaJugMorte');
+    if (enemyJug.x > player.x) {
+      enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
+      enemyJugDead.animations.play('jugDeadL', 15, false);
+    }
+     else if(enemyJug.x < player.x) {
+       enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
+       enemyJugDead.animations.play('jugDeadR', 15, false);
+    }
   }
 }
 
@@ -2312,7 +2370,9 @@ function sniperIsFiringTrue() {
 
 
 function isFiringTrue() {
-  isFiring = true;
+  if (bulletPool > 0)  {
+    isFiring = true;
+  }
   console.log('isFiring = ' + isFiring);
 }
 function isFiringFalse() {
