@@ -373,7 +373,6 @@ var carrozza;
 var teatro;
 var tenda;
 var level3_nuvola;
-var level3_nuvola2;
 
 // Variabili menu
 var menuOption1;
@@ -1099,26 +1098,21 @@ function create() {
     level3_nuvola.body.setSize(215, 45, 0, 15);
     level3_nuvola.body.immovable = true;
 
-    level3_nuvola2 = game.add.sprite(7529, 1825, 'level3_nuvola');
-    game.physics.arcade.enable(level3_nuvola2);
-    level3_nuvola2.body.setSize(215, 45, 0, 15);
-    level3_nuvola2.body.immovable = true;
-
   }
 
   // munizioni
   if (levelPlaying == 1) {
-    ammoBoxX = [3000, 5400, 9250];
+    ammoBoxX = [3525, 5275, 9825];
   } else if (levelPlaying == 2) {
-    ammoBoxX = [4800, 11850, 18800];
+    ammoBoxX = [1875, 4725, 10650, 17775];
   } else if (levelPlaying == 3) {
-    ammoBoxX = [920, 5825, 6625, 7400];
+    ammoBoxX = [920, 5825, 6625, 7100];
   }
 
   if (levelPlaying == 1) {
-    ammoBoxY = [3000, 5400, 9250];
+    ammoBoxY = [2125, 2125, 2025];
   } else if (levelPlaying == 2) {
-    ammoBoxY = [4800, 11850, 18800];
+    ammoBoxY = [2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
     ammoBoxY = [2025, 2125, 2125, 2025];
   }
@@ -1128,25 +1122,25 @@ function create() {
   ammoBox.create(ammoBoxX[0], ammoBoxY[0], 'ammoBox');
   ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
-  ammoBox.create(ammoBoxX[2], ammoBoxY[3], 'ammoBox');
+  ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
 
   game.physics.arcade.enable(ammoBox);
 
   // pozioni
   if (levelPlaying == 1) {
-    pozioneX = [3000, 5400, 9250];
+    pozioneX = [3700, 8225, 10725];
   } else if (levelPlaying == 2) {
-    pozioneX = [4800, 11850, 18800];
+    pozioneX = [3350, 6825, 13825, 19400];
   } else if (levelPlaying == 3) {
-    pozioneX = [920, 5825, 6625, 7400];
+    pozioneX = [3475, 4975, 6925];
   }
 
   if (levelPlaying == 1) {
-    pozioneY = [3000, 5400, 9250];
+    pozioneY = [1475, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneY = [4800, 11850, 18800];
+    pozioneY = [1725, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
-    pozioneY = [2025, 2125, 2125, 2025];
+    pozioneY = [2025, 2125, 2025];
   }
 
   pozione = game.add.physicsGroup();
@@ -1154,7 +1148,7 @@ function create() {
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
-  pozione.create(pozioneX[2], pozioneY[3], 'pozione');
+  pozione.create(pozioneX[3], pozioneY[3], 'pozione');
 
   game.physics.arcade.enable(pozione);
 
@@ -1297,7 +1291,7 @@ enemySniperX = [4425, 7300, 11600];
   enemyJug.callAll('body.setSize', 'body', 100, 115, 40, 44);
 
   enemyJugGun0 = game.add.weapon(100, 'bullet');
-  enemyJugGun0.fireRate = 100;
+  enemyJugGun0.fireRate = 500; //100 quello previsto, abbassato per poter giocare
   enemyJugGun0.bulletSpeed = 400;
   enemyJugGun0.bulletAngleVariance = 5;
 
@@ -1334,7 +1328,6 @@ enemySniperX = [4425, 7300, 11600];
   if (levelPlaying == 3) {
     tenda.bringToTop();
     level3_nuvola.bringToTop();
-    level3_nuvola2.bringToTop();
   }
 
   healthFull1.bringToTop();
@@ -1393,36 +1386,60 @@ function update () {
   game.physics.arcade.collide(player, modulo1x1, landingCallback, landingProcessCallback, this);
   game.physics.arcade.collide(player, modulo2x2, landingCallback, landingProcessCallback, this);
   game.physics.arcade.collide(player, modulo2x4, landingCallback, landingProcessCallback, this);
+  
+  //Collide proiettili vari
+  game.physics.arcade.collide(gun1.bullets, modulo1x1, killbullets);
+  game.physics.arcade.collide(enemySniperGun0.bullets, modulo1x1, killbullets);
+  game.physics.arcade.collide(enemyJugGun0.bullets, modulo1x1, killbullets);
+  game.physics.arcade.collide(gun1.bullets, modulo1x1, killbullets);
+  game.physics.arcade.collide(gun1.bullets, modulo2x2, killbullets);
+  game.physics.arcade.collide(enemySniperGun0.bullets, modulo2x2, killbullets);
+  game.physics.arcade.collide(enemyJugGun0.bullets, modulo2x2, killbullets);
+  game.physics.arcade.collide(gun1.bullets, modulo2x4, killbullets);
+  game.physics.arcade.collide(enemySniperGun0.bullets, modulo2x4, killbullets);
+  game.physics.arcade.collide(enemyJugGun0.bullets, modulo2x4, killbullets);
 
   // Collide /Livello 1
   if (levelPlaying == 1) {
     game.physics.arcade.collide(enemyBomb, level1_floor);
     game.physics.arcade.collide(enemySniper, level1_floor);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level1_floor, killbullets);
     game.physics.arcade.collide(enemyJug, level1_floor);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level1_floor, killbullets);
 
     game.physics.arcade.collide(player, level1_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level1_floor);
+    game.physics.arcade.collide(gun1.bullets, level1_floor, killbullets);
 
     game.physics.arcade.collide(enemyBomb, level1_houses);
     game.physics.arcade.collide(enemySniper, level1_houses);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level1_houses, killbullets);
     game.physics.arcade.collide(enemyJug, level1_houses);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level1_houses, killbullets);
     game.physics.arcade.collide(player, level1_houses);
+    game.physics.arcade.collide(gun1.bullets, level1_houses, killbullets);
   }
 
   // Collide /Livello 2
   if (levelPlaying == 2) {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
+    game.physics.arcade.collide(gun1.bullets, level2_floor, killbullets);
 
     game.physics.arcade.collide(enemyBomb, level2_floor);
     game.physics.arcade.collide(enemySniper, level2_floor);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level2_floor, killbullets);
     game.physics.arcade.collide(enemyJug, level2_floor);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level2_floor, killbullets);
 
     game.physics.arcade.collide(enemyBomb, level2_componente);
     game.physics.arcade.collide(enemySniper, level2_componente);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level2_componente, killbullets);
     game.physics.arcade.collide(enemyJug, level2_componente);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level2_componente, killbullets);
 
     game.physics.arcade.collide(player, level2_componente);
+    game.physics.arcade.collide(gun1.bullets, level2_componente, killbullets);
 
     // Ruote panoramiche
     // Ruota 1
@@ -1643,14 +1660,23 @@ function update () {
   if (levelPlaying == 3) {
     game.physics.arcade.collide(player, level3_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level3_floor);
+    game.physics.arcade.collide(gun1.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(player, carrozza);
+    game.physics.arcade.collide(gun1.bullets, carrozza, killbullets);
     game.physics.arcade.collide(enemyJug, carrozza);
+    game.physics.arcade.collide(enemyJugGun0.bullets, carrozza, killbullets);
+    game.physics.arcade.collide(enemySniperGun0.bullets, carrozza, killbullets);
     game.physics.arcade.collide(player, teatro);
+    game.physics.arcade.collide(gun1.bullets, teatro, killbullets);
+    game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
+    game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(player, level3_nuvola);
-    game.physics.arcade.collide(player, level3_nuvola2);
+    game.physics.arcade.collide(gun1.bullets, level3_nuvola, killbullets); //non funziona non so perché
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level3_floor, killbullets);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(enemySniper, level3_floor);
   }
   // Automovement spawn
@@ -1770,8 +1796,9 @@ function update () {
   game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
   game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
 
-  // Overlap tra sparo Sniper e player
-  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemySniperDamage);
+  // Overlap tra enemies e player
+  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
+  game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
 
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -2270,7 +2297,7 @@ function spawn() {
         console.log("Level 2: player & shadow created.");
         player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
         shadow = game.add.sprite(500, 1900, 'player');
-        shadow.alpha = 1;
+        shadow.alpha = 0;
         player.bringToTop();
       }
       if (gameWasOver == true || cambioLivello == true) {
@@ -2507,9 +2534,13 @@ function touchEnemyBomb(player, enemyBomb) {
 
 }
 
-function EnemySniperDamage(player, bullets) {
+function EnemyDamage(player, bullets) {
   bullets.kill();
   player.damage(1);
+}
+
+function killbullets(bullets, object) {
+  bullets.kill();
 }
 
 
@@ -2620,5 +2651,4 @@ function render () {
 
   // game.debug.spriteInfo(player, 30, 100);
   //game.debug.body(level3_nuvola);
-  //game.debug.body(level3_nuvola2);
 }
