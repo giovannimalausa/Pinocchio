@@ -1177,7 +1177,7 @@ function create() {
   if (levelPlaying == 1) {
     enemyBombX = [3000, 5400, 9250];
   } else if (levelPlaying == 2) {
-    enemyBombX = [3000, 1000, 1200];
+    enemyBombX = [4800, 11850, 18800];
   } else if (levelPlaying == 3) {
     enemyBombX = [4000, 1000, 1200];
   }
@@ -1204,7 +1204,7 @@ function create() {
 if (levelPlaying == 1) {
 enemySniperX = [4425, 7300, 11600];
 } else if (levelPlaying == 2) {
-  enemySniperX = [5300, 6700];
+  enemySniperX = [1800, 6275, 8550, 13400];
 } else if (levelPlaying == 3) {
   enemySniperX = [5300, 4700];
 }
@@ -1213,6 +1213,7 @@ enemySniperX = [4425, 7300, 11600];
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[2], 1500, 'marionettaSniper');
+  enemySniper.create(enemySniperX[3], 1500, 'marionettaSniper');
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 5);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
@@ -1229,15 +1230,16 @@ enemySniperX = [4425, 7300, 11600];
 
   //EnemyJug
   if (levelPlaying == 1) {
-    enemyJugX = [6700, 5400, 9250];
+    enemyJugX = [6500, 8800];
   } else if (levelPlaying == 2) {
-    enemyJugX = [5000, 2000, 3200];
+    enemyJugX = [4000, 10500, 17150];
   } else if (levelPlaying == 3) {
     enemyJugX = [5000, 2000, 3200];
   }
   enemyJug = game.add.physicsGroup();
-  enemyJug.create(enemyJugX[0], 1500, 'marionettaJug');
-  enemyJug.create(enemyJugX[1], 1500, 'marionettaJug');
+  enemyJug.create(enemyJugX[0], 1300, 'marionettaJug');
+  enemyJug.create(enemyJugX[1], 1300, 'marionettaJug');
+  enemyJug.create(enemyJugX[2], 1300, 'marionettaJug');
   game.physics.arcade.enable(enemyJug);
 
   enemyJug.setAll('health', 7);
@@ -1346,8 +1348,8 @@ function update () {
   // Collide /Livello 1
   if (levelPlaying == 1) {
     game.physics.arcade.collide(enemyBomb, level1_floor);
-    game.physics.arcade.collide(enemyJug, level1_floor);
     game.physics.arcade.collide(enemySniper, level1_floor);
+    game.physics.arcade.collide(enemyJug, level1_floor);
 
     game.physics.arcade.collide(player, level1_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level1_floor);
@@ -1362,6 +1364,15 @@ function update () {
   if (levelPlaying == 2) {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
+
+    game.physics.arcade.collide(enemyBomb, level2_floor);
+    game.physics.arcade.collide(enemySniper, level2_floor);
+    game.physics.arcade.collide(enemyJug, level2_floor);
+
+    game.physics.arcade.collide(enemyBomb, level2_componente);
+    game.physics.arcade.collide(enemySniper, level2_componente);
+    game.physics.arcade.collide(enemyJug, level2_componente);
+
     game.physics.arcade.collide(player, level2_componente);
 
     // Ruote panoramiche
