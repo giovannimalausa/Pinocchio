@@ -1211,6 +1211,7 @@ function create() {
   gun1.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
   gun1.setBulletBodyOffset(90, 30, 45, 45);
   gun1.bulletAngleOffset = 180;
+  gun1.bulletKillType = 4; //elimina proiettili fuori dalla camera
 
 
   //  =====================ENEMIES============================
@@ -1267,6 +1268,7 @@ enemySniperX = [4425, 7300, 11600];
   enemySniperGun0.fireRate = 1600;
   enemySniperGun0.bulletSpeed = 400;
   enemySniperGun0.bulletAngleVariance = 5;
+  enemySniperGun0.bulletKillType = 4;
 
   //EnemyJug
   if (levelPlaying == 1) {
@@ -1294,6 +1296,7 @@ enemySniperX = [4425, 7300, 11600];
   enemyJugGun0.fireRate = 500; //100 quello previsto, abbassato per poter giocare
   enemyJugGun0.bulletSpeed = 400;
   enemyJugGun0.bulletAngleVariance = 5;
+  enemyJugGun0.bulletKillType = 4;
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
