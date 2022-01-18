@@ -442,15 +442,18 @@ function create() {
   ammoUI1.fixedToCamera = true;
   // BringToTop() alla fine di create().
 
-  // Elementi modulari globali
+  if (gameWasOver == false) {
+    // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
   modulo2x2 = game.add.physicsGroup();
   modulo2x4 = game.add.physicsGroup();
+  }
 
   // Livello 1
   if(levelPlaying == 1)
   {
     if (gameWasOver == false) {
+
       sfondoAzzurro = game.add.sprite(0, 0, 'sfondoAzzurro');
 
       // Calpestabile livello 1
@@ -2136,7 +2139,7 @@ function gameover() {
   console.log('Running gameover()...')
   gameWasOver = true;
   if (levelPlaying == 1) {
-    setTimeout(softDestroyLevel1, 1050); // da cambiare con softDestroyLevel1
+    setTimeout(softDestroyLevel1, 1050);
     setTimeout(create, 1050);
 
   } else if (levelPlaying == 2) {
