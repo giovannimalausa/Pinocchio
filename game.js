@@ -1187,8 +1187,6 @@ function create() {
   enemyBomb.create(enemyBombX[0], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[1], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[2], 1200, 'marionettaBomba');
-  //enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
-  //enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
 
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
@@ -1720,6 +1718,9 @@ function update () {
   game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
   game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
   game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
+  
+  // Overlap tra sparo Sniper e player
+  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemySniperDamage);
 
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -2387,6 +2388,12 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBomb.kill();
   player.damage(2);
   console.log("touchEnemyBomb(). Player health -= 2.")
+  
+}
+
+function EnemySniperDamage(player, bullets) {
+  bullets.kill();
+  player.damage(1);
 }
 
 
