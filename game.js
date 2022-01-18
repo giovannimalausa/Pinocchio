@@ -250,7 +250,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1636,6 +1636,18 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
+  } else if (autoPilot == true) {
+    if (levelPlaying == 1) {
+      
+    }
+    else if (levelPlaying == 2) {
+      shadow.x = 600;
+      shadow.y = player.y+120;
+    }
+    else if (levelPlaying == 3) {
+
+    }
+    
   } else if (autoPilot == false) {
     shadow.x = player.x+350;
     shadow.y = player.y+120;
@@ -2078,7 +2090,7 @@ enemyBomb.forEach(function (enemy) {
       if (timerLivello1Livello2 == 150) {
         // Destroy gli sprite del Livello 1
         console.log("Destroying Level 2 sprites...");
-        destroyLevel2();
+        hardDestroyLevel2();
 
         levelPlaying = 3;
         cambioLivello = true;
@@ -2124,7 +2136,7 @@ enemyBomb.forEach(function (enemy) {
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
-  console.log(enemyJug.getChildAt(0).x + ' ' + enemyJug.getChildAt(0).y)
+  //console.log(enemyJug.getChildAt(0).x + ' ' + enemyJug.getChildAt(0).y)
 } //fine di UPDATE
 
 function spawn() {
@@ -2150,9 +2162,9 @@ function spawn() {
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
         console.log("Level 2: player & shadow created.");
-        player = game.add.sprite(100, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
-        shadow = game.add.sprite(1000, 200, 'player');
-        shadow.alpha = 0;
+        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
+        shadow = game.add.sprite(500, 1900, 'player');
+        shadow.alpha = 1;
         player.bringToTop();
       }
       if (gameWasOver == true || cambioLivello == true) {
@@ -2160,7 +2172,7 @@ function spawn() {
         gameWasOver = false;
         cambioLivello = false;
         console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
-        player.x = -90;
+        player.x = 1;
         player.y = 1900;
         player.bringToTop();
       }
@@ -2181,9 +2193,11 @@ function gameover() {
   if (levelPlaying == 1) {
     setTimeout(softDestroyLevel1, 1050);
     setTimeout(create, 1050);
-
   } else if (levelPlaying == 2) {
     setTimeout(softDestroyLevel2, 1050);
+    setTimeout(create, 1050);
+  } else if (levelPlaying == 3) {
+    setTimeout(softDestroyLevel3, 1050);
     setTimeout(create, 1050);
   }
   console.log('gameover() completed.')
@@ -2206,6 +2220,7 @@ function hardDestroyLevel1() {
   enemyBomb.destroy();
   enemyJug.destroy();
   enemySniper.destroy();
+  enemyJugDead.destroy();
 }
 
 function softDestroyLevel1() {
@@ -2214,6 +2229,7 @@ function softDestroyLevel1() {
   pozione.destroy();
   enemyBomb.destroy();
   enemyJug.destroy();
+  enemyJugDead.destroy();
   enemySniper.destroy();
 }
 
@@ -2270,11 +2286,18 @@ function hardDestroyLevel2() {
 }
 
 function softDestroyLevel2() {
-  
+  // Questa funzione va richiamata quando occorre resettare il Livello 2 in seguito a game over.
+  enemyBomb;
+  enemyJug;
+  enemySniper;
 }
 
-function destroyLevel3() {
+function hardDestroyLevel3() {
 
+}
+
+function softDestroyLevel3() {
+  
 }
 
 function enableInteraction() {
