@@ -2211,7 +2211,7 @@ function gameover() {
     setTimeout(softDestroyLevel3, 1050);
     setTimeout(create, 1050);
   }
-  console.log('gameover() completed.')
+  console.log('gameover() completed.');
 }
 
 function hardDestroyLevel1() {
@@ -2232,6 +2232,7 @@ function hardDestroyLevel1() {
   enemyJug.destroy();
   enemySniper.destroy();
   enemyJugDead.destroy();
+  console.log('hardDestroyLevel1() completed.');
 }
 
 function softDestroyLevel1() {
@@ -2242,6 +2243,7 @@ function softDestroyLevel1() {
   enemyJug.destroy();
   enemyJugDead.destroy();
   enemySniper.destroy();
+  console.log('softDestroyLevel1() completed.');
 }
 
 function hardDestroyLevel2() {
@@ -2294,13 +2296,19 @@ function hardDestroyLevel2() {
 
   level2_mongolfiera1.destroy();
   level2_mongolfiera2.destroy();
+
+  console.log('hardDestroyLevel2() completed.');
 }
 
 function softDestroyLevel2() {
   // Questa funzione va richiamata quando occorre resettare il Livello 2 in seguito a game over.
-  enemyBomb;
-  enemyJug;
-  enemySniper;
+  // ammoBox.destroy(); <== rimuovere commento dopo aver aggiunto ammoBox al livello 2
+  // pozione.destroy(); <== rimuovere commento dopo aver aggiunto pozione al livello 2
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemySniper.destroy();
+  enemyJugDead.destroy(); // <== restituisce errore se nel corso del livello non si ha mai ucciso un enemyJug (quindi non esiste nessun enemyJugDead)
+  console.log('softDestroyLevel2() completed.');
 }
 
 function hardDestroyLevel3() {
