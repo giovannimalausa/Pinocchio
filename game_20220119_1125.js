@@ -231,7 +231,10 @@ var enemyJugGun0
 
 // Variabili Mangiafuoco
 var mangiafuoco;
-var mfGun1;
+var mfGunDx;
+var mfGunSx;
+var mfShootTimer = 0;
+var mfShootTimerBase = 200;
 var mfFireballSpeed;
 var floorFire;
 var animManoDX;
@@ -1332,13 +1335,13 @@ function create() {
     animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
     animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
 
-    mfGun1 = game.add.weapon(100, 'bullet');
-    mfGun1.trackSprite(mangiafuoco)
-    mfGun1.trackOffset.y = 200
-    mfGun1.fireRate = 500;
-    mfGun1.fireAngle = 200;
-    game.physics.arcade.enable(mfGun1.bullets);
-    mfGun1.bulletGravity.y = 1000;
+    mfGunDx = game.add.weapon(100, 'bullet');
+    mfGunDx.trackSprite(mangiafuoco)
+    mfGunDx.trackOffset.y = 200
+    mfGunDx.fireRate = 500;
+    mfGunDx.fireAngle = 200;
+    game.physics.arcade.enable(mfGunDx.bullets);
+    mfGunDx.bulletGravity.y = 1000;
   }
 
   // Input (cursors and keys)
@@ -1780,7 +1783,7 @@ function update () {
     }
     else if (levelPlaying == 2) {
       shadow.x = 600;
-      shadow.y = player.y+120;
+      shadow.y = 1987;
     }
     else if (levelPlaying == 3) {
     }
@@ -1840,7 +1843,7 @@ function update () {
   game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
 
   if (levelPlaying == 3) {
-    game.physics.arcade.overlap(mfGun1.bullets, teatro, createFloorFire);
+    game.physics.arcade.overlap(mfGunDx.bullets, teatro, createFloorFire);
   }
 
   game.physics.arcade.overlap(player, floorFire, touchFloorFire);
@@ -1994,27 +1997,43 @@ var sniperFireOffset
     {
       jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
       if (gameStopWatch % 2 == 0) {
-          enemyJugGun0.fire(jugFiringPosition0);
-      }}}
-
-  if (levelPlaying == 3) {
-    //PALLE DI FUOCO DI MANGIAFUOCO
-  mfFireballSpeed = (Math.random() * (700 - 50) + 50)
-  mfGun1.bulletSpeed = mfFireballSpeed;
-
-  //console.log(mangiafuoco.frame)
-  if (Math.random() > 0.99) {
-    animManoDX.play('mangiafuocoManoDX');
-  }
-  if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
-      mfGun1.fire();
+        enemyJugGun0.fire(jugFiringPosition0);
+      }
     }
+  }
+  
+  //PALLE DI FUOCO DI MANGIAFUOCO
+  if (levelPlaying == 3) {
+    
+    mfFireballSpeed = (Math.random() * (700 - 50) + 50);
+    mfGunDx.bulletSpeed = mfFireballSpeed;
+    mfShootTimer += (Math.random() * (4 - 1) + 1);
+    if (mfShootTimer >= 280) {
+      console.log('mfShootTimer: '+mfShootTimer);
+      if (Math.random() > 0.5) {
+        animManoDX.play('mangiafuocoManoDX');
+        
+      } else {
+        animManoSX.play('mangiafuocoManoSX');
+      }
+      
+      mfShootTimer = 0;
+    }
+    //console.log(mangiafuoco.frame)
+    
+    if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+      mfGunDx.fire();
+    } else if (mangiafuoco.frame > 24 && mangiafuoco.frame < 26) {
+      mfGunSx.fire();
+    }
+
+    
     if (animManoDX.isPlaying === false) {
       mangiafuoco.animations.play('mangiafuocoL')
     }
   }
 
-    //ENEMY BOMB
+  //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < 3; i++) {
   if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 300)
@@ -2022,16 +2041,14 @@ var sniperFireOffset
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }}
 
+  enemyBomb.setAll('body.gravity.y', 2000);
+  enemyBomb.setAll('body.collideWorldBounds', true);
 
-    enemyBomb.setAll('body.gravity.y', 2000);
-    enemyBomb.setAll('body.collideWorldBounds', true);
+  enemySniper.setAll('body.gravity.y', 2000);
+  enemySniper.setAll('body.collideWorldBounds', true);
 
-    enemySniper.setAll('body.gravity.y', 2000);
-    enemySniper.setAll('body.collideWorldBounds', true);
-
-    enemyJug.setAll('body.gravity.y', 2000);
-    enemyJug.setAll('body.collideWorldBounds', true);
-
+  enemyJug.setAll('body.gravity.y', 2000);
+  enemyJug.setAll('body.collideWorldBounds', true);
 
 
   if(fireButton.isDown && player.alive == true) {
@@ -2633,7 +2650,7 @@ function shootEnemySniper(bullets, enemySniper) {
       enemySniperDead.animations.add('sniperDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
       enemySniperDead.animations.play('sniperDeadR', 15, false)
     }
-  }}
+}}
 
 function shootEnemyJug(bullets, enemyJug) {
   flashEnemyJug = game.add.tween(enemyJug).to( { tint: 0xFF0000 }, 50, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
@@ -2680,6 +2697,10 @@ function killbullets(bullets, object) {
 function EnemySniperDamage(player, bullets) {
   bullets.kill();
   player.damage(1);
+}
+
+function mangiaFuocoFire() {
+  
 }
 
 function createFloorFire(bullet, floor) {
