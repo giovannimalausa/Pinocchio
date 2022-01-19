@@ -1057,6 +1057,7 @@ function create() {
     level3_layer2 = game.add.sprite(0, 0, 'level3_layer2');
     level3_layer3 = game.add.sprite(0, 0, 'level3_layer3');
     level3_calpestabile = game.add.sprite(0, 0, 'level3_calpestabile');
+    level3_nuvola = game.add.sprite(7209, 1925, 'level3_nuvola');
 
 
     // Floor
@@ -1088,6 +1089,10 @@ function create() {
     modulo1x1.create(2200, 2050, 'modulo1x1');
     modulo1x1.create(2250, 2050, 'modulo1x1');
     modulo1x1.create(2300, 2050, 'modulo1x1');
+  
+    modulo1x1.create(7250, 1950, 'modulo1x1');
+    modulo1x1.create(7300, 1950, 'modulo1x1');
+    modulo1x1.create(7350, 1950, 'modulo1x1');
 
     modulo1x1.setAll('body.immovable', true);
 
@@ -1106,12 +1111,6 @@ function create() {
     teatro.alpha = 0;
 
     tenda = game.add.sprite(0, 0, 'tenda');
-
-    //Piattaforma nuvola
-    level3_nuvola = game.add.sprite(7209, 1925, 'level3_nuvola');
-    game.physics.arcade.enable(level3_nuvola);
-    level3_nuvola.body.setSize(215, 45, 0, 15);
-    level3_nuvola.body.immovable = true;
 
   }
 
@@ -1717,8 +1716,8 @@ function update () {
     game.physics.arcade.collide(gun1.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
-    game.physics.arcade.collide(player, level3_nuvola);
-    game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
+    //game.physics.arcade.collide(player, level3_nuvola);
+    //game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
