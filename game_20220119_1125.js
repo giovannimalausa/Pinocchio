@@ -2301,7 +2301,7 @@ var sniperFireOffset
       player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
       timerLivello2Livello3 += 1;
       if (timerLivello2Livello3 == 150) {
-        // Destroy gli sprite del Livello 1
+        // Destroy gli sprite del Livello 2
         console.log("Destroying Level 2 sprites...");
         hardDestroyLevel2();
 
@@ -2758,7 +2758,11 @@ function ammoSpent() {
 function heal(player, pozione) {
   if (player.health < 6) {
     pozione.kill();
-    player.heal(2);
+    if (player.health === 5) {
+      player.heal(1);
+    } else {
+      player.heal(2);
+    }
   }
 }
 
