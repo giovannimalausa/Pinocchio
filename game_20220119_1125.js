@@ -242,6 +242,10 @@ var enemyBombX;
 var enemySniperX;
 var enemyJugX;
 
+var enemyBombQuantity;
+var enemySniperQuantity;
+var enemyJugQuantity;
+
 // Variabili di gioco
 var facing = "right";
 var jumpPower = 0;
@@ -1235,10 +1239,13 @@ function create() {
   //posizionamento x nemici
   if (levelPlaying == 1) {
     enemyBombX = [3000, 5400, 9250];
+    enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
     enemyBombX = [4800, 11850, 18800];
+    enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
+    enemyBombQuantity = enemyBombX.length;
   }
 
   enemyBomb = game.add.physicsGroup();
@@ -1260,10 +1267,13 @@ function create() {
   // Inserire qui la coordinata X dei nemici
   if (levelPlaying == 1) {
   enemySniperX = [4425, 7300, 11600];
+  enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 2) {
     enemySniperX = [1800, 6275, 8550, 13400];
+    enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 3) {
     enemySniperX = [1600, 4300, 5300, 6150];
+    enemySniperQuantity = enemySniperX.length;
   }
 
   enemySniper = game.add.physicsGroup();
@@ -1292,10 +1302,13 @@ function create() {
   //EnemyJug
   if (levelPlaying == 1) {
     enemyJugX = [6500, 8800];
+    enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
     enemyJugX = [4000, 10500, 17150];
+    enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [3100, 4650, 6500];
+    enemyJugQuantity = enemyJugX.length;
   }
   enemyJug = game.add.physicsGroup();
   enemyJug.create(enemyJugX[0], 1300, 'marionettaJug');
@@ -1971,8 +1984,11 @@ enemyBomb.forEach(function (enemy) {
       //ENEMY
 
   //ENEMY SNIPER
+
+
+
 var sniperFireOffset
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < enemySniperQuantity; i++) {
       if (player.x < enemySniper.getChildAt(i).x) {
         sniperFireOffset = 30
       } else if (player.x > enemySniper.getChildAt(i).x) {
@@ -1991,9 +2007,10 @@ var sniperFireOffset
       }}}
 
 
+
   //ENEMY JUGGERNAUT
   var jugFireOffset
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < enemyJugQuantity; i++) {
     if (player.x < enemyJug.getChildAt(i).x) {
       jugFireOffset = 30;
       enemyJugGun0.fireAngle = 180;
@@ -2009,30 +2026,33 @@ var sniperFireOffset
           enemyJugGun0.fire(jugFiringPosition0);
       }}}
 
-  if (levelPlaying == 3) {
-    //PALLE DI FUOCO DI MANGIAFUOCO
-  mfFireballSpeed = (Math.random() * (700 - 50) + 50)
-  mfGun1.bulletSpeed = mfFireballSpeed;
-
-  //console.log(mangiafuoco.frame)
-  if (Math.random() > 0.99) {
-    animManoDX.play('mangiafuocoManoDX');
-  }
-  if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
-      mfGun1.fire();
-    }
-    if (animManoDX.isPlaying === false) {
-      mangiafuoco.animations.play('mangiafuocoL')
-    }
-  }
 
     //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < enemyBombQuantity; i++) {
   if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 300)
   || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }}
+
+
+
+if (levelPlaying == 3) {
+  //PALLE DI FUOCO DI MANGIAFUOCO
+mfFireballSpeed = (Math.random() * (700 - 50) + 50)
+mfGun1.bulletSpeed = mfFireballSpeed;
+
+//console.log(mangiafuoco.frame)
+if (Math.random() > 0.99) {
+  animManoDX.play('mangiafuocoManoDX');
+}
+if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+    mfGun1.fire();
+  }
+  if (animManoDX.isPlaying === false) {
+    mangiafuoco.animations.play('mangiafuocoL')
+  }
+}
 
 
     enemyBomb.setAll('body.gravity.y', 2000);
