@@ -1117,7 +1117,7 @@ function create() {
 
   // munizioni
   if (levelPlaying == 1) {
-    ammoBoxX = [3525, 5275, 9825];
+    ammoBoxX = [3690, 5265, 8315, 10715];
   } else if (levelPlaying == 2) {
     ammoBoxX = [1875, 4725, 10650, 17775];
   } else if (levelPlaying == 3) {
@@ -1125,7 +1125,7 @@ function create() {
   }
 
   if (levelPlaying == 1) {
-    ammoBoxY = [2125, 2125, 2025];
+    ammoBoxY = [1475, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
     ammoBoxY = [2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
@@ -1137,17 +1137,18 @@ function create() {
   ammoBox.create(ammoBoxX[0], ammoBoxY[0], 'ammoBox');
   ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
-  ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
-  //Con questo prova
+  ammoBox.create(ammoBoxX[2], ammoBoxY[3], 'ammoBox');
+
   if (levelPlaying == 2) {
-    //ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
+    ammoBox.create(ammoBoxX[3], ammoBoxY[4], 'ammoBox');
   }
+  
 
   game.physics.arcade.enable(ammoBox);
 
   // pozioni
   if (levelPlaying == 1) {
-    pozioneX = [3700, 8225, 10725];
+    pozioneX = [3500, 8225, 11125];
   } else if (levelPlaying == 2) {
     pozioneX = [3350, 6825, 13825, 19400];
   } else if (levelPlaying == 3) {
@@ -1155,7 +1156,7 @@ function create() {
   }
 
   if (levelPlaying == 1) {
-    pozioneY = [1475, 1925, 2125];
+    pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
     pozioneY = [1725, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
@@ -1167,7 +1168,10 @@ function create() {
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
+
+  if (levelPlaying == 2){
   pozione.create(pozioneX[3], pozioneY[3], 'pozione');
+  }
 
   game.physics.arcade.enable(pozione);
 
@@ -1238,8 +1242,8 @@ function create() {
 
   //posizionamento x nemici
   if (levelPlaying == 1) {
-    enemyBombX = [3000, 5400, 9250];
-    enemyBombD = [350, 300, 300]
+    enemyBombX = [2925, 5325, 9175];
+    enemyBombD = [375, 625, 475]
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
     enemyBombX = [4800, 7225, 11775, 17775, 18800];
@@ -1274,11 +1278,14 @@ function create() {
   //Enemy Sniper
   // Inserire qui la coordinata X dei nemici
   if (levelPlaying == 1) {
-  enemySniperX = [4425, 7300, 11600];
+    enemySniperX = [4425, 7300, 11600];
+    enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 2) {
     enemySniperX = [1800, 6275, 8550, 11325, 13400];
+    enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 3) {
     enemySniperX = [1600, 4300, 5300, 6150];
+    enemySniperQuantity = enemySniperX.length;
   }
 
   enemySniper = game.add.physicsGroup();
@@ -2076,10 +2083,6 @@ var sniperFireOffset
   enemySniper.setAll('body.gravity.y', 2000);
   enemySniper.setAll('body.collideWorldBounds', true);
 
-<<<<<<< Updated upstream
-  enemyJug.setAll('body.gravity.y', 2000);
-  enemyJug.setAll('body.collideWorldBounds', true);
-=======
 if (levelPlaying == 3) {
   //PALLE DI FUOCO DI MANGIAFUOCO
 mfFireballSpeed = (Math.random() * (700 - 50) + 50)
@@ -2107,7 +2110,6 @@ if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
     enemyJug.setAll('body.gravity.y', 2000);
     enemyJug.setAll('body.collideWorldBounds', true);
 
->>>>>>> Stashed changes
 
 
   if(fireButton.isDown && player.alive == true) {
