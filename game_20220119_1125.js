@@ -132,8 +132,8 @@ function preload() {
   game.load.image('level1_house19', 'assets/levelOne/houses/Casa 19.png');
 
   // Level 2
-  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/calpestabile1def.png');
-  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaforma2def.png');
+  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/piattaformaDef1.png');
+  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaformaDef2.png');
   game.load.image('level2_collineRosse', 'assets/levelTwo/collinerosse1def.png');
   game.load.image('level2_collineRosse2', 'assets/levelTwo/collinerosse2def.png');
   game.load.image('level2_collineGialle', 'assets/levelTwo/collinegialle1def.png');
@@ -723,7 +723,6 @@ function create() {
       modulo1x1.create(4150, 1950, 'modulo1x1');
       modulo1x1.create(4200, 1950, 'modulo1x1');
 
-      modulo1x1.create(4550, 2000, 'modulo1x1');
       modulo1x1.create(4600, 2000, 'modulo1x1');
       modulo1x1.create(4650, 2000, 'modulo1x1');
 
@@ -854,30 +853,30 @@ function create() {
 
       // Moduli 2x2
       modulo2x2.create(600, 2100, 'modulo2x2');
-      modulo2x2.create(800, 2100, 'modulo2x2');
-      modulo2x2.create(800, 2000, 'modulo2x2');
       modulo2x2.create(2950, 2100, 'modulo2x2');
       modulo2x2.create(3300, 2100, 'modulo2x2');
       modulo2x2.create(4400, 2100, 'modulo2x2');
       modulo2x2.create(6100, 2100, 'modulo2x2');
-      modulo2x2.create(6300, 2100, 'modulo2x2');
-      modulo2x2.create(6300, 2000, 'modulo2x2');
       modulo2x2.create(8800, 2100, 'modulo2x2');
       modulo2x2.create(8800, 2100, 'modulo2x2');
       modulo2x2.create(9200, 2100, 'modulo2x2');
       modulo2x2.create(9200, 2100, 'modulo2x2');
-      modulo2x2.create(9300, 2100, 'modulo2x2');
-      modulo2x2.create(9300, 2000, 'modulo2x2');
       modulo2x2.create(10750, 2100, 'modulo2x2');
-      modulo2x2.create(10850, 2100, 'modulo2x2');
-      modulo2x2.create(10850, 2000, 'modulo2x2');
       modulo2x2.create(14200, 2100, 'modulo2x2');
       modulo2x2.create(18000, 2100, 'modulo2x2');
       modulo2x2.create(18450, 2100, 'modulo2x2');
-      modulo2x2.create(18550, 2100, 'modulo2x2');
-      modulo2x2.create(18550, 2000, 'modulo2x2');
+
 
       modulo2x2.setAll('body.immovable', true);
+
+      // Moduli 2x4
+      modulo2x4.create(800, 2000, 'modulo2x4');
+      modulo2x4.create(6300, 2000, 'modulo2x4');
+      modulo2x4.create(9300, 2000, 'modulo2x4');
+      modulo2x4.create(10550, 2000, 'modulo2x4');
+      modulo2x4.create(18550, 2000, 'modulo2x4');
+
+      modulo2x4.setAll('body.immovable', true);
 
       // Interattivi
       // Ruota 1
