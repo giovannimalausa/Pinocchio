@@ -265,7 +265,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1850,7 +1850,9 @@ function update () {
   game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
   game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
 
-  game.physics.arcade.overlap(mfGun1.bullets, teatro, createFloorFire);
+  if (levelPlaying == 3) {
+    game.physics.arcade.overlap(mfGun1.bullets, teatro, createFloorFire);
+  }
 
   game.physics.arcade.overlap(player, floorFire, touchFloorFire);
 
@@ -2006,7 +2008,8 @@ var sniperFireOffset
           enemyJugGun0.fire(jugFiringPosition0);
       }}}
 
-  //PALLE DI FUOCO DI MANGIAFUOCO
+  if (levelPlaying == 3) {
+    //PALLE DI FUOCO DI MANGIAFUOCO
   mfFireballSpeed = (Math.random() * (700 - 50) + 50)
   mfGun1.bulletSpeed = mfFireballSpeed;
 
@@ -2020,10 +2023,7 @@ var sniperFireOffset
     if (animManoDX.isPlaying === false) {
       mangiafuoco.animations.play('mangiafuocoL')
     }
-
-
-
-    //  console.log(sniperFireAngle)
+  }
 
     //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
@@ -2393,7 +2393,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
-    player = game.add.sprite(7200, 1500, 'pinocchio'); //valore corretto: x = 200 y = 1900
+    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
     player.bringToTop();
