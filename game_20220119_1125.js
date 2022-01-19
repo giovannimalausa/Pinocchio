@@ -265,8 +265,9 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
+var timerLivello2Livello3 = 0;
 var cambioLivello = false;
 
 // Variabili grafiche
@@ -2298,8 +2299,8 @@ var sniperFireOffset
         console.log("Turning ON Autopilot...")
       }
       player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
-      timerLivello1Livello2 += 1;
-      if (timerLivello1Livello2 == 150) {
+      timerLivello2Livello3 += 1;
+      if (timerLivello2Livello3 == 150) {
         // Destroy gli sprite del Livello 1
         console.log("Destroying Level 2 sprites...");
         hardDestroyLevel2();
