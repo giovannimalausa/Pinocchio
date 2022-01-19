@@ -1144,6 +1144,10 @@ function create() {
   ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
   ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
+  //Con questo prova
+  if (levelPlaying == 2) {
+    //ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
+  }
 
   game.physics.arcade.enable(ammoBox);
 
@@ -1231,7 +1235,7 @@ function create() {
 
   gun1.fireLimit = bulletPool;
   gun1.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
-  gun1.setBulletBodyOffset(90, 30, 45, 45);
+  gun1.setBulletBodyOffset(16, 8, 66, 45);
   gun1.bulletAngleOffset = 180;
   gun1.bulletKillType = 4; //elimina proiettili fuori dalla camera
 
@@ -1298,7 +1302,7 @@ function create() {
   enemySniperGun0.bulletAngleVariance = 3;
   enemySniperGun0.bulletKillType = 4;
   enemySniperGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
-  enemySniperGun0.setBulletBodyOffset(90, 30, 45, 45);
+  enemySniperGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemySniperGun0.bulletAngleOffset = 180;
 
   //EnemyJug
@@ -1332,7 +1336,7 @@ function create() {
   enemyJugGun0.bulletAngleVariance = 5;
   enemyJugGun0.bulletKillType = 4;
   enemyJugGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
-  enemyJugGun0.setBulletBodyOffset(90, 30, 45, 45);
+  enemyJugGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemyJugGun0.bulletAngleOffset = 180;
 
   if (levelPlaying == 3) {
@@ -1433,6 +1437,9 @@ function update () {
   // Collide /Globali
   game.physics.arcade.collide(player, platforms);
 
+  game.physics.arcade.collide(player, modulo1x1, landingCallback, landingProcessCallback, this);
+  game.physics.arcade.collide(player, modulo2x2, landingCallback, landingProcessCallback, this);
+  game.physics.arcade.collide(player, modulo2x4, landingCallback, landingProcessCallback, this);
   game.physics.arcade.collide(player, modulo1x1);
   game.physics.arcade.collide(player, modulo2x2);
   game.physics.arcade.collide(player, modulo2x4);
@@ -1445,9 +1452,6 @@ function update () {
   game.physics.arcade.collide(enemySniper, modulo1x1);
   game.physics.arcade.collide(enemySniper, modulo2x2);
   game.physics.arcade.collide(enemySniper, modulo2x4);
-  game.physics.arcade.collide(player, modulo1x1, landingCallback, landingProcessCallback, this);
-  game.physics.arcade.collide(player, modulo2x2, landingCallback, landingProcessCallback, this);
-  game.physics.arcade.collide(player, modulo2x4, landingCallback, landingProcessCallback, this);
 
   //Collide proiettili vari
   game.physics.arcade.collide(gun1.bullets, modulo1x1, killbullets);
@@ -2071,14 +2075,14 @@ var sniperFireOffset
     gun1.fire();
   }
 
-  scatterShot = (Math.random() * (20-1) + 1);
+  scatterShot = (Math.random() * (25-1) + 1);
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
     gun1.trackOffset.y = 67 + scatterShot;
     gun1.fireAngle = 0;
   } else {
     gun1.trackOffset.x = 40;
-    gun1.trackOffset.y = 77 + scatterShot;
+    gun1.trackOffset.y = 67 + scatterShot;
     gun1.fireAngle = 180;
   }  //console.log(player.animations.frame);
 
