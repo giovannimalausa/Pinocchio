@@ -240,6 +240,8 @@ var floorFire;
 var animManoDX;
 var animManoSX;
 
+var randomAnim;
+
 // Enemy x spawn position
 var enemyBombX;
 var enemySniperX;
@@ -272,7 +274,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1144,10 +1146,6 @@ function create() {
   ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
   ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
-  //Con questo prova
-  if (levelPlaying == 2) {
-    //ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
-  }
 
   game.physics.arcade.enable(ammoBox);
 
@@ -1263,7 +1261,7 @@ function create() {
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
   enemyBomb.forEach(function (enemy) {
-    enemy.body.velocity.x = 90;
+    enemy.body.velocity.x = 120;
   });
   enemyBomb.callAll('animations.add', 'animations', 'bombaWalkR', [0,1,2,3,4,5,6,7,8,9,10], 15, true);
   enemyBomb.callAll('animations.add', 'animations', 'bombaWalkL', [21,20,19,18,17,16,15,14,13,12,11], 15, true);
@@ -1346,7 +1344,7 @@ function create() {
     mangiafuoco.body.collideWorldBounds = false;
     mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
     mangiafuoco.body.setSize(200, 250, 150, 135); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-    mangiafuoco.health = 20;
+    mangiafuoco.health = 25;
     mangiafuoco.animations.add('mangiafuocoL', [0,1,2,3,4,5,6,7,8,9], 10, true);
     animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
     animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
@@ -1355,9 +1353,19 @@ function create() {
     mfGunDx.trackSprite(mangiafuoco)
     mfGunDx.trackOffset.y = 200
     mfGunDx.fireRate = 500;
-    mfGunDx.fireAngle = 200;
-    game.physics.arcade.enable(mfGunDx.bullets);
+    mfGunDx.fireAngle = 205;
+    //game.physics.arcade.enable(mfGunDx.bullets);
     mfGunDx.bulletGravity.y = 1000;
+
+    mfGunSx = game.add.weapon(100, 'bullet');
+    mfGunSx.trackSprite(mangiafuoco)
+    mfGunSx.trackOffset.y = 200
+    mfGunSx.fireRate = 500;
+    mfGunSx.bulletSpeed = 400;
+  //  mfGunSx.fireAngle = 200;
+  //  game.physics.arcade.enable(mfGunDx.bullets);
+  //  mfGunDx.bulletGravity.y = 1000;
+
   }
 
   // Input (cursors and keys)
@@ -1737,7 +1745,7 @@ function update () {
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
     //game.physics.arcade.collide(player, level3_nuvola);
-    //game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
+    game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
@@ -1747,6 +1755,34 @@ function update () {
 
     game.physics.arcade.collide(mangiafuoco, level3_floor);
     game.physics.arcade.collide(mangiafuoco, teatro);
+
+    game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
+    game.physics.arcade.collide(mfGunDx.bullets, level3_nuvola, createFloorFire);
+
+
+      // Overlap tra player e enemy
+      game.physics.arcade.overlap(player, enemyBomb, touchEnemyBomb);
+      game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
+      game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
+      game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
+
+      game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
+
+
+      // Overlap tra enemies e player
+      game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
+      game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
+      game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
+
+      if (levelPlaying == 3) {
+      }
+      game.physics.arcade.overlap(player, floorFire, touchFloorFire);
+
+      // Interaction point
+      game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
+
+
+
 
   }
   // Automovement spawn
@@ -1809,7 +1845,7 @@ function update () {
     shadow.y = player.y+120;
   }
   if (levelPlaying == 3 && player.x > 7000) {
-    console.log("Player x > 6870")
+    //console.log("Player x > 6870")
     shadow.x = 7640;
     shadow.y = 1950;
   }
@@ -1819,7 +1855,7 @@ function update () {
   if (player.y > 2060 && autoPilot == false && gameWasOver == false) {
     game.camera.fade(0x000000, 1000);
     gameOverTimer += 1;
-    if (gameOverTimer == 50) {
+    if (gameOverTimer == 100) {
       console.log("Player fell below y=2060");
       gameover();
     }
@@ -1846,26 +1882,6 @@ function update () {
     level3_layer2.x = game.camera.x*(-0.025);
     level3_layer3.x = game.camera.x*(-0.09);
   }
-
-
-  // Overlap tra player e enemy
-  game.physics.arcade.overlap(player, enemyBomb, touchEnemyBomb);
-  game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
-  game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
-  game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
-
-  // Overlap tra enemies e player
-  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
-  game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
-
-  if (levelPlaying == 3) {
-    game.physics.arcade.overlap(mfGunDx.bullets, teatro, createFloorFire);
-  }
-
-  game.physics.arcade.overlap(player, floorFire, touchFloorFire);
-
-  // Interaction point
-  game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
   // Controls
   if (cursors.left.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso sinistra
@@ -2021,34 +2037,33 @@ var sniperFireOffset
       }
     }
   }
-  
+ randomAnim = Math.random()
   //PALLE DI FUOCO DI MANGIAFUOCO
   if (levelPlaying == 3) {
-    
+
     mfFireballSpeed = (Math.random() * (700 - 50) + 50);
     mfGunDx.bulletSpeed = mfFireballSpeed;
     mfShootTimer += (Math.random() * (4 - 1) + 1);
     if (mfShootTimer >= 280) {
       console.log('mfShootTimer: '+mfShootTimer);
-      if (Math.random() > 0.5) {
+      if (randomAnim > 0.5) {
         animManoDX.play('mangiafuocoManoDX');
-        
-      } else {
+
+      } else if (randomAnim < 0.5){
         animManoSX.play('mangiafuocoManoSX');
       }
-      
+
       mfShootTimer = 0;
     }
-    //console.log(mangiafuoco.frame)
-    
+    console.log(mangiafuoco.frame)
+
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
       mfGunDx.fire();
     } else if (mangiafuoco.frame > 24 && mangiafuoco.frame < 26) {
-      mfGunSx.fire();
+      mfGunSx.fire(null, player.x, player.y + 90);
     }
 
-    
-    if (animManoDX.isPlaying === false) {
+    if (animManoDX.isPlaying === false && animManoSX.isPlaying === false) {
       mangiafuoco.animations.play('mangiafuocoL')
     }
   }
@@ -2320,7 +2335,7 @@ var sniperFireOffset
       if (autoPilot == false) {
         autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
         enableUserMovement = false; // Disabilita i controlli da parte dell'utente
-        player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
+        //player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
         console.log("Turning ON Autopilot...")
       }
       player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
@@ -2419,7 +2434,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
-    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+    player = game.add.sprite(7200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
     player.bringToTop();
@@ -2704,6 +2719,10 @@ function touchEnemyBomb(player, enemyBomb) {
   console.log("touchEnemyBomb(). Player health -= 2.")
 
 }
+function shootMangiafuoco(mf, bullet) {
+  bullet.kill()
+  mf.damage(1)
+}
 
 function EnemyDamage(player, bullets) {
   bullets.kill();
@@ -2720,7 +2739,7 @@ function EnemySniperDamage(player, bullets) {
 }
 
 function mangiaFuocoFire() {
-  
+
 }
 
 function createFloorFire(bullet, floor) {
