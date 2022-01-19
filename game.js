@@ -252,7 +252,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var cambioLivello = false;
 
@@ -1093,12 +1093,11 @@ function create() {
 
     tenda = game.add.sprite(0, 0, 'tenda');
 
-    //nuvole
+    //Piattaforma nuvola
     level3_nuvola = game.add.sprite(7209, 1925, 'level3_nuvola');
     game.physics.arcade.enable(level3_nuvola);
     level3_nuvola.body.setSize(215, 45, 0, 15);
     level3_nuvola.body.immovable = true;
-
   }
 
   // munizioni
@@ -1361,6 +1360,7 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
+
   //console.log('gameWasOver: '+gameWasOver);
   // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
@@ -1676,7 +1676,7 @@ function update () {
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(player, level3_nuvola);
-    game.physics.arcade.collide(gun1.bullets, level3_nuvola, killbullets); //non funziona non so perché
+    game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
     game.physics.arcade.collide(enemyJug, level3_floor);
@@ -2499,7 +2499,6 @@ function hardDestroyLevel3() {
   teatro.destroy();
   tenda.destroy();
   level3_nuvola.destroy();
-  level3_nuvola2.destroy();
 
   console.log('hardDestroyLevel3() completed.');
 }
@@ -2620,8 +2619,9 @@ function EnemyDamage(player, bullets) {
   player.damage(1);
 }
 
-function killbullets(bullets, object) {
+function killbullets(bullets) {
   bullets.kill();
+  console.log("Bullet killed.")
 }
 
 
@@ -2731,5 +2731,4 @@ function render () {
    //game.debug.body(enemySniper.getChildAt(0));
 
   // game.debug.spriteInfo(player, 30, 100);
-  //game.debug.body(level3_nuvola);
 }
