@@ -1783,29 +1783,17 @@ function update () {
       shadow.y = player.y+120;
     }
     else if (levelPlaying == 3) {
-
     }
 
   } else if (autoPilot == false) {
     shadow.x = player.x+350;
     shadow.y = player.y+120;
   }
-
-  // else if(player.y < 1900 && player.y > 1600)
-  // {
-  //   shadow.x = player.x+350;
-  //   shadow.y = player.y+100;
-  // }
-  // else if(player.y < 1600)
-  // {
-  //   shadow.x = player.x+350;
-  //   shadow.y = player.y+120;
-  // } else {
-  //   shadow.y = player.y-70;
-  //   if (autoPilot == false) {
-  //     shadow.x = player.x+350;
-  //   }
-  // }
+  if (levelPlaying == 3 && player.x > 7000) {
+    console.log("Player x > 6870")
+    shadow.x = 7640;
+    shadow.y = 1950;
+  }
 
   // Game Over
   // Game over per caduta
