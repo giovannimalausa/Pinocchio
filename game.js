@@ -24,7 +24,9 @@ function preload() {
 
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+
   game.load.spritesheet('pinocchioBullet', 'assets/sprites/pinocchio/pinocchioBullet.png', 150, 100, 4);
+  game.load.spritesheet('nemiciBullet', 'assets/sprites/nemiciBullet.png', 150, 100, 4);
 
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
@@ -35,6 +37,9 @@ function preload() {
 
   game.load.spritesheet('marionettaBomba', 'assets/sprites/marionettaBomba.png', 180, 180, 22);
   game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
+
+  game.load.spritesheet('ilBoss', 'assets/sprites/mangiafuoco.png', 500, 500, 60);
+  game.load.spritesheet('fuocoATerra', 'assets/sprites/fuocoATerra.png', 150, 100, 30);
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
 
@@ -224,6 +229,14 @@ var dustVar;
 var enemySniperGun0
 var enemyJugGun0
 
+// Variabili Mangiafuoco
+var mangiafuoco;
+var mfGun1;
+var mfFireballSpeed;
+var floorFire;
+var animManoDX;
+var animManoSX;
+
 // Enemy x spawn position
 var enemyBombX;
 var enemySniperX;
@@ -393,6 +406,7 @@ var gun1;
 var bulletPool = 50;
 const maxAmmo = 50;
 var pickAmmo;
+var scatterShot;
 
 const playerMaxHealth = 6;
 
@@ -1098,6 +1112,7 @@ function create() {
     game.physics.arcade.enable(level3_nuvola);
     level3_nuvola.body.setSize(215, 45, 0, 15);
     level3_nuvola.body.immovable = true;
+
   }
 
   // munizioni
@@ -1175,6 +1190,7 @@ function create() {
   // Coordinate di spawn [variano a seconda del livello caricato]
   spawn();
 
+//  PINOCCHIO SPRITESHEET V3
   player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -1264,11 +1280,14 @@ function create() {
   enemySniper.callAll('body.setSize', 'body', 70, 95, 45, 32);
 
   //EnemySniper Weapon
-  enemySniperGun0 = game.add.weapon(100, 'bullet');
+  enemySniperGun0 = game.add.weapon(100, 'nemiciBullet');
   enemySniperGun0.fireRate = 1600;
   enemySniperGun0.bulletSpeed = 400;
-  enemySniperGun0.bulletAngleVariance = 5;
+  enemySniperGun0.bulletAngleVariance = 3;
   enemySniperGun0.bulletKillType = 4;
+  enemySniperGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
+  enemySniperGun0.setBulletBodyOffset(90, 30, 45, 45);
+  enemySniperGun0.bulletAngleOffset = 180;
 
   //EnemyJug
   if (levelPlaying == 1) {
@@ -1292,11 +1311,35 @@ function create() {
 
   enemyJug.callAll('body.setSize', 'body', 100, 115, 40, 44);
 
-  enemyJugGun0 = game.add.weapon(100, 'bullet');
+  enemyJugGun0 = game.add.weapon(100, 'nemiciBullet');
   enemyJugGun0.fireRate = 500; //100 quello previsto, abbassato per poter giocare
   enemyJugGun0.bulletSpeed = 400;
   enemyJugGun0.bulletAngleVariance = 5;
   enemyJugGun0.bulletKillType = 4;
+  enemyJugGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
+  enemyJugGun0.setBulletBodyOffset(90, 30, 45, 45);
+  enemyJugGun0.bulletAngleOffset = 180;
+
+  if (levelPlaying == 3) {
+    mangiafuoco = game.add.sprite(7700, 1200, 'ilBoss')
+
+    game.physics.arcade.enable(mangiafuoco);
+    mangiafuoco.body.collideWorldBounds = false;
+    mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
+    mangiafuoco.body.setSize(200, 250, 150, 135); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
+    mangiafuoco.health = 20;
+    mangiafuoco.animations.add('mangiafuocoL', [0,1,2,3,4,5,6,7,8,9], 10, true);
+    animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
+    animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
+
+    mfGun1 = game.add.weapon(100, 'bullet');
+    mfGun1.trackSprite(mangiafuoco)
+    mfGun1.trackOffset.y = 200
+    mfGun1.fireRate = 500;
+    mfGun1.fireAngle = 200;
+    game.physics.arcade.enable(mfGun1.bullets);
+    mfGun1.bulletGravity.y = 1000;
+  }
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
@@ -1360,7 +1403,6 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
-
   //console.log('gameWasOver: '+gameWasOver);
   // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
@@ -1391,7 +1433,7 @@ function update () {
   game.physics.arcade.collide(player, modulo1x1, landingCallback, landingProcessCallback, this);
   game.physics.arcade.collide(player, modulo2x2, landingCallback, landingProcessCallback, this);
   game.physics.arcade.collide(player, modulo2x4, landingCallback, landingProcessCallback, this);
-  
+
   //Collide proiettili vari
   game.physics.arcade.collide(gun1.bullets, modulo1x1, killbullets);
   game.physics.arcade.collide(enemySniperGun0.bullets, modulo1x1, killbullets);
@@ -1683,6 +1725,10 @@ function update () {
     game.physics.arcade.collide(enemyJugGun0.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(enemySniper, level3_floor);
+
+    game.physics.arcade.collide(mangiafuoco, level3_floor);
+    game.physics.arcade.collide(mangiafuoco, teatro);
+
   }
   // Automovement spawn
   if (levelPlaying == 1 && spawning == true) {
@@ -1804,6 +1850,10 @@ function update () {
   // Overlap tra enemies e player
   game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
   game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
+
+  game.physics.arcade.overlap(mfGun1.bullets, teatro, createFloorFire);
+
+  game.physics.arcade.overlap(player, floorFire, touchFloorFire);
 
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
@@ -1940,23 +1990,37 @@ var sniperFireOffset
 
 
   //ENEMY JUGGERNAUT
-      var jugFireOffset
-          for (i = 0; i < 1; i++) {
-            if (player.x < enemyJug.getChildAt(i).x) {
-              jugFireOffset = 30;
-              enemyJugGun0.fireAngle = 180;
-            } else if (player.x > enemyJug.getChildAt(i).x) {
-              jugFireOffset = 160
-              enemyJugGun0.fireAngle = 0;
-            }
+  var jugFireOffset
+  for (i = 0; i < 1; i++) {
+    if (player.x < enemyJug.getChildAt(i).x) {
+      jugFireOffset = 30;
+      enemyJugGun0.fireAngle = 180;
+    } else if (player.x > enemyJug.getChildAt(i).x) {
+      jugFireOffset = 160;
+      enemyJugGun0.fireAngle = 0;
+    }
 
-            if (enemyJug.getChildAt(i).inCamera == true && enemyJug.getChildAt(i).alive == true)
-            {
-              jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
-              if(gameStopWatch % 2 == 0) {
-                  enemyJugGun0.fire(jugFiringPosition0);
-              }}}
+    if (enemyJug.getChildAt(i).inCamera == true && enemyJug.getChildAt(i).alive == true)
+    {
+      jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
+      if (gameStopWatch % 2 == 0) {
+          enemyJugGun0.fire(jugFiringPosition0);
+      }}}
 
+  //PALLE DI FUOCO DI MANGIAFUOCO
+  mfFireballSpeed = (Math.random() * (700 - 50) + 50)
+  mfGun1.bulletSpeed = mfFireballSpeed;
+
+  //console.log(mangiafuoco.frame)
+  if (Math.random() > 0.99) {
+    animManoDX.play('mangiafuocoManoDX');
+  }
+  if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+      mfGun1.fire();
+    }
+    if (animManoDX.isPlaying === false) {
+      mangiafuoco.animations.play('mangiafuocoL')
+    }
 
 
 
@@ -1985,16 +2049,17 @@ var sniperFireOffset
   if(fireButton.isDown && player.alive == true) {
     gun1.fire();
   }
+
+  scatterShot = (Math.random() * (20-1) + 1);
   if (facing === 'right') {
     gun1.trackOffset.x = 170;
-    gun1.trackOffset.y = 79;
+    gun1.trackOffset.y = 67 + scatterShot;
     gun1.fireAngle = 0;
   } else {
     gun1.trackOffset.x = 40;
-    gun1.trackOffset.y = 90;
+    gun1.trackOffset.y = 77 + scatterShot;
     gun1.fireAngle = 180;
-  }
-  //console.log(player.animations.frame);
+  }  //console.log(player.animations.frame);
 
   // Salto con funzione di potenza variabile
   if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
@@ -2329,7 +2394,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
-    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200
+    player = game.add.sprite(7200, 1500, 'pinocchio'); //valore corretto: x = 200 y = 1900
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
     player.bringToTop();
@@ -2499,6 +2564,7 @@ function hardDestroyLevel3() {
   teatro.destroy();
   tenda.destroy();
   level3_nuvola.destroy();
+  level3_nuvola2.destroy();
 
   console.log('hardDestroyLevel3() completed.');
 }
@@ -2619,9 +2685,28 @@ function EnemyDamage(player, bullets) {
   player.damage(1);
 }
 
-function killbullets(bullets) {
+function killbullets(bullets, object) {
   bullets.kill();
-  console.log("Bullet killed.")
+}
+
+function EnemySniperDamage(player, bullets) {
+  bullets.kill();
+  player.damage(1);
+}
+
+function createFloorFire(bullet, floor) {
+  floorFire = game.add.sprite(bullet.x - 100, bullet.y -65, 'fuocoATerra')
+  floorFire.animations.add('fuoco', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29])
+  floorFire.animations.play('fuoco', 10, false, true);
+
+  bullet.kill();
+
+  game.physics.arcade.enable(floorFire);
+  floorFire.body.setSize(40, 60, 60, 30);
+}
+
+function touchFloorFire(player, fire) {
+  player.damage(1);
 }
 
 
@@ -2731,4 +2816,5 @@ function render () {
    //game.debug.body(enemySniper.getChildAt(0));
 
   // game.debug.spriteInfo(player, 30, 100);
+  //game.debug.body(level3_nuvola);
 }
