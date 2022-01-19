@@ -1392,12 +1392,12 @@ function create() {
     level3_nuvola.bringToTop();
   }
 
-  healthFull1.bringToTop();
-  healthFull2.bringToTop();
-  healthFull3.bringToTop();
   healthHalf1.bringToTop();
   healthHalf2.bringToTop();
   healthHalf3.bringToTop();
+  healthFull1.bringToTop();
+  healthFull2.bringToTop();
+  healthFull3.bringToTop();
 
   ammoUI1.bringToTop();
   ammoUI2.bringToTop();
