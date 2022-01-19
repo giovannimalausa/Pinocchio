@@ -132,8 +132,8 @@ function preload() {
   game.load.image('level1_house19', 'assets/levelOne/houses/Casa 19.png');
 
   // Level 2
-  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/calpestabile1def.png');
-  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaforma2def.png');
+  game.load.image('level2_calpestabile_parte1', 'assets/levelTwo/piattaformaDef1.png');
+  game.load.image('level2_calpestabile_parte2', 'assets/levelTwo/piattaformaDef2.png');
   game.load.image('level2_collineRosse', 'assets/levelTwo/collinerosse1def.png');
   game.load.image('level2_collineRosse2', 'assets/levelTwo/collinerosse2def.png');
   game.load.image('level2_collineGialle', 'assets/levelTwo/collinegialle1def.png');
@@ -231,7 +231,10 @@ var enemyJugGun0
 
 // Variabili Mangiafuoco
 var mangiafuoco;
-var mfGun1;
+var mfGunDx;
+var mfGunSx;
+var mfShootTimer = 0;
+var mfShootTimerBase = 200;
 var mfFireballSpeed;
 var floorFire;
 var animManoDX;
@@ -269,7 +272,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -723,7 +726,6 @@ function create() {
       modulo1x1.create(4150, 1950, 'modulo1x1');
       modulo1x1.create(4200, 1950, 'modulo1x1');
 
-      modulo1x1.create(4550, 2000, 'modulo1x1');
       modulo1x1.create(4600, 2000, 'modulo1x1');
       modulo1x1.create(4650, 2000, 'modulo1x1');
 
@@ -854,30 +856,30 @@ function create() {
 
       // Moduli 2x2
       modulo2x2.create(600, 2100, 'modulo2x2');
-      modulo2x2.create(800, 2100, 'modulo2x2');
-      modulo2x2.create(800, 2000, 'modulo2x2');
       modulo2x2.create(2950, 2100, 'modulo2x2');
       modulo2x2.create(3300, 2100, 'modulo2x2');
       modulo2x2.create(4400, 2100, 'modulo2x2');
       modulo2x2.create(6100, 2100, 'modulo2x2');
-      modulo2x2.create(6300, 2100, 'modulo2x2');
-      modulo2x2.create(6300, 2000, 'modulo2x2');
       modulo2x2.create(8800, 2100, 'modulo2x2');
       modulo2x2.create(8800, 2100, 'modulo2x2');
       modulo2x2.create(9200, 2100, 'modulo2x2');
       modulo2x2.create(9200, 2100, 'modulo2x2');
-      modulo2x2.create(9300, 2100, 'modulo2x2');
-      modulo2x2.create(9300, 2000, 'modulo2x2');
       modulo2x2.create(10750, 2100, 'modulo2x2');
-      modulo2x2.create(10850, 2100, 'modulo2x2');
-      modulo2x2.create(10850, 2000, 'modulo2x2');
       modulo2x2.create(14200, 2100, 'modulo2x2');
       modulo2x2.create(18000, 2100, 'modulo2x2');
       modulo2x2.create(18450, 2100, 'modulo2x2');
-      modulo2x2.create(18550, 2100, 'modulo2x2');
-      modulo2x2.create(18550, 2000, 'modulo2x2');
+
 
       modulo2x2.setAll('body.immovable', true);
+
+      // Moduli 2x4
+      modulo2x4.create(800, 2000, 'modulo2x4');
+      modulo2x4.create(6300, 2000, 'modulo2x4');
+      modulo2x4.create(9300, 2000, 'modulo2x4');
+      modulo2x4.create(10550, 2000, 'modulo2x4');
+      modulo2x4.create(18550, 2000, 'modulo2x4');
+
+      modulo2x4.setAll('body.immovable', true);
 
       // Interattivi
       // Ruota 1
@@ -1349,13 +1351,13 @@ function create() {
     animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
     animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
 
-    mfGun1 = game.add.weapon(100, 'bullet');
-    mfGun1.trackSprite(mangiafuoco)
-    mfGun1.trackOffset.y = 200
-    mfGun1.fireRate = 500;
-    mfGun1.fireAngle = 200;
-    game.physics.arcade.enable(mfGun1.bullets);
-    mfGun1.bulletGravity.y = 1000;
+    mfGunDx = game.add.weapon(100, 'bullet');
+    mfGunDx.trackSprite(mangiafuoco)
+    mfGunDx.trackOffset.y = 200
+    mfGunDx.fireRate = 500;
+    mfGunDx.fireAngle = 200;
+    game.physics.arcade.enable(mfGunDx.bullets);
+    mfGunDx.bulletGravity.y = 1000;
   }
 
   // Input (cursors and keys)
@@ -1797,7 +1799,7 @@ function update () {
     }
     else if (levelPlaying == 2) {
       shadow.x = 600;
-      shadow.y = player.y+120;
+      shadow.y = 1987;
     }
     else if (levelPlaying == 3) {
     }
@@ -1857,7 +1859,7 @@ function update () {
   game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
 
   if (levelPlaying == 3) {
-    game.physics.arcade.overlap(mfGun1.bullets, teatro, createFloorFire);
+    game.physics.arcade.overlap(mfGunDx.bullets, teatro, createFloorFire);
   }
 
   game.physics.arcade.overlap(player, floorFire, touchFloorFire);
@@ -2015,11 +2017,43 @@ var sniperFireOffset
     {
       jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
       if (gameStopWatch % 2 == 0) {
-          enemyJugGun0.fire(jugFiringPosition0);
-      }}}
+        enemyJugGun0.fire(jugFiringPosition0);
+      }
+    }
+  }
+  
+  //PALLE DI FUOCO DI MANGIAFUOCO
+  if (levelPlaying == 3) {
+    
+    mfFireballSpeed = (Math.random() * (700 - 50) + 50);
+    mfGunDx.bulletSpeed = mfFireballSpeed;
+    mfShootTimer += (Math.random() * (4 - 1) + 1);
+    if (mfShootTimer >= 280) {
+      console.log('mfShootTimer: '+mfShootTimer);
+      if (Math.random() > 0.5) {
+        animManoDX.play('mangiafuocoManoDX');
+        
+      } else {
+        animManoSX.play('mangiafuocoManoSX');
+      }
+      
+      mfShootTimer = 0;
+    }
+    //console.log(mangiafuoco.frame)
+    
+    if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+      mfGunDx.fire();
+    } else if (mangiafuoco.frame > 24 && mangiafuoco.frame < 26) {
+      mfGunSx.fire();
+    }
 
+    
+    if (animManoDX.isPlaying === false) {
+      mangiafuoco.animations.play('mangiafuocoL')
+    }
+  }
 
-    //ENEMY BOMB
+  //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < enemyBombQuantity; i++) {
   if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 300)
@@ -2027,35 +2061,14 @@ var sniperFireOffset
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }}
 
+  enemyBomb.setAll('body.gravity.y', 2000);
+  enemyBomb.setAll('body.collideWorldBounds', true);
 
+  enemySniper.setAll('body.gravity.y', 2000);
+  enemySniper.setAll('body.collideWorldBounds', true);
 
-if (levelPlaying == 3) {
-  //PALLE DI FUOCO DI MANGIAFUOCO
-mfFireballSpeed = (Math.random() * (700 - 50) + 50)
-mfGun1.bulletSpeed = mfFireballSpeed;
-
-//console.log(mangiafuoco.frame)
-if (Math.random() > 0.99) {
-  animManoDX.play('mangiafuocoManoDX');
-}
-if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
-    mfGun1.fire();
-  }
-  if (animManoDX.isPlaying === false) {
-    mangiafuoco.animations.play('mangiafuocoL')
-  }
-}
-
-
-    enemyBomb.setAll('body.gravity.y', 2000);
-    enemyBomb.setAll('body.collideWorldBounds', true);
-
-    enemySniper.setAll('body.gravity.y', 2000);
-    enemySniper.setAll('body.collideWorldBounds', true);
-
-    enemyJug.setAll('body.gravity.y', 2000);
-    enemyJug.setAll('body.collideWorldBounds', true);
-
+  enemyJug.setAll('body.gravity.y', 2000);
+  enemyJug.setAll('body.collideWorldBounds', true);
 
 
   if(fireButton.isDown && player.alive == true) {
@@ -2657,7 +2670,7 @@ function shootEnemySniper(bullets, enemySniper) {
       enemySniperDead.animations.add('sniperDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
       enemySniperDead.animations.play('sniperDeadR', 15, false)
     }
-  }}
+}}
 
 function shootEnemyJug(bullets, enemyJug) {
   flashEnemyJug = game.add.tween(enemyJug).to( { tint: 0xFF0000 }, 50, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
@@ -2704,6 +2717,10 @@ function killbullets(bullets, object) {
 function EnemySniperDamage(player, bullets) {
   bullets.kill();
   player.damage(1);
+}
+
+function mangiaFuocoFire() {
+  
 }
 
 function createFloorFire(bullet, floor) {
