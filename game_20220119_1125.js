@@ -246,6 +246,7 @@ var randomAnim;
 var enemyBombX;
 var enemySniperX;
 var enemyJugX;
+var enemyBombD;
 
 var enemyBombQuantity;
 var enemySniperQuantity;
@@ -274,7 +275,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -728,9 +729,6 @@ function create() {
       modulo1x1.create(4150, 1950, 'modulo1x1');
       modulo1x1.create(4200, 1950, 'modulo1x1');
 
-      modulo1x1.create(4600, 2000, 'modulo1x1');
-      modulo1x1.create(4650, 2000, 'modulo1x1');
-
       modulo1x1.create(4800, 1850, 'modulo1x1');
       modulo1x1.create(4850, 1850, 'modulo1x1');
       modulo1x1.create(4900, 1850, 'modulo1x1');
@@ -787,6 +785,7 @@ function create() {
       modulo1x1.create(11950, 1600, 'modulo1x1');
       modulo1x1.create(12000, 1600, 'modulo1x1');
       modulo1x1.create(12050, 1600, 'modulo1x1');
+      modulo1x1.create(12100, 1600, 'modulo1x1');
 
       modulo1x1.create(12600, 1600, 'modulo1x1');
       modulo1x1.create(12650, 1600, 'modulo1x1');
@@ -812,9 +811,6 @@ function create() {
       modulo1x1.create(14450, 1950, 'modulo1x1');
       modulo1x1.create(14500, 1950, 'modulo1x1');
       modulo1x1.create(14550, 1950, 'modulo1x1');
-
-      modulo1x1.create(14800, 2000, 'modulo1x1');
-      modulo1x1.create(14850, 2000, 'modulo1x1');
 
       modulo1x1.create(17150, 1550, 'modulo1x1');
       modulo1x1.create(17200, 1550, 'modulo1x1');
@@ -850,10 +846,6 @@ function create() {
       modulo1x1.create(19100, 1850, 'modulo1x1');
       modulo1x1.create(19150, 1850, 'modulo1x1');
 
-      modulo1x1.create(19350, 2000, 'modulo1x1');
-      modulo1x1.create(19400, 2000, 'modulo1x1');
-      modulo1x1.create(19450, 2000, 'modulo1x1');
-
       modulo1x1.setAll('body.immovable', true);
 
       // Moduli 2x2
@@ -862,10 +854,8 @@ function create() {
       modulo2x2.create(3300, 2100, 'modulo2x2');
       modulo2x2.create(4400, 2100, 'modulo2x2');
       modulo2x2.create(6100, 2100, 'modulo2x2');
-      modulo2x2.create(8800, 2100, 'modulo2x2');
-      modulo2x2.create(8800, 2100, 'modulo2x2');
-      modulo2x2.create(9200, 2100, 'modulo2x2');
-      modulo2x2.create(9200, 2100, 'modulo2x2');
+      modulo2x2.create(9100, 2100, 'modulo2x2');
+      modulo2x2.create(9700, 2100, 'modulo2x2');
       modulo2x2.create(10750, 2100, 'modulo2x2');
       modulo2x2.create(14200, 2100, 'modulo2x2');
       modulo2x2.create(18000, 2100, 'modulo2x2');
@@ -876,10 +866,14 @@ function create() {
 
       // Moduli 2x4
       modulo2x4.create(800, 2000, 'modulo2x4');
+      modulo2x4.create(4550, 2000, 'modulo2x4');
       modulo2x4.create(6300, 2000, 'modulo2x4');
-      modulo2x4.create(9300, 2000, 'modulo2x4');
-      modulo2x4.create(10550, 2000, 'modulo2x4');
+      modulo2x4.create(8850, 2000, 'modulo2x4');
+      modulo2x4.create(10850, 2000, 'modulo2x4');
+      modulo2x4.create(14800, 2000, 'modulo2x4');
       modulo2x4.create(18550, 2000, 'modulo2x4');
+
+      modulo2x4.create(19350, 2000, 'modulo2x4');
 
       modulo2x4.setAll('body.immovable', true);
 
@@ -1125,17 +1119,17 @@ function create() {
 
   // munizioni
   if (levelPlaying == 1) {
-    ammoBoxX = [3525, 5275, 9825];
+    ammoBoxX = [3690, 5265, 8315, 10715];
   } else if (levelPlaying == 2) {
-    ammoBoxX = [1875, 4725, 10650, 17775];
+    ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
   } else if (levelPlaying == 3) {
     ammoBoxX = [920, 5825, 6625, 7100];
   }
 
   if (levelPlaying == 1) {
-    ammoBoxY = [2125, 2125, 2025];
+    ammoBoxY = [1475, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
-    ammoBoxY = [2125, 2125, 2125, 1925];
+    ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
     ammoBoxY = [2025, 2125, 2125, 2025];
   }
@@ -1147,21 +1141,27 @@ function create() {
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
   ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
 
+  if (levelPlaying == 2) {
+    ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
+    ammoBox.create(ammoBoxX[5], ammoBoxY[5], 'ammoBox');
+  }
+
+
   game.physics.arcade.enable(ammoBox);
 
   // pozioni
   if (levelPlaying == 1) {
-    pozioneX = [3700, 8225, 10725];
+    pozioneX = [3500, 8225, 11125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 13825, 19400];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
   } else if (levelPlaying == 3) {
     pozioneX = [3475, 4975, 6925];
   }
 
   if (levelPlaying == 1) {
-    pozioneY = [1475, 1925, 2125];
+    pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneY = [1725, 2125, 2125, 1925];
+    pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneY = [2025, 2125, 2025];
   }
@@ -1171,7 +1171,12 @@ function create() {
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
+
+  if (levelPlaying == 2){
   pozione.create(pozioneX[3], pozioneY[3], 'pozione');
+  pozione.create(pozioneX[4], pozioneY[4], 'pozione');
+  pozione.create(pozioneX[5], pozioneY[5], 'pozione');
+  }
 
   game.physics.arcade.enable(pozione);
 
@@ -1242,13 +1247,16 @@ function create() {
 
   //posizionamento x nemici
   if (levelPlaying == 1) {
-    enemyBombX = [3000, 5400, 9250];
+    enemyBombX = [2925, 5325, 9175];
+    enemyBombD = [375, 625, 475]
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
-    enemyBombX = [4800, 11850, 18800];
+    enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
+    enemyBombD = [375, 275, 275, 200, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
+    enemyBombD = [1950, 3700, 5500];
     enemyBombQuantity = enemyBombX.length;
   }
 
@@ -1257,6 +1265,12 @@ function create() {
   enemyBomb.create(enemyBombX[0], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[1], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[2], 1200, 'marionettaBomba');
+
+  if (levelPlaying == 2) {
+  enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[5], 1200, 'marionettaBomba');
+  }
 
   game.physics.arcade.enable(enemyBomb);
   enemyBomb.setAll('health', 3);
@@ -1270,10 +1284,10 @@ function create() {
   //Enemy Sniper
   // Inserire qui la coordinata X dei nemici
   if (levelPlaying == 1) {
-  enemySniperX = [4425, 7300, 11600];
-  enemySniperQuantity = enemySniperX.length;
+    enemySniperX = [4425, 7300, 11600];
+    enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 2) {
-    enemySniperX = [1800, 6275, 8550, 13400];
+    enemySniperX = [1800, 6550, 9500, 11325, 13400];
     enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 3) {
     enemySniperX = [1600, 4300, 5300, 6150];
@@ -1284,7 +1298,17 @@ function create() {
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[2], 1500, 'marionettaSniper');
-  enemySniper.create(enemySniperX[3], 1500, 'marionettaSniper');
+
+    if (levelPlaying == 2) {
+    enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
+    enemySniper.create(enemySniperX[4], 1200, 'marionettaSniper');
+    }
+
+    if (levelPlaying == 3) {
+      enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
+      enemySniper.create(enemySniperX[4], 1200, 'marionettaSniper');
+      }
+
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 5);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
@@ -1308,7 +1332,7 @@ function create() {
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 10500, 17150];
+    enemyJugX = [4000, 8500, 10500, 14825, 17500];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [3100, 4650, 6500];
@@ -1318,6 +1342,10 @@ function create() {
   enemyJug.create(enemyJugX[0], 1300, 'marionettaJug');
   enemyJug.create(enemyJugX[1], 1300, 'marionettaJug');
   enemyJug.create(enemyJugX[2], 1300, 'marionettaJug');
+  if (levelPlaying == 2) {
+    enemyJug.create(enemyJugX[3], 1300, 'marionettaJug');
+    enemyJug.create(enemyJugX[4], 1300, 'marionettaJug');
+  }
   game.physics.arcade.enable(enemyJug);
 
   enemyJug.setAll('health', 7);
@@ -1404,12 +1432,12 @@ function create() {
     level3_nuvola.bringToTop();
   }
 
-  healthFull1.bringToTop();
-  healthFull2.bringToTop();
-  healthFull3.bringToTop();
   healthHalf1.bringToTop();
   healthHalf2.bringToTop();
   healthHalf3.bringToTop();
+  healthFull1.bringToTop();
+  healthFull2.bringToTop();
+  healthFull3.bringToTop();
 
   ammoUI1.bringToTop();
   ammoUI2.bringToTop();
@@ -2071,7 +2099,7 @@ var sniperFireOffset
   //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < enemyBombQuantity; i++) {
-  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + 300)
+  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + enemyBombD[i])
   || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
     }}
@@ -2082,8 +2110,33 @@ var sniperFireOffset
   enemySniper.setAll('body.gravity.y', 2000);
   enemySniper.setAll('body.collideWorldBounds', true);
 
-  enemyJug.setAll('body.gravity.y', 2000);
-  enemyJug.setAll('body.collideWorldBounds', true);
+if (levelPlaying == 3) {
+  //PALLE DI FUOCO DI MANGIAFUOCO
+mfFireballSpeed = (Math.random() * (700 - 50) + 50)
+mfGun1.bulletSpeed = mfFireballSpeed;
+
+//console.log(mangiafuoco.frame)
+if (Math.random() > 0.99) {
+  animManoDX.play('mangiafuocoManoDX');
+}
+if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+    mfGun1.fire();
+  }
+  if (animManoDX.isPlaying === false) {
+   mangiafuoco.animations.play('mangiafuocoL')
+  }
+}
+
+
+    enemyBomb.setAll('body.gravity.y', 2000);
+    enemyBomb.setAll('body.collideWorldBounds', true);
+
+    enemySniper.setAll('body.gravity.y', 2000);
+    enemySniper.setAll('body.collideWorldBounds', true);
+
+    enemyJug.setAll('body.gravity.y', 2000);
+    enemyJug.setAll('body.collideWorldBounds', true);
+
 
 
   if(fireButton.isDown && player.alive == true) {
