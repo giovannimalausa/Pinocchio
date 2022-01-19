@@ -265,7 +265,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1090,7 +1090,7 @@ function create() {
     modulo1x1.create(2200, 2050, 'modulo1x1');
     modulo1x1.create(2250, 2050, 'modulo1x1');
     modulo1x1.create(2300, 2050, 'modulo1x1');
-  
+
     modulo1x1.create(7250, 1950, 'modulo1x1');
     modulo1x1.create(7300, 1950, 'modulo1x1');
     modulo1x1.create(7350, 1950, 'modulo1x1');
@@ -1863,7 +1863,7 @@ function update () {
   // Controls
   if (cursors.left.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso sinistra
   {
-    player.body.velocity.x = -300;
+    player.body.velocity.x = -350;
     if (facing !== "left") // Se il player è rivolto a sinistra
     {
       facing = "left";
@@ -1872,7 +1872,7 @@ function update () {
 
   else if (cursors.right.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso destra
   {
-    player.body.velocity.x = 300;
+    player.body.velocity.x = 350;
     if (facing !== "right") // Se il player è rivolto a destra
     {
       facing = "right";
@@ -1916,7 +1916,7 @@ function update () {
     {
       player.animations.play('jumpR', 10, false);
     }
-    if(player.body.velocity.y < -100 && facing === "left" && !(player.body.touching.down)) // Salto sx
+    if(player.body.velocity.y < -300 && facing === "left" && !(player.body.touching.down)) // Salto sx
     {
       player.animations.play('jumpL', 10, false);
     }
@@ -1972,7 +1972,7 @@ enemyBomb.forEach(function (enemy) {
 
   //ENEMY SNIPER
 var sniperFireOffset
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 3; i++) {
       if (player.x < enemySniper.getChildAt(i).x) {
         sniperFireOffset = 30
       } else if (player.x > enemySniper.getChildAt(i).x) {
@@ -1993,7 +1993,7 @@ var sniperFireOffset
 
   //ENEMY JUGGERNAUT
   var jugFireOffset
-  for (i = 0; i < 1; i++) {
+  for (i = 0; i < 3; i++) {
     if (player.x < enemyJug.getChildAt(i).x) {
       jugFireOffset = 30;
       enemyJugGun0.fireAngle = 180;
