@@ -35,6 +35,7 @@ function preload() {
 
   //game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchioV4.png', 200, 150, 140);
+  game.load.spritesheet('pinocchioMorto', 'assets/sprites/pinocchio/pinocchiomortocrocifisso.png', 200, 150, 20);
 
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
@@ -246,6 +247,8 @@ var enemySniper;
 var dust; // sprite polvere del salto
 var dustVar;
 
+var pinocchioCrucified;
+
 //Var armi enemyGun
 var enemySniperGun0
 var enemyJugGun0
@@ -301,7 +304,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1479,6 +1482,8 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   // Phaser Signal
   // pickAmmo.onDown.add(addAmmo);
   gun1.onFire.add(ammoSpent);
+
+  player.events.onKilled.add(pinocchioCrocifisso);
 
   enemySniperGun0.onFire.add(sniperIsFiringTrue);
 
@@ -2798,6 +2803,7 @@ function softDestroyLevel2() {
   console.log('softDestroyLevel2() completed.');
 }
 
+
 function hardDestroyLevel3() {
   level3_layer1.destroy();
   level3_layer2.destroy();
@@ -2857,6 +2863,18 @@ function enableInteraction() {
     interactionEnabled = false;
     interactionPointLabelShown = false;
     //  interactionPointLabel.kill();
+  }
+}
+
+
+function pinocchioCrocifisso() {
+  pinocchioCrucified = game.add.sprite(player.x, player.y, 'pinocchioMorto')
+  if (facing === 'right') {
+    pinocchioCrucified.animations.add('mortoR', [0,1,2,3,4,5,6,7,8,9], 15, false);
+    pinocchioCrucified.animations.play('mortoR')
+  } else if (facing === 'left') {
+    pinocchioCrucified.animations.add('mortoL', [10,11,12,13,14,15,16,17,18,19], 15, false);
+    pinocchioCrucified.animations.play('mortoL')
   }
 }
 
