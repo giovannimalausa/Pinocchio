@@ -1154,17 +1154,12 @@ function create() {
   // pozioni
   if (levelPlaying == 1) {
     pozioneX = [3500, 8225, 11125];
-  } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
-  } else if (levelPlaying == 3) {
-    pozioneX = [3475, 4975, 6925];
-  }
-
-  if (levelPlaying == 1) {
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
+    pozioneX = [3475, 4975, 6925];
     pozioneY = [2025, 2125, 2025];
   }
 
@@ -2173,19 +2168,6 @@ if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
   //console.log(facing)
   //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
-
-  if (testButton.isDown) {
-    console.log('T pressed.')
-    // Flasha alpha/opacità del player
-    playerInvulnerable = true;
-    flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 3, true); // duration = 80 frames; repetitions = 3
-    flashingPlayer.onComplete.add(function resetPlayerAlpha() {
-      // Questo codice viene eseguito quando il tween viene completato.
-      player.alpha = 1;
-      playerInvulnerable = false; // Il player ritorna ad essere vulnerabile ai nemici.
-    });
-  }
-
   // Player health UI
   if (player.health == 6) {
     healthHalf1.alpha = 0;
@@ -2760,6 +2742,18 @@ function shootEnemyJug(bullets, enemyJug) {
   }
 }
 
+function blinkingPlayer() {
+  // Flasha alpha/opacità del player
+  playerInvulnerable = true;
+  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 5, true); // duration = 80 frames; repetitions = 3
+  flashingPlayer.onComplete.add(function resetPlayerAlpha() {
+    // Questo codice viene eseguito quando il tween viene completato.
+    player.alpha = 1;
+    playerInvulnerable = false; // Il player ritorna ad essere vulnerabile ai nemici.
+    console.log('blinkingPlayer() completed.')
+  });
+}
+
 function touchEnemyBomb(player, enemyBomb) {
   enemyBombEsplosione = game.add.sprite(enemyBomb.x - 110, enemyBomb.y - 35, 'marionettaEsplosione');
   enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
@@ -2767,6 +2761,7 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBombEsplosione.killOnComplete = true;
   enemyBomb.kill();
   if (playerInvulnerable == false) {
+    blinkingPlayer();
     player.damage(2);
     console.log("touchEnemyBomb(). Player health -= 2.");
   }
@@ -2774,6 +2769,7 @@ function touchEnemyBomb(player, enemyBomb) {
 
 function touchEnemySniper(player, enemySniper) {
   if (playerInvulnerable == false) {
+    blinkingPlayer();
     player.damage(1);
     console.log("touchEnemySniper(). Player health -= 1.");
   }
@@ -2781,6 +2777,7 @@ function touchEnemySniper(player, enemySniper) {
 
 function touchEnemyJug(player, enemyJug) {
   if (playerInvulnerable == false) {
+    blinkingPlayer();
     player.damage(1);
     console.log("touchEnemyJug(). Player health -= 1.");
   }
@@ -2794,6 +2791,7 @@ function shootMangiafuoco(mf, bullet) {
 function EnemyDamage(player, bullets) {
   bullets.kill();
   if (playerInvulnerable == false) {
+    blinkingPlayer();
     player.damage(1);
     console.log("EnemyDamage(). Player health -= 1.");
   }
