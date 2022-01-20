@@ -2116,14 +2116,14 @@ var sniperFireOffset
   if (levelPlaying == 3) {
     //PALLE DI FUOCO DI MANGIAFUOCO
     mfFireballSpeed = (Math.random() * (700 - 50) + 50)
-    mfGun1.bulletSpeed = mfFireballSpeed;
+    mfGunDx.bulletSpeed = mfFireballSpeed;
 
     //console.log(mangiafuoco.frame)
     if (Math.random() > 0.99) {
       animManoDX.play('mangiafuocoManoDX');
     }
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
-        mfGun1.fire();
+        mfGunDx.fire();
       }
       if (animManoDX.isPlaying === false) {
       mangiafuoco.animations.play('mangiafuocoL')
