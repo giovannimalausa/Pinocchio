@@ -472,6 +472,8 @@ var animDropL;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
+
+
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2304);
@@ -1534,7 +1536,7 @@ function update () {
   // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
-    console.log(isJumping);
+  //  console.log(isJumping);
   // console.log("player health=" + player.health);
   // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f
 
@@ -1859,7 +1861,7 @@ function update () {
     game.physics.arcade.collide(mangiafuoco, teatro);
 
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
-    game.physics.arcade.collide(mfGunDx.bullets, level3_nuvola, createFloorFire);
+  //  game.physics.arcade.collide(mfGunDx.bullets, modulo1x1, createFloorFire);
     game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
     game.physics.arcade.overlap(player, floorFire, touchFloorFire);
@@ -2064,11 +2066,11 @@ function update () {
 
     if(player.body.velocity.y < -300 && facing === "right" && !(player.body.touching.down)) // Salto dx
     {
-      player.animations.play('jumpR', 15, false);
+      player.animations.play('jumpR', 18, false);
     }
     if(player.body.velocity.y < -300 && facing === "left" && !(player.body.touching.down)) // Salto sx
     {
-      player.animations.play('jumpL', 15, false);
+      player.animations.play('jumpL', 18, false);
     }
 
     if(player.body.velocity.y > 100 && facing === "right" && !(player.body.touching.down)) //Atterraggio salto dx
@@ -2199,8 +2201,11 @@ var sniperFireOffset
     mfFireballSpeed = (Math.random() * (700 - 50) + 50);
     mfGunDx.bulletSpeed = mfFireballSpeed;
     mfShootTimer += (Math.random() * (4 - 1) + 1);
-    if (mfShootTimer >= 280) {
-    //  console.log('mfShootTimer: '+mfShootTimer);
+if (mfShootTimer >= 280) {
+if (player.y > 1850 ) {
+  //  if (mfShootTimer >= 280) {
+      console.log('pippo')
+      console.log('mfShootTimer: '+mfShootTimer);
       if (randomAnim > 0.5) {
         animManoDX.play('mangiafuocoManoDX');
 
@@ -2208,9 +2213,14 @@ var sniperFireOffset
         animManoSX.play('mangiafuocoManoSX');
       }
 
-      mfShootTimer = 0;
     }
-    //console.log(mangiafuoco.frame)
+   else if (player.y < 1850) {
+      console.log('pluto')
+      animManoSX.play('mangiafuocoManoSX');
+  }
+mfShootTimer = 0;
+}
+    console.log(mangiafuoco.frame)
 
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
       mfGunDx.fire();
