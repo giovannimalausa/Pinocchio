@@ -23,7 +23,7 @@ WebFontConfig = {
 
   //  nome del font
   google: {
-    families: ['Revalia']
+    families: ['Inter']
   }
 };
 
@@ -661,7 +661,7 @@ function create() {
       level1_houses.setAll('body.immovable', true);
 
       //testo 
-      var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+      var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
     }
@@ -1084,7 +1084,7 @@ function create() {
       level2_mongolfiera2.body.immovable = true;
 
       //testo 
-     var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
      text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
      createText(text);
@@ -1155,7 +1155,7 @@ function create() {
     tenda = game.add.sprite(0, 0, 'tenda');
 
     //testo 
-    var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+    var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
     createText(text);
