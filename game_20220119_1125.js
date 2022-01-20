@@ -1155,19 +1155,21 @@ function create() {
 
   game.physics.arcade.enable(ammoBox);
 
+  pozione = game.add.physicsGroup();
+
   // pozioni
   if (levelPlaying == 1) {
     pozioneX = [3500, 8225, 11125];
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    ozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneX = [3100, 4975, 6925];
     pozioneY = [1875, 2125, 2025];
   }
 
-  pozione = game.add.physicsGroup();
+  
 
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
@@ -2111,22 +2113,22 @@ var sniperFireOffset
   enemySniper.setAll('body.gravity.y', 2000);
   enemySniper.setAll('body.collideWorldBounds', true);
 
-if (levelPlaying == 3) {
-  //PALLE DI FUOCO DI MANGIAFUOCO
-mfFireballSpeed = (Math.random() * (700 - 50) + 50)
-mfGun1.bulletSpeed = mfFireballSpeed;
+  if (levelPlaying == 3) {
+    //PALLE DI FUOCO DI MANGIAFUOCO
+    mfFireballSpeed = (Math.random() * (700 - 50) + 50)
+    mfGun1.bulletSpeed = mfFireballSpeed;
 
-//console.log(mangiafuoco.frame)
-if (Math.random() > 0.99) {
-  animManoDX.play('mangiafuocoManoDX');
-}
-if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
-    mfGun1.fire();
-  }
-  if (animManoDX.isPlaying === false) {
-   mangiafuoco.animations.play('mangiafuocoL')
-  }
-}
+    //console.log(mangiafuoco.frame)
+    if (Math.random() > 0.99) {
+      animManoDX.play('mangiafuocoManoDX');
+    }
+    if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
+        mfGun1.fire();
+      }
+      if (animManoDX.isPlaying === false) {
+      mangiafuoco.animations.play('mangiafuocoL')
+      }
+    }
 
 
     enemyBomb.setAll('body.gravity.y', 2000);
