@@ -1206,7 +1206,7 @@ function create() {
     pozioneX = [3500, 8225, 11125];
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19375];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneX = [3100, 4975, 6925];
@@ -1299,7 +1299,7 @@ function create() {
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
     enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
-    enemyBombD = [375, 275, 275, 200, 275, 375];
+    enemyBombD = [375, 275, 275, 175, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
@@ -1378,7 +1378,7 @@ function create() {
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8500, 10500, 14825, 17500];
+    enemyJugX = [4000, 8500, 10500, 14775, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
