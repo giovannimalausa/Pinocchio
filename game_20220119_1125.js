@@ -281,7 +281,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -321,6 +321,9 @@ var pozioneY;
 var modulo1x1;
 var modulo2x2;
 var modulo2x4;
+var text;
+var textTween;
+var textTween2;
 
 // Variabili livello 1
 var level1_floor;
@@ -639,6 +642,28 @@ function create() {
       level1_houses.create(11300, 1700, 'level1_house11');
       level1_houses.alpha = 0;
       level1_houses.setAll('body.immovable', true);
+
+      //testo 
+  
+      var style = { font: "bold 60px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle", textalign: "center" };
+  
+
+      text = game.add.text(0, 0, "Villaggio di Geppetto \n           Livello 1", style);
+      text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+  
+      //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+      text.setTextBounds(300, 1000, 1450, 100);
+      text.alpha = 0;
+
+      textTween = game.add.tween(text).to({ y: 800, alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 4000, 0, false);
+      textTween.onComplete.add(function resetText() {
+       textTween2 = game.add.tween(text).to( { y: 300 }, 3000, Phaser.Easing.Linear.None, true, 1000, 0, false);
+      });
+      
+      //textTween.chain(textTween2);
+
+
+
     }
 
 
@@ -2996,6 +3021,13 @@ function landingProcessCallback(player, obj) {
     return false;
   }
 }
+ //testo 
+ //if (tween.to = true) {
+   //tween.pause()
+  //textTween2 = game.add.tween(text).to({ y: 800 }, 5000, Phaser.Easing.Linear.None, true, 1, 0, false);
+   
+ //}
+
 
 function render () {
   // game.debug.body(level2_mongolfiera1);
@@ -3005,5 +3037,5 @@ function render () {
    //game.debug.body(enemySniper.getChildAt(0));
 
   // game.debug.spriteInfo(player, 30, 100);
-  //game.debug.body(level3_nuvola);
+  //game.debug.body(level3_nuvola); 
 }
