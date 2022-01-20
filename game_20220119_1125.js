@@ -301,7 +301,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1211,8 +1211,6 @@ function create() {
     pozioneY = [1875, 2125, 2025];
   }
 
-
-
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
@@ -1224,8 +1222,6 @@ function create() {
   }
 
   game.physics.arcade.enable(pozione);
-
-
 
   // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
   selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
