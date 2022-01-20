@@ -476,38 +476,39 @@ function create() {
 
   game.world.setBounds(0, 0, 20000, 2304);
 
+  if (gameWasOver !==true && cambioLivello !== true) {
+    healthFull1 = game.add.sprite(50, 50, 'healthFull');
+    healthFull1.fixedToCamera = true;
+    healthFull1.scale.setTo(0.75, 0.75);
+    healthFull2 = game.add.sprite(100, 50, 'healthFull');
+    healthFull2.fixedToCamera = true;
+    healthFull2.scale.setTo(0.75, 0.75);
+    healthFull3 = game.add.sprite(150, 50, 'healthFull');
+    healthFull3.fixedToCamera = true;
+    healthFull3.scale.setTo(0.75, 0.75);
+    healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
+    healthHalf1.fixedToCamera = true;
+    healthHalf1.scale.setTo(0.75, 0.75);
+    healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
+    healthHalf2.fixedToCamera = true;
+    healthHalf2.scale.setTo(0.75, 0.75);
+    healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
+    healthHalf3.fixedToCamera = true;
+    healthHalf3.scale.setTo(0.75, 0.75);
 
-  healthFull1 = game.add.sprite(50, 50, 'healthFull');
-  healthFull1.fixedToCamera = true;
-  healthFull1.scale.setTo(0.75, 0.75);
-  healthFull2 = game.add.sprite(100, 50, 'healthFull');
-  healthFull2.fixedToCamera = true;
-  healthFull2.scale.setTo(0.75, 0.75);
-  healthFull3 = game.add.sprite(150, 50, 'healthFull');
-  healthFull3.fixedToCamera = true;
-  healthFull3.scale.setTo(0.75, 0.75);
-  healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
-  healthHalf1.fixedToCamera = true;
-  healthHalf1.scale.setTo(0.75, 0.75);
-  healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
-  healthHalf2.fixedToCamera = true;
-  healthHalf2.scale.setTo(0.75, 0.75);
-  healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
-  healthHalf3.fixedToCamera = true;
-  healthHalf3.scale.setTo(0.75, 0.75);
-
-  ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
-  ammoUI5.fixedToCamera = true;
-  ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
-  ammoUI4.fixedToCamera = true;
-  ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
-  ammoUI3.fixedToCamera = true;
-  ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
-  ammoUI2.fixedToCamera = true;
-  ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
-  ammoUI1.fixedToCamera = true;
-  // BringToTop() alla fine di create().
-
+    ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
+    ammoUI5.fixedToCamera = true;
+    ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
+    ammoUI4.fixedToCamera = true;
+    ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
+    ammoUI3.fixedToCamera = true;
+    ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
+    ammoUI2.fixedToCamera = true;
+    ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
+    ammoUI1.fixedToCamera = true;
+    // BringToTop() alla fine di create().
+  }
+  
   if (gameWasOver == false) {
     // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
@@ -2758,6 +2759,9 @@ function hardDestroyLevel2() {
   level2_mongolfiera1.destroy();
   level2_mongolfiera2.destroy();
 
+  ammoBox.destroy();
+  pozione.destroy();
+
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
   if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
@@ -2773,8 +2777,8 @@ function hardDestroyLevel2() {
 
 function softDestroyLevel2() {
   // Questa funzione va richiamata quando occorre resettare il Livello 2 in seguito a game over.
-  // ammoBox.destroy(); <== rimuovere commento dopo aver aggiunto ammoBox al livello 2
-  // pozione.destroy(); <== rimuovere commento dopo aver aggiunto pozione al livello 2
+  ammoBox.destroy();
+  pozione.destroy();
   enemyBomb.destroy();
   enemyJug.destroy();
   enemySniper.destroy();
@@ -2805,6 +2809,9 @@ function hardDestroyLevel3() {
   level3_nuvola.destroy();
   level3_nuvola2.destroy();
 
+  ammoBox.destroy();
+  pozione.destroy();
+
   console.log('hardDestroyLevel3() completed.');
 }
 
@@ -2813,6 +2820,8 @@ function softDestroyLevel3() {
   enemyBomb.destroy();
   enemyJug.destroy();
   enemySniper.destroy();
+  ammoBox.destroy();
+  pozione.destroy();
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
   if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
