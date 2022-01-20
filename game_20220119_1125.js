@@ -301,7 +301,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1324,7 +1324,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
     enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
-    enemyBombD = [375, 275, 275, 175, 275, 375];
+    enemyBombD = [375, 275, 275, 125, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
@@ -1403,7 +1403,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8500, 10500, 14775, 17450];
+    enemyJugX = [4000, 8500, 10500, 14735, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
@@ -3129,7 +3129,7 @@ function createText() {
 
   textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 3000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);
   });
 }
 
