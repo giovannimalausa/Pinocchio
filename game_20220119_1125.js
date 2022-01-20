@@ -724,7 +724,7 @@ function create() {
       level2_componente.create(3600, 1950, 'level2_componente2');
       level2_componente.create(4800, 1850, 'level2_componente8');
       level2_componente.create(8000, 1900, 'level2_componente3');
-      level2_componente.create(8495, 1950, 'level2_componente4');
+      level2_componente.create(8750, 1950, 'level2_componente4');
       level2_componente.create(11050, 1950, 'level2_componente5');
       level2_componente.create(11100, 1850, 'level2_componente6');
       level2_componente.create(13145, 1850, 'level2_componente9');
@@ -803,11 +803,6 @@ function create() {
       modulo1x1.create(8175, 1900, 'modulo1x1');
       modulo1x1.create(8225, 1900, 'modulo1x1');
 
-      modulo1x1.create(8500, 1950, 'modulo1x1');
-      modulo1x1.create(8550, 1950, 'modulo1x1');
-      modulo1x1.create(8600, 1950, 'modulo1x1');
-      modulo1x1.create(8650, 1950, 'modulo1x1');
-
       modulo1x1.create(11100, 1850, 'modulo1x1');
       modulo1x1.create(11200, 1850, 'modulo1x1');
       modulo1x1.create(11250, 1850, 'modulo1x1');
@@ -855,8 +850,8 @@ function create() {
       modulo1x1.create(17200, 1550, 'modulo1x1');
       modulo1x1.create(17250, 1550, 'modulo1x1');
 
-      modulo1x1.create(17500, 1600, 'modulo1x1');
-      modulo1x1.create(17550, 1600, 'modulo1x1');
+      modulo1x1.create(17500, 1550, 'modulo1x1');
+      modulo1x1.create(17550, 1550, 'modulo1x1');
 
       modulo1x1.create(17250, 1850, 'modulo1x1');
       modulo1x1.create(17300, 1850, 'modulo1x1');
@@ -907,11 +902,10 @@ function create() {
       modulo2x4.create(800, 2000, 'modulo2x4');
       modulo2x4.create(4550, 2000, 'modulo2x4');
       modulo2x4.create(6300, 2000, 'modulo2x4');
-      modulo2x4.create(8850, 2000, 'modulo2x4');
+      modulo2x4.create(8500, 2000, 'modulo2x4');
       modulo2x4.create(10850, 2000, 'modulo2x4');
       modulo2x4.create(14800, 2000, 'modulo2x4');
       modulo2x4.create(18550, 2000, 'modulo2x4');
-
       modulo2x4.create(19350, 2000, 'modulo2x4');
 
       modulo2x4.setAll('body.immovable', true);
@@ -1210,7 +1204,7 @@ function create() {
     pozioneX = [3500, 8225, 11125];
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19375];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19370];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneX = [3100, 4975, 6925];
@@ -1324,8 +1318,8 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyBombD = [375, 625, 475]
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
-    enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
-    enemyBombD = [375, 275, 275, 125, 275, 375];
+    enemyBombX = [4725, 7225, 11775, 13900, 16100, 17725, 18725];
+    enemyBombD = [375, 275, 275, 125, 900, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
@@ -1343,6 +1337,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[5], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[6], 1200, 'marionettaBomba');
   }
 
   game.physics.arcade.enable(enemyBomb);
@@ -1404,7 +1399,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8500, 10500, 14735, 17450];
+    enemyJugX = [4000, 8800, 10500, 15550, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
