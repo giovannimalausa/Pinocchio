@@ -508,7 +508,7 @@ function create() {
     ammoUI1.fixedToCamera = true;
     // BringToTop() alla fine di create().
   }
-  
+
   if (gameWasOver == false) {
     // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
@@ -1291,8 +1291,7 @@ player.animations.add('walkFireR', [98,99,100,101,102,103,104,105,106,107,108,10
 player.animations.add('walkFireL', [122,123,124,125,126,127,128,129,130,131,32,133]);
 player.animations.add('fireR', [36,37,38,39,40,41,42,43]);
 player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
-//player.animations.add('landR', [107, 108, 109]);
-//player.animations.add('landL', [117, 118, 119]);
+
 
 
   game.physics.arcade.enable(player);
@@ -1419,7 +1418,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   }
   game.physics.arcade.enable(enemyJug);
 
-  enemyJug.setAll('health', 6);
+  enemyJug.setAll('health', 5);
   enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugL', [10,11,12,13,14,15,16,17,18,19], 10, true);
@@ -1430,7 +1429,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   enemyJugGun0 = game.add.weapon(100, 'nemiciBullet');
   enemyJugGun0.fireRate = 100; //100 quello previsto, abbassato per poter giocare
   enemyJugGun0.bulletSpeed = 400;
-  enemyJugGun0.bulletAngleVariance = 2;
+  enemyJugGun0.bulletAngleVariance = 3;
   enemyJugGun0.bulletKillType = 4;
   enemyJugGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
   enemyJugGun0.setBulletBodyOffset(16, 8, 66, 45);
@@ -2129,16 +2128,16 @@ enemyBomb.forEach(function (enemy) {
   }})
 
   enemyJug.forEach(function (enemy) {
-    if (enemy.x > player.x && gameStopWatch % 2 == 0) {
+    if (enemy.x > player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireL')
     }
-      else if (enemy.x > player.x && gameStopWatch % 2 != 0) {
+      else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
           enemy.animations.play('jugL')
     }
-    else if (enemy.x < player.x && gameStopWatch % 2 == 0) {
+    else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireR')
     }
-    else if (enemy.x < player.x && gameStopWatch % 2 != 0) {
+    else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
       enemy.animations.play('jugR')
     }
   })
@@ -2179,16 +2178,16 @@ var sniperFireOffset
   for (i = 0; i < enemyJugQuantity; i++) {
     if (player.x < enemyJug.getChildAt(i).x) {
       jugFireOffset = 30;
-      enemyJugGun0.fireAngle = 180;
+      enemyJugGun0.fireAngle = 182;
     } else if (player.x > enemyJug.getChildAt(i).x) {
       jugFireOffset = 160;
-      enemyJugGun0.fireAngle = 0;
+      enemyJugGun0.fireAngle = -2;
     }
 
     if (enemyJug.getChildAt(i).inCamera == true && enemyJug.getChildAt(i).alive == true)
     {
       jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
-      if (gameStopWatch % 2 == 0) {
+      if (gameStopWatch % 3 == 0) {
         enemyJugGun0.fire(jugFiringPosition0);
       }
     }
