@@ -90,6 +90,7 @@ function preload() {
   game.load.image('ammo/2', 'assets/interface/Ammo/2.png');
   game.load.image('ammo/1', 'assets/interface/Ammo/1.png');
   game.load.spritesheet('ammoUI', 'assets/interface/Ammo/ammoUI.png', 185, 50, 15);
+  game.load.spritesheet('ammoUIv3', 'assets/interface/Ammo/ammoUIv3.png', 161, 73, 16);
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
@@ -301,7 +302,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -320,6 +321,7 @@ var ammoUI3;
 var ammoUI2;
 var ammoUI1;
 var ammoUI;
+var ammoUIv3;
 
 var gameOverImage;
 var nero;
@@ -496,16 +498,23 @@ function create() {
     healthHalf3.fixedToCamera = true;
     healthHalf3.scale.setTo(0.75, 0.75);
 
-    ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
-    ammoUI5.fixedToCamera = true;
-    ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
-    ammoUI4.fixedToCamera = true;
-    ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
-    ammoUI3.fixedToCamera = true;
-    ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
-    ammoUI2.fixedToCamera = true;
-    ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
-    ammoUI1.fixedToCamera = true;
+    ammoUIv3 = game.add.sprite(863, 675, 'ammoUIv3');
+    ammoUIv3.fixedToCamera = true;
+
+    ammoUIv3.animations.add('lampeggioPieno', [5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 15, false);
+    ammoUIv3.animations.add('lampeggioVuoto', [10,11,12,13,14,15,14,13,12,11,10], 15, false);
+
+
+    // ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
+    // ammoUI5.fixedToCamera = true;
+    // ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
+    // ammoUI4.fixedToCamera = true;
+    // ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
+    // ammoUI3.fixedToCamera = true;
+    // ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
+    // ammoUI2.fixedToCamera = true;
+    // ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
+    // ammoUI1.fixedToCamera = true;
     // BringToTop() alla fine di create().
   }
   
@@ -1512,11 +1521,12 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   healthFull2.bringToTop();
   healthFull3.bringToTop();
 
-  ammoUI1.bringToTop();
-  ammoUI2.bringToTop();
-  ammoUI3.bringToTop();
-  ammoUI4.bringToTop();
-  ammoUI5.bringToTop();
+  ammoUIv3.bringToTop();
+  // ammoUI1.bringToTop();
+  // ammoUI2.bringToTop();
+  // ammoUI3.bringToTop();
+  // ammoUI4.bringToTop();
+  // ammoUI5.bringToTop();
 
 
   gameWasOver = false;
@@ -1535,7 +1545,7 @@ function update () {
   // console.log(enemyBomb_0_Direction);
   // console.log('autoPilot: '+ autoPilot);
   // console.log('Player x = ' + player.x + ' y = ' + player.y);
-    console.log(isJumping);
+  // console.log(isJumping);
   // console.log("player health=" + player.health);
   // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f
 
@@ -2251,24 +2261,27 @@ var sniperFireOffset
         mfGunDx.fire();
       }
       if (animManoDX.isPlaying === false) {
-      mangiafuoco.animations.play('mangiafuocoL')
-      }
+      mangiafuoco.animations.play('mangiafuocoL');
     }
+  }
+
+  enemyBomb.setAll('body.gravity.y', 2000);
+  enemyBomb.setAll('body.collideWorldBounds', true);
+
+  enemySniper.setAll('body.gravity.y', 2000);
+  enemySniper.setAll('body.collideWorldBounds', true);
+
+  enemyJug.setAll('body.gravity.y', 2000);
+  enemyJug.setAll('body.collideWorldBounds', true);
 
 
-    enemyBomb.setAll('body.gravity.y', 2000);
-    enemyBomb.setAll('body.collideWorldBounds', true);
-
-    enemySniper.setAll('body.gravity.y', 2000);
-    enemySniper.setAll('body.collideWorldBounds', true);
-
-    enemyJug.setAll('body.gravity.y', 2000);
-    enemyJug.setAll('body.collideWorldBounds', true);
-
-
-
+  console.log(ammoUIv3.frame);
   if(fireButton.isDown && player.alive == true) {
     gun1.fire();
+    if (bulletPool <= 0) {
+      console.log('Munizioni finite!');
+      ammoUIv3.animations.play('lampeggioVuoto');
+    }
   }
 
   scatterShot = (Math.random() * (25-1) + 1);
@@ -2526,35 +2539,15 @@ var sniperFireOffset
 
   // Ammo UI
   if (bulletPool*100/maxAmmo >= 80) { // > 80% di munizioni
-    ammoUI1.alpha = 0;
-    ammoUI2.alpha = 0;
-    ammoUI3.alpha = 0;
-    ammoUI4.alpha = 0;
-    ammoUI5.alpha = 1;
+    ammoUIv3.frame = 5;
   } else if (bulletPool*100/maxAmmo >= 60 && bulletPool*100/maxAmmo < 80) {
-    ammoUI1.alpha = 0;
-    ammoUI2.alpha = 0;
-    ammoUI3.alpha = 0;
-    ammoUI4.alpha = 1;
-    ammoUI5.alpha = 0;
+    ammoUIv3.frame = 6;
   } else if (bulletPool*100/maxAmmo >= 40 && bulletPool*100/maxAmmo < 60)  {
-    ammoUI1.alpha = 0;
-    ammoUI2.alpha = 0;
-    ammoUI3.alpha = 1;
-    ammoUI4.alpha = 0;
-    ammoUI5.alpha = 0;
+    ammoUIv3.frame = 7;
   } else if (bulletPool*100/maxAmmo >= 20 && bulletPool*100/maxAmmo < 40)  {
-    ammoUI1.alpha = 0;
-    ammoUI2.alpha = 1;
-    ammoUI3.alpha = 0;
-    ammoUI4.alpha = 0;
-    ammoUI5.alpha = 0;
-  } else if (bulletPool*100/maxAmmo >= 0 && bulletPool*100/maxAmmo < 20)  {
-    ammoUI1.alpha = 1;
-    ammoUI2.alpha = 0;
-    ammoUI3.alpha = 0;
-    ammoUI4.alpha = 0;
-    ammoUI5.alpha = 0;
+    ammoUIv3.frame = 8;
+  } else if (bulletPool*100/maxAmmo > 0 && bulletPool*100/maxAmmo < 20)  {
+    ammoUIv3.frame = 9;
   }
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
