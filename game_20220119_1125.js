@@ -17,17 +17,14 @@
 var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'main-frame', { preload: preload, create: create, update: update, render: render });
 
 WebFontConfig = {
-
   //  'active' means all requested fonts have finished loading
-  //  We set a 1 second delay before calling 'createText'.
-  //  For some reason if we don't the browser cannot render the text the first time it's created.
-  active: function() { game.time.events.add(Phaser.Timer.QUARTER, createText, this); },
+  //  un secondo di delay prima di creare il testo
+  active: function() {game.time.events.add(Phaser.Timer.QUARTER, createText, this);},
 
-  //  The Google Fonts we want to load (specify as many as you like in the array)
+  //  nome del font
   google: {
-    families: ['Inter']
+    families: ['Revalia']
   }
-
 };
 
 // ++++++++++ PRELOAD ++++++++++
@@ -664,7 +661,7 @@ function create() {
       level1_houses.setAll('body.immovable', true);
 
       //testo 
-      var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+      var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
     }
@@ -1087,7 +1084,7 @@ function create() {
       level2_mongolfiera2.body.immovable = true;
 
       //testo 
-     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+     var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
      text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
      createText(text);
@@ -1158,7 +1155,7 @@ function create() {
     tenda = game.add.sprite(0, 0, 'tenda');
 
     //testo 
-    var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+    var style = { font: "bold 60px Revalia", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
     createText(text);
@@ -3049,12 +3046,12 @@ function createText() {
   
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
-  text.setTextBounds(200, 1200, 1450, 100);
+  text.setTextBounds(200, 1800, 1450, 100);
   text.alpha = 0;
 
-  textTween = game.add.tween(text).to({ y: 600, alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 1000, 0, false);
+  textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( { y: 100, alpha: 0 }, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 2000, 0, false);
   });
 }
 
