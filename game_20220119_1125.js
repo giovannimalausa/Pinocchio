@@ -673,7 +673,7 @@ function create() {
       //testo
       var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
+    text = game.add.text(0, 0, "               Livello 1\n Villaggio di Geppetto", style);
     }
 
 
@@ -1161,7 +1161,7 @@ function create() {
     //testo
     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
+    text = game.add.text(-400,0, "               Livello 3\n Circo di Mangiafuoco", style);
     createText(text);
   }
 
@@ -1214,8 +1214,6 @@ function create() {
     pozioneY = [1875, 2125, 2025];
   }
 
-
-
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
@@ -1227,8 +1225,6 @@ function create() {
   }
 
   game.physics.arcade.enable(pozione);
-
-
 
   // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
   selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
@@ -3149,9 +3145,9 @@ function createText() {
   text.setTextBounds(200, 1800, 1450, 100);
   text.alpha = 0;
 
-  textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
+  textTween = game.add.tween(text).to({alpha: 1}, 0, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
   });
 }
 
