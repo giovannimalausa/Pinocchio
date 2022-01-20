@@ -59,6 +59,7 @@ function preload() {
   game.load.image('platform5x1', 'assets/global/Size=5x1.png');
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
+  game.load.image('gameOver', 'assets/interface/GameOver.png');
   game.load.image('nero', 'assets/interface/nero.png');
 
   // Elementi d'interazione
@@ -268,6 +269,8 @@ var spawning = true;
 var spawningTimer = 0;
 var playerInvulnerable = false;
 
+var showingGameOverUI = false;
+
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
 
@@ -278,7 +281,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -298,6 +301,7 @@ var ammoUI2;
 var ammoUI1;
 var ammoUI;
 
+var gameOverImage;
 var nero;
 var tweenNeroAppear;
 var tweenNeroDisappear;
@@ -1817,6 +1821,7 @@ function update () {
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
   // Automovement spawn
+  // Automovement spawn /Livello 1
   if (levelPlaying == 1 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1829,6 +1834,7 @@ function update () {
       }
     }
   }
+  // Automovement spawn /Livello 2
   if (levelPlaying == 2 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1842,7 +1848,7 @@ function update () {
       }
     }
   }
-  //prova spawn livello 3
+  // Automovement spawn /Livello 3
   if (levelPlaying == 3 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1871,12 +1877,11 @@ function update () {
     else if (levelPlaying == 3) {
     }
 
-  } else if (autoPilot == false) {
+  } else if (autoPilot == false) { // <== Normale offset durante il gioco
     shadow.x = player.x+350;
     shadow.y = player.y+120;
   }
-  if (levelPlaying == 3 && player.x > 7000) {
-    //console.log("Player x > 6870")
+  if (levelPlaying == 3 && player.x > 7000) { // <== Offset durante la boss battle
     shadow.x = 7640;
     shadow.y = 1950;
   }
@@ -1884,12 +1889,42 @@ function update () {
   // Game Over
   // Game over per caduta
   if (player.y > 2060 && autoPilot == false && gameWasOver == false) {
-    game.camera.fade(0x000000, 1000);
+    if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
+      game.camera.fade(0x000000, 1000);
+    }
     gameOverTimer += 1;
     if (gameOverTimer == 100) {
-      console.log("Player fell below y=2060");
+      console.log("Player fell below y=2060.");
       gameover();
     }
+  }
+  // Game over per danno
+  if (player.health <= 0) {
+    if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
+      game.camera.fade(0x000000, 1000);
+    }
+    gameOverTimer += 1;
+    if (gameOverTimer == 100) {
+      console.log("Player.health fell below 0.");
+      gameover();
+    }
+  }
+
+  // UI Game Over
+  if (jumpButton.isDown && showingGameOverUI == true) {
+    console.log("Spacebar pressed while showingGameOverUI = "+showingGameOverUI);
+    showingGameOverUI = false;
+    if (levelPlaying == 1) {
+      setTimeout(softDestroyLevel1, 1050);
+      setTimeout(create, 1050);
+    } else if (levelPlaying == 2) {
+      setTimeout(softDestroyLevel2, 1050);
+      setTimeout(create, 1050);
+    } else if (levelPlaying == 3) {
+      setTimeout(softDestroyLevel3, 1050);
+      setTimeout(create, 1050);
+    }
+    gameOverImage.kill();
   }
 
   // Parallasse sfondi
@@ -2187,7 +2222,6 @@ var sniperFireOffset
     healthFull2.alpha = 1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 1;
-
   } else if (player.health == 5) {
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
@@ -2223,7 +2257,6 @@ var sniperFireOffset
     healthFull2.alpha = 0.1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 0.1;
-
   } else if (player.health == 0) {
     healthHalf1.alpha = 0;
     healthFull1.alpha = 0.1;
@@ -2455,6 +2488,7 @@ function spawn() {
       console.log("Level 1: player coordinates reset.");
       player.x = 250;
       player.y = 1900;
+      player.revive();
       player.bringToTop();
     }
 
@@ -2489,17 +2523,16 @@ function spawn() {
 function gameover() {
   console.log('Running gameover()...')
   gameWasOver = true;
-  if (levelPlaying == 1) {
-    setTimeout(softDestroyLevel1, 1050);
-    setTimeout(create, 1050);
-  } else if (levelPlaying == 2) {
-    setTimeout(softDestroyLevel2, 1050);
-    setTimeout(create, 1050);
-  } else if (levelPlaying == 3) {
-    setTimeout(softDestroyLevel3, 1050);
-    setTimeout(create, 1050);
-  }
+  showGameOverUI();
+  game.camera.resetFX();
   console.log('gameover() completed.');
+}
+
+function showGameOverUI() {
+  gameOverImage = game.add.sprite(0, 0, 'gameOver');
+  gameOverImage.fixedToCamera = true;
+  gameOverImage.bringToTop();
+  showingGameOverUI = true;
 }
 
 function hardDestroyLevel1() {
@@ -2772,25 +2805,25 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBombEsplosione.killOnComplete = true;
   enemyBomb.kill();
   if (playerInvulnerable == false) {
-    blinkingPlayer();
     player.damage(2);
     console.log("touchEnemyBomb(). Player health -= 2.");
+    blinkingPlayer();
   }
 }
 
 function touchEnemySniper(player, enemySniper) {
   if (playerInvulnerable == false) {
-    blinkingPlayer();
     player.damage(1);
     console.log("touchEnemySniper(). Player health -= 1.");
+    blinkingPlayer();
   }
 }
 
 function touchEnemyJug(player, enemyJug) {
   if (playerInvulnerable == false) {
-    blinkingPlayer();
     player.damage(1);
     console.log("touchEnemyJug(). Player health -= 1.");
+    blinkingPlayer();
   }
 }
 
@@ -2802,9 +2835,9 @@ function shootMangiafuoco(mf, bullet) {
 function EnemyDamage(player, bullets) {
   bullets.kill();
   if (playerInvulnerable == false) {
-    blinkingPlayer();
     player.damage(1);
     console.log("EnemyDamage(). Player health -= 1.");
+    blinkingPlayer();
   }
 }
 
@@ -2817,6 +2850,7 @@ function EnemySniperDamage(player, bullets) {
   if (playerInvulnerable == false) {
     player.damage(1);
     console.log("EnemyDamage(). Player health -= 1.");
+    blinkingPlayer();
   }
 }
 
