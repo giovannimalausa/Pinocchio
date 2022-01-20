@@ -2215,49 +2215,52 @@ var sniperFireOffset
   //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
   // Player health UI
-  if (player.health == 6) {
+  if (player.health === 6) {
+    // console.log('6');
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
     healthHalf2.alpha = 0;
     healthFull2.alpha = 1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 1;
-  } else if (player.health == 5) {
+  } else if (player.health === 5) {
+    // console.log('5');
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
     healthHalf2.alpha = 0;
     healthFull2.alpha = 1;
     healthHalf3.alpha = 1;
     healthFull3.alpha = 0.1;
-  } else if (player.health == 4) {
+  } else if (player.health === 4) {
+    // console.log('4');
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
     healthHalf2.alpha = 0;
     healthFull2.alpha = 1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 0.1;
-  } else if (player.health == 3) {
+  } else if (player.health === 3) {
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
     healthHalf2.alpha = 1;
     healthFull2.alpha = 0.1;
     healthFull3.alpha = 0.1;
     healthHalf3.alpha = 0;
-  } else if (player.health == 2) {
+  } else if (player.health === 2) {
     healthHalf1.alpha = 0;
     healthFull1.alpha = 1;
     healthHalf2.alpha = 0;
     healthFull2.alpha = 0.1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 0.1;
-  } else if (player.health == 1) {
+  } else if (player.health === 1) {
     healthHalf1.alpha = 1;
     healthFull1.alpha = 0;
     healthHalf2.alpha = 0;
     healthFull2.alpha = 0.1;
     healthHalf3.alpha = 0;
     healthFull3.alpha = 0.1;
-  } else if (player.health == 0) {
+  } else if (player.health === 0) {
     healthHalf1.alpha = 0;
     healthFull1.alpha = 0.1;
     healthHalf2.alpha = 0;
@@ -2478,44 +2481,62 @@ function spawn() {
   if (levelPlaying == 1) {
     // Livello 1 / Prima volta
     if (gameWasOver == false) { // Il livello viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere creati.
-      console.log("Level 1: player & shadow created.");
       player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
       shadow = game.add.sprite(1000, 200, 'player');
       shadow.alpha = 0;
+      player.bringToTop();
+      console.log("Level 1: player & shadow created.");
     }
     // Livello 1 / Reset
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
-      console.log("Level 1: player coordinates reset.");
+      gameWasOver = false;
+      cambioLivello = false;
+      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       player.x = 250;
       player.y = 1900;
+      console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
     }
 
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
-        console.log("Level 2: player & shadow created.");
         player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
         shadow = game.add.sprite(500, 1900, 'player');
         shadow.alpha = 0;
         player.bringToTop();
+        console.log("Level 2: player & shadow created.");
       }
       if (gameWasOver == true || cambioLivello == true) {
-        console.log("Level 2: coordinates reset.")
         gameWasOver = false;
         cambioLivello = false;
         console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
         player.x = 1;
         player.y = 1900;
+        console.log("Level 2: coordinates reset.")
+        player.revive();
         player.bringToTop();
       }
 
   } else if (levelPlaying == 3) {
-    console.log("layer 3 player create")
-    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
-    shadow = game.add.sprite(300, 200, 'player');
-    shadow.alpha = 0;
-    player.bringToTop();
+    if (gameWasOver == false && cambioLivello == false) {
+      player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+      shadow = game.add.sprite(300, 200, 'player');
+      shadow.alpha = 0;
+      player.bringToTop();
+      console.log("Level 3: player & shadow created.");
+    }
+    if (gameWasOver == true || cambioLivello == true) {
+      gameWasOver = false;
+      cambioLivello = false;
+      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
+      player.x = 1;
+      player.y = 1900;
+      console.log("Level 3: coordinates reset.")
+      player.revive();
+      player.bringToTop();
+    }
+    
   }
   console.log("spawn() completed.")
 }
