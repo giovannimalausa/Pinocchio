@@ -17,17 +17,14 @@
 var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'main-frame', { preload: preload, create: create, update: update, render: render });
 
 WebFontConfig = {
-
   //  'active' means all requested fonts have finished loading
-  //  We set a 1 second delay before calling 'createText'.
-  //  For some reason if we don't the browser cannot render the text the first time it's created.
-  active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+  //  un secondo di delay prima di creare il testo
+  active: function() {game.time.events.add(Phaser.Timer.QUARTER, createText, this);},
 
-  //  The Google Fonts we want to load (specify as many as you like in the array)
+  //  nome del font
   google: {
     families: ['Inter']
   }
-
 };
 
 // ++++++++++ PRELOAD ++++++++++
@@ -304,7 +301,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -478,6 +475,7 @@ function create() {
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2304);
+
 
   healthFull1 = game.add.sprite(50, 50, 'healthFull');
   healthFull1.fixedToCamera = true;
@@ -670,8 +668,6 @@ function create() {
       var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
-
-
     }
 
 
@@ -1090,11 +1086,14 @@ function create() {
       game.physics.arcade.enable(level2_mongolfiera2);
       level2_mongolfiera2.body.setSize(105, 100, 277, 883);
       level2_mongolfiera2.body.immovable = true;
-    }
-    //testo
-    var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+      //testo
+     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+
+     text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+     createText(text);
+    }
+
   }
 
   // Livello 3 (circo)
@@ -1163,7 +1162,7 @@ function create() {
     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
-
+    createText(text);
   }
 
   // munizioni
@@ -1208,7 +1207,7 @@ function create() {
     pozioneX = [3500, 8225, 11125];
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19375];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneX = [3100, 4975, 6925];
@@ -1226,12 +1225,6 @@ function create() {
   pozione.create(pozioneX[4], pozioneY[4], 'pozione');
   pozione.create(pozioneX[5], pozioneY[5], 'pozione');
   }
-
-  if (levelPlaying == 3){
-    pozione.create(pozioneX[3], pozioneY[3], 'pozione');
-    pozione.create(pozioneX[4], pozioneY[4], 'pozione');
-    pozione.create(pozioneX[5], pozioneY[5], 'pozione');
-    }
 
   game.physics.arcade.enable(pozione);
 
@@ -1330,7 +1323,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
     enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
-    enemyBombD = [375, 275, 275, 200, 275, 375];
+    enemyBombD = [375, 275, 275, 175, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
@@ -1409,7 +1402,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8500, 10500, 14825, 17500];
+    enemyJugX = [4000, 8500, 10500, 14775, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
@@ -1547,6 +1540,7 @@ function update () {
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
+
 
   // Collide
   // Collide /Globali
@@ -2587,11 +2581,15 @@ function spawn() {
       gameWasOver = false;
       cambioLivello = false;
       console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
+      player.y = 1800;
       player.x = 250;
-      player.y = 1900;
       console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
+      if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+        player.health = playerMaxHealth;
+      }
+      facing = 'right';
     }
 
   } else if (levelPlaying == 2) {
@@ -2607,10 +2605,14 @@ function spawn() {
         cambioLivello = false;
         console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
         player.x = 1;
-        player.y = 1900;
+        player.y = 1800;
         console.log("Level 2: coordinates reset.")
         player.revive();
         player.bringToTop();
+        if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+          player.health = playerMaxHealth;
+        }
+        facing = 'right';
       }
 
   } else if (levelPlaying == 3) {
@@ -2630,6 +2632,10 @@ function spawn() {
       console.log("Level 3: coordinates reset.")
       player.revive();
       player.bringToTop();
+      if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+        player.health = playerMaxHealth;
+      }
+      facing = 'right';
     }
 
   }
@@ -3109,12 +3115,12 @@ function createText() {
 
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
-  text.setTextBounds(200, 600, 1450, 100);
+  text.setTextBounds(200, 1800, 1450, 100);
   text.alpha = 0;
 
-  textTween = game.add.tween(text).to({ y: 1100, alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
+  textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( { y: 300, alpha: 0 }, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 2000, 0, false);
   });
 }
 
@@ -3123,9 +3129,8 @@ function render () {
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
-   //game.debug.body(enemyJug.getChildAt(0));
-   //game.debug.body(enemySniper.getChildAt(0));
-
-  // game.debug.spriteInfo(player, 30, 100);
+  // game.debug.body(enemyJug.getChildAt(0));
+  // game.debug.body(enemySniper.getChildAt(0));
+   game.debug.spriteInfo(player, 30, 100);
   //game.debug.body(level3_nuvola);
 }
