@@ -325,6 +325,7 @@ var ammoUI2;
 var ammoUI1;
 var ammoUI;
 var ammoUIv3;
+var timerLampeggioPieno = 0;
 
 var gameOverImage;
 var nero;
@@ -506,8 +507,8 @@ function create() {
     ammoUIv3 = game.add.sprite(863, 675, 'ammoUIv3');
     ammoUIv3.fixedToCamera = true;
 
-    ammoUIv3.animations.add('lampeggioPieno', [5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 15, false);
-    ammoUIv3.animations.add('lampeggioVuoto', [10,11,12,13,14,15,14,13,12,11,10], 15, false);
+    lampeggioPieno = ammoUIv3.animations.add('lampeggioPieno', [5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 40, false);
+    ammoUIv3.animations.add('lampeggioVuoto', [10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10], 40, false);
 
 
     // ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
@@ -1177,17 +1178,12 @@ function create() {
   // munizioni
   if (levelPlaying == 1) {
     ammoBoxX = [3690, 5265, 8315, 10715];
-  } else if (levelPlaying == 2) {
-    ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
-  } else if (levelPlaying == 3) {
-    ammoBoxX = [915, 3465, 5825, 6625, 7100];
-  }
-
-  if (levelPlaying == 1) {
     ammoBoxY = [1475, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
+    ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
     ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
+    ammoBoxX = [915, 3465, 5825, 6625, 7100];
     ammoBoxY = [2025, 2025, 2125, 2125, 2025];
   }
 
@@ -1256,8 +1252,8 @@ function create() {
   // Coordinate di spawn [variano a seconda del livello caricato]
   spawn();
 
-//  PINOCCHIO SPRITESHEET V3
-/*
+  //  PINOCCHIO SPRITESHEET V3
+  /*
   player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
   player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
   player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
@@ -1276,27 +1272,25 @@ function create() {
   //player.animations.add('landL', [117, 118, 119]);
   //Assegnando una variabile loop = false funziona!
   //Comunque da eliminare se possibile
-*/
+  */
 
-//PINOCHIO SPRITESHEET V4
-player.animations.add('standR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]);
-player.animations.add('standL', [15, 16, 17, 18, 19, 20, 21, 22, 23,24,25,26,27,28,29]);
-player.animations.add('walkR', [86, 87, 88, 89, 90, 91, 92, 93,94,95,96,97]); // Animazione camminata verso dx
-player.animations.add('walkL', [110,111,112,113,114,115,116,117,118,119,120,121]); // Animazione camminata verso sx
-player.animations.add('jumpR', [68,69,70,71,72,73,74,75]);
-player.animations.add('jumpL', [78,79,80,81,82,83,84,85]);
-player.animations.add('dropR', [58,59,60,61]);
-player.animations.add('dropL', [62,63,64,65]);
-player.animations.add('skidR', [30,31,32]);
-player.animations.add('skidL', [33,34,35]);
-player.animations.add('skidFireR', [52,53,54]);
-player.animations.add('skidFireL', [55,56,57]);
-player.animations.add('walkFireR', [98,99,100,101,102,103,104,105,106,107,108,109]);
-player.animations.add('walkFireL', [122,123,124,125,126,127,128,129,130,131,32,133]);
-player.animations.add('fireR', [36,37,38,39,40,41,42,43]);
-player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
-
-
+  //PINOCHIO SPRITESHEET V4
+  player.animations.add('standR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]);
+  player.animations.add('standL', [15, 16, 17, 18, 19, 20, 21, 22, 23,24,25,26,27,28,29]);
+  player.animations.add('walkR', [86, 87, 88, 89, 90, 91, 92, 93,94,95,96,97]); // Animazione camminata verso dx
+  player.animations.add('walkL', [110,111,112,113,114,115,116,117,118,119,120,121]); // Animazione camminata verso sx
+  player.animations.add('jumpR', [68,69,70,71,72,73,74,75]);
+  player.animations.add('jumpL', [78,79,80,81,82,83,84,85]);
+  player.animations.add('dropR', [58,59,60,61]);
+  player.animations.add('dropL', [62,63,64,65]);
+  player.animations.add('skidR', [30,31,32]);
+  player.animations.add('skidL', [33,34,35]);
+  player.animations.add('skidFireR', [52,53,54]);
+  player.animations.add('skidFireL', [55,56,57]);
+  player.animations.add('walkFireR', [98,99,100,101,102,103,104,105,106,107,108,109]);
+  player.animations.add('walkFireL', [122,123,124,125,126,127,128,129,130,131,32,133]);
+  player.animations.add('fireR', [36,37,38,39,40,41,42,43]);
+  player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
 
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = false;
@@ -1935,18 +1929,7 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
-  } else if (autoPilot == true) {
-    if (levelPlaying == 1) {
-
-    }
-    else if (levelPlaying == 2) {
-      shadow.x = 600;
-      shadow.y = 1987;
-    }
-    else if (levelPlaying == 3) {
-    }
-
-  } else if (autoPilot == false) { // <== Normale offset durante il gioco
+  }  else if (autoPilot == false) { // <== Normale offset durante il gioco
     shadow.x = player.x+350;
     shadow.y = player.y+120;
   }
@@ -2279,8 +2262,6 @@ mfShootTimer = 0;
   enemyJug.setAll('body.gravity.y', 2000);
   enemyJug.setAll('body.collideWorldBounds', true);
 
-
-  console.log(ammoUIv3.frame);
   if(fireButton.isDown && player.alive == true) {
     gun1.fire();
     if (bulletPool <= 0) {
@@ -2502,7 +2483,7 @@ mfShootTimer = 0;
       player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
       console.log("Turning ON Autopilot...");
     }
-    player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
+    player.body.velocity.x = 350; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
     timerLivello1Livello2 += 1;
     if (timerLivello1Livello2 == 150) {
       // Destroy gli sprite del Livello 1
@@ -2511,7 +2492,7 @@ mfShootTimer = 0;
 
       levelPlaying = 2;
       cambioLivello = true;
-      console.log("cambioLivello set to: "+cambioLivello);
+      console.log("cambioLivello set to "+cambioLivello+' with levelPlaying = '+levelPlaying);
 
       console.log("Turning OFF Autopilot...")
       create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
@@ -2519,14 +2500,14 @@ mfShootTimer = 0;
   }
 
     // Cambio Livello 2 => 3
-    if (levelPlaying == 2 && player.x >= 19650) {
+    if (levelPlaying == 2 && player.x >= 19450) {
       if (autoPilot == false) {
         autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
         enableUserMovement = false; // Disabilita i controlli da parte dell'utente
         //player.body.collideWorldBounds = false; // Il giocatore può uscire dall'area di gioco
         console.log("Turning ON Autopilot...")
       }
-      player.body.velocity.x = 300; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
+      player.body.velocity.x = 350; // Fa proseguire il giocatore verso destra, fuori dall'area di gioco
       timerLivello2Livello3 += 1;
       if (timerLivello2Livello3 == 150) {
         // Destroy gli sprite del Livello 2
@@ -2535,7 +2516,7 @@ mfShootTimer = 0;
 
         levelPlaying = 3;
         cambioLivello = true;
-        console.log("cambioLivello set to: "+cambioLivello);
+        console.log("cambioLivello set to "+cambioLivello+' with levelPlaying = '+levelPlaying);
 
         console.log("Turning OFF Autopilot...")
         create(); // <=== Riesegue la funzione create con la nuova variabile levelPlaying
@@ -2543,7 +2524,7 @@ mfShootTimer = 0;
     }
 
   // Ammo UI
-  if (bulletPool*100/maxAmmo >= 80) { // > 80% di munizioni
+  if (bulletPool*100/maxAmmo >= 80 && !lampeggioPieno.isPlaying) { // > 80% di munizioni
     ammoUIv3.frame = 5;
   } else if (bulletPool*100/maxAmmo >= 60 && bulletPool*100/maxAmmo < 80) {
     ammoUIv3.frame = 6;
@@ -2587,6 +2568,7 @@ function spawn() {
       player.bringToTop();
       if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
         player.health = playerMaxHealth;
+        bulletPool = maxAmmo;
       }
       facing = 'right';
     }
@@ -2600,9 +2582,6 @@ function spawn() {
         console.log("Level 2: player & shadow created.");
       }
       if (gameWasOver == true || cambioLivello == true) {
-        gameWasOver = false;
-        cambioLivello = false;
-        console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
         player.x = 1;
         player.y = 1800;
         console.log("Level 2: coordinates reset.")
@@ -2610,7 +2589,12 @@ function spawn() {
         player.bringToTop();
         if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
           player.health = playerMaxHealth;
+          bulletPool = maxAmmo;
+          console.log('Reset player.health to '+player.health+' and reset bulletPool to '+ bulletPool);
         }
+        gameWasOver = false;
+        cambioLivello = false;
+        console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
         facing = 'right';
       }
 
@@ -2623,9 +2607,6 @@ function spawn() {
       console.log("Level 3: player & shadow created.");
     }
     if (gameWasOver == true || cambioLivello == true) {
-      gameWasOver = false;
-      cambioLivello = false;
-      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       player.x = 1;
       player.y = 1900;
       console.log("Level 3: coordinates reset.")
@@ -2633,7 +2614,11 @@ function spawn() {
       player.bringToTop();
       if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
         player.health = playerMaxHealth;
+        bulletPool = maxAmmo;
       }
+      gameWasOver = false;
+      cambioLivello = false;
+      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       facing = 'right';
     }
 
@@ -2759,6 +2744,10 @@ function hardDestroyLevel2() {
 
   ammoBox.destroy();
   pozione.destroy();
+
+  enemyBomb.destroy();
+  enemyJug.destroy();
+  enemySniper.destroy();
 
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
   if (typeof enemyJugDead !== 'undefined') {
@@ -2915,7 +2904,7 @@ function shootEnemyJug(bullets, enemyJug) {
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
     // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
-      // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
+    // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
     enemyJugDead = game.add.sprite(enemyJug.x , enemyJug.y, 'marionettaJugMorte');
     if (enemyJug.x > player.x) {
       enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
@@ -3064,6 +3053,13 @@ function addAmmo(player, ammoBox) {
     ammoBox.kill();
   } else if ((maxAmmo-bulletPool) <= 0) {
     console.log('Max ammo reached. Reloading not possible.')
+    timerLampeggioPieno += 1;
+    if (timerLampeggioPieno == 50) {
+      console.log('now');
+      ammoUIv3.animations.play('lampeggioPieno');
+      timerLampeggioPieno = 0;
+    }
+
   }
 }
 
@@ -3073,7 +3069,9 @@ function ammoSpent() {
 }
 
 function heal(player, pozione) {
-  if (player.health < 6) {
+  if (player.health == 6) {
+    console.log('Max health reached.')
+  } else if (player.health < 6) {
     pozione.kill();
     if (player.health === 5) {
       player.heal(1);
