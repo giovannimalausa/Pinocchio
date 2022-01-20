@@ -21,7 +21,7 @@ WebFontConfig = {
   //  'active' means all requested fonts have finished loading
   //  We set a 1 second delay before calling 'createText'.
   //  For some reason if we don't the browser cannot render the text the first time it's created.
-  active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+  active: function() { game.time.events.add(Phaser.Timer.QUARTER, createText, this); },
 
   //  The Google Fonts we want to load (specify as many as you like in the array)
   google: {
@@ -300,7 +300,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -474,6 +474,7 @@ function create() {
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2304);
+
 
   healthFull1 = game.add.sprite(50, 50, 'healthFull');
   healthFull1.fixedToCamera = true;
@@ -666,8 +667,6 @@ function create() {
       var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
-
-
     }
 
 
@@ -1086,11 +1085,14 @@ function create() {
       game.physics.arcade.enable(level2_mongolfiera2);
       level2_mongolfiera2.body.setSize(105, 100, 277, 883);
       level2_mongolfiera2.body.immovable = true;
-    }
-    //testo 
-    var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+      //testo 
+     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+
+     text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+     createText(text);
+    }
+    
   }
 
   // Livello 3 (circo)
@@ -1159,7 +1161,7 @@ function create() {
     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
     text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
-
+    createText(text);
   }
 
   // munizioni
@@ -1222,12 +1224,6 @@ function create() {
   pozione.create(pozioneX[4], pozioneY[4], 'pozione');
   pozione.create(pozioneX[5], pozioneY[5], 'pozione');
   }
-
-  if (levelPlaying == 3){
-    pozione.create(pozioneX[3], pozioneY[3], 'pozione');
-    pozione.create(pozioneX[4], pozioneY[4], 'pozione');
-    pozione.create(pozioneX[5], pozioneY[5], 'pozione');
-    }
 
   game.physics.arcade.enable(pozione);
 
@@ -1518,6 +1514,7 @@ function update () {
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
+
 
   // Collide
   // Collide /Globali
@@ -3040,12 +3037,12 @@ function createText() {
   
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
-  text.setTextBounds(200, 600, 1450, 100);
+  text.setTextBounds(200, 1200, 1450, 100);
   text.alpha = 0;
 
-  textTween = game.add.tween(text).to({ y: 1100, alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, false);
+  textTween = game.add.tween(text).to({ y: 600, alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( { y: 300, alpha: 0 }, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
+   textTween2 = game.add.tween(text).to( { y: 100, alpha: 0 }, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
   });
 }
 
