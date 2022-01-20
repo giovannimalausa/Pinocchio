@@ -3120,7 +3120,7 @@ function createText() {
 
   textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 2000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 3000, 0, false);
   });
 }
 
