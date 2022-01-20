@@ -1353,7 +1353,7 @@ function create() {
       }
 
   game.physics.arcade.enable(enemySniper);
-  enemySniper.setAll('health', 5);
+  enemySniper.setAll('health', 3);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
   enemySniper.callAll('animations.add', 'animations', 'sniperR', [0,1,2,3,4,5,6,7,8,9], 10, true);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireL', [39,38,37,36,35,34,33,32,31,30], 10, false);
@@ -1391,7 +1391,7 @@ function create() {
   }
   game.physics.arcade.enable(enemyJug);
 
-  enemyJug.setAll('health', 7);
+  enemyJug.setAll('health', 4);
   enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugL', [10,11,12,13,14,15,16,17,18,19], 10, true);
@@ -2524,8 +2524,8 @@ function spawn() {
       gameWasOver = false;
       cambioLivello = false;
       console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
+      player.y = 1800;
       player.x = 250;
-      player.y = 1900;
       console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
@@ -2548,7 +2548,7 @@ function spawn() {
         cambioLivello = false;
         console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
         player.x = 1;
-        player.y = 1900;
+        player.y = 1800;
         console.log("Level 2: coordinates reset.")
         player.revive();
         player.bringToTop();
@@ -3062,6 +3062,6 @@ function render () {
   // game.debug.body(player);
   // game.debug.body(enemyJug.getChildAt(0));
   // game.debug.body(enemySniper.getChildAt(0));
-  // game.debug.spriteInfo(healthFull3, 30, 100);
+   game.debug.spriteInfo(player, 30, 100);
   //game.debug.body(level3_nuvola);
 }
