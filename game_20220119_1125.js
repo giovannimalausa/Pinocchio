@@ -236,6 +236,7 @@ var mfGunSx;
 var mfShootTimer = 0;
 var mfShootTimerBase = 200;
 var mfFireballSpeed;
+var mfGun1;
 var floorFire;
 var animManoDX;
 var animManoSX;
@@ -277,7 +278,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1125,7 +1126,7 @@ function create() {
   } else if (levelPlaying == 2) {
     ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
   } else if (levelPlaying == 3) {
-    ammoBoxX = [920, 5825, 6625, 7100];
+    ammoBoxX = [915, 3465, 5825, 6625, 7100];
   }
 
   if (levelPlaying == 1) {
@@ -1133,7 +1134,7 @@ function create() {
   } else if (levelPlaying == 2) {
     ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
-    ammoBoxY = [2025, 2125, 2125, 2025];
+    ammoBoxY = [2025, 2025, 2125, 2125, 2025];
   }
 
   ammoBox = game.add.physicsGroup();
@@ -1147,6 +1148,9 @@ function create() {
     ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
     ammoBox.create(ammoBoxX[5], ammoBoxY[5], 'ammoBox');
   }
+  if (levelPlaying == 3) {
+    ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
+  }
 
 
   game.physics.arcade.enable(ammoBox);
@@ -1157,7 +1161,7 @@ function create() {
   } else if (levelPlaying == 2) {
     pozioneX = [3350, 6825, 9625, 12875, 15225, 19400];
   } else if (levelPlaying == 3) {
-    pozioneX = [3475, 4975, 6925];
+    pozioneX = [3100, 4975, 6925];
   }
 
   if (levelPlaying == 1) {
@@ -1165,7 +1169,7 @@ function create() {
   } else if (levelPlaying == 2) {
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
-    pozioneY = [2025, 2125, 2025];
+    pozioneY = [1875, 2125, 2025];
   }
 
   pozione = game.add.physicsGroup();
@@ -1179,6 +1183,12 @@ function create() {
   pozione.create(pozioneX[4], pozioneY[4], 'pozione');
   pozione.create(pozioneX[5], pozioneY[5], 'pozione');
   }
+
+  if (levelPlaying == 3){
+    pozione.create(pozioneX[3], pozioneY[3], 'pozione');
+    pozione.create(pozioneX[4], pozioneY[4], 'pozione');
+    pozione.create(pozioneX[5], pozioneY[5], 'pozione');
+    }
 
   game.physics.arcade.enable(pozione);
 
@@ -1258,7 +1268,7 @@ function create() {
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
-    enemyBombD = [1950, 3700, 5500];
+    enemyBombD = [300, 475, 275];
     enemyBombQuantity = enemyBombX.length;
   }
 
@@ -1308,7 +1318,6 @@ function create() {
 
     if (levelPlaying == 3) {
       enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
-      enemySniper.create(enemySniperX[4], 1200, 'marionettaSniper');
       }
 
   game.physics.arcade.enable(enemySniper);
@@ -1337,7 +1346,7 @@ function create() {
     enemyJugX = [4000, 8500, 10500, 14825, 17500];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
-    enemyJugX = [3100, 4650, 6500];
+    enemyJugX = [2650, 4650, 6400];
     enemyJugQuantity = enemyJugX.length;
   }
   enemyJug = game.add.physicsGroup();
@@ -2485,7 +2494,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     console.log("layer 3 player create")
-    player = game.add.sprite(7200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+    player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
     shadow = game.add.sprite(300, 200, 'player');
     shadow.alpha = 0;
     player.bringToTop();
