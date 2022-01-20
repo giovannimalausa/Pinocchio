@@ -35,6 +35,7 @@ function preload() {
 
   //game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchio_spritesheet3.png', 200, 150, 120);
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchioV4.png', 200, 150, 140);
+  game.load.spritesheet('pinocchioMorto', 'assets/sprites/pinocchio/pinocchiomortocrocifisso.png', 200, 150, 20);
 
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
 
@@ -246,6 +247,8 @@ var enemyJug;
 var enemySniper;
 var dust; // sprite polvere del salto
 var dustVar;
+
+var pinocchioCrucified;
 
 //Var armi enemyGun
 var enemySniperGun0
@@ -474,6 +477,8 @@ var animDropL;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
+
+
   console.log('Running create() with levelPlaying = '+ levelPlaying + '...')
 
   game.world.setBounds(0, 0, 20000, 2304);
@@ -517,7 +522,7 @@ function create() {
     // ammoUI1.fixedToCamera = true;
     // BringToTop() alla fine di create().
   }
-  
+
   if (gameWasOver == false) {
     // Elementi modulari globali
   modulo1x1 = game.add.physicsGroup();
@@ -677,7 +682,7 @@ function create() {
       //testo
       var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(0, 0, "              Livello 1\n Villaggio di Geppetto", style);
+    text = game.add.text(0, 0, "               Livello 1\n Villaggio di Geppetto", style);
     }
 
 
@@ -731,7 +736,7 @@ function create() {
       level2_componente.create(3600, 1950, 'level2_componente2');
       level2_componente.create(4800, 1850, 'level2_componente8');
       level2_componente.create(8000, 1900, 'level2_componente3');
-      level2_componente.create(8495, 1950, 'level2_componente4');
+      level2_componente.create(8750, 1950, 'level2_componente4');
       level2_componente.create(11050, 1950, 'level2_componente5');
       level2_componente.create(11100, 1850, 'level2_componente6');
       level2_componente.create(13145, 1850, 'level2_componente9');
@@ -810,11 +815,6 @@ function create() {
       modulo1x1.create(8175, 1900, 'modulo1x1');
       modulo1x1.create(8225, 1900, 'modulo1x1');
 
-      modulo1x1.create(8500, 1950, 'modulo1x1');
-      modulo1x1.create(8550, 1950, 'modulo1x1');
-      modulo1x1.create(8600, 1950, 'modulo1x1');
-      modulo1x1.create(8650, 1950, 'modulo1x1');
-
       modulo1x1.create(11100, 1850, 'modulo1x1');
       modulo1x1.create(11200, 1850, 'modulo1x1');
       modulo1x1.create(11250, 1850, 'modulo1x1');
@@ -862,8 +862,8 @@ function create() {
       modulo1x1.create(17200, 1550, 'modulo1x1');
       modulo1x1.create(17250, 1550, 'modulo1x1');
 
-      modulo1x1.create(17500, 1600, 'modulo1x1');
-      modulo1x1.create(17550, 1600, 'modulo1x1');
+      modulo1x1.create(17500, 1550, 'modulo1x1');
+      modulo1x1.create(17550, 1550, 'modulo1x1');
 
       modulo1x1.create(17250, 1850, 'modulo1x1');
       modulo1x1.create(17300, 1850, 'modulo1x1');
@@ -914,11 +914,10 @@ function create() {
       modulo2x4.create(800, 2000, 'modulo2x4');
       modulo2x4.create(4550, 2000, 'modulo2x4');
       modulo2x4.create(6300, 2000, 'modulo2x4');
-      modulo2x4.create(8850, 2000, 'modulo2x4');
+      modulo2x4.create(8500, 2000, 'modulo2x4');
       modulo2x4.create(10850, 2000, 'modulo2x4');
       modulo2x4.create(14800, 2000, 'modulo2x4');
       modulo2x4.create(18550, 2000, 'modulo2x4');
-
       modulo2x4.create(19350, 2000, 'modulo2x4');
 
       modulo2x4.setAll('body.immovable', true);
@@ -1171,7 +1170,7 @@ function create() {
     //testo
     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
-    text = game.add.text(-400,-400, "              Livello 3\n Circo di Mangiafuoco", style);
+    text = game.add.text(-400,0, "               Livello 3\n Circo di Mangiafuoco", style);
     createText(text);
   }
 
@@ -1217,14 +1216,12 @@ function create() {
     pozioneX = [3500, 8225, 11125];
     pozioneY = [2125, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19375];
+    pozioneX = [3350, 6825, 9625, 12875, 15225, 19370];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
     pozioneX = [3100, 4975, 6925];
     pozioneY = [1875, 2125, 2025];
   }
-
-
 
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
@@ -1237,8 +1234,6 @@ function create() {
   }
 
   game.physics.arcade.enable(pozione);
-
-
 
   // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
   selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
@@ -1300,8 +1295,7 @@ player.animations.add('walkFireR', [98,99,100,101,102,103,104,105,106,107,108,10
 player.animations.add('walkFireL', [122,123,124,125,126,127,128,129,130,131,32,133]);
 player.animations.add('fireR', [36,37,38,39,40,41,42,43]);
 player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
-//player.animations.add('landR', [107, 108, 109]);
-//player.animations.add('landL', [117, 118, 119]);
+
 
 
   game.physics.arcade.enable(player);
@@ -1332,8 +1326,8 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyBombD = [375, 625, 475]
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 2) {
-    enemyBombX = [4725, 7225, 11775, 13900, 17725, 18725];
-    enemyBombD = [375, 275, 275, 175, 275, 375];
+    enemyBombX = [4725, 7225, 11775, 13900, 16100, 17725, 18725];
+    enemyBombD = [375, 275, 275, 125, 900, 275, 375];
     enemyBombQuantity = enemyBombX.length;
   } else if (levelPlaying == 3) {
     enemyBombX = [1950, 3700, 5500];
@@ -1351,6 +1345,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[5], 1200, 'marionettaBomba');
+  enemyBomb.create(enemyBombX[6], 1200, 'marionettaBomba');
   }
 
   game.physics.arcade.enable(enemyBomb);
@@ -1412,7 +1407,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
     enemyJugX = [6500, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8500, 10500, 14775, 17450];
+    enemyJugX = [4000, 8800, 10500, 15550, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
@@ -1428,7 +1423,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   }
   game.physics.arcade.enable(enemyJug);
 
-  enemyJug.setAll('health', 6);
+  enemyJug.setAll('health', 5);
   enemyJug.callAll('animations.add', 'animations', 'jugFireL', [30,31,32,33,34,35,36,37,38,39], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugFireR', [20,21,22,23,24,25,26,27,28,29], 10, true);
   enemyJug.callAll('animations.add', 'animations', 'jugL', [10,11,12,13,14,15,16,17,18,19], 10, true);
@@ -1439,7 +1434,7 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   enemyJugGun0 = game.add.weapon(100, 'nemiciBullet');
   enemyJugGun0.fireRate = 100; //100 quello previsto, abbassato per poter giocare
   enemyJugGun0.bulletSpeed = 400;
-  enemyJugGun0.bulletAngleVariance = 2;
+  enemyJugGun0.bulletAngleVariance = 3;
   enemyJugGun0.bulletKillType = 4;
   enemyJugGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
   enemyJugGun0.setBulletBodyOffset(16, 8, 66, 45);
@@ -1492,6 +1487,8 @@ player.animations.add('fireL', [44,45,46,47,48,49,50,51]);
   // Phaser Signal
   // pickAmmo.onDown.add(addAmmo);
   gun1.onFire.add(ammoSpent);
+
+  player.events.onKilled.add(pinocchioCrocifisso);
 
   enemySniperGun0.onFire.add(sniperIsFiringTrue);
 
@@ -1870,7 +1867,7 @@ function update () {
     game.physics.arcade.collide(mangiafuoco, teatro);
 
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
-    game.physics.arcade.collide(mfGunDx.bullets, level3_nuvola, createFloorFire);
+  //  game.physics.arcade.collide(mfGunDx.bullets, modulo1x1, createFloorFire);
     game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
     game.physics.arcade.overlap(player, floorFire, touchFloorFire);
@@ -2075,11 +2072,11 @@ function update () {
 
     if(player.body.velocity.y < -300 && facing === "right" && !(player.body.touching.down)) // Salto dx
     {
-      player.animations.play('jumpR', 15, false);
+      player.animations.play('jumpR', 18, false);
     }
     if(player.body.velocity.y < -300 && facing === "left" && !(player.body.touching.down)) // Salto sx
     {
-      player.animations.play('jumpL', 15, false);
+      player.animations.play('jumpL', 18, false);
     }
 
     if(player.body.velocity.y > 100 && facing === "right" && !(player.body.touching.down)) //Atterraggio salto dx
@@ -2139,16 +2136,16 @@ enemyBomb.forEach(function (enemy) {
   }})
 
   enemyJug.forEach(function (enemy) {
-    if (enemy.x > player.x && gameStopWatch % 2 == 0) {
+    if (enemy.x > player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireL')
     }
-      else if (enemy.x > player.x && gameStopWatch % 2 != 0) {
+      else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
           enemy.animations.play('jugL')
     }
-    else if (enemy.x < player.x && gameStopWatch % 2 == 0) {
+    else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireR')
     }
-    else if (enemy.x < player.x && gameStopWatch % 2 != 0) {
+    else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
       enemy.animations.play('jugR')
     }
   })
@@ -2189,16 +2186,16 @@ var sniperFireOffset
   for (i = 0; i < enemyJugQuantity; i++) {
     if (player.x < enemyJug.getChildAt(i).x) {
       jugFireOffset = 30;
-      enemyJugGun0.fireAngle = 180;
+      enemyJugGun0.fireAngle = 182;
     } else if (player.x > enemyJug.getChildAt(i).x) {
       jugFireOffset = 160;
-      enemyJugGun0.fireAngle = 0;
+      enemyJugGun0.fireAngle = -2;
     }
 
     if (enemyJug.getChildAt(i).inCamera == true && enemyJug.getChildAt(i).alive == true)
     {
       jugFiringPosition0 = new Phaser.Point(enemyJug.getChildAt(i).x + jugFireOffset, enemyJug.getChildAt(i).y + 130);
-      if (gameStopWatch % 2 == 0) {
+      if (gameStopWatch % 3 == 0) {
         enemyJugGun0.fire(jugFiringPosition0);
       }
     }
@@ -2210,8 +2207,11 @@ var sniperFireOffset
     mfFireballSpeed = (Math.random() * (700 - 50) + 50);
     mfGunDx.bulletSpeed = mfFireballSpeed;
     mfShootTimer += (Math.random() * (4 - 1) + 1);
-    if (mfShootTimer >= 280) {
-    //  console.log('mfShootTimer: '+mfShootTimer);
+if (mfShootTimer >= 280) {
+if (player.y > 1850 ) {
+  //  if (mfShootTimer >= 280) {
+      console.log('pippo')
+      console.log('mfShootTimer: '+mfShootTimer);
       if (randomAnim > 0.5) {
         animManoDX.play('mangiafuocoManoDX');
 
@@ -2219,9 +2219,14 @@ var sniperFireOffset
         animManoSX.play('mangiafuocoManoSX');
       }
 
-      mfShootTimer = 0;
     }
-    //console.log(mangiafuoco.frame)
+   else if (player.y < 1850) {
+      console.log('pluto')
+      animManoSX.play('mangiafuocoManoSX');
+  }
+mfShootTimer = 0;
+}
+    console.log(mangiafuoco.frame)
 
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
       mfGunDx.fire();
@@ -2787,6 +2792,7 @@ function softDestroyLevel2() {
   console.log('softDestroyLevel2() completed.');
 }
 
+
 function hardDestroyLevel3() {
   level3_layer1.destroy();
   level3_layer2.destroy();
@@ -2846,6 +2852,18 @@ function enableInteraction() {
     interactionEnabled = false;
     interactionPointLabelShown = false;
     //  interactionPointLabel.kill();
+  }
+}
+
+
+function pinocchioCrocifisso() {
+  pinocchioCrucified = game.add.sprite(player.x, player.y, 'pinocchioMorto')
+  if (facing === 'right') {
+    pinocchioCrucified.animations.add('mortoR', [0,1,2,3,4,5,6,7,8,9], 15, false);
+    pinocchioCrucified.animations.play('mortoR')
+  } else if (facing === 'left') {
+    pinocchioCrucified.animations.add('mortoL', [10,11,12,13,14,15,16,17,18,19], 15, false);
+    pinocchioCrucified.animations.play('mortoL')
   }
 }
 
@@ -3120,9 +3138,9 @@ function createText() {
   text.setTextBounds(200, 1800, 1450, 100);
   text.alpha = 0;
 
-  textTween = game.add.tween(text).to({alpha: 1}, 500, Phaser.Easing.Linear.None, true, 1000, 0, false);
+  textTween = game.add.tween(text).to({alpha: 1}, 0, Phaser.Easing.Linear.None, true, 1000, 0, false);
   textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 500, Phaser.Easing.Linear.None, true, 3000, 0, false);
+   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
   });
 }
 
