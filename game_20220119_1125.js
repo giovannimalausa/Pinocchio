@@ -265,9 +265,11 @@ var enableUserMovement = true;
 var autoPilot = false;
 var spawning = true;
 var spawningTimer = 0;
+var playerInvulnerable = false;
 
 var interactionEnabled = false;
 var interactionPointLabelShown = false;
+
 var gameOverTimer = 0;
 var gameWasOver = false;
 
@@ -1781,38 +1783,33 @@ function update () {
     game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(enemySniper, level3_floor);
 
+    // Overlap per la Boss Battle
     game.physics.arcade.collide(mangiafuoco, level3_floor);
     game.physics.arcade.collide(mangiafuoco, teatro);
 
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
     game.physics.arcade.collide(mfGunDx.bullets, level3_nuvola, createFloorFire);
-
-
-      // Overlap tra player e enemy
-      game.physics.arcade.overlap(player, enemyBomb, touchEnemyBomb);
-      game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
-      game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
-      game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
-
-      game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
-
-
-      // Overlap tra enemies e player
-      game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
-      game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
-      game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
-
-      if (levelPlaying == 3) {
-      }
-      game.physics.arcade.overlap(player, floorFire, touchFloorFire);
-
-      // Interaction point
-      game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
-
-
-
-
+    game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
+    game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
+    game.physics.arcade.overlap(player, floorFire, touchFloorFire);
   }
+
+  // Overlap tra player e enemy
+  game.physics.arcade.overlap(player, enemyBomb, touchEnemyBomb);
+  game.physics.arcade.overlap(player, enemySniper, touchEnemySniper);
+  game.physics.arcade.overlap(player, enemyJug, touchEnemyJug);
+
+  game.physics.arcade.overlap(gun1.bullets, enemyBomb, shootEnemyBomb);
+  game.physics.arcade.overlap(gun1.bullets, enemySniper, shootEnemySniper);
+  game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
+
+  // Overlap tra enemies e player
+  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
+  game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
+
+  // Interaction point
+  game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
+
   // Automovement spawn
   if (levelPlaying == 1 && spawning == true) {
     spawningTimer += 1;
@@ -2176,15 +2173,16 @@ if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
   //console.log(facing)
   //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
+
   if (testButton.isDown) {
     console.log('T pressed.')
     // Flasha alpha/opacità del player
-    // <== Aggiungere qui var = playerImmortale = true;
+    playerInvulnerable = true;
     flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 3, true); // duration = 80 frames; repetitions = 3
     flashingPlayer.onComplete.add(function resetPlayerAlpha() {
       // Questo codice viene eseguito quando il tween viene completato.
       player.alpha = 1;
-      // <== Aggiungere qui playerImmortale = false; // Il player ritorna ad essere vulnerabile ai nemici.
+      playerInvulnerable = false; // Il player ritorna ad essere vulnerabile ai nemici.
     });
   }
 
@@ -2768,10 +2766,26 @@ function touchEnemyBomb(player, enemyBomb) {
   enemyBombEsplosione.animations.play('marionettaEsplode', 15);
   enemyBombEsplosione.killOnComplete = true;
   enemyBomb.kill();
-  player.damage(2);
-  console.log("touchEnemyBomb(). Player health -= 2.")
-
+  if (playerInvulnerable == false) {
+    player.damage(2);
+    console.log("touchEnemyBomb(). Player health -= 2.");
+  }
 }
+
+function touchEnemySniper(player, enemySniper) {
+  if (playerInvulnerable == false) {
+    player.damage(1);
+    console.log("touchEnemySniper(). Player health -= 1.");
+  }
+}
+
+function touchEnemyJug(player, enemyJug) {
+  if (playerInvulnerable == false) {
+    player.damage(1);
+    console.log("touchEnemyJug(). Player health -= 1.");
+  }
+}
+
 function shootMangiafuoco(mf, bullet) {
   bullet.kill()
   mf.damage(1)
@@ -2779,7 +2793,10 @@ function shootMangiafuoco(mf, bullet) {
 
 function EnemyDamage(player, bullets) {
   bullets.kill();
-  player.damage(1);
+  if (playerInvulnerable == false) {
+    player.damage(1);
+    console.log("EnemyDamage(). Player health -= 1.");
+  }
 }
 
 function killbullets(bullets, object) {
@@ -2788,7 +2805,10 @@ function killbullets(bullets, object) {
 
 function EnemySniperDamage(player, bullets) {
   bullets.kill();
-  player.damage(1);
+  if (playerInvulnerable == false) {
+    player.damage(1);
+    console.log("EnemyDamage(). Player health -= 1.");
+  }
 }
 
 function mangiaFuocoFire() {
