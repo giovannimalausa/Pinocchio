@@ -2532,6 +2532,10 @@ function spawn() {
       console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
+      if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+        player.health = playerMaxHealth;
+      }
+      facing = 'right';
     }
 
   } else if (levelPlaying == 2) {
@@ -2551,6 +2555,10 @@ function spawn() {
         console.log("Level 2: coordinates reset.")
         player.revive();
         player.bringToTop();
+        if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+          player.health = playerMaxHealth;
+        }
+        facing = 'right';
       }
 
   } else if (levelPlaying == 3) {
@@ -2570,6 +2578,10 @@ function spawn() {
       console.log("Level 3: coordinates reset.")
       player.revive();
       player.bringToTop();
+      if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
+        player.health = playerMaxHealth;
+      }
+      facing = 'right';
     }
     
   }
@@ -3051,9 +3063,8 @@ function render () {
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
-   //game.debug.body(enemyJug.getChildAt(0));
-   //game.debug.body(enemySniper.getChildAt(0));
-
-  // game.debug.spriteInfo(player, 30, 100);
-  //game.debug.body(level3_nuvola); 
+  // game.debug.body(enemyJug.getChildAt(0));
+  // game.debug.body(enemySniper.getChildAt(0));
+  // game.debug.spriteInfo(healthFull3, 30, 100);
+  //game.debug.body(level3_nuvola);
 }
