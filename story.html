@@ -6,89 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Storia – Pinocchio</title>
     <link rel="stylesheet" href="main-style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Peralta">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@452&family=Rye&display=swap" rel="stylesheet">
+	<!-- Splide -->
+	<script src="splide/js/splide.min.js"></script>
+	<link rel="stylesheet" href="splide/css/splide.min.css">
+	<style>
+	  .my-slider-progress {
+		background: #ccc;
+		  }
+
+	  .my-slider-progress-bar {
+		background: rgb(255, 255, 255);
+        opacity: 100%;
+		height: 5px;
+		transition: width 400ms ease;
+		width: 0;
+		position:absolute;
+		bottom: 0px;
+	  }
+	  .slider-back{
+		background: rgb(255, 255, 255);
+		bottom: 0px;
+		position:absolute;
+		height: 5px;
+		width: 1024px;
+		opacity: 30%;
+	  }
+	</style>
 </head>
-<body>
-    <!-- Div principale -->
-    <div class="main-frame credits-frame">
+<body background="./assets/global/background.png">
 
-        <div class="title-container">
-            <h1 class="title text">Pinocchio</h1>
-            <h2 class="subtitle text">ma non come lo conosci</h2>
-        </div>
-        
-        <div class="team-container">
+	 <div class="splide main-frame credits-frame">
+	  <div class="splide__track">
+		<ul class="splide__list">
+			<li class="splide__slide"><img src="assets/story/storia1.svg"></li>
+			<li class="splide__slide"><img src="assets/story/render1.jpg"></li>
+			<li class="splide__slide"><img src="assets/story/storia2.svg"></li>
+			<li class="splide__slide"><img src="assets/story/Scena-02.jpg"></li>
+			<li class="splide__slide"><img src="assets/story/storia3.svg"></li>
+			<li class="splide__slide"><a id="link_game" href="./index.html">Gioca</a><img src="assets/story/Scena-03.jpg"></li>
+		</ul>
+	  </div>
 
-            <!-- Riga 1 -->
-            <div class="row1 row">
-                <div class="persona">
-                    <span class="photo"></span>
-                    Manuela<br>
-                    Balossi
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Sara<br>
-                    Barzaghi    
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Clara<br>
-                    Di Bella
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Giorgia<br>
-                    Maggiolini
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Giovanni
-                    <br>Malausa
-                </div>
-            </div>
-    
-            <!-- Riga 2 -->
-            <div class="row2 row">
-                <div class="persona">
-                    <span class="photo"></span>
-                    Massimo
-                    <br>Pietrucci    
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Paola
-                    <br>Rapino
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Federico
-                    <br>Ricco
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Francesco
-                    <br>Scarfone
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Matteo
-                    <br>Semeraro    
-                </div>
-                <div class="persona">
-                    <span class="photo"></span>
-                    Fabio
-                    <br>Zighetti    
-                </div>
-            </div>
-        </div>
-        
+	  <!-- Add the progress bar element -->
+	  <div class="my-slider-progress">
+		<div class="slider-back"></div>
+		<div class="my-slider-progress-bar"></div>
+	  </div>
+
         <!-- Per tornare indietro alla Landing page (copertina) -->
         <div class="navigation">
         <a href="landing-page.html"><span class="icon"></span></a>
         </div>
-
+		<a href="./landing-page.html">
+			<img src="./assets/global/back_button.png" id="back_button"></img>
+		  </a>
     </div>
+<script>
 
+  var splide = new Splide( '.splide' );
+  var bar    = splide.root.querySelector( '.my-slider-progress-bar' );
+
+
+  // Update the bar width:
+  splide.on( 'mounted move', function () {
+    var end = splide.Components.Controller.getEnd() + 1;
+    bar.style.width = String( 100 * ( splide.index + 1 ) / end ) + '%';
+  } );
+
+  splide.mount();
+  splide.options = {
+  pagination : false,
+  arrows: true
+  };
+</script>
 </body>
 </html>

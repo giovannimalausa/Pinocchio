@@ -228,12 +228,6 @@ function preload() {
   // Level 3 /tenda
   game.load.image('tenda', 'assets/levelThree/tenda.png');
 
-  // Assets menu (placeholders)
-  game.load.spritesheet('option1', 'assets/menu/Option1.png', 147, 160)
-  game.load.spritesheet('option2', 'assets/menu/Option2.png', 147, 160)
-  game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
-  game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
-
   // Font
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 }
@@ -443,14 +437,6 @@ var teatro;
 var tenda;
 var level3_nuvola;
 
-// Variabili menu
-var menuOption1;
-var menuOption2;
-var menuOption3;
-var menuOpen = false;
-var optionSelected = 1;
-var optionHovered = 1;
-
 // Tempo
 var timeWhenLoaded;
 var gameStopWatch;
@@ -469,8 +455,6 @@ const playerMaxHealth = 5;
 // Keys & input
 var cursors;
 var jumpButton;
-var menuButton;
-var menuButtonIsPressed = false;
 var escapeKey;
 var oneKey;
 var twoKey;
@@ -1249,23 +1233,6 @@ function create() {
 
   game.physics.arcade.enable(pozione);
 
-  // Selection interface icons – Mostra all'interno della UI di gioco l'icona relativa alla selezione effettuata nel menu.
-  selectionIcon = game.add.sprite(0, 0, 'selectionInterfaceIcon');
-  selectionIcon.fixedToCamera = true;
-  selectionIcon.cameraOffset.setTo(0, 0);
-  if (optionSelected == 1)
-  {
-    selectionIcon.frame = 0;
-  }
-  else if (optionSelected == 2)
-  {
-    selectionIcon.frame = 1;
-  }
-  else if (optionSelected == 3)
-  {
-    selectionIcon.frame = 3;
-  }
-
   // Player (Pinocchio)
   // Coordinate di spawn [variano a seconda del livello caricato]
   spawn();
@@ -1492,7 +1459,6 @@ function create() {
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-  menuButton = game.input.keyboard.addKey(Phaser.Keyboard.C);
   escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
   twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
@@ -2045,7 +2011,7 @@ function update () {
   }
 
   // Controls
-  if (cursors.left.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso sinistra
+  if (cursors.left.isDown && enableUserMovement == true) // Camminata verso sinistra
   {
     player.body.velocity.x = -350;
     if (facing !== "left") // Se il player è rivolto a sinistra
@@ -2054,7 +2020,7 @@ function update () {
     }
   }
 
-  else if (cursors.right.isDown && enableUserMovement == true && menuOpen == false) // Camminata verso destra
+  else if (cursors.right.isDown && enableUserMovement == true) // Camminata verso destra
   {
     player.body.velocity.x = 350;
     if (facing !== "right") // Se il player è rivolto a destra
@@ -2328,7 +2294,7 @@ if (levelPlaying == 3 && player.alive == true) {
   }  //console.log(player.animations.frame);
 
   // Salto con funzione di potenza variabile
-  if (jumpButton.isDown && menuOpen == false && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
+  if (jumpButton.isDown && (player.body.onFloor() || player.body.touching.down || (jumpPower > 0 && jumpPower < 4)))
   {
     player.body.velocity.y = -600;
     jumpPower = jumpPower + .3;
@@ -2362,122 +2328,6 @@ if (levelPlaying == 3 && player.alive == true) {
     healthUI.animations.play('lampeggioRosso');
   } else if (player.health === 0) {
     healthUI.frame = 14;
-  }
-
-  // MENU
-
-  if (menuButton.isDown) // SE il tasto menuButton è premuto
-  {
-    if(menuButtonIsPressed === false && interactionEnabled === true) // SE il tasto non era GIÀ (!) premuto.
-    {
-      menuButtonIsPressed = true; // Cambia lo stato della variabile.
-      if(menuOpen === false) // SE il menu NON è GIÀ aperto.
-      {
-        menuOpen = true; // Cambia lo stato della variabile.
-        console.log('Menu was opened');
-
-        // Crea gli sprite che mostrano le opzioni (la grafica) del menu
-        menuOption1 = game.add.sprite(180, 170, 'option1');
-        menuOption1.fixedToCamera = true;
-        menuOption1.cameraOffset.setTo(180, 170);
-        menuOption2 = game.add.sprite(438, 170, 'option2');
-        menuOption2.fixedToCamera = true;
-        menuOption2.cameraOffset.setTo(438, 170);
-        menuOption3 = game.add.sprite(696, 170, 'option3');
-        menuOption3.fixedToCamera = true;
-        menuOption3.cameraOffset.setTo(696, 170);
-
-        // Al caricamento del menu, l'opzione selezionata in precedenza appare come tale: vengono impostati i frame delle opzioni.
-        if (optionSelected == 1)
-        {
-          menuOption1.frame = 0;
-          menuOption2.frame = 1;
-          menuOption3.frame = 1;
-        }
-        else if (optionSelected == 2)
-        {
-          menuOption1.frame = 1;
-          menuOption2.frame = 0;
-          menuOption3.frame = 1;
-        }
-        else if (optionSelected == 3)
-        {
-          menuOption1.frame = 1;
-          menuOption2.frame = 1;
-          menuOption3.frame = 0;
-        }
-      }
-      else if(menuOpen === true) // SE il menu è GIÀ aperto.
-      {
-        menuOpen = false; // Cambia lo stato della variabile.
-        console.log('Menu was closed');
-        menuOption1.kill(); // Kill della grafica.
-        menuOption2.kill(); // Kill della grafica.
-        menuOption3.kill(); // Kill della grafica.
-      }
-    }
-  } else
-  menuButtonIsPressed = false;
-
-  // Funzione che cambia l'opzione selezionata, modificando i frame mostrati.
-  function changeOptionHovered() {
-    if (optionHovered == 1)
-    {
-      menuOption1.frame = 0;
-      menuOption2.frame = 1;
-      menuOption3.frame = 1;
-    }
-    else if (optionHovered == 2)
-    {
-      menuOption1.frame = 1;
-      menuOption2.frame = 0;
-      menuOption3.frame = 1;
-    }
-    else if (optionHovered == 3)
-    {
-      menuOption1.frame = 1;
-      menuOption2.frame = 1;
-      menuOption3.frame = 0;
-    }
-  }
-
-  // Esegue la funzione quando vengono premuti i tasti 1, 2, 3 per la selezione delle opzioni.
-  if (oneKey.isDown && menuOpen == true)
-  {
-    optionHovered = 1;
-    console.log('Hovering option ' + optionHovered);
-    changeOptionHovered();
-  }
-  if (twoKey.isDown && menuOpen == true)
-  {
-    optionHovered = 2;
-    console.log('Hovering option ' + optionHovered);
-    changeOptionHovered();
-  }
-  if (threeKey.isDown && menuOpen == true)
-  {
-    optionHovered = 3;
-    console.log('Hovering option ' + optionHovered);
-    changeOptionHovered();
-  }
-
-  // Imposta l'opzione selezionata.
-  if (jumpButton.isDown && menuOpen == true)
-  {
-    optionSelected = optionHovered;
-    console.log('Option selected: '+optionSelected);
-    if (optionSelected == 1)
-    {
-      selectionIcon.frame = 0;
-    }
-    else if (optionSelected == 2)
-    {
-      selectionIcon.frame = 1;
-    }
-    else if (optionSelected == 3)
-    {
-      selectionIcon.frame = 2;
-    }
   }
 
   // ===== CAMBIO LIVELLI =====

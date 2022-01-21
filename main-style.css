@@ -1,30 +1,9 @@
-:root {
-    --main-color: #5F4232;
-    --accent-color: #FFDDA8;
-    --unselected-color: #77664D;
-    --background-color: #D5C3A8;
-    margin: 0px;
-    padding: 0;
-}
+/*menu iniziale*/
 
-element {
-    margin-top: 0px;
-    margin-left: 0px;
-}
-
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
-}
-
-body {
-    background-color: linen;
-}
-
-a {
+a{
+    
     text-decoration: none;
-    color: inherit;
+    color: white;
 }
 
 .main-frame {
@@ -32,144 +11,212 @@ a {
     width: 1024px;
     height: 768px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 25px;
     background: var(--background-color);
+    overflow: hidden;
 }
 
-.text, .persona {
-    font-family: Peralta;
-    font-style: normal;
-    font-weight: normal;
-}
-
-
-.title-container {
+.frame_menu{
     position: relative;
-    padding-top: 69px;
+    width: 1024px;
+    height: 768px;
+    margin: auto;
+    margin-top: 25px;
+    background-image: url(./assets/landing-page/schermata-sfondo.jpg);
+    overflow: hidden;
 }
 
-.title {
-    font-size: 80px;
-    margin-top: 0;
-    margin-bottom: 0;
-    
-    
+.title-subtitle{
+    position:relative;
+    margin-top: 20px;
+    font-family: 'Rye', cursive;
     text-align: center;
-    
-    color: var(--main-color);
+    color: white;
+    }
 
+#title{
+font-size: 71.51px;
+margin-bottom: 0px;
 }
 
-.subtitle {
+#subtitle{
+font-size: 30.79px;
+margin-top: 0px;
+}
+
+.choice{
+    display: flex;
+    flex-direction: column;
+    font-size: 35px;
+    position:relative;
+    font-family: 'Rye', cursive;
+    color: white;
+    padding-top: 50px;
+    padding-left: 95px;
+}
+
+#gioca{
+    text-shadow:0 0 10px rgba(253, 220, 33, 0.555) ;
+    width: 180px;
+    height: 35px;
+    padding-bottom: 40px;
+    opacity:0.7;
+    -webkit-transition:0.5s ease;
+    -moz-transition:0.5s ease;
+    -ms-transition:0.5s ease;
+    -o-transition:0.5s ease;
+    transition:0.5s ease;
+}
+
+#gioca:hover{
+    cursor: pointer;
+    opacity: 1;
     font-size: 40px;
-    margin-top: 0;
-    margin-bottom: 0;
-
-    text-align: center;
-
-    color: var(--main-color);
-
+    text-shadow:0 0 25px rgba(253, 220, 33, 0.555) ;
 }
 
-.content-container {
-    display: flex;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 100px;
+#storia{
+    text-shadow:0 0 10px rgba(253, 220, 33, 0.555);
+    width: 180px;
+    height: 35px;
+    padding-bottom: 40px;
+    opacity:0.7;
+    -webkit-transition:0.5s ease;
+    -moz-transition:0.5s ease;
+    -ms-transition:0.5s ease;
+    -o-transition:0.5s ease;
+    transition:0.5s ease;
 }
 
-.buttons-container {
-    flex: 1 1 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 50px;
+#storia:hover{
+    cursor: pointer;
+    opacity: 1;
+    font-size: 40px;
+    text-shadow: 0 0 25px rgba(253, 220, 33, 0.555);
 }
 
-.button {
-    width: 200px;
-    height: 100%;
-    max-height: 65px;
-    border: 3px solid var(--unselected-color);
-    border-radius: 4px;
-    margin-bottom: 20px;
-    align-content: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    color: var(--unselected-color);
-    filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.2));
-    background-color: var(--background-color);
-    transition: 200ms ease-out;
+#crediti{
+    text-shadow: 0 0 10px rgba(253, 220, 33, 0.555);
+    width: 180;
+    height: 35px;
+    opacity:0.7;
+    -webkit-transition:0.5s ease;
+    -moz-transition:0.5s ease;
+    -ms-transition:0.5s ease;
+    -o-transition:0.5s ease;
+    transition:0.5s ease;
 }
 
-.button:hover {
-    background-color: var(--accent-color);
-    color: var(--main-color);
-    border: 3px solid var(--main-color);
-    filter: drop-shadow(0px 8px 9px rgba(0, 0, 0, 0.35));
-
+#crediti:hover{
+    width: 180;
+    cursor: pointer;
+    opacity: 1;
+    font-size: 40px;
+    text-shadow: 0 0 25px rgba(253, 220, 33, 0.555);
 }
 
-.button-text {
-    font-family: Peralta;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 23px;
-    text-align: center;
+#link_game{
+  font-size: 27px;
+  font-family: 'Rye', cursive;
+  color: white;
+  position:absolute;
+  bottom:25px;
+  right: 70px;
+  text-shadow: 0 0 10px rgb(0, 0, 0);
+  -webkit-transition:0.5s ease;
+  -moz-transition:0.5s ease;
+  -ms-transition:0.5s ease;
+  -o-transition:0.5s ease;
+  transition:0.5s ease;
+}
+
+#link_game:hover{
+  cursor: pointer;
+  font-size: 30px;
+  text-shadow: 0 0 25px rgb(0, 0, 0);;
+}
+
+#colophon{
+  color: white;
+  width: 247px;
+  height: auto;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  margin: 0px;
+  position: absolute;
+  bottom: 93px;
+  left: 93px;
+  opacity:0.3;
+  -webkit-transition:0.5s ease;
+  -moz-transition:0.5s ease;
+  -ms-transition:0.5s ease;
+  -o-transition:0.5s ease;
+  transition:0.5s ease;
+}
+
+#colophon:hover{
+  opacity: 1;
+}
+
+#landing-names{
+  opacity: 0;
+  position:absolute;
+  color:white;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  bottom: 22px;
+  left: 39.565px;
+  margin: 0px;
 }
 
 .image-container {
-    flex: 1 1 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  top: -200px;
+  position: absolute;
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  right:70px;
 }
 
-
-/* Credits page */
-.team-container {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
+#immagine-pinocchio{
+  width: 120%;
+  height: auto;
 }
 
-.row {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    margin-left: 10px;
-    flex: 1 1 0px;
+#bossoli{
+  width: 100%;
+  position: absolute;
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  right:1px;
 }
 
-.persona {
-    color: var(--main-color);
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
-    font-size: 10pt;
-    flex: 1 1 0;
+#back_button{
+    width: 110%;
+    height: auto;
+    position: absolute;
+    left: 0px;
+    bottom: -2px;
+    width: 70px;
+    height: 70px;
+    padding-left: 60px;
+  
 }
 
-.photo {
-    height: 100px;
-    width: 100px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    display: inline-block;
-}
+/*crediti*/
 
-.credits-frame {
+.credits_frame{
     position: relative;
+    width: 1024px;
+    height: 768px;
+    margin: auto;
+    margin-top: 25px;
+    background-image: url(./assets/credits/crediti.png);
+    overflow: hidden;
 }
+
+/*storia*/
 
 .navigation {
     position: absolute;
@@ -191,4 +238,78 @@ a {
     background-color: var(--main-color);
     border-radius: 50%;
     display: inline-block;
+}
+
+
+/* Slideshow container */
+.slideshow-container {
+  width: 1024px;
+  height: 768px;
+  position: absolute;
+}
+
+/* nascondo l'immagine di default */
+.mySlides {
+  display: none;
+}
+
+/* bottoni prima-dopo */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  user-select: none;
+}
+
+
+/* posiziono il tasto next a destra */
+.next {
+  right: 0;
+}
+
+/* On hover, aggiungi sfondo nero leggermente trasparente */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+/* numero immagine */
+.numbertext {
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+/* pallini */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 768px 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* animazione - dissolvenza immagini */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;  /*tempo per completare un ciclo di animazione*/
+}
+
+@keyframes fade {      /*aspetto animazione*/
+  from {opacity: .4}
+  to {opacity: 1}
 }
