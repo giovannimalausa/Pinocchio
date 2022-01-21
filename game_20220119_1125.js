@@ -260,6 +260,7 @@ var randomAnim;
 var danza = false;
 var danzaTimer = 0;
 var d = 0;
+var danzaFinita = false;
 var danzaStartingPointReached = false;
 
 // Enemy x spawn position
@@ -1378,6 +1379,9 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
+
+  console.log('playerInvulnerable ' + playerInvulnerable)
+
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
@@ -1717,10 +1721,14 @@ function update () {
     game.physics.arcade.collide(player, mfDead);
     game.physics.arcade.collide(player, mangiafuoco);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
-    game.physics.arcade.overlap(player, floorFire, touchFloorFire);
+    
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
     game.physics.arcade.collide(mfGunSx.bullets, teatro, killbullets);
-    game.physics.arcade.overlap(mfGunSx.bullets, player, enemyDamage);
+
+    if (danza == false) {
+      game.physics.arcade.overlap(player, floorFire, touchFloorFire);
+      game.physics.arcade.overlap(mfGunSx.bullets, player, enemyDamage);
+    }
   }
 
   // Overlap tra player e enemy
@@ -2242,6 +2250,7 @@ function update () {
     }
     if (player.x > 7800) {
       player.body.velocity.x = 0;
+      danzaFinita = true;
     }
 
     console.log(d);
@@ -2250,7 +2259,7 @@ function update () {
 
   }
 
-  if (danza == true) {
+  if (danzaFinita == true) {
     if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
       game.camera.fade(0x000000, 1000);
     }
@@ -2260,7 +2269,7 @@ function update () {
     showGameOverUI2();
     }
   }
-console.log(punteggio)
+// console.log(punteggio)
 } //fine di UPDATE
 
 function spawn() {
@@ -2637,7 +2646,7 @@ function shootEnemyJug(bullets, enemyJug) {
 function blinkingPlayer() {
   // Flasha alpha/opacità del player
   playerInvulnerable = true;
-  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 2, true); // duration = 80 frames; repetitions = 3
+  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 3, true); // duration = 80 frames; repetitions = 3
   flashingPlayer.onComplete.add(function resetPlayerAlpha() {
     // Questo codice viene eseguito quando il tween viene completato.
     player.alpha = 1;
@@ -2698,7 +2707,7 @@ function shootMangiafuoco(mf, bullet) {
 
 function enemyDamage(player, bullets) {
   bullets.kill();
-  if (playerInvulnerable == false || danza == false) {
+  if (playerInvulnerable == false && danza == false) {
     player.damage(1);
     console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
