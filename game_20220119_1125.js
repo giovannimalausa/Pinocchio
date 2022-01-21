@@ -259,6 +259,8 @@ var randomAnim;
 
 var danza = false;
 var danzaTimer = 0;
+var d = 0;
+var danzaStartingPointReached = false;
 
 // Enemy x spawn position
 var enemyBombX;
@@ -2200,19 +2202,48 @@ function update () {
 
   // Danza
   if (danza == true) {
+    
     enableUserMovement = false;
     playerInvulnerable = true;
-    if (danzaTimer >= 10 && danzaTimer < 50) {
-      if (player.x < 7480){
-        player.body.velocity.x = 300;
-        facing = "right";
-        console.log("vx = 300");
+    if (danzaTimer >= 10 && player.x < 7480) {
+      player.body.velocity.x = 300;
+      facing = "right";
+      console.log("vx = 300");
+    }
+    if (player.x >= 7480) {
+      danzaStartingPointReached = true;
+    }
+    if (danzaStartingPointReached == true && player.body.touching.down) {
+      if (d % 2 == 0 && d < 5) {
+        player.body.velocity.y = -800;
+        console.log("Pari");
+        d += 1;
+      } else if (d % 2 != 0 && d < 5) {
+        player.body.velocity.y = -800;
+        console.log("Dispari");
+        d += 1;
       }
     }
-    if (danzaTimer > 50 && danzaTimer < 200 && player.body.touchingDown) {
-      player.body.velocity.y = -600;
-      console.log("vy = -600");
+    if (danzaStartingPointReached == true && d % 2 == 0 && d < 5) {
+      player.body.velocity.x = 60;
+      facing = 'right';
+    } else if (danzaStartingPointReached == true && d % 2 != 0 && d < 5) {
+      player.body.velocity.x = -60;
+      facing = 'left';
     }
+
+    if (d >= 5 && player.x < 7800) {
+      player.body.velocity.x = 350;
+      if (player.x > 7500 && player.body.touching.down) {
+        player.body.velocity.y = -850;
+        d += 1;
+      }
+    }
+    if (player.x > 7800) {
+      player.body.velocity.x = 0;
+    }
+
+    console.log(d);
 
     danzaTimer += 1;
 
@@ -2655,7 +2686,7 @@ function shootMangiafuoco(mf, bullet) {
     mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte');
     game.physics.arcade.enable(mfDead);
     mfDead.body.immovable = true;
-    mfDead.body.setSize(240, 95, 125, 275);
+    mfDead.body.setSize(240, 95, 160, 275);
     mfDead.body.gravity.y = 0; // valore corretto 2000
     mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false);
     mfDead.animations.play('thisMaafkIsDead', 10);
@@ -2838,9 +2869,9 @@ function createText() {
 }
 
 function render () {
-  if (mfDead !== undefined) {
-    game.debug.body(mfDead);
-  }
+  // if (mfDead !== undefined) {
+  //   game.debug.body(mfDead);
+  // }
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
