@@ -219,7 +219,8 @@ var dust; // sprite polvere del salto
 var dustVar;
 
 var pinocchioCrucified;
-
+var enemySniperDead;
+var enemyJugDead;
 
 //Var armi enemyGun
 var enemySniperGun0
@@ -1290,7 +1291,6 @@ function create() {
     mfMonticchio = game.add.sprite(7680, 1960, 'cumuloDiMarionette');
     mangiafuoco = game.add.sprite(7650, 1715, 'ilBoss');
 
-
     game.physics.arcade.enable(mangiafuoco);
     mangiafuoco.body.collideWorldBounds = false;
     //mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
@@ -1421,7 +1421,7 @@ function update () {
     game.physics.arcade.collide(player, level1_houses);
     game.physics.arcade.collide(gun1.bullets, level1_floor, killbullets);
     game.physics.arcade.collide(gun1.bullets, level1_houses, killbullets);
-    if (pinocchioCrucified !== undefined) {
+    if (pinocchioCrucified !== 'undefined') {
       game.physics.arcade.collide(pinocchioCrucified, level1_floor);
       game.physics.arcade.collide(pinocchioCrucified, level1_houses);
     }
@@ -1440,7 +1440,7 @@ function update () {
     game.physics.arcade.collide(gun1.bullets, level2_floor, killbullets);
     game.physics.arcade.collide(player, level2_componente);
     game.physics.arcade.collide(gun1.bullets, level2_componente, killbullets);
-    if (pinocchioCrucified !== undefined) {
+    if (pinocchioCrucified !== 'undefined') {
       game.physics.arcade.collide(pinocchioCrucified, level2_floor);
       game.physics.arcade.collide(pinocchioCrucified, level2_componente);
     }
@@ -1679,7 +1679,7 @@ function update () {
     game.physics.arcade.collide(gun1.bullets, carrozza, killbullets);
     game.physics.arcade.collide(player, teatro);
     game.physics.arcade.collide(gun1.bullets, teatro, killbullets);
-    if (pinocchioCrucified !== undefined) {
+    if (pinocchioCrucified !== 'undefined') {
       game.physics.arcade.collide(pinocchioCrucified, level3_floor);
       game.physics.arcade.collide(pinocchioCrucified, carrozza);
       game.physics.arcade.collide(pinocchioCrucified, teatro);
@@ -2317,7 +2317,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     if (gameWasOver == false && cambioLivello == false) {
-      player = game.add.sprite(7000, 1900, 'pinocchio'); //valore corretto: x = 200 (-130) y = 1900 / Boss battle: x = 7200 y = 1500
+      player = game.add.sprite(-130, 1900, 'pinocchio'); //valore corretto: x = -130 y = 1900 / Boss battle: x = 7200 y = 1500
       shadow = game.add.sprite(300, 1900, 'player');
       shadow.alpha = 0;
       player.bringToTop();
@@ -2408,8 +2408,9 @@ function softDestroyLevel1() {
   if (typeof enemySniperDead !== 'undefined') {
     // if the variable is defined
     enemySniperDead.destroy();
+    console.log('enemySniperDead.destroy')
   }
-  if (pinocchioCrucified !== undefined) {
+  if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
   }
   console.log('softDestroyLevel1() completed.');
@@ -2502,7 +2503,7 @@ function softDestroyLevel2() {
     // if the variable is defined
     enemySniperDead.destroy();
   }
-  if (pinocchioCrucified !== undefined) {
+  if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
   }
   console.log('softDestroyLevel2() completed.');
@@ -2546,7 +2547,7 @@ function softDestroyLevel3() {
     // if the variable is defined
     enemySniperDead.destroy();
   }
-  if (pinocchioCrucified !== undefined) {
+  if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
   }
   console.log('softDestroyLevel3() completed.');
@@ -2594,7 +2595,9 @@ function shootEnemySniper(bullets, enemySniper) {
       // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
       // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
       enemySniperDead = game.add.sprite(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte');
-
+      game.physics.arcade.enable(enemySniperDead);
+      enemySniperDead.body.immovable = true;
+      enemySniperDead.body.gravity.y = 0;
       enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
       enemySniperDead.animations.play('sniperDeadL', 15, false)
     }
@@ -2617,6 +2620,9 @@ function shootEnemyJug(bullets, enemyJug) {
     // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
     // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
     enemyJugDead = game.add.sprite(enemyJug.x , enemyJug.y, 'marionettaJugMorte');
+    game.physics.arcade.enable(enemyJugDead);
+    enemyJugDead.body.immovable = true;
+    enemyJugDead.body.gravity.y = 0;
     if (enemyJug.x > player.x) {
       enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
       enemyJugDead.animations.play('jugDeadL', 15, false);
@@ -2631,7 +2637,7 @@ function shootEnemyJug(bullets, enemyJug) {
 function blinkingPlayer() {
   // Flasha alpha/opacità del player
   playerInvulnerable = true;
-  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 3, true); // duration = 80 frames; repetitions = 3
+  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 4, true); // duration = 80 frames; repetitions = 3
   flashingPlayer.onComplete.add(function resetPlayerAlpha() {
     // Questo codice viene eseguito quando il tween viene completato.
     player.alpha = 1;
