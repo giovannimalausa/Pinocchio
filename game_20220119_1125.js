@@ -38,6 +38,8 @@ function preload() {
   game.load.spritesheet('pinocchioMorto', 'assets/sprites/pinocchio/pinocchiomortocrocifisso.png', 200, 150, 20);
 
   game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+  game.load.image('cumuloDiMarionette', 'assets/sprites/cumuloDiMarionette.png');
+
 
   game.load.spritesheet('pinocchioBullet', 'assets/sprites/pinocchio/pinocchioBullet.png', 150, 100, 4);
   game.load.spritesheet('nemiciBullet', 'assets/sprites/nemiciBullet.png', 150, 100, 4);
@@ -57,7 +59,7 @@ function preload() {
   game.load.spritesheet('ilBoss', 'assets/sprites/mangiafuoco.png', 500, 500, 60);
   game.load.spritesheet('bossMorte', 'assets/sprites/mangiafuocoMorte.png', 500, 500, 22);
 
-  game.load.spritesheet('fuocoATerra', 'assets/sprites/fuocoATerra.png', 150, 100, 30);
+  game.load.spritesheet('fuocoATerra', 'assets/sprites/fuocoATerra.png', 225, 150, 30);
 
   game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
 
@@ -249,7 +251,9 @@ var animManoDX;
 var animManoSX;
 var animFastFire;
 var mfDead;
-var fireballRotation;
+var mfMonticchio;
+
+var fireballRotation = 0;
 
 
 var randomAnim;
@@ -1292,7 +1296,9 @@ function create() {
 
   // Mangiafuoco
   if (levelPlaying == 3) {
-    mangiafuoco = game.add.sprite(7650, 1200, 'ilBoss')
+    mfMonticchio = game.add.sprite(7675, 1960, 'cumuloDiMarionette');
+    mangiafuoco = game.add.sprite(7650, 1200, 'ilBoss');
+
 
     game.physics.arcade.enable(mangiafuoco);
     mangiafuoco.body.collideWorldBounds = false;
@@ -1315,10 +1321,6 @@ function create() {
     mfGunDx.bulletKillType = 4;
     mfGunDx.addBulletAnimation('fire', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], 15, true);
     mfGunDx.setBulletBodyOffset(27, 27, 98, 61);
-    mfGunDx.bulletAngleOffset = fireballRotation;
-
-
-
 
     mfGunSx = game.add.weapon(100, 'palleDiMangiafuoco');
     mfGunSx.trackSprite(mangiafuoco)
@@ -1328,7 +1330,6 @@ function create() {
     mfGunSx.bulletKillType = 4;
     mfGunSx.addBulletAnimation('fire', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], 15, true);
     mfGunSx.setBulletBodyOffset(27, 27, 98, 61);
-
   }
 
   // Input (cursors and keys)
@@ -1920,7 +1921,7 @@ function update () {
   if(facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > 10 && (player.body.onFloor() || player.body.touching.down)) { // Camminata dx
     if(isFiring === false) {
       player.animations.play('skidR', 10, true);
-    } 
+    }
   } else if(facing === "left" && player.body.velocity.x > -100 && player.body.velocity.x < -10 && (player.body.onFloor() || player.body.touching.down)) { // Camminata sx
       if(isFiring === false) {
         player.animations.play('skidL', 10, true);
@@ -1993,7 +1994,7 @@ function update () {
     }
   }
   randomAnim = Math.random()
-  
+
   //PALLE DI FUOCO DI MANGIAFUOCO
   if (levelPlaying == 3 && player.alive == true) {
     mfFireballSpeed = (Math.random() * (700 - 50) + 50);
@@ -2640,14 +2641,14 @@ function mangiaFuocoFire() {
 }
 
 function createFloorFire(bullet, floor) {
-  floorFire = game.add.sprite(bullet.x - 100, bullet.y -65, 'fuocoATerra')
+  floorFire = game.add.sprite(bullet.x - 125, bullet.y - 105, 'fuocoATerra')
   floorFire.animations.add('fuoco', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29])
   floorFire.animations.play('fuoco', 10, false, true);
 
   bullet.kill();
 
   game.physics.arcade.enable(floorFire);
-  floorFire.body.setSize(40, 60, 60, 30);
+  floorFire.body.setSize(50, 65, 88, 59);
 }
 
 function touchFloorFire(player, fire) {
@@ -2792,8 +2793,8 @@ function createText() {
 }
 
 function render () {
-  // game.debug.body(level2_mongolfiera1);
-  // game.debug.body(level2_mongolfiera2);
+   //game.debug.spriteInfo(floorFire, 30, 100);
+   //game.debug.body(floorFire);
   // game.debug.body(player);
   // game.debug.body(pinocchioCrucified);
   // game.debug.body(enemyJug.getChildAt(0));
