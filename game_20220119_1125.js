@@ -251,6 +251,7 @@ var dustVar;
 
 var pinocchioCrucified;
 
+
 //Var armi enemyGun
 var enemySniperGun0
 var enemyJugGun0
@@ -348,9 +349,12 @@ var pozioneY;
 var modulo1x1;
 var modulo2x2;
 var modulo2x4;
+var firstText = false;
 var text;
+var text2;
 var textTween;
 var textTween2;
+var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
 
 // Variabili livello 1
 var level1_floor;
@@ -682,9 +686,8 @@ function create() {
       level1_houses.setAll('body.immovable', true);
 
       //testo
-      var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
-
     text = game.add.text(0, 0, "               Livello 1\n Villaggio di Geppetto", style);
+    text.alpha = 0;
     }
 
 
@@ -1101,9 +1104,8 @@ function create() {
       level2_mongolfiera2.body.immovable = true;
 
       //testo
-     var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
-
      text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+     text.alpha = 0;
      createText(text);
     }
 
@@ -1174,9 +1176,8 @@ function create() {
     tenda = game.add.sprite(0, 0, 'tenda');
 
     //testo
-    var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
-
     text = game.add.text(-400,0, "               Livello 3\n Circo di Mangiafuoco", style);
+    text.alpha = 0;
     createText(text);
   }
 
@@ -3135,17 +3136,21 @@ function landingProcessCallback(player, obj) {
 
 //testo
 function createText() {
-
+  
   text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
   text.setTextBounds(200, 1800, 1450, 100);
-  text.alpha = 0;
 
   textTween = game.add.tween(text).to({alpha: 1}, 0, Phaser.Easing.Linear.None, true, 1000, 0, false);
-  textTween.onComplete.add(function resetText() {
-   textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 2000, 0, false);
-  });
-}
+   textTween.onComplete.add(function resetText() {
+     if (levelPlaying == 1) {
+     textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 1500, 0, false);}
+     else {
+     textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);}
+     });
+
+  }
+
 
 
 function render () {
