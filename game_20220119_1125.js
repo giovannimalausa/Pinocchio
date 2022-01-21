@@ -259,6 +259,7 @@ var fireballRotation = 0;
 var randomAnim;
 
 var danza = false;
+var danzaTimer = 0;
 
 // Enemy x spawn position
 var enemyBombX;
@@ -2031,11 +2032,11 @@ function update () {
       } else if (randomAnim < 0.3){
           animManoSX.play('mangiafuocoManoSX');
         }
-        console.log('mfShootTimer: '+mfShootTimer);
+        //console.log('mfShootTimer: '+mfShootTimer);
         mfShootTimer = 0;
       } else if (player.y < 1800 && player.x <= 7550 && mfShootTimer >= 90) {
           animManoSX.play('mangiafuocoManoSX');
-          console.log('mfShootTimer: '+mfShootTimer);
+          //console.log('mfShootTimer: '+mfShootTimer);
           mfShootTimer = 0;
         } else if (player.x > 7550 && mfShootTimer >= 90) {
             mfGunDx.fireAngle = 120;
@@ -2202,21 +2203,21 @@ function update () {
 
   // Danza
   if (danza == true) {
-
-    player.body.velocity.y = -600;
-    jumpPower = jumpPower + .3;
-
-    if (facing === 'right') {
-      dust = game.add.sprite(player.x, player.y + 5, 'dust');
-      dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
-      dustJumpR.play(10, false);
-      dustJumpR.killOnComplete = true;
-    } else {
-      dust = game.add.sprite(player.x, player.y + 5, 'dust');
-      dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
-      dustJumpL.play(10, false);
-      dustJumpL.killOnComplete = true;
+    enableUserMovement = false;
+    playerInvulnerable = true;
+    if (danzaTimer >= 10 && danzaTimer < 50) {
+      if (player.x < 7480){
+        player.body.velocity.x = 300;
+        facing = "right";
+        console.log("vx = 300");
+      }
     }
+    if (danzaTimer > 50 && danzaTimer < 200 && player.body.touchingDown) {
+      player.body.velocity.y = -600;
+      console.log("vy = -600");
+    } 
+    
+    danzaTimer += 1;
   }
 } //fine di UPDATE
 
@@ -2240,7 +2241,7 @@ function spawn() {
     if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       gameWasOver = false;
       cambioLivello = false;
-      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
+     // console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       player.y = 1800;
       player.x = 250;
       console.log("Level 1: player coordinates reset.");
@@ -2629,7 +2630,7 @@ function touchEnemyJug(player, enemyJug) {
 function shootMangiafuoco(mf, bullet) {
   flashMangiafuoco = game.add.tween(mf).to( { tint: 0xFF0000 }, 15, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
   bullet.kill()
-  mf.damage(1)
+  mf.damage(10)
   console.log('hp mf=' + mf.health)
   if (mf.health <= 0) {
     mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte');
@@ -2645,7 +2646,7 @@ function shootMangiafuoco(mf, bullet) {
 
 function enemyDamage(player, bullets) {
   bullets.kill();
-  if (playerInvulnerable == false) {
+  if (playerInvulnerable == false || danza == false) {
     player.damage(1);
     console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
@@ -2681,9 +2682,9 @@ function createFloorFire(bullet, floor) {
 }
 
 function touchFloorFire(player, fire) {
-  if (playerInvulnerable == false) {
+  if (playerInvulnerable == false || danza == false) {
     player.damage(1);
-    console.log("touchEnemyJug(). Player health -= 1.");
+    console.log("touchFloorFire(). Player health -= 1.");
     blinkingPlayer();
   }
 }
