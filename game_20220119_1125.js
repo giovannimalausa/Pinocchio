@@ -308,7 +308,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1483,9 +1483,9 @@ function create() {
     mfGunSx.fireRate = 500;
     mfGunSx.bulletSpeed = 400;
     mfGunSx.bulletKillType = 4;
-  //  mfGunSx.fireAngle = 200;
-  //  game.physics.arcade.enable(mfGunDx.bullets);
-  //  mfGunDx.bulletGravity.y = 1000;
+    // mfGunSx.fireAngle = 200;
+    // game.physics.arcade.enable(mfGunDx.bullets);
+    // mfGunDx.bulletGravity.y = 1000;
 
   }
 
@@ -1555,7 +1555,6 @@ function update () {
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
-
   // Collide
   // Collide /Globali
   game.physics.arcade.collide(player, platforms);
@@ -1579,7 +1578,6 @@ function update () {
     game.physics.arcade.collide(pinocchioCrucified, modulo1x1);
     game.physics.arcade.collide(pinocchioCrucified, modulo2x2);
     game.physics.arcade.collide(pinocchioCrucified, modulo2x4);
-
   }
 
   //Collide proiettili vari
@@ -2233,51 +2231,45 @@ if (levelPlaying == 3 && player.alive == true) {
 
 
  if (mangiafuoco.health > 15){
-  if (player.y  > 1800 && mfShootTimer >= 180) {
-           if (randomAnim > 0.3) {
-              animManoDX.play('mangiafuocoManoDX');
-
-            } else if (randomAnim < 0.3){
-              animManoSX.play('mangiafuocoManoSX');
-            }
-            console.log('mfShootTimer: '+mfShootTimer);
-mfShootTimer = 0;
-
-}  else if (player.y < 1800 && mfShootTimer >= 150) {
-      animManoSX.play('mangiafuocoManoSX');
+    if (player.y  > 1800 && mfShootTimer >= 180) {
+      if (randomAnim > 0.3) {
+        animManoDX.play('mangiafuocoManoDX');
+      } else if (randomAnim < 0.3){
+        animManoSX.play('mangiafuocoManoSX');
+      }
       console.log('mfShootTimer: '+mfShootTimer);
       mfShootTimer = 0;
-} else if (player.x > 7550 && mfShootTimer >= 90){
-      mfGunDx.fireAngle = 120;
-      animFastFire.play('mangiafuocoFastFire')
-      mfShootTimer = 0;
-}
-} else if (mangiafuoco.health <= 15) {
-  mangiafuoco.tint = 0xFF6666
-
-if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
-         if (randomAnim > 0.3) {
-            animManoDX.play('mangiafuocoFastFire');
-
-          } else if (randomAnim < 0.3){
-            animManoSX.play('mangiafuocoManoSX');
-          }
+    } else if (player.y < 1800 && mfShootTimer >= 150) {
+        animManoSX.play('mangiafuocoManoSX');
+        console.log('mfShootTimer: '+mfShootTimer);
+        mfShootTimer = 0;
+      } else if (player.x > 7550 && mfShootTimer >= 90){
+        mfGunDx.fireAngle = 120;
+        animFastFire.play('mangiafuocoFastFire')
+        mfShootTimer = 0;
+      } 
+  } else if (mangiafuoco.health <= 15) {
+    mangiafuoco.tint = 0xFF6666
+    if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
+      if (randomAnim > 0.3) {
+        animManoDX.play('mangiafuocoFastFire');
+      } else if (randomAnim < 0.3){
+          animManoSX.play('mangiafuocoManoSX');
+        }
+        console.log('mfShootTimer: '+mfShootTimer);
+        mfShootTimer = 0;
+      } else if (player.y < 1800 && player.x <= 7550 && mfShootTimer >= 90) {
+          animManoSX.play('mangiafuocoManoSX');
           console.log('mfShootTimer: '+mfShootTimer);
-mfShootTimer = 0;
+          mfShootTimer = 0;
+        } else if (player.x > 7550 && mfShootTimer >= 90) {
+            mfGunDx.fireAngle = 120;
+            animFastFire.play('mangiafuocoFastFire')
+            mfShootTimer = 0;
+          }
+    }
 
-}  else if (player.y < 1800 && player.x <= 7550 && mfShootTimer >= 90) {
-    animManoSX.play('mangiafuocoManoSX');
-    console.log('mfShootTimer: '+mfShootTimer);
-    mfShootTimer = 0;
-}
-else if (player.x > 7550 && mfShootTimer >= 90){
-      mfGunDx.fireAngle = 120;
-      animFastFire.play('mangiafuocoFastFire')
-      mfShootTimer = 0;
-}
-}
-
-  //console.log(mangiafuoco.frame)
+    //console.log(mangiafuoco.frame)
 
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
       mfGunDx.fire();
