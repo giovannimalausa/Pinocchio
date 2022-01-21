@@ -81,6 +81,7 @@ function preload() {
 
   game.load.image('gameOver', 'assets/interface/GameOver.png');
   game.load.image('gameOverV2', 'assets/interface/GameOver_v2.jpg');
+  game.load.image('win', 'assets/interface/win.jpg');
   game.load.image('nero', 'assets/interface/nero.png');
 
   // Elementi d'interazione
@@ -2218,7 +2219,21 @@ function update () {
     } 
     
     danzaTimer += 1;
+
   }
+  
+  if (danza == true) {
+    if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
+      game.camera.fade(0x000000, 1000);
+    }
+    gameOverTimer += 1;
+    if (gameOverTimer == 100) {
+    gameover();
+    showGameOverUI2();
+    }
+  }
+   
+  
 } //fine di UPDATE
 
 function spawn() {
@@ -2316,6 +2331,12 @@ function gameover() {
 
 function showGameOverUI() {
   gameOverImage = game.add.sprite(0, 0, 'gameOverV2');
+  gameOverImage.fixedToCamera = true;
+  gameOverImage.bringToTop();
+  showingGameOverUI = true;
+}
+function showGameOverUI2() {
+  gameOverImage = game.add.sprite(0, 0, 'win');
   gameOverImage.fixedToCamera = true;
   gameOverImage.bringToTop();
   showingGameOverUI = true;
