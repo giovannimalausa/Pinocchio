@@ -258,6 +258,8 @@ var fireballRotation = 0;
 
 var randomAnim;
 
+var danza = false;
+
 // Enemy x spawn position
 var enemyBombX;
 var enemySniperX;
@@ -1709,6 +1711,9 @@ function update () {
     // Overlap per la Boss Battle
     game.physics.arcade.collide(mangiafuoco, level3_floor);
     game.physics.arcade.collide(mangiafuoco, teatro);
+    game.physics.arcade.collide(mfDead, level3_floor);
+    game.physics.arcade.collide(mfDead, teatro);
+    game.physics.arcade.collide(player, mfDead);
     game.physics.arcade.collide(player, mangiafuoco);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
     game.physics.arcade.overlap(player, floorFire, touchFloorFire);
@@ -1822,7 +1827,7 @@ function update () {
   }
 
   // UI Game Over
-  if (jumpButton.isDown && showingGameOverUI == true) {
+  if (enterButton.isDown && showingGameOverUI == true) {
     console.log("Spacebar pressed while showingGameOverUI = "+showingGameOverUI);
     showingGameOverUI = false;
     if (levelPlaying == 1) {
@@ -2194,6 +2199,25 @@ function update () {
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
+
+  // Danza
+  if (danza == true) {
+
+    player.body.velocity.y = -600;
+    jumpPower = jumpPower + .3;
+
+    if (facing === 'right') {
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
+      dustJumpR.play(10, false);
+      dustJumpR.killOnComplete = true;
+    } else {
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
+      dustJumpL.play(10, false);
+      dustJumpL.killOnComplete = true;
+    }
+  }
 } //fine di UPDATE
 
 function spawn() {
@@ -2256,7 +2280,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     if (gameWasOver == false && cambioLivello == false) {
-      player = game.add.sprite(-130, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+      player = game.add.sprite(7000, 1900, 'pinocchio'); //valore corretto: x = 200 (-130) y = 1900 / Boss battle: x = 7200 y = 1500
       shadow = game.add.sprite(300, 1900, 'player');
       shadow.alpha = 0;
       player.bringToTop();
@@ -2608,9 +2632,14 @@ function shootMangiafuoco(mf, bullet) {
   mf.damage(1)
   console.log('hp mf=' + mf.health)
   if (mf.health <= 0) {
-    mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte')
-    mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false)
-    mfDead.animations.play('thisMaafkIsDead', 10)
+    mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte');
+    game.physics.arcade.enable(mfDead);
+    mfDead.body.immovable = true;
+    mfDead.body.setSize(240, 95, 125, 275);
+    mfDead.body.gravity.y = 0; // valore corretto 2000
+    mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false);
+    mfDead.animations.play('thisMaafkIsDead', 10);
+    danza = true;
   }
 }
 
@@ -2793,8 +2822,11 @@ function createText() {
 }
 
 function render () {
-   //game.debug.spriteInfo(floorFire, 30, 100);
-   //game.debug.body(floorFire);
+  if (mfDead !== undefined) {
+    game.debug.body(mfDead);
+  }
+  // game.debug.body(level2_mongolfiera1);
+  // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
   // game.debug.body(pinocchioCrucified);
   // game.debug.body(enemyJug.getChildAt(0));
