@@ -37,7 +37,7 @@ function preload() {
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchioV4.png', 200, 150, 140);
   game.load.spritesheet('pinocchioMorto', 'assets/sprites/pinocchio/pinocchiomortocrocifisso.png', 200, 150, 20);
 
-  game.load.image('shadow', '');
+  game.load.image('shadow', 'assets/sprites/shadow.png');
   game.load.image('cumuloDiMarionette', 'assets/sprites/cumuloDiMarionette.png');
 
 
