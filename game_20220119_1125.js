@@ -282,7 +282,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1245,6 +1245,10 @@ function create() {
   enemySniperGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemySniperGun0.bulletAngleOffset = 180;
 
+  enemySniperDead = game.add.physicsGroup();
+
+
+
   //Enemy JUG
   if (levelPlaying == 1) {
     enemyJugX = [6600, 8800];
@@ -1285,6 +1289,8 @@ function create() {
   enemyJugGun0.addBulletAnimation('fire', [0,1,2,3,4], 15, true);
   enemyJugGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemyJugGun0.bulletAngleOffset = 180;
+
+  enemyJugDead = game.add.physicsGroup();
 
   // Mangiafuoco
   if (levelPlaying == 3) {
@@ -1365,7 +1371,8 @@ function create() {
 
 function update () {
 
-  console.log('playerInvulnerable ' + playerInvulnerable)
+
+  //console.log('playerInvulnerable ' + playerInvulnerable)
 
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
@@ -2274,20 +2281,19 @@ function spawn() {
       console.log("Level 1: player & shadow created.");
     }
     // Livello 1 / Reset
-    if (gameWasOver == true || cambioLivello == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
-      player.x = 250;
+    if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
+      gameWasOver = false;
+      cambioLivello = false;
+     // console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       player.y = 1800;
+      player.x = 250;
       console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
       if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
         player.health = playerMaxHealth;
         bulletPool = maxAmmo;
-        console.log('Reset player.health to '+player.health+' and reset bulletPool to '+ bulletPool);
       }
-      gameWasOver = false;
-      cambioLivello = false;
-      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       facing = 'right';
     }
 
@@ -2326,7 +2332,7 @@ function spawn() {
     }
     if (gameWasOver == true || cambioLivello == true) {
       player.x = -130;
-      player.y = 1800;
+      player.y = 1900;
       console.log("Level 3: coordinates reset.")
       player.revive();
       player.bringToTop();
@@ -2402,18 +2408,12 @@ function softDestroyLevel1() {
   enemyJug.destroy();
   enemySniper.destroy();
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
-  if (typeof enemyJugDead !== 'undefined') {
-    // if the variable is defined
     enemyJugDead.destroy();
-  }
-  if (typeof enemySniperDead !== 'undefined') {
-    // if the variable is defined
     enemySniperDead.destroy();
-    console.log('enemySniperDead.destroy')
-  }
-  if (typeof pinocchioCrucified !== 'undefined') {
-    pinocchioCrucified.destroy();
-  }
+    if (typeof pinocchioCrucified !== 'undefined') {
+      pinocchioCrucified.destroy();
+    }
+
   console.log('softDestroyLevel1() completed.');
 }
 
@@ -2476,14 +2476,14 @@ function hardDestroyLevel2() {
   enemySniper.destroy();
 
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
-  if (typeof enemyJugDead !== 'undefined') {
+//  if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
     enemyJugDead.destroy();
-  }
-  if (typeof enemySniperDead !== 'undefined') {
+//  }
+//  if (typeof enemySniperDead !== 'undefined') {
     // if the variable is defined
     enemySniperDead.destroy();
-  }
+//  }
 
   console.log('hardDestroyLevel2() completed.');
 }
@@ -2496,14 +2496,14 @@ function softDestroyLevel2() {
   enemyJug.destroy();
   enemySniper.destroy();
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
-  if (typeof enemyJugDead !== 'undefined') {
+  //if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
     enemyJugDead.destroy();
-  }
-  if (typeof enemySniperDead !== 'undefined') {
+//  }
+//  if (typeof enemySniperDead !== 'undefined') {
     // if the variable is defined
     enemySniperDead.destroy();
-  }
+//  }
   if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
   }
@@ -2540,14 +2540,14 @@ function softDestroyLevel3() {
   ammoBox.destroy();
   pozione.destroy();
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
-  if (typeof enemyJugDead !== 'undefined') {
+  //if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
     enemyJugDead.destroy();
-  }
-  if (typeof enemySniperDead !== 'undefined') {
+  //}
+  //if (typeof enemySniperDead !== 'undefined') {
     // if the variable is defined
     enemySniperDead.destroy();
-  }
+  //}
   if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
   }
@@ -2593,21 +2593,14 @@ function shootEnemySniper(bullets, enemySniper) {
   enemySniper.damage(1);
   if (enemySniper.health <= 0) {
     if (enemySniper.x > player.x) {
-      // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
-      // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
-
-      enemySniperDead = game.add.sprite(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte');
-      game.physics.arcade.enable(enemySniperDead);
-      enemySniperDead.body.immovable = true;
-      enemySniperDead.body.gravity.y = 0;
-      enemySniperDead.animations.add('sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16])
-      enemySniperDead.animations.play('sniperDeadL', 15, false)
+      enemySniperDead.create(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte' )
+      enemySniperDead.callAll('animations.add', 'animations', 'sniperDeadL', [31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16], 15, false);
+      enemySniperDead.callAll('animations.play', 'animations', 'sniperDeadL');
     }
      else if(enemySniper.x < player.x) {
-      enemySniperDead = game.add.sprite(enemySniper.x - 37, enemySniper.y, 'marionettaSniperMorte');
-
-      enemySniperDead.animations.add('sniperDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
-      enemySniperDead.animations.play('sniperDeadR', 15, false)
+    enemySniperDead.create(enemySniper.x - 37, enemySniper.y, 'marionettaSniperMorte' )
+    enemySniperDead.callAll('animations.add', 'animations', 'sniperDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 15, false);
+    enemySniperDead.callAll('animations.play', 'animations', 'sniperDeadR');
     }
 }}
 
@@ -2619,19 +2612,14 @@ function shootEnemyJug(bullets, enemyJug) {
   bullets.kill();
   enemyJug.damage(1);
   if (enemyJug.health <= 0) {
-    // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
-    // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
-    enemyJugDead = game.add.sprite(enemyJug.x , enemyJug.y, 'marionettaJugMorte');
-    game.physics.arcade.enable(enemyJugDead);
-    enemyJugDead.body.immovable = true;
-    enemyJugDead.body.gravity.y = 0;
+    enemyJugDead.create(enemyJug.x, enemyJug.y, 'marionettaJugMorte' )
     if (enemyJug.x > player.x) {
-      enemyJugDead.animations.add('jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19])
-      enemyJugDead.animations.play('jugDeadL', 15, false);
+      enemyJugDead.callAll('animations.add', 'animations', 'jugDeadL', [37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19], 15, false);
+      enemyJugDead.callAll('animations.play', 'animations', 'jugDeadL');
     }
      else if(enemyJug.x < player.x) {
-      enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
-      enemyJugDead.animations.play('jugDeadR', 15, false);
+      enemyJugDead.callAll('animations.add', 'animations', 'jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18], 15, false);
+      enemyJugDead.callAll('animations.play', 'animations', 'jugDeadR');
     }
   }
 }
