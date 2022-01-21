@@ -76,6 +76,7 @@ function preload() {
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
   game.load.image('gameOver', 'assets/interface/GameOver.png');
+  game.load.image('gameOverV2', 'assets/interface/GameOver_v2.jpg');
   game.load.image('nero', 'assets/interface/nero.png');
 
   // Elementi d'interazione
@@ -97,7 +98,7 @@ function preload() {
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
   game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile.png');
+  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabileV2.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
@@ -232,9 +233,7 @@ function preload() {
   game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
   game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
 
-  //font
-
-
+  // Font
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 }
 
@@ -308,7 +307,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -475,6 +474,7 @@ var twoKey;
 var threeKey;
 var fireButton;
 var testButton;
+var enterButton;
 
 //Animazioni (da eiminare se possibile)
 var animDropR;
@@ -1186,7 +1186,7 @@ function create() {
   // munizioni
   if (levelPlaying == 1) {
     ammoBoxX = [3690, 5265, 8315, 10715];
-    ammoBoxY = [1475, 2125, 2125, 2125];
+    ammoBoxY = [1490, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
     ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
     ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
@@ -1217,8 +1217,8 @@ function create() {
 
   // pozioni
   if (levelPlaying == 1) {
-    pozioneX = [3500, 8225, 11125];
-    pozioneY = [2125, 1925, 2125];
+    pozioneX = [3520, 8225, 11125];
+    pozioneY = [2135, 1925, 2125];
   } else if (levelPlaying == 2) {
     pozioneX = [3350, 6825, 9625, 12875, 15225, 19370];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
@@ -1486,6 +1486,8 @@ function create() {
   threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
   testButton = game.input.keyboard.addKey(Phaser.Keyboard.T);
+  enterButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
   // pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
   // Phaser Signal
   // pickAmmo.onDown.add(addAmmo);
@@ -1986,6 +1988,8 @@ function update () {
     gameOverTimer += 1;
     if (gameOverTimer == 100) {
       console.log("Player fell below y=2060.");
+      player.body.gravity.y = 0;
+      player.body.velocity.y = 0;
       gameover();
     }
   }
@@ -2150,59 +2154,54 @@ function update () {
     isJumping = true;
   }
 
-//ENEMY Animazioni
-enemyBomb.forEach(function (enemy) {
-  if (enemy.body.velocity.x > 0) {
-    enemy.animations.play('bombaWalkR')
-  } else if (enemy.body.velocity.x < 0) {
-    enemy.animations.play('bombaWalkL')
-  }})
+  //ENEMY Animazioni
+  enemyBomb.forEach(function (enemy) {
+    if (enemy.body.velocity.x > 0) {
+      enemy.animations.play('bombaWalkR')
+    } else if (enemy.body.velocity.x < 0) {
+      enemy.animations.play('bombaWalkL')
+    }
+  });
 
   enemyJug.forEach(function (enemy) {
     if (enemy.x > player.x && gameStopWatch % 3 == 0) {
-      enemy.animations.play('jugFireL')
-    }
-      else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
-          enemy.animations.play('jugL')
-    }
-    else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
-      enemy.animations.play('jugFireR')
-    }
+      enemy.animations.play('jugFireL');
+    } else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
+      enemy.animations.play('jugL');
+    } else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
+      enemy.animations.play('jugFireR');
+    } 
     else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
-      enemy.animations.play('jugR')
+      enemy.animations.play('jugR');
     }
-  })
-//if(sniperFire.isPlaying == false) {
-  //enemySniper.callAll('animations.play', 'sniperL')
-//}
-//console.log(sniperFire.isPlaying)
-      //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-      //ENEMY
+  });
 
+  //if(sniperFire.isPlaying == false) {
+    //enemySniper.callAll('animations.play', 'sniperL')
+  //}
+  //console.log(sniperFire.isPlaying)
+  //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
+        
+        
+  //ENEMY
   //ENEMY SNIPER
+  var sniperFireOffset
+  for (i = 0; i < enemySniperQuantity; i++) {
+    if (player.x < enemySniper.getChildAt(i).x) {
+      sniperFireOffset = 30
+    } else if (player.x > enemySniper.getChildAt(i).x) {
+      sniperFireOffset = 130
+    }
 
-
-
-var sniperFireOffset
-    for (i = 0; i < enemySniperQuantity; i++) {
-      if (player.x < enemySniper.getChildAt(i).x) {
-        sniperFireOffset = 30
-      } else if (player.x > enemySniper.getChildAt(i).x) {
-        sniperFireOffset = 130
-      }
-
-      if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true)
-      {
-        sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
-
-        var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
-        if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
-          300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y))
-          {
+    if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true) {
+      sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
+      var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
+      if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
+      300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y)) {
         enemySniperGun0.fire(sniperFiringPosition0, player.x + 120, player.y + 78);
-      }}}
-
-
+      }
+    }
+  }
 
   //ENEMY JUGGERNAUT
   var jugFireOffset
@@ -2689,7 +2688,7 @@ function gameover() {
 }
 
 function showGameOverUI() {
-  gameOverImage = game.add.sprite(0, 0, 'gameOver');
+  gameOverImage = game.add.sprite(0, 0, 'gameOverV2');
   gameOverImage.fixedToCamera = true;
   gameOverImage.bringToTop();
   showingGameOverUI = true;
