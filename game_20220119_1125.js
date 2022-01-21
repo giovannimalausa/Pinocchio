@@ -89,7 +89,7 @@ function preload() {
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
-  game.load.image('level1_calpestabile', 'assets/levelOne/calpestabileV2.png');
+  game.load.image('level1_calpestabile', 'assets/levelOne/calpestabile.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
@@ -149,7 +149,7 @@ function preload() {
   game.load.image('level2_cielo', 'assets/levelTwo/cielodef1.png');
   game.load.image('level2_cielo2', 'assets/levelTwo/cielodef2.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
-  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
+  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
   game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera.png');
 
@@ -312,12 +312,13 @@ var pozioneY;
 var modulo1x1;
 var modulo2x2;
 var modulo2x4;
-var firstText = false;
 var text;
 var text2;
 var textTween;
 var textTween2;
-var style = { font: "60px Inter", fontWeight: "700", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style1 = { font: "60px Inter", fontWeight: "700", fill: "#711854", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style2 = { font: "60px Inter", fontWeight: "700", fill: "#C7764D", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style3 = { font: "60px Inter", fontWeight: "700", fill: "#274256", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
 // var style = { font: "bold 60px Inter", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"}; // <== Precedente
 
 // Variabili livello 1
@@ -1075,8 +1076,8 @@ function create() {
 
     tenda = game.add.sprite(0, 0, 'tenda');
 
-    // Testo
-    text = game.add.text(-400,0, "Livello 3\n Circo di Mangiafuoco", style);
+    //testo
+    text = game.add.text(-400,0, "Livello 3\n Circo di Mangiafuoco", style3);
     text.alpha = 0;
     createText(text);
   }
@@ -1331,7 +1332,7 @@ function create() {
   jumpButton.onUp.add(dustJumpFalse);
 
   enemySniperGun0.onFire.add(sniperIsFiringTrue);
-  
+
   player.events.onKilled.add(pinocchioCrocifisso);
 
   // Camera Follow
@@ -1690,7 +1691,7 @@ function update () {
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
 
-    game.physics.arcade.collide(enemyBomb, level3_floor);   
+    game.physics.arcade.collide(enemyBomb, level3_floor);
 
     // Overlap per la Boss Battle
     game.physics.arcade.collide(mangiafuoco, level3_floor);
@@ -1972,7 +1973,7 @@ function update () {
       enemy.animations.play('jugL');
     } else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireR');
-    } 
+    }
     else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
       enemy.animations.play('jugR');
     }
@@ -1983,8 +1984,8 @@ function update () {
   //}
   //console.log(sniperFire.isPlaying)
   //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-        
-        
+
+
   //ENEMY
   //ENEMY SNIPER
   var sniperFireOffset
@@ -2050,7 +2051,7 @@ if (levelPlaying == 3 && player.alive == true) {
         mfGunDx.fireAngle = 120;
         animFastFire.play('mangiafuocoFastFire')
         mfShootTimer = 0;
-      } 
+      }
   } else if (mangiafuoco.health <= 15) {
     mangiafuoco.tint = 0xFF6666
     if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
@@ -2821,7 +2822,7 @@ function landingProcessCallback(player, obj) {
 //testo
 function createText() {
 
-  text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+  text.setShadow(3, 3, '#fff', 2);
 
   text.setTextBounds(200, 1800, 1450, 100);
 
