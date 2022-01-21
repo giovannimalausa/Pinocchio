@@ -76,6 +76,7 @@ function preload() {
   game.load.image('platform6x1', 'assets/global/Size=6x1.png');
 
   game.load.image('gameOver', 'assets/interface/GameOver.png');
+  game.load.image('gameOverV2', 'assets/interface/GameOver_v2.jpg');
   game.load.image('nero', 'assets/interface/nero.png');
 
   // Elementi d'interazione
@@ -232,9 +233,7 @@ function preload() {
   game.load.spritesheet('option3', 'assets/menu/Option3.png', 147, 160)
   game.load.spritesheet('selectionInterfaceIcon', 'assets/menu/SelectionInterfaceIcon.png', 30, 30, 3);
 
-  //font
-
-
+  // Font
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 }
 
@@ -474,6 +473,7 @@ var twoKey;
 var threeKey;
 var fireButton;
 var testButton;
+var enterButton;
 
 //Animazioni (da eiminare se possibile)
 var animDropR;
@@ -1484,6 +1484,8 @@ function create() {
   threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
   testButton = game.input.keyboard.addKey(Phaser.Keyboard.T);
+  enterButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
   // pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
   // Phaser Signal
   // pickAmmo.onDown.add(addAmmo);
@@ -1984,6 +1986,8 @@ function update () {
     gameOverTimer += 1;
     if (gameOverTimer == 100) {
       console.log("Player fell below y=2060.");
+      player.body.gravity.y = 0;
+      player.body.velocity.y = 0;
       gameover();
     }
   }
@@ -2148,59 +2152,54 @@ function update () {
     isJumping = true;
   }
 
-//ENEMY Animazioni
-enemyBomb.forEach(function (enemy) {
-  if (enemy.body.velocity.x > 0) {
-    enemy.animations.play('bombaWalkR')
-  } else if (enemy.body.velocity.x < 0) {
-    enemy.animations.play('bombaWalkL')
-  }})
+  //ENEMY Animazioni
+  enemyBomb.forEach(function (enemy) {
+    if (enemy.body.velocity.x > 0) {
+      enemy.animations.play('bombaWalkR')
+    } else if (enemy.body.velocity.x < 0) {
+      enemy.animations.play('bombaWalkL')
+    }
+  });
 
   enemyJug.forEach(function (enemy) {
     if (enemy.x > player.x && gameStopWatch % 3 == 0) {
-      enemy.animations.play('jugFireL')
-    }
-      else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
-          enemy.animations.play('jugL')
-    }
-    else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
-      enemy.animations.play('jugFireR')
-    }
+      enemy.animations.play('jugFireL');
+    } else if (enemy.x > player.x && gameStopWatch % 3 != 0) {
+      enemy.animations.play('jugL');
+    } else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
+      enemy.animations.play('jugFireR');
+    } 
     else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
-      enemy.animations.play('jugR')
+      enemy.animations.play('jugR');
     }
-  })
-//if(sniperFire.isPlaying == false) {
-  //enemySniper.callAll('animations.play', 'sniperL')
-//}
-//console.log(sniperFire.isPlaying)
-      //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-      //ENEMY
+  });
 
+  //if(sniperFire.isPlaying == false) {
+    //enemySniper.callAll('animations.play', 'sniperL')
+  //}
+  //console.log(sniperFire.isPlaying)
+  //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
+        
+        
+  //ENEMY
   //ENEMY SNIPER
+  var sniperFireOffset
+  for (i = 0; i < enemySniperQuantity; i++) {
+    if (player.x < enemySniper.getChildAt(i).x) {
+      sniperFireOffset = 30
+    } else if (player.x > enemySniper.getChildAt(i).x) {
+      sniperFireOffset = 130
+    }
 
-
-
-var sniperFireOffset
-    for (i = 0; i < enemySniperQuantity; i++) {
-      if (player.x < enemySniper.getChildAt(i).x) {
-        sniperFireOffset = 30
-      } else if (player.x > enemySniper.getChildAt(i).x) {
-        sniperFireOffset = 130
-      }
-
-      if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true)
-      {
-        sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
-
-        var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
-        if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
-          300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y))
-          {
+    if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true) {
+      sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
+      var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
+      if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
+      300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y)) {
         enemySniperGun0.fire(sniperFiringPosition0, player.x + 120, player.y + 78);
-      }}}
-
-
+      }
+    }
+  }
 
   //ENEMY JUGGERNAUT
   var jugFireOffset
@@ -2673,7 +2672,7 @@ function gameover() {
 }
 
 function showGameOverUI() {
-  gameOverImage = game.add.sprite(0, 0, 'gameOver');
+  gameOverImage = game.add.sprite(0, 0, 'gameOverV2');
   gameOverImage.fixedToCamera = true;
   gameOverImage.bringToTop();
   showingGameOverUI = true;
