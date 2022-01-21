@@ -295,7 +295,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -605,14 +605,14 @@ function create() {
     level1_houses.create(100, 1700, 'level1_house1');
     level1_houses.create(2345, 1800, 'level1_house2');
     level1_houses.create(2995, 1450, 'level1_house3');
-    level1_houses.create(5450, 1700, 'level1_house4');
+    level1_houses.create(5400, 1700, 'level1_house4');
     level1_houses.create(6345, 1800, 'level1_house5');
     level1_houses.create(6995, 1700, 'level1_house6');
     level1_houses.create(7645, 1500, 'level1_house7');
     level1_houses.create(8500, 1600, 'level1_house8');
     level1_houses.create(9295, 1750, 'level1_house9');
     level1_houses.create(10345, 1900, 'level1_house10');
-    level1_houses.create(11300, 1700, 'level1_house11');
+    level1_houses.create(11250, 1700, 'level1_house11');
     level1_houses.alpha = 0;
     level1_houses.setAll('body.immovable', true);
 
