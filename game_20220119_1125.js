@@ -203,6 +203,9 @@ function preload() {
   // Level 3 /Tenda
   game.load.image('tenda', 'assets/levelThree/tenda.png');
 
+  // Level 3 /bossBattleBlock
+  game.load.image('bossBattleBlock', 'assets/levelThree/bossBattleBlock.png');
+
   // Font
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 }
@@ -239,7 +242,8 @@ var animManoSX;
 var animFastFire;
 var mfDead;
 var mfMonticchio;
-
+var bossBattleBlock;
+var bossBattleLockOn = false;
 
 var randomAnim;
 
@@ -1712,6 +1716,7 @@ function update () {
     game.physics.arcade.collide(mfDead, teatro);
     game.physics.arcade.collide(player, mfDead);
     game.physics.arcade.collide(player, mangiafuoco);
+    game.physics.arcade.collide(player, bossBattleBlock);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
 
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
@@ -1796,9 +1801,12 @@ function update () {
       shadow.x = 505;
     }
   }
-  if (levelPlaying == 3 && player.x > 7000) { // <== Offset durante la boss battle
+  if (levelPlaying == 3 && (player.x > 7000 || bossBattleLockOn == true)) { // <== Offset durante la boss battle
     shadow.x = 7640;
     shadow.y = 1950;
+    if (bossBattleLockOn == false) {
+      bossBattleLock();
+    }
   }
 
   // Game Over
@@ -2342,6 +2350,7 @@ function spawn() {
       }
       gameWasOver = false;
       cambioLivello = false;
+      bossBattleLockOn = false;
       console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       facing = 'right';
     }
@@ -2551,6 +2560,9 @@ function softDestroyLevel3() {
   //}
   if (typeof pinocchioCrucified !== 'undefined') {
     pinocchioCrucified.destroy();
+  }
+  if (bossBattleLockOn == true) {
+    bossBattleBlock.destroy();
   }
   console.log('softDestroyLevel3() completed.');
 }
@@ -2859,6 +2871,15 @@ function createText() {
       textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);
     }
   });
+}
+
+function bossBattleLock() {
+  bossBattleBlock = game.add.sprite(7050, 1600, 'bossBattleBlock');
+  game.physics.arcade.enable(bossBattleBlock);
+  bossBattleBlock.body.gravity.y = 0;
+  bossBattleBlock.body.immovable = true;
+  bossBattleLockOn = true;
+  bossBattleBlock.alpha = 0;
 }
 
 function render () {
