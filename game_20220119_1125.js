@@ -307,7 +307,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1154,9 +1154,9 @@ function create() {
     modulo1x1.create(2250, 2050, 'modulo1x1');
     modulo1x1.create(2300, 2050, 'modulo1x1');
 
-    modulo1x1.create(7250, 1950, 'modulo1x1');
-    modulo1x1.create(7300, 1950, 'modulo1x1');
-    modulo1x1.create(7350, 1950, 'modulo1x1');
+    modulo1x1.create(7250, 1940, 'modulo1x1');
+    modulo1x1.create(7300, 1940, 'modulo1x1');
+    modulo1x1.create(7350, 1940, 'modulo1x1');
 
     modulo1x1.setAll('body.immovable', true);
 
