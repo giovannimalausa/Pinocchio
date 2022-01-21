@@ -73,12 +73,6 @@ function preload() {
   game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
   game.load.image('modulo2x4', 'assets/global/Modulo2x4.png');
 
-  game.load.image('platform2x1', 'assets/global/Size=2x1.png');
-  game.load.image('platform3x1', 'assets/global/Size=3x1.png');
-  game.load.image('platform4x1', 'assets/global/Size=4x1.png');
-  game.load.image('platform5x1', 'assets/global/Size=5x1.png');
-  game.load.image('platform6x1', 'assets/global/Size=6x1.png');
-
   game.load.image('gameOver', 'assets/interface/GameOver.png');
   game.load.image('gameOverV2', 'assets/interface/GameOver_v2.jpg');
   game.load.image('win', 'assets/interface/win.jpg');
