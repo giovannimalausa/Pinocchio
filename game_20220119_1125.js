@@ -1713,7 +1713,7 @@ function update () {
     game.physics.arcade.collide(player, mfDead);
     game.physics.arcade.collide(player, mangiafuoco);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
-    
+
     game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
     game.physics.arcade.collide(mfGunSx.bullets, teatro, killbullets);
 
@@ -2203,7 +2203,7 @@ function update () {
 
   // Danza
   if (danza == true) {
-    
+
     enableUserMovement = false;
     playerInvulnerable = true;
     if (danzaTimer >= 10 && player.x < 7480) {
@@ -2737,6 +2737,7 @@ function touchFloorFire(player, fire) {
     player.damage(1);
     console.log("touchFloorFire(). Player health -= 1.");
     blinkingPlayer();
+    punteggio -= 10;
   }
 }
 
