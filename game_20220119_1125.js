@@ -98,7 +98,7 @@ function preload() {
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
   game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile.png');
+  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabileV2.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
@@ -306,7 +306,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1185,7 +1185,7 @@ function create() {
   // munizioni
   if (levelPlaying == 1) {
     ammoBoxX = [3690, 5265, 8315, 10715];
-    ammoBoxY = [1475, 2125, 2125, 2125];
+    ammoBoxY = [1490, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
     ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
     ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
@@ -1216,8 +1216,8 @@ function create() {
 
   // pozioni
   if (levelPlaying == 1) {
-    pozioneX = [3500, 8225, 11125];
-    pozioneY = [2125, 1925, 2125];
+    pozioneX = [3520, 8225, 11125];
+    pozioneY = [2135, 1925, 2125];
   } else if (levelPlaying == 2) {
     pozioneX = [3350, 6825, 9625, 12875, 15225, 19370];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
