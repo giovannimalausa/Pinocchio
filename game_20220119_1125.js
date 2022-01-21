@@ -2539,6 +2539,7 @@ function softDestroyLevel3() {
   enemySniper.destroy();
   ammoBox.destroy();
   pozione.destroy();
+  mangiafuoco.destroy();
   // Di seguito ci sono gli elementi da distruggere soltanto se esistono (verifica l'esistenza della relativa variabile):
   if (typeof enemyJugDead !== 'undefined') {
     // if the variable is defined
@@ -2682,9 +2683,9 @@ function touchEnemyJug(player, enemyJug) {
 
 function shootMangiafuoco(mf, bullet) {
   flashMangiafuoco = game.add.tween(mf).to( { tint: 0xFF0000 }, 15, Phaser.Easing.Linear.None, true, 0, 0, true); // Flash rosso nemico colpito
-  bullet.kill()
-  mf.damage(10)
-  console.log('hp mf=' + mf.health)
+  bullet.kill();
+  mf.damage(1);
+  console.log('hp mf=' + mf.health);
   if (mf.health <= 0) {
     mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte');
     game.physics.arcade.enable(mfDead);
@@ -2694,7 +2695,7 @@ function shootMangiafuoco(mf, bullet) {
     mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false);
     mfDead.animations.play('thisMaafkIsDead', 10);
     danza = true;
-    punteggio -= gameStopWatch
+    punteggio -= gameStopWatch;
   }
 }
 
@@ -2705,7 +2706,7 @@ function enemyDamage(player, bullets) {
     console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
     punteggio -= 10;
-    console.log(punteggio)
+    console.log(punteggio);
   }
 }
 
