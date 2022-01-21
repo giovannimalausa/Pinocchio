@@ -83,25 +83,16 @@ function preload() {
   game.load.image('ammoBox', 'assets/global/ammo.png');
   game.load.image('pozione', 'assets/global/pozione.png');
 
-  // Interfaccia
-  game.load.image('healthFull', 'assets/interface/healthFull.png');
-  game.load.image('healthHalf', 'assets/interface/healthHalf.png');
+  // Health / Ammo UI
   game.load.spritesheet('healthUI', 'assets/interface/healthUI.png', 350, 100, 15);
-  game.load.image('ammo/5', 'assets/interface/Ammo/5.png');
-  game.load.image('ammo/4', 'assets/interface/Ammo/4.png');
-  game.load.image('ammo/3', 'assets/interface/Ammo/3.png');
-  game.load.image('ammo/2', 'assets/interface/Ammo/2.png');
-  game.load.image('ammo/1', 'assets/interface/Ammo/1.png');
-  game.load.spritesheet('ammoUI', 'assets/interface/Ammo/ammoUI.png', 185, 50, 15);
   game.load.spritesheet('ammoUIv3', 'assets/interface/Ammo/ammoUIv3.png', 161, 73, 16);
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
-  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile.png');
+  game.load.image('level1_calpestabile', 'assets/levelOne/calpestabile.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
-
 
   // Level 1 /Floor
   game.load.image('level1_floor1', 'assets/levelOne/floor/1.png');
@@ -185,7 +176,7 @@ function preload() {
   game.load.image('level2_floor20', 'assets/levelTwo/floor/20.png');
   game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
 
-  // Level 2/componenti
+  // Level 2/Componenti
   game.load.image('level2_componente0', 'assets/levelTwo/componenti/bancarellastart1.png');
   game.load.image('level2_componente0.1', 'assets/levelTwo/componenti/bancarellastart2.png');
   game.load.image('level2_componente1', 'assets/levelTwo/componenti/bancarella 1.png');
@@ -201,11 +192,7 @@ function preload() {
 
 
   // Level 3
-  // Piattaforme e pavimento del livello 3
-
-
   // Level 3 /Sfondi
-
   game.load.image('level3_layer1', 'assets/levelThree/cielo.png');
   game.load.image('level3_layer2', 'assets/levelThree/colline1.png');
   game.load.image('level3_layer3', 'assets/levelThree/colline2.png');
@@ -217,13 +204,13 @@ function preload() {
   game.load.image('level3_floor2', 'assets/levelThree/floor/2.png');
   game.load.image('level3_floor3', 'assets/levelThree/floor/3.png');
 
-  // Level 3 /carrozza
+  // Level 3 /Carrozza
   game.load.image('carrozza', 'assets/levelThree/Carrozza.png');
 
-  // Level 3 /teatro
+  // Level 3 /Teatro
   game.load.image('teatro', 'assets/levelThree/teatro.png');
 
-  // Level 3 /tenda
+  // Level 3 /Tenda
   game.load.image('tenda', 'assets/levelThree/tenda.png');
 
   // Font
@@ -276,7 +263,6 @@ var enemyJugQuantity;
 // Variabili di gioco
 var facing = "right";
 var jumpPower = 0;
-var onInteraction = false;
 
 var isFiring = false;
 var isJumping = false;
@@ -289,9 +275,6 @@ var spawningTimer = 0;
 var playerInvulnerable = false;
 
 var showingGameOverUI = false;
-
-var interactionEnabled = false;
-var interactionPointLabelShown = false;
 
 var gameOverTimer = 0;
 var gameWasOver = false;
@@ -306,28 +289,13 @@ var timerLivello2Livello3 = 0;
 var cambioLivello = false;
 
 // Variabili grafiche
-var healthFull1;
-var healthFull2;
-var healthFull3;
-var healthHalf1;
-var healthHalf2;
-var healthHalf3;
 var healthUI;
 var timerLampeggioSalute = 0;
 
-var ammoUI5;
-var ammoUI4;
-var ammoUI3;
-var ammoUI2;
-var ammoUI1;
-var ammoUI;
 var ammoUIv3;
 var timerLampeggioPieno = 0;
 
 var gameOverImage;
-var nero;
-var tweenNeroAppear;
-var tweenNeroDisappear;
 
 var controlsTutorialUI;
 var sfondoAzzurro;
@@ -356,15 +324,12 @@ var style3 = { font: "60px Inter", fontWeight: "700", fill: "#274256", align: "c
 // Variabili livello 1
 var level1_floor;
 var level1_houses;
-var level1_calpestabile_parte1;
-var level1_calpestabile_parte2;
+var level1_calpestabile;
 var level1_cielo;
 var level1_casedavanti;
 var level1_casedietro;
 
 var placeholder_CasaGeppetto;
-var interactionPoint;
-var interactionPointLabel;
 
 // Variabili livello 2
 var level2_calpestabile_parte1;
@@ -454,19 +419,12 @@ const playerMaxHealth = 5;
 // Keys & input
 var cursors;
 var jumpButton;
-var escapeKey;
-var oneKey;
-var twoKey;
-var threeKey;
 var fireButton;
-var testButton;
 var enterButton;
 
 //Animazioni (da eiminare se possibile)
 var animDropR;
 var animDropL;
-
-
 
 // ++++++++++ CREATE ++++++++++
 
@@ -477,26 +435,7 @@ function create() {
 
   game.world.setBounds(0, 0, 20000, 2304);
 
-  if (gameWasOver !==true && cambioLivello !== true) {
-    // healthFull1 = game.add.sprite(50, 50, 'healthFull');
-    // healthFull1.fixedToCamera = true;
-    // healthFull1.scale.setTo(0.75, 0.75);
-    // healthFull2 = game.add.sprite(100, 50, 'healthFull');
-    // healthFull2.fixedToCamera = true;
-    // healthFull2.scale.setTo(0.75, 0.75);
-    // healthFull3 = game.add.sprite(150, 50, 'healthFull');
-    // healthFull3.fixedToCamera = true;
-    // healthFull3.scale.setTo(0.75, 0.75);
-    // healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
-    // healthHalf1.fixedToCamera = true;
-    // healthHalf1.scale.setTo(0.75, 0.75);
-    // healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
-    // healthHalf2.fixedToCamera = true;
-    // healthHalf2.scale.setTo(0.75, 0.75);
-    // healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
-    // healthHalf3.fixedToCamera = true;
-    // healthHalf3.scale.setTo(0.75, 0.75);
-
+  if (gameWasOver == false && cambioLivello == false) {
     healthUI = game.add.sprite(30, 30, 'healthUI');
     healthUI.fixedToCamera = true;
     healthUI.scale.setTo(0.75, 0.75);
@@ -509,26 +448,13 @@ function create() {
 
     lampeggioPieno = ammoUIv3.animations.add('lampeggioPieno', [5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 40, false);
     ammoUIv3.animations.add('lampeggioVuoto', [10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10,11,12,13,14,15,15,14,13,12,11,10], 40, false);
-
-
-    // ammoUI5 = game.add.sprite(814, 693, 'ammo/5');
-    // ammoUI5.fixedToCamera = true;
-    // ammoUI4 = game.add.sprite(814, 693, 'ammo/4');
-    // ammoUI4.fixedToCamera = true;
-    // ammoUI3 = game.add.sprite(814, 693, 'ammo/3');
-    // ammoUI3.fixedToCamera = true;
-    // ammoUI2 = game.add.sprite(814, 693, 'ammo/2');
-    // ammoUI2.fixedToCamera = true;
-    // ammoUI1 = game.add.sprite(814, 693, 'ammo/1');
-    // ammoUI1.fixedToCamera = true;
-    // BringToTop() alla fine di create().
   }
 
   if (gameWasOver == false) {
     // Elementi modulari globali
-  modulo1x1 = game.add.physicsGroup();
-  modulo2x2 = game.add.physicsGroup();
-  modulo2x4 = game.add.physicsGroup();
+    modulo1x1 = game.add.physicsGroup();
+    modulo2x2 = game.add.physicsGroup();
+    modulo2x4 = game.add.physicsGroup();
   }
 
   // Livello 1
@@ -542,7 +468,7 @@ function create() {
       level1_cielo = game.add.sprite(0, 0, 'level1_cielo');
       level1_casedietro = game.add.sprite(0, 0, 'level1_casedietro');
       level1_casedavanti = game.add.sprite(0, 0, 'level1_casedavanti');
-      level1_calpestabile_parte1 = game.add.sprite(0, 0, 'level1_calpestabile_parte1');
+      level1_calpestabile = game.add.sprite(0, 0, 'level1_calpestabile');
       // Pavimento livello 1
       level1_floor = game.add.physicsGroup();
       level1_floor.create(0, 2200, 'level1_floor1');
@@ -684,11 +610,6 @@ function create() {
     text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style1);
     text.alpha = 0;
     }
-
-
-    // Interaction point (probabilmente verrà tolto ma teniamo finché non si sa con certezza)
-    // interactionPoint = game.add.sprite(60, 2113, 'interactionPoint');
-    // game.physics.arcade.enable(interactionPoint); // attiva la possibilità di usare l'overlap
   }
 
   // Livello 2
@@ -893,7 +814,6 @@ function create() {
       modulo1x1.create(19050, 1850, 'modulo1x1');
       modulo1x1.create(19100, 1850, 'modulo1x1');
       modulo1x1.create(19150, 1850, 'modulo1x1');
-
       modulo1x1.setAll('body.immovable', true);
 
       // Moduli 2x2
@@ -908,8 +828,6 @@ function create() {
       modulo2x2.create(14200, 2100, 'modulo2x2');
       modulo2x2.create(18000, 2100, 'modulo2x2');
       modulo2x2.create(18450, 2100, 'modulo2x2');
-
-
       modulo2x2.setAll('body.immovable', true);
 
       // Moduli 2x4
@@ -922,7 +840,6 @@ function create() {
       modulo2x4.create(14800, 2000, 'modulo2x4');
       modulo2x4.create(18550, 2000, 'modulo2x4');
       modulo2x4.create(19350, 2000, 'modulo2x4');
-
       modulo2x4.setAll('body.immovable', true);
 
       // Interattivi
@@ -1122,8 +1039,6 @@ function create() {
     level3_floor.create(0, 2200, 'level3_floor1');
     level3_floor.create(1200, 2200, 'level3_floor2');
     level3_floor.create(2450, 2200, 'level3_floor3');
-
-
     level3_floor.setAll('body.immovable', true);
     level3_floor.alpha = 0;
 
@@ -1155,17 +1070,15 @@ function create() {
 
     modulo1x1.setAll('body.immovable', true);
 
-    //carrozza
+    // Carrozza
     carrozza = game.add.physicsGroup();
     carrozza.create(3000, 1950, 'carrozza');
-
     carrozza.setAll('body.immovable', true);
     carrozza.alpha = 0;
 
-    //teatro
+    // Teatro
     teatro = game.add.physicsGroup();
     teatro.create(6800, 2100, 'teatro');
-
     teatro.setAll('body.immovable', true);
     teatro.alpha = 0;
 
@@ -1177,7 +1090,7 @@ function create() {
     createText(text);
   }
 
-  // munizioni
+  // Munizioni
   if (levelPlaying == 1) {
     ammoBoxX = [3690, 5265, 8315, 10715];
     ammoBoxY = [1485, 2125, 2125, 2125];
@@ -1188,14 +1101,11 @@ function create() {
     ammoBoxX = [915, 3465, 5825, 6625, 7100];
     ammoBoxY = [2025, 2025, 2125, 2125, 2025];
   }
-
   ammoBox = game.add.physicsGroup();
-
   ammoBox.create(ammoBoxX[0], ammoBoxY[0], 'ammoBox');
   ammoBox.create(ammoBoxX[1], ammoBoxY[1], 'ammoBox');
   ammoBox.create(ammoBoxX[2], ammoBoxY[2], 'ammoBox');
   ammoBox.create(ammoBoxX[3], ammoBoxY[3], 'ammoBox');
-
   if (levelPlaying == 2) {
     ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
     ammoBox.create(ammoBoxX[5], ammoBoxY[5], 'ammoBox');
@@ -1203,13 +1113,9 @@ function create() {
   if (levelPlaying == 3) {
     ammoBox.create(ammoBoxX[4], ammoBoxY[4], 'ammoBox');
   }
-
-
   game.physics.arcade.enable(ammoBox);
 
-  pozione = game.add.physicsGroup();
-
-  // pozioni
+  // Pozioni
   if (levelPlaying == 1) {
     pozioneX = [3520, 8225, 11125];
     pozioneY = [2135, 1925, 2125];
@@ -1220,44 +1126,20 @@ function create() {
     pozioneX = [3090, 4975, 6925];
     pozioneY = [1875, 2125, 2025];
   }
-
+  pozione = game.add.physicsGroup();
   pozione.create(pozioneX[0], pozioneY[0], 'pozione');
   pozione.create(pozioneX[1], pozioneY[1], 'pozione');
   pozione.create(pozioneX[2], pozioneY[2], 'pozione');
-
   if (levelPlaying == 2){
-  pozione.create(pozioneX[3], pozioneY[3], 'pozione');
-  pozione.create(pozioneX[4], pozioneY[4], 'pozione');
-  pozione.create(pozioneX[5], pozioneY[5], 'pozione');
+    pozione.create(pozioneX[3], pozioneY[3], 'pozione');
+    pozione.create(pozioneX[4], pozioneY[4], 'pozione');
+    pozione.create(pozioneX[5], pozioneY[5], 'pozione');
   }
-
   game.physics.arcade.enable(pozione);
 
   // Player (Pinocchio)
   // Coordinate di spawn [variano a seconda del livello caricato]
   spawn();
-
-  //  PINOCCHIO SPRITESHEET V3
-  /*
-  player.animations.add('standR', [76, 77, 78, 79, 80, 81, 82, 83, 84]);
-  player.animations.add('standL', [85, 86, 87, 88, 89, 90, 91, 92, 93]);
-  player.animations.add('walkR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]); // Animazione camminata verso dx
-  player.animations.add('walkL', [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]); // Animazione camminata verso sx
-  player.animations.add('jumpR', [100, 101, 102, 103, 104]);
-  player.animations.add('jumpL', [110, 111, 112, 113, 114]);
-  animDropR = player.animations.add('dropR', [105, 106]);
-  animDropL = player.animations.add('dropL', [115, 116]);
-  player.animations.add('skidR', [24, 25, 26]);
-  player.animations.add('skidL', [27, 28, 29]);
-  player.animations.add('walkFireR', [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]);
-  player.animations.add('walkFireL', [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]);
-  player.animations.add('fireR', [60, 64, 62, 63, 64, 65, 66, 67]);
-  player.animations.add('fireL', [68 ,69, 70, 71, 72, 73, 74, 75]);
-  //player.animations.add('landR', [107, 108, 109]);
-  //player.animations.add('landL', [117, 118, 119]);
-  //Assegnando una variabile loop = false funziona!
-  //Comunque da eliminare se possibile
-  */
 
   //PINOCHIO SPRITESHEET V4
   player.animations.add('standR', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]);
@@ -1298,8 +1180,7 @@ function create() {
 
 
   //  =====================ENEMIES============================
-
-  //posizionamento x nemici
+  // Enemy BOMB
   if (levelPlaying == 1) {
     enemyBombX = [2925, 5325, 9175];
     enemyBombD = [375, 625, 475]
@@ -1313,18 +1194,15 @@ function create() {
     enemyBombD = [300, 475, 275];
     enemyBombQuantity = enemyBombX.length;
   }
-
   enemyBomb = game.add.physicsGroup();
-
   enemyBomb.create(enemyBombX[0], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[1], 1200, 'marionettaBomba');
   enemyBomb.create(enemyBombX[2], 1200, 'marionettaBomba');
-
   if (levelPlaying == 2) {
-  enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[5], 1200, 'marionettaBomba');
-  enemyBomb.create(enemyBombX[6], 1200, 'marionettaBomba');
+    enemyBomb.create(enemyBombX[3], 1200, 'marionettaBomba');
+    enemyBomb.create(enemyBombX[4], 1200, 'marionettaBomba');
+    enemyBomb.create(enemyBombX[5], 1200, 'marionettaBomba');
+    enemyBomb.create(enemyBombX[6], 1200, 'marionettaBomba');
   }
 
   game.physics.arcade.enable(enemyBomb);
@@ -1336,8 +1214,7 @@ function create() {
   enemyBomb.callAll('animations.add', 'animations', 'bombaWalkL', [21,20,19,18,17,16,15,14,13,12,11], 15, true);
   enemyBomb.callAll('body.setSize', 'body', 70, 95, 55, 48);
 
-  //Enemy Sniper
-  // Inserire qui la coordinata X dei nemici
+  //Enemy SNIPER
   if (levelPlaying == 1) {
     enemySniperX = [4415, 7300, 11600];
     enemySniperQuantity = enemySniperX.length;
@@ -1348,21 +1225,17 @@ function create() {
     enemySniperX = [1600, 4300, 5300, 6150];
     enemySniperQuantity = enemySniperX.length;
   }
-
   enemySniper = game.add.physicsGroup();
   enemySniper.create(enemySniperX[0], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[1], 1500, 'marionettaSniper');
   enemySniper.create(enemySniperX[2], 1500, 'marionettaSniper');
-
-    if (levelPlaying == 2) {
+  if (levelPlaying == 2) {
     enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
     enemySniper.create(enemySniperX[4], 1200, 'marionettaSniper');
-    }
-
-    if (levelPlaying == 3) {
-      enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
-      }
-
+  }
+  if (levelPlaying == 3) {
+    enemySniper.create(enemySniperX[3], 1200, 'marionettaSniper');
+  }
   game.physics.arcade.enable(enemySniper);
   enemySniper.setAll('health', 3);
   enemySniper.callAll('animations.add', 'animations', 'sniperFireR', [20,21,22,23,24,25,26,27,28,29], 10, false);
@@ -1381,7 +1254,7 @@ function create() {
   enemySniperGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemySniperGun0.bulletAngleOffset = 180;
 
-  //EnemyJug
+  //Enemy JUG
   if (levelPlaying == 1) {
     enemyJugX = [6600, 8800];
     enemyJugQuantity = enemyJugX.length;
@@ -1422,6 +1295,7 @@ function create() {
   enemyJugGun0.setBulletBodyOffset(16, 8, 66, 45);
   enemyJugGun0.bulletAngleOffset = 180;
 
+  // Mangiafuoco
   if (levelPlaying == 3) {
     mangiafuoco = game.add.sprite(7650, 1200, 'ilBoss')
 
@@ -1441,6 +1315,7 @@ function create() {
     mfGunDx.trackOffset.x = 150;
     mfGunDx.fireRate = 500;
     mfGunDx.fireAngle = 205;
+    mfGunDx.bulletAngleVariance = 5;
     mfGunDx.bulletGravity.y = 1000;
     mfGunDx.bulletKillType = 4;
 
@@ -1450,38 +1325,23 @@ function create() {
     mfGunSx.fireRate = 500;
     mfGunSx.bulletSpeed = 400;
     mfGunSx.bulletKillType = 4;
-    // mfGunSx.fireAngle = 200;
-    // game.physics.arcade.enable(mfGunDx.bullets);
-    // mfGunDx.bulletGravity.y = 1000;
-
   }
 
   // Input (cursors and keys)
   cursors = game.input.keyboard.createCursorKeys();
   jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-  escapeKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-  oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-  twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-  threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.F);
-  testButton = game.input.keyboard.addKey(Phaser.Keyboard.T);
   enterButton = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-  // pickAmmo = game.input.keyboard.addKey(Phaser.Keyboard.R);
-  // Phaser Signal
-  // pickAmmo.onDown.add(addAmmo);
   gun1.onFire.add(ammoSpent);
-
-  player.events.onKilled.add(pinocchioCrocifisso);
-
-  enemySniperGun0.onFire.add(sniperIsFiringTrue);
-
   fireButton.onDown.add(isFiringTrue);
   fireButton.onUp.add(isFiringFalse);
-
   jumpButton.onDown.add(dustJumpTrue);
   jumpButton.onUp.add(dustJumpFalse);
 
+  enemySniperGun0.onFire.add(sniperIsFiringTrue);
+
+  player.events.onKilled.add(pinocchioCrocifisso);
 
   // Camera Follow
   game.camera.follow(shadow, 1, 0.1, 0.5); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
@@ -1510,14 +1370,6 @@ function create() {
 // ===== UPDATE =====
 
 function update () {
-  //console.log('gameWasOver: '+gameWasOver);
-  // console.log(enemyBomb_0_Direction);
-  // console.log('autoPilot: '+ autoPilot);
-  // console.log('Player x = ' + player.x + ' y = ' + player.y);
-  // console.log(isJumping);
-  // console.log("player health=" + player.health);
-  // console.log('Enemy X =' +enemyBomb.getChildAt(0).x)f
-
   // TIME
   gameStopWatch = Math.floor((game.time.time-timeWhenLoaded)/1000);
 
@@ -1637,9 +1489,7 @@ function update () {
     game.physics.arcade.collide(player, level2_ruota3_cabinaG);
     game.physics.arcade.collide(player, level2_ruota3_cabinaH);
 
-  //  game.physics.arcade.collide(player, level2_mongolfiera1, landingCallback, landingProcessCallback, this);
-    game.physics.arcade.collide(player, level2_mongolfiera1);
-  //  game.physics.arcade.collide(player, level2_mongolfiera2, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level2_mongolfiera1); // <== Non c'è landingCallback per evitare bug. Non rimettere.
     game.physics.arcade.collide(player, level2_mongolfiera2);
 
     game.physics.arcade.collide(enemyBomb, level2_floor);
@@ -1838,29 +1688,28 @@ function update () {
       game.physics.arcade.collide(pinocchioCrucified, teatro);
     }
 
+    game.physics.arcade.collide(enemyJug, level3_floor);
     game.physics.arcade.collide(enemyJug, carrozza);
     game.physics.arcade.collide(enemyJugGun0.bullets, carrozza, killbullets);
+    game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
+    game.physics.arcade.collide(enemyJugGun0.bullets, level3_floor, killbullets);
+
+    game.physics.arcade.collide(enemySniper, level3_floor);
     game.physics.arcade.collide(enemySniperGun0.bullets, carrozza, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
-    game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
-    //game.physics.arcade.collide(player, level3_nuvola);
-    game.physics.arcade.collide(level3_nuvola, gun1.bullets, killbullets); //<== non funziona: killa la nuvola anziche' il proiettile
+    game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
 
     game.physics.arcade.collide(enemyBomb, level3_floor);
-    game.physics.arcade.collide(enemyJug, level3_floor);
-    game.physics.arcade.collide(enemyJugGun0.bullets, level3_floor, killbullets);
-    game.physics.arcade.collide(enemySniperGun0.bullets, level3_floor, killbullets);
-    game.physics.arcade.collide(enemySniper, level3_floor);
 
     // Overlap per la Boss Battle
     game.physics.arcade.collide(mangiafuoco, level3_floor);
     game.physics.arcade.collide(mangiafuoco, teatro);
-
-    game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
-  //  game.physics.arcade.collide(mfGunDx.bullets, modulo1x1, createFloorFire);
-    game.physics.arcade.overlap(mfGunSx.bullets, player, EnemyDamage);
+    game.physics.arcade.collide(player, mangiafuoco);
     game.physics.arcade.overlap(gun1.bullets, mangiafuoco, shootMangiafuoco);
     game.physics.arcade.overlap(player, floorFire, touchFloorFire);
+    game.physics.arcade.collide(mfGunDx.bullets, teatro, createFloorFire);
+    game.physics.arcade.collide(mfGunSx.bullets, teatro, killbullets);
+    game.physics.arcade.overlap(mfGunSx.bullets, player, enemyDamage);
   }
 
   // Overlap tra player e enemy
@@ -1873,11 +1722,8 @@ function update () {
   game.physics.arcade.overlap(gun1.bullets, enemyJug, shootEnemyJug);
 
   // Overlap tra enemies e player
-  game.physics.arcade.overlap(enemySniperGun0.bullets, player, EnemyDamage);
-  game.physics.arcade.overlap(enemyJugGun0.bullets, player, EnemyDamage);
-
-  // Interaction point
-  game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
+  game.physics.arcade.overlap(enemySniperGun0.bullets, player, enemyDamage);
+  game.physics.arcade.overlap(enemyJugGun0.bullets, player, enemyDamage);
 
   // Autopilot on spawn
   // Autopilot on spawn /Livello 1
@@ -2135,7 +1981,7 @@ function update () {
       enemy.animations.play('jugL');
     } else if (enemy.x < player.x && gameStopWatch % 3 == 0) {
       enemy.animations.play('jugFireR');
-    } 
+    }
     else if (enemy.x < player.x && gameStopWatch % 3 != 0) {
       enemy.animations.play('jugR');
     }
@@ -2146,8 +1992,8 @@ function update () {
   //}
   //console.log(sniperFire.isPlaying)
   //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-        
-        
+
+
   //ENEMY
   //ENEMY SNIPER
   var sniperFireOffset
@@ -2213,7 +2059,7 @@ if (levelPlaying == 3 && player.alive == true) {
         mfGunDx.fireAngle = 120;
         animFastFire.play('mangiafuocoFastFire')
         mfShootTimer = 0;
-      } 
+      }
   } else if (mangiafuoco.health <= 15) {
     mangiafuoco.tint = 0xFF6666
     if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
@@ -2500,7 +2346,7 @@ function showGameOverUI() {
 function hardDestroyLevel1() {
   // Questa funzione va richiamata esclusivamente nel passaggio da Livello 1 => Livello 2.
   // Distrugge tutti gli elementi del livello 1.
-  level1_calpestabile_parte1.destroy();
+  level1_calpestabile.destroy();
   level1_floor.destroy();
   level1_houses.destroy();
   modulo1x1.destroy();
@@ -2636,6 +2482,9 @@ function softDestroyLevel2() {
     // if the variable is defined
     enemySniperDead.destroy();
   }
+  if (pinocchioCrucified !== undefined) {
+    pinocchioCrucified.destroy();
+  }
   console.log('softDestroyLevel2() completed.');
 }
 
@@ -2677,31 +2526,11 @@ function softDestroyLevel3() {
     // if the variable is defined
     enemySniperDead.destroy();
   }
+  if (pinocchioCrucified !== undefined) {
+    pinocchioCrucified.destroy();
+  }
   console.log('softDestroyLevel3() completed.');
 }
-
-function enableInteraction() {
-  if(onInteraction === false)
-  {
-    onInteraction = true;
-    interactionEnabled = true;
-    console.log("Interazione possibile");
-    if (interactionPointLabelShown == false)
-    {
-      interactionPointLabelShown = true;
-      //  interactionPointLabel = game.add.sprite(38, 2036, 'interactionPointLabel');
-    }
-
-  }
-  else
-  {
-    onInteraction = false;
-    interactionEnabled = false;
-    interactionPointLabelShown = false;
-    //  interactionPointLabel.kill();
-  }
-}
-
 
 function pinocchioCrocifisso() {
   pinocchioCrucified = game.add.sprite(player.x, player.y, 'pinocchioMorto')
@@ -2833,11 +2662,11 @@ mfDead.animations.play('thisMaafkIsDead', 10)
   }
 }
 
-function EnemyDamage(player, bullets) {
+function enemyDamage(player, bullets) {
   bullets.kill();
   if (playerInvulnerable == false) {
     player.damage(1);
-    console.log("EnemyDamage(). Player health -= 1.");
+    console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
   }
 }
@@ -2850,7 +2679,7 @@ function EnemySniperDamage(player, bullets) {
   bullets.kill();
   if (playerInvulnerable == false) {
     player.damage(1);
-    console.log("EnemyDamage(). Player health -= 1.");
+    console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
   }
 }
