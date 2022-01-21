@@ -1883,8 +1883,8 @@ function update () {
   // Interaction point
   game.physics.arcade.overlap(player, interactionPoint, enableInteraction);
 
-  // Automovement spawn
-  // Automovement spawn /Livello 1
+  // Autopilot on spawn
+  // Autopilot on spawn /Livello 1
   if (levelPlaying == 1 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1897,7 +1897,7 @@ function update () {
       }
     }
   }
-  // Automovement spawn /Livello 2
+  // Autopilot on spawn /Livello 2
   if (levelPlaying == 2 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1911,7 +1911,7 @@ function update () {
       }
     }
   }
-  // Automovement spawn /Livello 3
+  // Autopilot on spawn /Livello 3
   if (levelPlaying == 3 && spawning == true) {
     spawningTimer += 1;
     if (spawningTimer >= 70) {
@@ -1929,9 +1929,19 @@ function update () {
   // Player shadow offset
   if (player.y > 2060) {
     shadow.y = 1987;
-  }  else if (autoPilot == false) { // <== Normale offset durante il gioco
+  } 
+  
+  if (autoPilot == false) { // <== Normale offset durante il gioco
     shadow.x = player.x+350;
     shadow.y = player.y+120;
+  } else if (autoPilot == true && spawning == true) { // <== Offset durante l'automovent allo spawn
+    shadow.y = player.y+120;
+    if (levelPlaying == 2) {
+      shadow.x = 610;
+    }
+    if (levelPlaying == 3) {
+      shadow.x = 505;
+    }
   }
   if (levelPlaying == 3 && player.x > 7000) { // <== Offset durante la boss battle
     shadow.x = 7640;
@@ -1980,12 +1990,13 @@ function update () {
   }
 
   // Parallasse sfondi
+  // Parallasse sfondi /Livello 1
   if(levelPlaying == 1) {
     level1_cielo.x = game.camera.x*(-0.01);
     level1_casedietro.x = game.camera.x*(-0.025);
     level1_casedavanti.x = game.camera.x*(-0.09);
   }
-
+  // Parallasse sfondi /Livello 2
   if(levelPlaying == 2) {
     level2_cielo.x = game.camera.x*(-0.01);
     level2_cielo2.x = game.camera.x*(-0.01)+11649;
@@ -1994,7 +2005,7 @@ function update () {
     level2_collineRosse.x = game.camera.x*(-0.09);
     level2_collineRosse2.x = game.camera.x*(-0.09)+13824;
   }
-
+  // Parallasse sfondi /Livello 3
   if(levelPlaying == 3) {
     level3_layer1.x = game.camera.x*(-0.01);
     level3_layer2.x = game.camera.x*(-0.025);
@@ -2551,7 +2562,7 @@ function spawn() {
     // Livello 1 / Prima volta
     if (gameWasOver == false) { // Il livello viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere creati.
       player = game.add.sprite(250, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = 250; y = 1900 / Test Finale x = 18860 (senza camera follow)
-      shadow = game.add.sprite(1000, 200, 'player');
+      shadow = game.add.sprite(1000, 1900, 'player');
       shadow.alpha = 0;
       player.bringToTop();
       console.log("Level 1: player & shadow created.");
@@ -2575,14 +2586,14 @@ function spawn() {
 
   } else if (levelPlaying == 2) {
       if (gameWasOver == false && cambioLivello == false) { // Se il livello viene caricato per la prima volta, ovvero se non c'e' stato gameover o se non c'e' stato il cambio livello da 1 a 2
-        player = game.add.sprite(-90, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -90; y = 1900 / Test Finale x = ????? (senza camera follow)
-        shadow = game.add.sprite(500, 1900, 'player');
+        player = game.add.sprite(-130, 1900, 'pinocchio'); // VALORI CORRETTI: Inizio x = -130; y = 1900 / Test Finale x = ????? (senza camera follow)
+        shadow = game.add.sprite(610, 1900, 'player');
         shadow.alpha = 0;
         player.bringToTop();
         console.log("Level 2: player & shadow created.");
       }
       if (gameWasOver == true || cambioLivello == true) {
-        player.x = 1;
+        player.x = -130;
         player.y = 1800;
         console.log("Level 2: coordinates reset.")
         player.revive();
@@ -2600,14 +2611,14 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     if (gameWasOver == false && cambioLivello == false) {
-      player = game.add.sprite(200, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
-      shadow = game.add.sprite(300, 200, 'player');
+      player = game.add.sprite(-130, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+      shadow = game.add.sprite(300, 1900, 'player');
       shadow.alpha = 0;
       player.bringToTop();
       console.log("Level 3: player & shadow created.");
     }
     if (gameWasOver == true || cambioLivello == true) {
-      player.x = 1;
+      player.x = -130;
       player.y = 1900;
       console.log("Level 3: coordinates reset.")
       player.revive();
@@ -3149,6 +3160,6 @@ function render () {
   // game.debug.body(player);
   // game.debug.body(enemyJug.getChildAt(0));
   // game.debug.body(enemySniper.getChildAt(0));
-   game.debug.spriteInfo(player, 30, 100);
+   game.debug.spriteInfo(shadow, 30, 100);
   //game.debug.body(level3_nuvola);
 }
