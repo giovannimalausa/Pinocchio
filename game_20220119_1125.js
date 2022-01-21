@@ -354,7 +354,8 @@ var text;
 var text2;
 var textTween;
 var textTween2;
-var style = { font: "bold 60px Inter", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"};
+var style = { font: "60px Inter", fontWeight: "700", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+// var style = { font: "bold 60px Inter", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"}; // <== Precedente
 
 // Variabili livello 1
 var level1_floor;
@@ -686,7 +687,7 @@ function create() {
       level1_houses.setAll('body.immovable', true);
 
       //testo
-    text = game.add.text(0, 0, "               Livello 1\n Villaggio di Geppetto", style);
+    text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style);
     text.alpha = 0;
     }
 
@@ -1104,7 +1105,7 @@ function create() {
       level2_mongolfiera2.body.immovable = true;
 
       //testo
-     text = game.add.text(-400, 0, "              Livello 2\n Paese dei Balocchi", style);
+     text = game.add.text(-400, 0, "Livello 2\n Paese dei Balocchi", style);
      text.alpha = 0;
      createText(text);
     }
@@ -1176,7 +1177,7 @@ function create() {
     tenda = game.add.sprite(0, 0, 'tenda');
 
     //testo
-    text = game.add.text(-400,0, "               Livello 3\n Circo di Mangiafuoco", style);
+    text = game.add.text(-400,0, "Livello 3\n Circo di Mangiafuoco", style);
     text.alpha = 0;
     createText(text);
   }
