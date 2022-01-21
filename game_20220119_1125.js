@@ -254,6 +254,8 @@ var fireballRotation;
 
 var randomAnim;
 
+var danza = false;
+
 // Enemy x spawn position
 var enemyBombX;
 var enemySniperX;
@@ -2198,9 +2200,23 @@ function update () {
   game.physics.arcade.overlap(player, pozione, heal);
 
   // Danza
-  //if (ilBoss.health <= 0) {
-    //player.body.velocity.x = 300;
-  //}
+  if (danza == true) {
+
+    player.body.velocity.y = -600;
+    jumpPower = jumpPower + .3;
+
+    if (facing === 'right') {
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
+      dustJumpR.play(10, false);
+      dustJumpR.killOnComplete = true;
+    } else {
+      dust = game.add.sprite(player.x, player.y + 5, 'dust');
+      dustJumpL = dust.animations.add('dustJumpL', [2, 3]);
+      dustJumpL.play(10, false);
+      dustJumpL.killOnComplete = true;
+    }
+  }
 } //fine di UPDATE
 
 function spawn() {
@@ -2263,7 +2279,7 @@ function spawn() {
 
   } else if (levelPlaying == 3) {
     if (gameWasOver == false && cambioLivello == false) {
-      player = game.add.sprite(-130, 1900, 'pinocchio'); //valore corretto: x = 200 y = 1900 / Boss battle: x = 7200 y = 1500
+      player = game.add.sprite(7000, 1900, 'pinocchio'); //valore corretto: x = 200 (-130) y = 1900 / Boss battle: x = 7200 y = 1500
       shadow = game.add.sprite(300, 1900, 'player');
       shadow.alpha = 0;
       player.bringToTop();
@@ -2622,6 +2638,7 @@ function shootMangiafuoco(mf, bullet) {
     mfDead.body.gravity.y = 0; // valore corretto 2000
     mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false);
     mfDead.animations.play('thisMaafkIsDead', 10);
+    danza = true;
   }
 }
 
