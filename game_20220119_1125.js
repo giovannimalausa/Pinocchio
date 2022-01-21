@@ -307,7 +307,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 2;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -1186,9 +1186,9 @@ function create() {
   // munizioni
   if (levelPlaying == 1) {
     ammoBoxX = [3690, 5265, 8315, 10715];
-    ammoBoxY = [1490, 2125, 2125, 2125];
+    ammoBoxY = [1485, 2125, 2125, 2125];
   } else if (levelPlaying == 2) {
-    ammoBoxX = [1875, 4725, 8990, 10650, 13815, 17775];
+    ammoBoxX = [1865, 4700, 8990, 10650, 13815, 17775];
     ammoBoxY = [2125, 2125, 2125, 2125, 2125, 1925];
   } else if (levelPlaying == 3) {
     ammoBoxX = [915, 3465, 5825, 6625, 7100];
@@ -1220,10 +1220,10 @@ function create() {
     pozioneX = [3520, 8225, 11125];
     pozioneY = [2135, 1925, 2125];
   } else if (levelPlaying == 2) {
-    pozioneX = [3350, 6825, 9625, 12875, 15225, 19370];
+    pozioneX = [3340, 6825, 9625, 12870, 15225, 19365];
     pozioneY = [1725, 2125, 2125, 1675, 2125, 1925];
   } else if (levelPlaying == 3) {
-    pozioneX = [3100, 4975, 6925];
+    pozioneX = [3090, 4975, 6925];
     pozioneY = [1875, 2125, 2025];
   }
 
@@ -1362,10 +1362,10 @@ function create() {
   //Enemy Sniper
   // Inserire qui la coordinata X dei nemici
   if (levelPlaying == 1) {
-    enemySniperX = [4425, 7300, 11600];
+    enemySniperX = [4415, 7300, 11600];
     enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 2) {
-    enemySniperX = [1800, 6550, 9500, 11325, 13400];
+    enemySniperX = [1800, 6550, 9500, 11300, 13400];
     enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 3) {
     enemySniperX = [1600, 4300, 5300, 6150];
@@ -1406,10 +1406,10 @@ function create() {
 
   //EnemyJug
   if (levelPlaying == 1) {
-    enemyJugX = [6500, 8800];
+    enemyJugX = [6600, 8800];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 2) {
-    enemyJugX = [4000, 8800, 10500, 15550, 17450];
+    enemyJugX = [4000, 8750, 10500, 15550, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
     enemyJugX = [2650, 4650, 6400];
@@ -1418,10 +1418,13 @@ function create() {
   enemyJug = game.add.physicsGroup();
   enemyJug.create(enemyJugX[0], 1300, 'marionettaJug');
   enemyJug.create(enemyJugX[1], 1300, 'marionettaJug');
-  enemyJug.create(enemyJugX[2], 1300, 'marionettaJug');
   if (levelPlaying == 2) {
+    enemyJug.create(enemyJugX[2], 1300, 'marionettaJug');
     enemyJug.create(enemyJugX[3], 1300, 'marionettaJug');
     enemyJug.create(enemyJugX[4], 1300, 'marionettaJug');
+  }
+  if (levelPlaying == 3) {
+    enemyJug.create(enemyJugX[2], 1300, 'marionettaJug');
   }
   game.physics.arcade.enable(enemyJug);
 
