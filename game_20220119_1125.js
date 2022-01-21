@@ -1568,6 +1568,12 @@ function update () {
   game.physics.arcade.collide(enemySniper, modulo1x1);
   game.physics.arcade.collide(enemySniper, modulo2x2);
   game.physics.arcade.collide(enemySniper, modulo2x4);
+  if (pinocchioCrucified !== undefined) {
+    game.physics.arcade.collide(pinocchioCrucified, modulo1x1);
+    game.physics.arcade.collide(pinocchioCrucified, modulo2x2);
+    game.physics.arcade.collide(pinocchioCrucified, modulo2x4);
+    
+  }
 
   //Collide proiettili vari
   game.physics.arcade.collide(gun1.bullets, modulo1x1, killbullets);
@@ -1591,15 +1597,20 @@ function update () {
 
     game.physics.arcade.collide(player, level1_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level1_floor);
+    game.physics.arcade.collide(player, level1_houses, landingCallback, landingProcessCallback, this);
+    game.physics.arcade.collide(player, level1_houses);
     game.physics.arcade.collide(gun1.bullets, level1_floor, killbullets);
+    game.physics.arcade.collide(gun1.bullets, level1_houses, killbullets);
+    if (pinocchioCrucified !== undefined) {
+      game.physics.arcade.collide(pinocchioCrucified, level1_floor);
+      game.physics.arcade.collide(pinocchioCrucified, level1_houses);
+    }
 
     game.physics.arcade.collide(enemyBomb, level1_houses);
     game.physics.arcade.collide(enemySniper, level1_houses);
-    game.physics.arcade.collide(enemySniperGun0.bullets, level1_houses, killbullets);
     game.physics.arcade.collide(enemyJug, level1_houses);
+    game.physics.arcade.collide(enemySniperGun0.bullets, level1_houses, killbullets);
     game.physics.arcade.collide(enemyJugGun0.bullets, level1_houses, killbullets);
-    game.physics.arcade.collide(player, level1_houses);
-    game.physics.arcade.collide(gun1.bullets, level1_houses, killbullets);
   }
 
   // Collide /Livello 2
@@ -1607,6 +1618,12 @@ function update () {
     game.physics.arcade.collide(player, level2_floor, landingCallback, landingProcessCallback, this);
     game.physics.arcade.collide(player, level2_floor);
     game.physics.arcade.collide(gun1.bullets, level2_floor, killbullets);
+    game.physics.arcade.collide(player, level2_componente);
+    game.physics.arcade.collide(gun1.bullets, level2_componente, killbullets);
+    if (pinocchioCrucified !== undefined) {
+      game.physics.arcade.collide(pinocchioCrucified, level2_floor);
+      game.physics.arcade.collide(pinocchioCrucified, level2_componente);
+    }
 
     game.physics.arcade.collide(enemyBomb, level2_floor);
     game.physics.arcade.collide(enemySniper, level2_floor);
@@ -1619,9 +1636,6 @@ function update () {
     game.physics.arcade.collide(enemySniperGun0.bullets, level2_componente, killbullets);
     game.physics.arcade.collide(enemyJug, level2_componente);
     game.physics.arcade.collide(enemyJugGun0.bullets, level2_componente, killbullets);
-
-    game.physics.arcade.collide(player, level2_componente);
-    game.physics.arcade.collide(gun1.bullets, level2_componente, killbullets);
 
     // Ruote panoramiche
     // Ruota 1
@@ -1845,11 +1859,17 @@ function update () {
     game.physics.arcade.collide(gun1.bullets, level3_floor, killbullets);
     game.physics.arcade.collide(player, carrozza);
     game.physics.arcade.collide(gun1.bullets, carrozza, killbullets);
+    game.physics.arcade.collide(player, teatro);
+    game.physics.arcade.collide(gun1.bullets, teatro, killbullets);
+    if (pinocchioCrucified !== undefined) {
+      game.physics.arcade.collide(pinocchioCrucified, level3_floor);
+      game.physics.arcade.collide(pinocchioCrucified, carrozza);
+      game.physics.arcade.collide(pinocchioCrucified, teatro);
+    }
+
     game.physics.arcade.collide(enemyJug, carrozza);
     game.physics.arcade.collide(enemyJugGun0.bullets, carrozza, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, carrozza, killbullets);
-    game.physics.arcade.collide(player, teatro);
-    game.physics.arcade.collide(gun1.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemySniperGun0.bullets, teatro, killbullets);
     game.physics.arcade.collide(enemyJugGun0.bullets, teatro, killbullets);
     //game.physics.arcade.collide(player, level3_nuvola);
@@ -1967,11 +1987,11 @@ function update () {
   }
   // Game over per danno
   if (player.health <= 0) {
-    if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
+    if (gameOverTimer == 150) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
       game.camera.fade(0x000000, 1000);
     }
     gameOverTimer += 1;
-    if (gameOverTimer == 100) {
+    if (gameOverTimer == 250) {
       console.log("Player.health fell below 0.");
       gameover();
     }
@@ -2702,7 +2722,9 @@ function softDestroyLevel1() {
   if (typeof enemySniperDead !== 'undefined') {
     // if the variable is defined
     enemySniperDead.destroy();
-
+  }
+  if (pinocchioCrucified !== undefined) {
+    pinocchioCrucified.destroy();
   }
   console.log('softDestroyLevel1() completed.');
 }
@@ -2863,6 +2885,10 @@ function enableInteraction() {
 
 function pinocchioCrocifisso() {
   pinocchioCrucified = game.add.sprite(player.x, player.y, 'pinocchioMorto')
+  game.physics.arcade.enable(pinocchioCrucified);
+  pinocchioCrucified.body.collideWorldBounds = false;
+  pinocchioCrucified.body.gravity.y = 2000; // valore corretto 2000
+  pinocchioCrucified.body.setSize(70, 100, 65, 43); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
   if (facing === 'right') {
     pinocchioCrucified.animations.add('mortoR', [0,1,2,3,4,5,6,7,8,9], 15, false);
     pinocchioCrucified.animations.play('mortoR')
@@ -3163,6 +3189,7 @@ function render () {
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
+  // game.debug.body(pinocchioCrucified);
   // game.debug.body(enemyJug.getChildAt(0));
   // game.debug.body(enemySniper.getChildAt(0));
    game.debug.spriteInfo(shadow, 30, 100);
