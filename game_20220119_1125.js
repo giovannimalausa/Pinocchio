@@ -1170,7 +1170,6 @@ function create() {
   gun1.bulletAngleOffset = 180;
   gun1.bulletKillType = 4; //elimina proiettili fuori dalla camera
 
-
   //  =====================ENEMIES============================
   // Enemy BOMB
   if (levelPlaying == 1) {
@@ -1849,20 +1848,14 @@ function update () {
   }
 
   // Controls
-  if (cursors.left.isDown && enableUserMovement == true) // Camminata verso sinistra
-  {
+  if (cursors.left.isDown && enableUserMovement == true) { // Camminata verso sinistra
     player.body.velocity.x = -350;
-    if (facing !== "left") // Se il player è rivolto a sinistra
-    {
+    if (facing !== "left") { // Se il player è rivolto a sinistra
       facing = "left";
     }
-  }
-
-  else if (cursors.right.isDown && enableUserMovement == true) // Camminata verso destra
-  {
+  } else if (cursors.right.isDown && enableUserMovement == true) { // Camminata verso destra
     player.body.velocity.x = 350;
-    if (facing !== "right") // Se il player è rivolto a destra
-    {
+    if (facing !== "right") { // Se il player è rivolto a destra
       facing = "right";
     }
   }
@@ -1870,90 +1863,58 @@ function update () {
   //===========Animazioni===================
 
   if (facing === "left" && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down) && isFiring === false) { // SE player rivolto a sinistra
-      player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
-    }
-    if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) { // player rivolto a destra
-      player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
-    }
-    if (isFiring === true && facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
-      player.animations.play('fireL', 15);
-    }
-    if (isFiring === true && facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
-      player.animations.play('fireR', 15)
-    }
+    player.animations.play('standL', 10, true);  // per qualche motivo l'animazione stand rompe le altre animazioni :-(
+  }
+  if (facing === 'right' && player.body.velocity.x < 5 && player.body.velocity.x > -5 && (player.body.onFloor() || player.body.touching.down)&& isFiring === false) { // player rivolto a destra
+    player.animations.play('standR', 10, true); // eliminando questa linea e quella sopra le altre animazioni funzionano meglio
+  }
+  if (isFiring === true && facing === "left" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
+    player.animations.play('fireL', 15);
+  }
+  if (isFiring === true && facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > -100 && (player.body.onFloor() || player.body.touching.down)) {
+    player.animations.play('fireR', 15)
+  }
 
-    if(facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down))
-    {  //Camminata dx
-      if(isFiring === false)
-      {
-        player.animations.play('walkR', 15, true);
-      } else {
-        player.animations.play('walkFireR', 15, true);
-      }
-    } else if(facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down))
-    {  //Camminata sx
-      if(isFiring === false)
-      {
-        player.animations.play('walkL', 15, true);
-      } else {
-        player.animations.play('walkFireL', 15, true);
-      }
-    }
-
-    if(player.body.velocity.y < -300 && facing === "right" && !(player.body.touching.down)) // Salto dx
-    {
-      player.animations.play('jumpR', 18, false);
-    }
-    if(player.body.velocity.y < -300 && facing === "left" && !(player.body.touching.down)) // Salto sx
-    {
-      player.animations.play('jumpL', 18, false);
-    }
-
-    if(player.body.velocity.y > 100 && facing === "right" && !(player.body.touching.down)) //Atterraggio salto dx
-    {
-      player.animations.play('dropR', 10, true);
-    }
-    if(player.body.velocity.y > 100 && facing === "left" && !(player.body.touching.down)) // Atterraggio salto sx
-    {
-      player.animations.play('dropL', 10, true);
-    }
-
-
-    if(facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > 10 && (player.body.onFloor() || player.body.touching.down))
-    {  //Camminata dx
-      if(isFiring === false)
-      {
-        player.animations.play('skidR', 10, true);
-      } else {
-    //    player.animations.play('skidFireR', 10, true);
-      }
-    } else if(facing === "left" && player.body.velocity.x > -100 && player.body.velocity.x < -10 && (player.body.onFloor() || player.body.touching.down))
-    {  //Camminata sx
-      if(isFiring === false)
-      {
-        player.animations.play('skidL', 10, true);
-      } else {
-      //  player.animations.play('skidFireL', 10, true);
-      }
-    }
-/*
-    if(player.body.velocity.x < 100 && player.body.velocity.x > 10 && facing === "right" && (player.body.onFloor() || player.body.touching.down)) {
-    if(isFiring === false)  {
-      player.animations.play('skidR', 10, false);
+  if(facing === "right" && player.body.velocity.x > 100 && (player.body.onFloor() || player.body.touching.down))  {
+  //Camminata dx
+    if(isFiring === false) {
+      player.animations.play('walkR', 15, true);
     } else {
-      player.animations.play('skidFireR', 10, false);
-    }}
-    if(isFiring === false && player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing === "left" && (player.body.onFloor() || player.body.touching.down))
-    {
-        player.animations.play('skidL', 10, false);
+      player.animations.play('walkFireR', 15, true);
     }
-    if(isFiring === true && player.body.velocity.x > -100 && player.body.velocity.x < -10 &&  facing === "left" && (player.body.onFloor() || player.body.touching.down))
-    {
-    player.animations.play('skidFireL', 10, false);
+  } else if(facing === "left" && player.body.velocity.x < -100 && (player.body.onFloor() || player.body.touching.down)) {
+    //Camminata sx
+    if(isFiring === false) {
+      player.animations.play('walkL', 15, true);
+    } else {
+      player.animations.play('walkFireL', 15, true);
     }
-*/
+  }
 
-  if (player.body.velocity.y < -100) {
+  if(player.body.velocity.y < -300 && facing === "right" && !(player.body.touching.down)) { // Salto dx
+    player.animations.play('jumpR', 18, false);
+  }
+  if(player.body.velocity.y < -300 && facing === "left" && !(player.body.touching.down)) { // Salto sx
+    player.animations.play('jumpL', 18, false);
+  }
+  if(player.body.velocity.y > 100 && facing === "right" && !(player.body.touching.down)) { // Atterraggio salto dx
+    player.animations.play('dropR', 10, true);
+  }
+  if(player.body.velocity.y > 100 && facing === "left" && !(player.body.touching.down)) { // Atterraggio salto sx
+    player.animations.play('dropL', 10, true);
+  }
+
+  if(facing === "right" && player.body.velocity.x < 100 && player.body.velocity.x > 10 && (player.body.onFloor() || player.body.touching.down)) { // Camminata dx
+    if(isFiring === false) {
+      player.animations.play('skidR', 10, true);
+    } 
+  } else if(facing === "left" && player.body.velocity.x > -100 && player.body.velocity.x < -10 && (player.body.onFloor() || player.body.touching.down)) { // Camminata sx
+      if(isFiring === false) {
+        player.animations.play('skidL', 10, true);
+      }
+    }
+
+ if (player.body.velocity.y < -100) {
     isJumping = true;
   }
 
@@ -1979,13 +1940,6 @@ function update () {
     }
   });
 
-  //if(sniperFire.isPlaying == false) {
-    //enemySniper.callAll('animations.play', 'sniperL')
-  //}
-  //console.log(sniperFire.isPlaying)
-  //Per Non dover creare molte weapon divrese possiamo cambiare la posizione da cui partono i proiettili in questo modo
-
-
   //ENEMY
   //ENEMY SNIPER
   var sniperFireOffset
@@ -1999,8 +1953,8 @@ function update () {
     if (enemySniper.getChildAt(i).inCamera == true && enemySniper.getChildAt(i).alive == true) {
       sniperFiringPosition0 = new Phaser.Point(enemySniper.getChildAt(i).x + sniperFireOffset, enemySniper.getChildAt(i).y + 60);
       var sniperFireAngle = (-57.296 * game.physics.arcade.angleBetween(sniperFiringPosition0, player));
-      if (170 < sniperFireAngle || -170 > sniperFireAngle || 10 > sniperFireAngle && -10 < sniperFireAngle ||
-      300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y)) {
+      if (165 < sniperFireAngle || -165 > sniperFireAngle || 15 > sniperFireAngle && -15 < sniperFireAngle ||
+        300 > Math.abs(player.x - enemySniper.getChildAt(i).x) && 30 > Math.abs(player.y - enemySniper.getChildAt(i).y)) {
         enemySniperGun0.fire(sniperFiringPosition0, player.x + 120, player.y + 78);
       }
     }
@@ -2025,36 +1979,34 @@ function update () {
       }
     }
   }
- randomAnim = Math.random()
+  randomAnim = Math.random()
+  
   //PALLE DI FUOCO DI MANGIAFUOCO
-if (levelPlaying == 3 && player.alive == true) {
-
+  if (levelPlaying == 3 && player.alive == true) {
     mfFireballSpeed = (Math.random() * (700 - 50) + 50);
     mfGunDx.bulletSpeed = mfFireballSpeed;
     mfShootTimer += (Math.random() * (4 - 1) + 1);
-
-
- if (mangiafuoco.health > 15){
-    if (player.y  > 1800 && mfShootTimer >= 180) {
-      if (randomAnim > 0.3) {
-        animManoDX.play('mangiafuocoManoDX');
-      } else if (randomAnim < 0.3){
-        animManoSX.play('mangiafuocoManoSX');
-      }
-      console.log('mfShootTimer: '+mfShootTimer);
-      mfShootTimer = 0;
-    } else if (player.y < 1800 && mfShootTimer >= 150) {
-        animManoSX.play('mangiafuocoManoSX');
-        console.log('mfShootTimer: '+mfShootTimer);
-        mfShootTimer = 0;
-      } else if (player.x > 7550 && mfShootTimer >= 90){
-        mfGunDx.fireAngle = 120;
-        animFastFire.play('mangiafuocoFastFire')
-        mfShootTimer = 0;
-      }
-  } else if (mangiafuoco.health <= 15) {
-    mangiafuoco.tint = 0xFF6666
-    if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
+    if (mangiafuoco.health > 15) {
+      if (player.y  > 1800 && mfShootTimer >= 180) {
+        if (randomAnim > 0.3) {
+          animManoDX.play('mangiafuocoManoDX');
+        } else if (randomAnim < 0.3) {
+            animManoSX.play('mangiafuocoManoSX');
+          }
+          console.log('mfShootTimer: '+mfShootTimer);
+          mfShootTimer = 0;
+      } else if (player.y < 1800 && mfShootTimer >= 150) {
+          animManoSX.play('mangiafuocoManoSX');
+          console.log('mfShootTimer: '+mfShootTimer);
+          mfShootTimer = 0;
+        } else if (player.x > 7550 && mfShootTimer >= 90) {
+          mfGunDx.fireAngle = 120;
+          animFastFire.play('mangiafuocoFastFire')
+          mfShootTimer = 0;
+        }
+    } else if (mangiafuoco.health <= 15) {
+      mangiafuoco.tint = 0xFF6666
+      if (player.y  > 1800 && player.x <= 7550 &&  mfShootTimer >= 90) {
       if (randomAnim > 0.3) {
         animManoDX.play('mangiafuocoFastFire');
       } else if (randomAnim < 0.3){
@@ -2073,14 +2025,12 @@ if (levelPlaying == 3 && player.alive == true) {
           }
     }
 
-    //console.log(mangiafuoco.frame)
-
     if (mangiafuoco.frame > 44 && mangiafuoco.frame < 46) {
       mfGunDx.fire();
       mfGunDx.fireAngle = 205;
     } else if (mangiafuoco.frame > 24 && mangiafuoco.frame < 26) {
-      mfGunSx.fire(null, player.x + 50, player.y + 90);
-    }
+        mfGunSx.fire(null, player.x + 50, player.y + 90);
+      }
 
    if (animManoDX.isPlaying === false && animManoSX.isPlaying === false && animFastFire.isPlaying === false) {
       mangiafuoco.animations.play('mangiafuocoL')
@@ -2090,18 +2040,17 @@ if (levelPlaying == 3 && player.alive == true) {
   //ENEMY BOMB
   // L'eleganza non ha prezzo IL CICLO DEVE ESSERE ESEGUITO TANTE VOLTE QUANTI SONO I NEMICI
   for (let i = 0; i < enemyBombQuantity; i++) {
-  if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + enemyBombD[i])
-  || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
+    if ((enemyBomb.getChildAt(i).body.velocity.x > 0 && enemyBomb.getChildAt(i).x > enemyBombX[i] + enemyBombD[i])
+      || (enemyBomb.getChildAt(i).body.velocity.x < 0 && enemyBomb.getChildAt(i).x < enemyBombX[i])) {
       enemyBomb.getChildAt(i).body.velocity.x *= -1;
-    }}
+    }
+  }
 
   enemyBomb.setAll('body.gravity.y', 2000);
   enemyBomb.setAll('body.collideWorldBounds', true);
 
   enemySniper.setAll('body.gravity.y', 2000);
   enemySniper.setAll('body.collideWorldBounds', true);
-
-
 
   enemyBomb.setAll('body.gravity.y', 2000);
   enemyBomb.setAll('body.collideWorldBounds', true);
@@ -2150,8 +2099,7 @@ if (levelPlaying == 3 && player.alive == true) {
   else {
     player.body.velocity.x = (0.97 *  player.body.velocity.x);
   }
-  //console.log(facing)
-  //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
+
 
   // Player health UI
   if (player.health === 5 && !saluteLampeggioPieno.isPlaying) {
@@ -2315,7 +2263,6 @@ function spawn() {
       console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       facing = 'right';
     }
-
   }
   console.log("spawn() completed.")
 }
@@ -2594,8 +2541,8 @@ function shootEnemyJug(bullets, enemyJug) {
       enemyJugDead.animations.play('jugDeadL', 15, false);
     }
      else if(enemyJug.x < player.x) {
-       enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
-       enemyJugDead.animations.play('jugDeadR', 15, false);
+      enemyJugDead.animations.add('jugDeadR', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18])
+      enemyJugDead.animations.play('jugDeadR', 15, false);
     }
   }
 }
@@ -2647,10 +2594,9 @@ function shootMangiafuoco(mf, bullet) {
   mf.damage(1)
   console.log('hp mf=' + mf.health)
   if (mf.health <= 0) {
-
-mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte')
-mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false)
-mfDead.animations.play('thisMaafkIsDead', 10)
+    mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte')
+    mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false)
+    mfDead.animations.play('thisMaafkIsDead', 10)
   }
 }
 
@@ -2702,15 +2648,14 @@ function touchFloorFire(player, fire) {
 
 function sniperIsFiringTrue() {
   enemySniper.forEach(function (enemy2) {
-     if (enemy2.x > player.x) {
+    if (enemy2.x > player.x) {
       enemy2.animations.play('sniperFireL');
       console.log('fire!')
-    }  else if (enemy2.x < player.x) {
+    } else if (enemy2.x < player.x) {
       enemy2.animations.play('sniperFireR');
     }
   })
 }
-
 
 function isFiringTrue() {
   if (bulletPool > 0)  {
@@ -2819,24 +2764,19 @@ function landingProcessCallback(player, obj) {
   }
 }
 
-//testo
+// Testo
 function createText() {
-
   text.setShadow(3, 3, '#fff', 2);
-
   text.setTextBounds(200, 1800, 1450, 100);
-
   textTween = game.add.tween(text).to({alpha: 1}, 0, Phaser.Easing.Linear.None, true, 1000, 0, false);
-   textTween.onComplete.add(function resetText() {
-     if (levelPlaying == 1) {
-     textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 1500, 0, false);}
-     else {
-     textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);}
-     });
-
-  }
-
-
+  textTween.onComplete.add(function resetText() {
+    if (levelPlaying == 1) {
+      textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 1500, 0, false);
+    } else {
+      textTween2 = game.add.tween(text).to( {y: -100, alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 3000, 0, false);
+    }
+  });
+}
 
 function render () {
   // game.debug.body(level2_mongolfiera1);
@@ -2846,5 +2786,5 @@ function render () {
   // game.debug.body(enemyJug.getChildAt(0));
   // game.debug.body(enemySniper.getChildAt(0));
   // game.debug.spriteInfo(shadow, 30, 100);
-  //game.debug.body(level3_nuvola);
+  // game.debug.body(level3_nuvola);
 }
