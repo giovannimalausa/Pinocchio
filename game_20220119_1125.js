@@ -41,6 +41,8 @@ function preload() {
 
   game.load.spritesheet('pinocchioBullet', 'assets/sprites/pinocchio/pinocchioBullet.png', 150, 100, 4);
   game.load.spritesheet('nemiciBullet', 'assets/sprites/nemiciBullet.png', 150, 100, 4);
+  game.load.spritesheet('palleDiMangiafuoco', 'assets/sprites/pallaFuoco.png', 225, 150, 15);
+
 
   game.load.spritesheet('dust', 'assets/sprites/dust_spritesheet1.png', 200, 150, 10);
 
@@ -50,7 +52,7 @@ function preload() {
   game.load.spritesheet('marionettaJugMorte', 'assets/sprites/marionettaJugMorte.png', 200, 200, 38);
 
   game.load.spritesheet('marionettaBomba', 'assets/sprites/marionettaBomba.png', 180, 180, 22);
-  game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 250, 167, 12);
+  game.load.spritesheet('marionettaEsplosione', 'assets/sprites/enemyBombEsplosione.png', 300, 200, 12);
 
   game.load.spritesheet('ilBoss', 'assets/sprites/mangiafuoco.png', 500, 500, 60);
   game.load.spritesheet('bossMorte', 'assets/sprites/mangiafuocoMorte.png', 500, 500, 22);
@@ -247,6 +249,8 @@ var animManoDX;
 var animManoSX;
 var animFastFire;
 var mfDead;
+var fireballRotation;
+
 
 var randomAnim;
 
@@ -1300,7 +1304,7 @@ function create() {
     animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
     animFastFire = mangiafuoco.animations.add('mangiafuocoFastFire', [40,41,42,43,44,45,46,47,48], 15, false);
 
-    mfGunDx = game.add.weapon(100, 'bullet');
+    mfGunDx = game.add.weapon(100, 'palleDiMangiafuoco');
     mfGunDx.trackSprite(mangiafuoco)
     mfGunDx.trackOffset.y = 200;
     mfGunDx.trackOffset.x = 150;
@@ -1309,13 +1313,22 @@ function create() {
     mfGunDx.bulletAngleVariance = 5;
     mfGunDx.bulletGravity.y = 1000;
     mfGunDx.bulletKillType = 4;
+    mfGunDx.addBulletAnimation('fire', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], 15, true);
+    mfGunDx.setBulletBodyOffset(27, 27, 98, 61);
+    mfGunDx.bulletAngleOffset = fireballRotation;
 
-    mfGunSx = game.add.weapon(100, 'bullet');
+
+
+
+    mfGunSx = game.add.weapon(100, 'palleDiMangiafuoco');
     mfGunSx.trackSprite(mangiafuoco)
     mfGunSx.trackOffset.y = 200
     mfGunSx.fireRate = 500;
     mfGunSx.bulletSpeed = 400;
     mfGunSx.bulletKillType = 4;
+    mfGunSx.addBulletAnimation('fire', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], 15, true);
+    mfGunSx.setBulletBodyOffset(27, 27, 98, 61);
+
   }
 
   // Input (cursors and keys)
@@ -2499,7 +2512,7 @@ function shootEnemyBomb(bullets, enemyBomb) {
   bullets.kill();
   enemyBomb.damage(1);
   if (enemyBomb.health <= 0) {
-    enemyBombEsplosione = game.add.sprite(enemyBomb.x - 40, enemyBomb.y, 'marionettaEsplosione');
+    enemyBombEsplosione = game.add.sprite(enemyBomb.x - 55, enemyBomb.y - 15, 'marionettaEsplosione');
     enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
     enemyBombEsplosione.animations.play('marionettaEsplode', 15);
     enemyBombEsplosione.killOnComplete = true;
@@ -2565,7 +2578,7 @@ function blinkingPlayer() {
 }
 
 function touchEnemyBomb(player, enemyBomb) {
-  enemyBombEsplosione = game.add.sprite(enemyBomb.x - 40, enemyBomb.y, 'marionettaEsplosione');
+  enemyBombEsplosione = game.add.sprite(enemyBomb.x - 55, enemyBomb.y - 15, 'marionettaEsplosione');
   enemyBombEsplosione.animations.add('marionettaEsplode', [0,1,2,3,4,5,6,7,8,9,10,11], false);
   enemyBombEsplosione.animations.play('marionettaEsplode', 15);
   enemyBombEsplosione.killOnComplete = true;
