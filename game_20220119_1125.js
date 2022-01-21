@@ -282,7 +282,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 3;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -318,6 +318,8 @@ var textTween2;
 var style1 = { font: "60px Inter", fontWeight: "700", fill: "#711854", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
 var style2 = { font: "60px Inter", fontWeight: "700", fill: "#C7764D", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
 var style3 = { font: "60px Inter", fontWeight: "700", fill: "#274256", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style4 = { font: "26px Inter", fontWeight: "400", fill: "#ffffff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+
 // var style = { font: "bold 60px Inter", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"}; // <== Precedente
 
 // Variabili livello 1
@@ -422,6 +424,7 @@ var fireButton;
 var enterButton;
 
 var punteggio = 1000;
+var textScore;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
@@ -1213,7 +1216,7 @@ function create() {
     enemySniperX = [1800, 6550, 9500, 11300, 13400];
     enemySniperQuantity = enemySniperX.length;
   } else if (levelPlaying == 3) {
-    enemySniperX = [1600, 4300, 5300, 6150];
+    enemySniperX = [1600, 3900, 4800, 6150];
     enemySniperQuantity = enemySniperX.length;
   }
   enemySniper = game.add.physicsGroup();
@@ -1257,7 +1260,7 @@ function create() {
     enemyJugX = [4000, 8750, 10500, 15550, 17450];
     enemyJugQuantity = enemyJugX.length;
   } else if (levelPlaying == 3) {
-    enemyJugX = [2650, 4650, 6400];
+    enemyJugX = [2650, 4450, 6400];
     enemyJugQuantity = enemyJugX.length;
   }
   enemyJug = game.add.physicsGroup();
@@ -1301,7 +1304,7 @@ function create() {
     mangiafuoco.body.collideWorldBounds = false;
     //mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
     mangiafuoco.body.setSize(200, 250, 150, 135); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
-    mangiafuoco.health = 35;
+    mangiafuoco.health = 30;
     mangiafuoco.body.immovable = true;
     mangiafuoco.animations.add('mangiafuocoL', [0,1,2,3,4,5,6,7,8,9], 10, true);
     animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
@@ -2366,8 +2369,13 @@ function showGameOverUI() {
 function showGameOverUI2() {
   gameOverImage = game.add.sprite(0, 0, 'win');
   gameOverImage.fixedToCamera = true;
-  gameOverImage.bringToTop();
+  //gameOverImage.bringToTop();
   showingGameOverUI = true;
+
+  textScore = game.add.text(420, 40, "Punteggio: "+ punteggio, style4)
+  textScore.fixedToCamera = true;
+  textScore.alpha = 0.6;
+
 }
 
 function hardDestroyLevel1() {
@@ -2723,7 +2731,7 @@ function createFloorFire(bullet, floor) {
 }
 
 function touchFloorFire(player, fire) {
-  if (playerInvulnerable == false || danza == false) {
+  if (playerInvulnerable == false && danza == false) {
     player.damage(1);
     console.log("touchFloorFire(). Player health -= 1.");
     blinkingPlayer();
