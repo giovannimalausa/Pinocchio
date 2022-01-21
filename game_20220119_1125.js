@@ -97,8 +97,7 @@ function preload() {
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
   game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
   game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile_parte1.png');
-  game.load.image('level1_calpestabile_parte2', 'assets/levelOne/calpestabile_parte2.png');
+  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
@@ -187,6 +186,8 @@ function preload() {
   game.load.image('level2_floor21', 'assets/levelTwo/floor/21.png');
 
   // Level 2/componenti
+  game.load.image('level2_componente0', 'assets/levelTwo/componenti/bancarellastart1.png');
+  game.load.image('level2_componente0.1', 'assets/levelTwo/componenti/bancarellastart2.png');
   game.load.image('level2_componente1', 'assets/levelTwo/componenti/bancarella 1.png');
   game.load.image('level2_componente2', 'assets/levelTwo/componenti/bancarella 2.png');
   game.load.image('level2_componente3', 'assets/levelTwo/componenti/bancarella 3.png');
@@ -305,7 +306,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 2;
+var levelPlaying = 1;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -733,6 +734,8 @@ function create() {
 
       // Componenti livello 2
       level2_componente = game.add.physicsGroup();
+      level2_componente.create(0, 1950, 'level2_componente0');
+      level2_componente.create(0, 1850, 'level2_componente0.1');
       level2_componente.create(1095, 1900, 'level2_componente1');
       level2_componente.create(3600, 1950, 'level2_componente2');
       level2_componente.create(4800, 1850, 'level2_componente8');
@@ -1127,6 +1130,7 @@ function create() {
     level3_floor.alpha = 0;
 
     // Casse singole
+    modulo2x2.create(0, 1900, 'modulo2x2');
     modulo2x2.create(900, 2100, 'modulo2x2');
     modulo2x2.create(1650, 2100, 'modulo2x2');
     modulo2x2.create(2700, 2100, 'modulo2x2');
@@ -1135,6 +1139,7 @@ function create() {
 
     // Moduli 2x4 (casse doppie)
     modulo2x4.create(1750, 2000, 'modulo2x4');
+    modulo2x4.create(0, 2000, 'modulo2x4');
     modulo2x4.setAll('body.immovable', true);
 
     // Piattaforme
