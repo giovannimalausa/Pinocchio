@@ -605,7 +605,7 @@ function create() {
     level1_houses.setAll('body.immovable', true);
 
     // Testo
-    text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style);
+    text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style1);
     text.alpha = 0;
   }
 
@@ -1012,7 +1012,7 @@ function create() {
     level2_mongolfiera2.body.immovable = true;
 
     //testo
-    text = game.add.text(-400, 0, "Livello 2\n Paese dei Balocchi", style);
+    text = game.add.text(-400, 0, "Livello 2\n Paese dei Balocchi", style2);
     text.alpha = 0;
     createText(text);
   }
