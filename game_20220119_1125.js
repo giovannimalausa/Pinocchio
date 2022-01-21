@@ -283,7 +283,7 @@ var gameWasOver = false;
 enemyBomb_0_Direction = 'right';
 
 // Variabili cambio livello
-var levelPlaying = 1;
+var levelPlaying = 3;
 var timerLivello1Livello2 = 0;
 var timerLivello2Livello3 = 0;
 var cambioLivello = false;
@@ -2180,6 +2180,11 @@ function update () {
 
   game.physics.arcade.overlap(player, ammoBox, addAmmo);
   game.physics.arcade.overlap(player, pozione, heal);
+
+  // Danza
+  //if (ilBoss.health <= 0) {
+    //player.body.velocity.x = 300;
+  //}
 } //fine di UPDATE
 
 function spawn() {
