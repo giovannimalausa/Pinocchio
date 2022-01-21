@@ -37,7 +37,7 @@ function preload() {
   game.load.spritesheet('pinocchio', 'assets/sprites/pinocchio/pinocchioV4.png', 200, 150, 140);
   game.load.spritesheet('pinocchioMorto', 'assets/sprites/pinocchio/pinocchiomortocrocifisso.png', 200, 150, 20);
 
-  game.load.image('shadow', 'assets/sprites/pinocchio/pinocchio_v1.png');
+  game.load.image('shadow', '');
   game.load.image('cumuloDiMarionette', 'assets/sprites/cumuloDiMarionette.png');
 
 
@@ -61,19 +61,12 @@ function preload() {
 
   game.load.spritesheet('fuocoATerra', 'assets/sprites/fuocoATerra.png', 225, 150, 30);
 
-  game.load.image('bullet', 'assets/sprites/Pallino_rosso.png'); //bullet placeholder
-
   // Globali
-  game.load.image('globalFloor', 'assets/global/Floor16k.png');
-  game.load.image('sfondoAzzurro', 'assets/global/Lightblue background.png');
-
-  game.load.image('ControlsTutorial_UI', 'assets/global/ControlsTutorial.png');
-
   game.load.image('modulo1x1', 'assets/global/Modulo1x1.png');
   game.load.image('modulo2x2', 'assets/global/Modulo2x2.png');
   game.load.image('modulo2x4', 'assets/global/Modulo2x4.png');
 
-  game.load.image('gameOver', 'assets/interface/GameOver.png');
+  game.load.image('gameOver', 'assets/interface/GameOver.jpg');
   game.load.image('win', 'assets/interface/win.jpg');
 
   // Elementi d'interazione
