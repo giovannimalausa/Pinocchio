@@ -254,13 +254,13 @@ var animFastFire;
 var mfDead;
 var mfMonticchio;
 
-var fireballRotation = 0;
-
 
 var randomAnim;
 
 var danza = false;
 var danzaTimer = 0;
+var d = 0;
+var danzaStartingPointReached = false;
 
 // Enemy x spawn position
 var enemyBombX;
@@ -434,10 +434,7 @@ var jumpButton;
 var fireButton;
 var enterButton;
 
-//Animazioni (da eiminare se possibile)
-var animDropR;
-var animDropL;
-
+var punteggio = 1000;
 // ++++++++++ CREATE ++++++++++
 
 function create() {
@@ -448,6 +445,9 @@ function create() {
   game.world.setBounds(0, 0, 20000, 2304);
 
   if (gameWasOver == false && cambioLivello == false) {
+    // Time
+    timeWhenLoaded = game.time.time;
+
     healthUI = game.add.sprite(30, 30, 'healthUI');
     healthUI.fixedToCamera = true;
     healthUI.scale.setTo(0.75, 0.75);
@@ -1300,15 +1300,16 @@ function create() {
 
   // Mangiafuoco
   if (levelPlaying == 3) {
-    mfMonticchio = game.add.sprite(7675, 1960, 'cumuloDiMarionette');
-    mangiafuoco = game.add.sprite(7650, 1200, 'ilBoss');
+    mfMonticchio = game.add.sprite(7680, 1960, 'cumuloDiMarionette');
+    mangiafuoco = game.add.sprite(7650, 1715, 'ilBoss');
 
 
     game.physics.arcade.enable(mangiafuoco);
     mangiafuoco.body.collideWorldBounds = false;
-    mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
+    //mangiafuoco.body.gravity.y = 2000; // valore corretto 2000
     mangiafuoco.body.setSize(200, 250, 150, 135); // Hitbox (width, height, x-offset, y-offset) // questa linea funziona solo se inserita dopo 'game.physics.arcade.enable'
     mangiafuoco.health = 35;
+    mangiafuoco.body.immovable = true;
     mangiafuoco.animations.add('mangiafuocoL', [0,1,2,3,4,5,6,7,8,9], 10, true);
     animManoDX = mangiafuoco.animations.add('mangiafuocoManoDX', [40,41,42,43,44,45,46,47,48], 10, false);
     animManoSX = mangiafuoco.animations.add('mangiafuocoManoSX', [20,21,22,23,24,25,26,27,28], 10, false);
@@ -1354,9 +1355,6 @@ function create() {
 
   // Camera Follow
   game.camera.follow(shadow, 1, 0.1, 0.5); // 1) chi segue 2) preset "style" (0= lock-on, 1= platformer) 3) lerpX 4) lerpY [LERP = valore da 0 a 1]
-
-  // Time
-  timeWhenLoaded = game.time.time;
 
   // BringToTop()
   if (levelPlaying == 3) {
@@ -2204,24 +2202,53 @@ function update () {
 
   // Danza
   if (danza == true) {
+    
     enableUserMovement = false;
     playerInvulnerable = true;
-    if (danzaTimer >= 10 && danzaTimer < 50) {
-      if (player.x < 7480){
-        player.body.velocity.x = 300;
-        facing = "right";
-        console.log("vx = 300");
+    if (danzaTimer >= 10 && player.x < 7480) {
+      player.body.velocity.x = 300;
+      facing = "right";
+      console.log("vx = 300");
+    }
+    if (player.x >= 7480) {
+      danzaStartingPointReached = true;
+    }
+    if (danzaStartingPointReached == true && player.body.touching.down) {
+      if (d % 2 == 0 && d < 5) {
+        player.body.velocity.y = -800;
+        console.log("Pari");
+        d += 1;
+      } else if (d % 2 != 0 && d < 5) {
+        player.body.velocity.y = -800;
+        console.log("Dispari");
+        d += 1;
       }
     }
-    if (danzaTimer > 50 && danzaTimer < 200 && player.body.touchingDown) {
-      player.body.velocity.y = -600;
-      console.log("vy = -600");
-    } 
-    
+    if (danzaStartingPointReached == true && d % 2 == 0 && d < 5) {
+      player.body.velocity.x = 60;
+      facing = 'right';
+    } else if (danzaStartingPointReached == true && d % 2 != 0 && d < 5) {
+      player.body.velocity.x = -60;
+      facing = 'left';
+    }
+
+    if (d >= 5 && player.x < 7800) {
+      player.body.velocity.x = 350;
+      if (player.x > 7500 && player.body.touching.down) {
+        player.body.velocity.y = -850;
+        d += 1;
+      }
+    }
+    if (player.x > 7800) {
+      player.body.velocity.x = 0;
+    }
+
+    console.log(d);
+
     danzaTimer += 1;
 
   }
-  
+
   if (danza == true) {
     if (gameOverTimer == 0) { // <== Serve ad evitare che il fade venga eseguito più di una volta.
       game.camera.fade(0x000000, 1000);
@@ -2232,8 +2259,7 @@ function update () {
     showGameOverUI2();
     }
   }
-   
-  
+console.log(punteggio)
 } //fine di UPDATE
 
 function spawn() {
@@ -2610,7 +2636,7 @@ function shootEnemyJug(bullets, enemyJug) {
 function blinkingPlayer() {
   // Flasha alpha/opacità del player
   playerInvulnerable = true;
-  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 5, true); // duration = 80 frames; repetitions = 3
+  flashingPlayer = game.add.tween(player).to( { alpha: 0.2 }, 80, Phaser.Easing.Linear.None, true, 0, 2, true); // duration = 80 frames; repetitions = 3
   flashingPlayer.onComplete.add(function resetPlayerAlpha() {
     // Questo codice viene eseguito quando il tween viene completato.
     player.alpha = 1;
@@ -2629,6 +2655,7 @@ function touchEnemyBomb(player, enemyBomb) {
     player.damage(2);
     console.log("touchEnemyBomb(). Player health -= 2.");
     blinkingPlayer();
+    punteggio -= 20;
   }
 }
 
@@ -2637,6 +2664,7 @@ function touchEnemySniper(player, enemySniper) {
     player.damage(1);
     console.log("touchEnemySniper(). Player health -= 1.");
     blinkingPlayer();
+    punteggio -= 10;
   }
 }
 
@@ -2645,6 +2673,7 @@ function touchEnemyJug(player, enemyJug) {
     player.damage(1);
     console.log("touchEnemyJug(). Player health -= 1.");
     blinkingPlayer();
+    punteggio -= 10;
   }
 }
 
@@ -2657,11 +2686,12 @@ function shootMangiafuoco(mf, bullet) {
     mfDead = game.add.sprite(mf.x, mf.y - 10, 'bossMorte');
     game.physics.arcade.enable(mfDead);
     mfDead.body.immovable = true;
-    mfDead.body.setSize(240, 95, 125, 275);
+    mfDead.body.setSize(240, 95, 160, 275);
     mfDead.body.gravity.y = 0; // valore corretto 2000
     mfDead.animations.add('thisMaafkIsDead', [0,1,2,3,4,5,6,7,8,9,10], false);
     mfDead.animations.play('thisMaafkIsDead', 10);
     danza = true;
+    punteggio -= gameStopWatch
   }
 }
 
@@ -2671,6 +2701,8 @@ function enemyDamage(player, bullets) {
     player.damage(1);
     console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
+    punteggio -= 10;
+    console.log(punteggio)
   }
 }
 
@@ -2685,10 +2717,6 @@ function EnemySniperDamage(player, bullets) {
     console.log("enemyDamage(). Player health -= 1.");
     blinkingPlayer();
   }
-}
-
-function mangiaFuocoFire() {
-
 }
 
 function createFloorFire(bullet, floor) {
@@ -2709,7 +2737,6 @@ function touchFloorFire(player, fire) {
     blinkingPlayer();
   }
 }
-
 
 function sniperIsFiringTrue() {
   enemySniper.forEach(function (enemy2) {
@@ -2784,7 +2811,7 @@ function heal(player, pozione) {
 
 function dustJumpTrue() {
   dustJump = true;
-  if (player.body.onFloor() || player.body.touching.down) {
+  if (player.alive === true && (player.body.onFloor() || player.body.touching.down)) {
     if (facing === 'right') {
       dust = game.add.sprite(player.x, player.y + 5, 'dust');
       dustJumpR = dust.animations.add('dustJumpR', [0, 1]);
@@ -2797,12 +2824,10 @@ function dustJumpTrue() {
       dustJumpL.killOnComplete = true;
     }
   }
-  // console.log(dustJump)
 }
 
 function dustJumpFalse() {
   dustJump = false;
-  // console.log(dustJump);
 }
 
 function landingCallback(player, obj) {
@@ -2844,9 +2869,9 @@ function createText() {
 }
 
 function render () {
-  if (mfDead !== undefined) {
-    game.debug.body(mfDead);
-  }
+  // if (mfDead !== undefined) {
+  //   game.debug.body(mfDead);
+  // }
   // game.debug.body(level2_mongolfiera1);
   // game.debug.body(level2_mongolfiera2);
   // game.debug.body(player);
