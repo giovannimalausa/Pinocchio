@@ -74,9 +74,7 @@ function preload() {
   game.load.image('modulo2x4', 'assets/global/Modulo2x4.png');
 
   game.load.image('gameOver', 'assets/interface/GameOver.png');
-  game.load.image('gameOverV2', 'assets/interface/GameOver_v2.jpg');
   game.load.image('win', 'assets/interface/win.jpg');
-  game.load.image('nero', 'assets/interface/nero.png');
 
   // Elementi d'interazione
   game.load.image('ammoBox', 'assets/global/ammo.png');
@@ -2360,7 +2358,7 @@ function gameover() {
 }
 
 function showGameOverUI() {
-  gameOverImage = game.add.sprite(0, 0, 'gameOverV2');
+  gameOverImage = game.add.sprite(0, 0, 'gameOver');
   gameOverImage.fixedToCamera = true;
   gameOverImage.bringToTop();
   showingGameOverUI = true;
