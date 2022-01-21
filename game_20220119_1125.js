@@ -86,6 +86,7 @@ function preload() {
   // Interfaccia
   game.load.image('healthFull', 'assets/interface/healthFull.png');
   game.load.image('healthHalf', 'assets/interface/healthHalf.png');
+  game.load.spritesheet('healthUI', 'assets/interface/healthUI.png', 350, 100, 15);
   game.load.image('ammo/5', 'assets/interface/Ammo/5.png');
   game.load.image('ammo/4', 'assets/interface/Ammo/4.png');
   game.load.image('ammo/3', 'assets/interface/Ammo/3.png');
@@ -318,6 +319,8 @@ var healthFull3;
 var healthHalf1;
 var healthHalf2;
 var healthHalf3;
+var healthUI;
+var timerLampeggioSalute = 0;
 
 var ammoUI5;
 var ammoUI4;
@@ -460,7 +463,7 @@ const maxAmmo = 50;
 var pickAmmo;
 var scatterShot;
 
-const playerMaxHealth = 6;
+const playerMaxHealth = 5;
 
 // Keys & input
 var cursors;
@@ -491,24 +494,31 @@ function create() {
   game.world.setBounds(0, 0, 20000, 2304);
 
   if (gameWasOver !==true && cambioLivello !== true) {
-    healthFull1 = game.add.sprite(50, 50, 'healthFull');
-    healthFull1.fixedToCamera = true;
-    healthFull1.scale.setTo(0.75, 0.75);
-    healthFull2 = game.add.sprite(100, 50, 'healthFull');
-    healthFull2.fixedToCamera = true;
-    healthFull2.scale.setTo(0.75, 0.75);
-    healthFull3 = game.add.sprite(150, 50, 'healthFull');
-    healthFull3.fixedToCamera = true;
-    healthFull3.scale.setTo(0.75, 0.75);
-    healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
-    healthHalf1.fixedToCamera = true;
-    healthHalf1.scale.setTo(0.75, 0.75);
-    healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
-    healthHalf2.fixedToCamera = true;
-    healthHalf2.scale.setTo(0.75, 0.75);
-    healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
-    healthHalf3.fixedToCamera = true;
-    healthHalf3.scale.setTo(0.75, 0.75);
+    // healthFull1 = game.add.sprite(50, 50, 'healthFull');
+    // healthFull1.fixedToCamera = true;
+    // healthFull1.scale.setTo(0.75, 0.75);
+    // healthFull2 = game.add.sprite(100, 50, 'healthFull');
+    // healthFull2.fixedToCamera = true;
+    // healthFull2.scale.setTo(0.75, 0.75);
+    // healthFull3 = game.add.sprite(150, 50, 'healthFull');
+    // healthFull3.fixedToCamera = true;
+    // healthFull3.scale.setTo(0.75, 0.75);
+    // healthHalf1 = game.add.sprite(50, 50, 'healthHalf');
+    // healthHalf1.fixedToCamera = true;
+    // healthHalf1.scale.setTo(0.75, 0.75);
+    // healthHalf2 = game.add.sprite(100, 50, 'healthHalf');
+    // healthHalf2.fixedToCamera = true;
+    // healthHalf2.scale.setTo(0.75, 0.75);
+    // healthHalf3 = game.add.sprite(150, 50, 'healthHalf');
+    // healthHalf3.fixedToCamera = true;
+    // healthHalf3.scale.setTo(0.75, 0.75);
+
+    healthUI = game.add.sprite(30, 30, 'healthUI');
+    healthUI.fixedToCamera = true;
+    healthUI.scale.setTo(0.75, 0.75);
+
+    healthUI.animations.add('lampeggioRosso', [8,8,8,8,8,9,10,11,12,11,10,9,8,8,8,8,8], 10, true);
+    saluteLampeggioPieno = healthUI.animations.add('saluteLampeggioPieno', [4,3,2,4,1,0,1,4,], 15, false);
 
     ammoUIv3 = game.add.sprite(863, 675, 'ammoUIv3');
     ammoUIv3.fixedToCamera = true;
@@ -1514,20 +1524,8 @@ function create() {
     level3_nuvola.bringToTop();
   }
 
-  healthHalf1.bringToTop();
-  healthHalf2.bringToTop();
-  healthHalf3.bringToTop();
-  healthFull1.bringToTop();
-  healthFull2.bringToTop();
-  healthFull3.bringToTop();
-
+  healthUI.bringToTop();
   ammoUIv3.bringToTop();
-  // ammoUI1.bringToTop();
-  // ammoUI2.bringToTop();
-  // ammoUI3.bringToTop();
-  // ammoUI4.bringToTop();
-  // ammoUI5.bringToTop();
-
 
   gameWasOver = false;
   console.log("gameWasOver reset to " + gameWasOver);
@@ -2341,58 +2339,18 @@ mfShootTimer = 0;
   //console.log(game.physics.arcade.distanceBetween(player, enemy.getChildAt(0)));
 
   // Player health UI
-  if (player.health === 6) {
-    // console.log('6');
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 1;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 1;
-    healthHalf3.alpha = 0;
-    healthFull3.alpha = 1;
-  } else if (player.health === 5) {
-    // console.log('5');
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 1;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 1;
-    healthHalf3.alpha = 1;
-    healthFull3.alpha = 0.1;
+  if (player.health === 5 && !saluteLampeggioPieno.isPlaying) {
+    healthUI.frame = 4;
   } else if (player.health === 4) {
-    // console.log('4');
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 1;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 1;
-    healthHalf3.alpha = 0;
-    healthFull3.alpha = 0.1;
+    healthUI.frame = 5;
   } else if (player.health === 3) {
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 1;
-    healthHalf2.alpha = 1;
-    healthFull2.alpha = 0.1;
-    healthFull3.alpha = 0.1;
-    healthHalf3.alpha = 0;
+    healthUI.frame = 6;
   } else if (player.health === 2) {
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 1;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 0.1;
-    healthHalf3.alpha = 0;
-    healthFull3.alpha = 0.1;
+    healthUI.frame = 7;
   } else if (player.health === 1) {
-    healthHalf1.alpha = 1;
-    healthFull1.alpha = 0;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 0.1;
-    healthHalf3.alpha = 0;
-    healthFull3.alpha = 0.1;
+    healthUI.animations.play('lampeggioRosso');
   } else if (player.health === 0) {
-    healthHalf1.alpha = 0;
-    healthFull1.alpha = 0.1;
-    healthHalf2.alpha = 0;
-    healthFull2.alpha = 0.1;
-    healthHalf3.alpha = 0;
-    healthFull3.alpha = 0.1;
+    healthUI.frame = 14;
   }
 
   // MENU
@@ -3112,11 +3070,18 @@ function ammoSpent() {
 }
 
 function heal(player, pozione) {
-  if (player.health == 6) {
+  if (player.health == 5) {
     console.log('Max health reached.')
-  } else if (player.health < 6) {
+    if (timerLampeggioSalute == 0) {
+      healthUI.animations.play('saluteLampeggioPieno');
+    }
+    timerLampeggioSalute += 1;
+    if (timerLampeggioSalute == 150) {
+      timerLampeggioSalute = 0;
+    }
+  } else if (player.health < 5) {
     pozione.kill();
-    if (player.health === 5) {
+    if (player.health === 4) {
       player.heal(1);
     } else {
       player.heal(2);
@@ -3197,6 +3162,6 @@ function render () {
   // game.debug.body(pinocchioCrucified);
   // game.debug.body(enemyJug.getChildAt(0));
   // game.debug.body(enemySniper.getChildAt(0));
-   game.debug.spriteInfo(shadow, 30, 100);
+  // game.debug.spriteInfo(shadow, 30, 100);
   //game.debug.body(level3_nuvola);
 }
