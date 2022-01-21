@@ -97,9 +97,7 @@ function preload() {
 
   // Level 1
   game.load.image('placeholder_CasaGeppetto', 'assets/levelOne/Placeholder Casa di Geppetto.png');
-  game.load.image('interactionPoint', 'assets/levelOne/interactionPoint.png');
-  game.load.image('interactionPointLabel', 'assets/levelOne/interactionPointLabel.png');
-  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabileV2.png');
+  game.load.image('level1_calpestabile_parte1', 'assets/levelOne/calpestabile.png');
   game.load.image('level1_cielo', 'assets/levelOne/Cielo.png');
   game.load.image('level1_casedietro', 'assets/levelOne/Collina lontana.png');
   game.load.image('level1_casedavanti', 'assets/levelOne/Collina vicina.png');
@@ -160,7 +158,7 @@ function preload() {
   game.load.image('level2_cielo', 'assets/levelTwo/cielodef1.png');
   game.load.image('level2_cielo2', 'assets/levelTwo/cielodef2.png');
   game.load.image('level2_ruota_supporto', 'assets/levelTwo/ruota_supporto.png');
-  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale_.png');
+  game.load.image('level2_ruota_centrale', 'assets/levelTwo/ruota_centrale.png');
   game.load.image('level2_ruota_cabina', 'assets/levelTwo/ruota_cabina.png');
   game.load.image('level2_mongolfiera', 'assets/levelTwo/mongolfiera.png');
 
@@ -346,12 +344,13 @@ var pozioneY;
 var modulo1x1;
 var modulo2x2;
 var modulo2x4;
-var firstText = false;
 var text;
 var text2;
 var textTween;
 var textTween2;
-var style = { font: "60px Inter", fontWeight: "700", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style1 = { font: "60px Inter", fontWeight: "700", fill: "#711854", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style2 = { font: "60px Inter", fontWeight: "700", fill: "#C7764D", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
+var style3 = { font: "60px Inter", fontWeight: "700", fill: "#274256", align: "center", boundsAlignH: "center", boundsAlignV: "middle"};
 // var style = { font: "bold 60px Inter", fill: "#fff", align: "center", boundsAlignH: "center", boundsAlignV: "middle"}; // <== Precedente
 
 // Variabili livello 1
@@ -682,7 +681,7 @@ function create() {
       level1_houses.setAll('body.immovable', true);
 
       //testo
-    text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style);
+    text = game.add.text(0, 0, "Livello 1\n Villaggio di Geppetto", style1);
     text.alpha = 0;
     }
 
@@ -919,6 +918,7 @@ function create() {
       modulo2x4.create(6300, 2000, 'modulo2x4');
       modulo2x4.create(8500, 2000, 'modulo2x4');
       modulo2x4.create(10850, 2000, 'modulo2x4');
+      modulo2x4.create(12650, 2000, 'modulo2x4');
       modulo2x4.create(14800, 2000, 'modulo2x4');
       modulo2x4.create(18550, 2000, 'modulo2x4');
       modulo2x4.create(19350, 2000, 'modulo2x4');
@@ -1100,7 +1100,7 @@ function create() {
       level2_mongolfiera2.body.immovable = true;
 
       //testo
-     text = game.add.text(-400, 0, "Livello 2\n Paese dei Balocchi", style);
+     text = game.add.text(-400, 0, "Livello 2\n Paese dei Balocchi", style2);
      text.alpha = 0;
      createText(text);
     }
@@ -1172,7 +1172,7 @@ function create() {
     tenda = game.add.sprite(0, 0, 'tenda');
 
     //testo
-    text = game.add.text(-400,0, "Livello 3\n Circo di Mangiafuoco", style);
+    text = game.add.text(-400,0, "Livello 3\n Circo di Mangiafuoco", style3);
     text.alpha = 0;
     createText(text);
   }
@@ -3001,7 +3001,7 @@ function landingProcessCallback(player, obj) {
 //testo
 function createText() {
 
-  text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+  text.setShadow(3, 3, '#fff', 2);
 
   text.setTextBounds(200, 1800, 1450, 100);
 
