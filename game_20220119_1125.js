@@ -2274,19 +2274,20 @@ function spawn() {
       console.log("Level 1: player & shadow created.");
     }
     // Livello 1 / Reset
-    if (gameWasOver == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
-      gameWasOver = false;
-      cambioLivello = false;
-     // console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
-      player.y = 1800;
+    if (gameWasOver == true || cambioLivello == true) { // Il livello NON viene caricato per la prima volta. Gli sprite 'player' e 'shadow' devono essere spostati.
       player.x = 250;
+      player.y = 1800;
       console.log("Level 1: player coordinates reset.");
       player.revive();
       player.bringToTop();
       if (gameWasOver == true) { // Reimposta la vita del giocatore se rianimato dopo il gameover. Non la reimposta se invece ha cambiato livello.
         player.health = playerMaxHealth;
         bulletPool = maxAmmo;
+        console.log('Reset player.health to '+player.health+' and reset bulletPool to '+ bulletPool);
       }
+      gameWasOver = false;
+      cambioLivello = false;
+      console.log("gameWasOver / cambioLivello reset to " + gameWasOver+' / '+cambioLivello);
       facing = 'right';
     }
 
@@ -2325,7 +2326,7 @@ function spawn() {
     }
     if (gameWasOver == true || cambioLivello == true) {
       player.x = -130;
-      player.y = 1900;
+      player.y = 1800;
       console.log("Level 3: coordinates reset.")
       player.revive();
       player.bringToTop();
@@ -2594,6 +2595,7 @@ function shootEnemySniper(bullets, enemySniper) {
     if (enemySniper.x > player.x) {
       // [!] DANGER ZONE: perché la variabile 'enemySniperDead' sia globale, seppure definita all'interno di una funzione, dichiarlarla tramite 'enemySniperDead = ...'.
       // NON dichiarare 'enemySniperDead' in nessun altro modo o altrove.
+
       enemySniperDead = game.add.sprite(enemySniper.x - 3, enemySniper.y + 1, 'marionettaSniperMorte');
       game.physics.arcade.enable(enemySniperDead);
       enemySniperDead.body.immovable = true;

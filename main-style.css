@@ -11,9 +11,13 @@ a{
     width: 1024px;
     height: 768px;
     margin: auto;
-    margin-top: 25px;
+    margin-top: 3.5vh;
     background: var(--background-color);
     overflow: hidden;
+    -webkit-box-shadow: 0px 0px 69px 25px #000000;
+-moz-box-shadow: 0px 0px 69px 25px #000000;
+-o-box-shadow: 0px 0px 69px 25px #000000;
+box-shadow: 0px 0px 69px 25px #000000;  
 }
 
 .frame_menu{
@@ -21,9 +25,13 @@ a{
     width: 1024px;
     height: 768px;
     margin: auto;
-    margin-top: 25px;
-    background-image: url(./assets/landing-page/schermata-sfondo.jpg);
+    margin-top: 3.5vh;
+    background-image: url(./assets/landing-page/sfondo-menu.jpg);
     overflow: hidden;
+    -webkit-box-shadow: 0px 0px 69px 25px #000000;
+-moz-box-shadow: 0px 0px 69px 25px #000000;
+-o-box-shadow: 0px 0px 69px 25px #000000;
+box-shadow: 0px 0px 69px 25px #000000;
 }
 
 .title-subtitle{
@@ -144,7 +152,7 @@ margin-top: 0px;
   font-size: 11px;
   margin: 0px;
   position: absolute;
-  bottom: 93px;
+  bottom: 70px;
   left: 93px;
   opacity:0.3;
   -webkit-transition:0.5s ease;
@@ -170,37 +178,36 @@ margin-top: 0px;
 }
 
 .image-container {
-  top: -200px;
+  top: 75px;
   position: absolute;
   flex: 1 1 60%;
   display: flex;
   flex-direction: column;
-  right:70px;
+  right:200px;
 }
 
 #immagine-pinocchio{
-  width: 120%;
+  width: 145%;
   height: auto;
 }
 
 #bossoli{
-  width: 100%;
+  display: none;
+  width: 50%;
   position: absolute;
   flex: 1 1 60%;
   display: flex;
   flex-direction: column;
-  right:1px;
+  right:130px;
+  bottom:70px;
 }
 
 #back_button{
-    width: 110%;
+    width: 90px;
     height: auto;
     position: absolute;
-    left: 0px;
-    bottom: -2px;
-    width: 70px;
-    height: 70px;
-    padding-left: 60px;
+    bottom: -15px;
+    padding-left: 35px;
   
 }
 
@@ -211,9 +218,13 @@ margin-top: 0px;
     width: 1024px;
     height: 768px;
     margin: auto;
-    margin-top: 25px;
-    background-image: url(./assets/credits/crediti.png);
+    margin-top: 3.5vh;
+    background-image: url(./assets/credits/crediti-01.jpg);
     overflow: hidden;
+    -webkit-box-shadow: 0px 0px 69px 25px #000000;
+-moz-box-shadow: 0px 0px 69px 25px #000000;
+-o-box-shadow: 0px 0px 69px 25px #000000;
+box-shadow: 0px 0px 69px 25px #000000;
 }
 
 /*storia*/
