@@ -2149,7 +2149,7 @@ function update () {
 
   // ===== CAMBIO LIVELLI =====
   // Cambio Livello 1 => 2
-  if (levelPlaying == 1 && player.x >= 12750) {
+  if (levelPlaying == 1 && player.x >= 12745) { // <== player.x >= 12750 precedente
     if (autoPilot == false) {
       autoPilot = true; // Fa sapere che il giocatore è controllato dal codice (disattiva il gameover)
       enableUserMovement = false; // Disabilita i controlli da parte dell'utente
